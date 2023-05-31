@@ -1,0 +1,10 @@
+^D:\PROJECT\EVENTSY\BUILD\WINDOWS\CMAKEFILES\7EA192D30F2545ED4B3EE660B9E43BA0\INSTALL_FORCE.RULE
+setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

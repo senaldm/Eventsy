@@ -1,0 +1,4 @@
+#Sat May 27 13:08:23 IST 2023
+base.0=D\:\\project\\eventsy\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
