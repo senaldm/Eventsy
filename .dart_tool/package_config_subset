@@ -280,8 +280,25 @@ file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/package_config-2.1.
 file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/package_config-2.1.0/lib/
 path
 2.12
+<<<<<<< HEAD
 file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.8.3/
 file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.8.3/lib/
+=======
+file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.8.3/
+file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.8.3/lib/
+path_provider
+2.17
+file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider-2.0.15/
+file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider-2.0.15/lib/
+path_provider_android
+2.17
+file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_android-2.0.27/
+file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_android-2.0.27/lib/
+path_provider_foundation
+2.18
+file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_foundation-2.2.3/
+file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_foundation-2.2.3/lib/
+>>>>>>> 46dbea4a579fa5ec5353ac594db8527921ed8d7d
 path_provider_linux
 2.18
 file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_linux-2.1.11/

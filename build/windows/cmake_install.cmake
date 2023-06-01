@@ -42,6 +42,11 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("D:/project/eventsy/build/windows/runner/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("D:/project/eventsy/build/windows/plugins/isar_flutter_libs/cmake_install.cmake")
+endif()
+
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
     list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
@@ -141,6 +146,49 @@ file(INSTALL DESTINATION "D:/project/eventsy/build/windows/runner/Profile" TYPE 
         message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
 file(INSTALL DESTINATION "D:/project/eventsy/build/windows/runner/Release" TYPE FILE FILES "D:/project/eventsy/windows/flutter/ephemeral/flutter_windows.dll")
+  endif()
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xRuntimex" OR NOT CMAKE_INSTALL_COMPONENT)
+  if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
+    list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+     "D:/project/eventsy/build/windows/runner/Debug/isar_flutter_libs_plugin.dll;D:/project/eventsy/build/windows/runner/Debug/isar.dll")
+    if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+        message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+    endif()
+    if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+        message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+    endif()
+file(INSTALL DESTINATION "D:/project/eventsy/build/windows/runner/Debug" TYPE FILE FILES
+      "D:/project/eventsy/build/windows/plugins/isar_flutter_libs/Debug/isar_flutter_libs_plugin.dll"
+      "D:/project/eventsy/windows/flutter/ephemeral/.plugin_symlinks/isar_flutter_libs/windows/isar.dll"
+      )
+  elseif("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Pp][Rr][Oo][Ff][Ii][Ll][Ee])$")
+    list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+     "D:/project/eventsy/build/windows/runner/Profile/isar_flutter_libs_plugin.dll;D:/project/eventsy/build/windows/runner/Profile/isar.dll")
+    if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+        message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+    endif()
+    if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+        message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+    endif()
+file(INSTALL DESTINATION "D:/project/eventsy/build/windows/runner/Profile" TYPE FILE FILES
+      "D:/project/eventsy/build/windows/plugins/isar_flutter_libs/Profile/isar_flutter_libs_plugin.dll"
+      "D:/project/eventsy/windows/flutter/ephemeral/.plugin_symlinks/isar_flutter_libs/windows/isar.dll"
+      )
+  elseif("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
+    list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+     "D:/project/eventsy/build/windows/runner/Release/isar_flutter_libs_plugin.dll;D:/project/eventsy/build/windows/runner/Release/isar.dll")
+    if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+        message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+    endif()
+    if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+        message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+    endif()
+file(INSTALL DESTINATION "D:/project/eventsy/build/windows/runner/Release" TYPE FILE FILES
+      "D:/project/eventsy/build/windows/plugins/isar_flutter_libs/Release/isar_flutter_libs_plugin.dll"
+      "D:/project/eventsy/windows/flutter/ephemeral/.plugin_symlinks/isar_flutter_libs/windows/isar.dll"
+      )
   endif()
 endif()
 

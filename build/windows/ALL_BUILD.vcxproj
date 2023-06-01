@@ -149,6 +149,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{D925C47B-EE63-3CA2-8CDC-464E7B24656F}</Project>
       <Name>flutter_wrapper_plugin</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\project\eventsy\build\windows\plugins\isar_flutter_libs\isar_flutter_libs_plugin.vcxproj">
+      <Project>{5961D86C-5D87-3A16-8E85-04ADF907ADFB}</Project>
+      <Name>isar_flutter_libs_plugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

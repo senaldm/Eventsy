@@ -1,5 +1,7 @@
 D:/project/eventsy/build/windows/runner/Debug/data/icudtl.dat
 D:/project/eventsy/build/windows/runner/Debug/flutter_windows.dll
+D:/project/eventsy/build/windows/runner/Debug/isar_flutter_libs_plugin.dll
+D:/project/eventsy/build/windows/runner/Debug/isar.dll
 D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/AssetManifest.json
 D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/AssetManifest.smcbin
 D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/assets/Images/Home/homePageElipse.png

@@ -8,3 +8,6 @@ D:/project/eventsy/build/windows/flutter/CMakeFiles/INSTALL.dir
 D:/project/eventsy/build/windows/runner/CMakeFiles/eventsy.dir
 D:/project/eventsy/build/windows/runner/CMakeFiles/INSTALL.dir
 D:/project/eventsy/build/windows/runner/CMakeFiles/ALL_BUILD.dir
+D:/project/eventsy/build/windows/plugins/isar_flutter_libs/CMakeFiles/isar_flutter_libs_plugin.dir
+D:/project/eventsy/build/windows/plugins/isar_flutter_libs/CMakeFiles/INSTALL.dir
+D:/project/eventsy/build/windows/plugins/isar_flutter_libs/CMakeFiles/ALL_BUILD.dir
