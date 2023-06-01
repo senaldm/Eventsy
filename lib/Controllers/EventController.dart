@@ -17,10 +17,10 @@ class EventController with ChangeNotifier {
 
   }
 
-  void addTask(Task TaskSchema) async{
+  // void addTask(Task TaskSchema) async{
 
-    await isar!.writeTxn(isar) async{
-      String taskName=await isar.Task.put(Task);
-    }
-  }
+  //   await isar!.writeTxn(isar) async{
+  //     String taskName=await isar.Task.put(Task);
+  //   }
+  // }
 }
