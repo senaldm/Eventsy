@@ -8,6 +8,9 @@
       <FullPath>D:\project\eventsy\build\windows\flutter\x64\Debug\flutter_assemble</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\project\eventsy\build\windows\plugins\isar_flutter_libs\Debug\isar_flutter_libs_plugin.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\project\eventsy\build\windows\runner\Debug\eventsy.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>

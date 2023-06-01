@@ -195,6 +195,12 @@ flutter_secure_storage_windows_BINARY_DIR:STATIC=D:/project/eventsy/build/window
 flutter_secure_storage_windows_SOURCE_DIR:STATIC=D:/project/eventsy/windows/flutter/ephemeral/.plugin_symlinks/flutter_secure_storage_windows/windows
 
 //Value Computed by CMake
+isar_flutter_libs_BINARY_DIR:STATIC=D:/project/eventsy/build/windows/plugins/isar_flutter_libs
+
+//Value Computed by CMake
+isar_flutter_libs_SOURCE_DIR:STATIC=D:/project/eventsy/windows/flutter/ephemeral/.plugin_symlinks/isar_flutter_libs/windows
+
+//Value Computed by CMake
 runner_BINARY_DIR:STATIC=D:/project/eventsy/build/windows/runner
 
 //Value Computed by CMake
@@ -279,7 +285,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib
