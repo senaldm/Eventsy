@@ -9,6 +9,7 @@ class ImageExplore extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Stack(
+      
       children: [
      
         
@@ -16,6 +17,7 @@ class ImageExplore extends StatelessWidget {
             fit:BoxFit.cover,height: height, width: width,),
            
         Scaffold(
+          
             backgroundColor: Colors.transparent,
             body: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
