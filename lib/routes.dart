@@ -6,6 +6,7 @@ import 'Screens/Home/VendorExplore.dart';
 import 'Screens/Home/TaskExplore.dart';
 import 'Screens/Task/User/userTaskHome.dart';
 import 'Screens/Task/User/TaskList.dart';
+import 'Screens/Task/User/AddTask.dart';
 
 class Routes extends StatelessWidget {
   @override
@@ -19,6 +20,7 @@ class Routes extends StatelessWidget {
         '/TaskExplore': (context) => TaskExplore(),
         '/UserHome': (context) => UserTaskHome(),
         '/TaskList': (context) => TaskList(),
+        '/addTask':(context)=>AddTask(),
       },
       home: home(),
     );
