@@ -21,11 +21,14 @@ class Routes extends StatelessWidget{
         '/VendorExplore': (context) => VendorExplore(),
         '/TaskExplore': (context) => TaskExplore(),
         '/UserHome': (context) => UserTaskHome(),
-         './SignUpPage': (context) => SignUpPage(),
+        //loginsignup pages Routes
+        './SignUpPage': (context) => SignUpPage(),
       './LoginPage': (context) => Loginpage(),
       './SignUpOptionPage': (context) => SignUpOptionPage(),
       './LogOutScreen': (context) => LogOutScreen(),
-
+       
+       //Budgetcalulator Pages Rotes
+       
        
       },
        home:home(),
