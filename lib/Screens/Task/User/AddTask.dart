@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+
 class AddTask extends StatefulWidget {
   const AddTask({Key? key}) : super(key: key);
 
@@ -194,32 +195,8 @@ class _AddTaskState extends State<AddTask> {
             ],
           ),
 
-//                   final isarService = IsarService();
-
-
-
             )
-        //     BottomNavigationBar(
-        //       backgroundColor:Colors.greenAccent.shade700 ,
-        //       useLegacyColorScheme :false,
-        // type: BottomNavigationBarType.fixed,
-        // items:  <BottomNavigationBarItem>[
-        //   BottomNavigationBarItem(
-        //     icon: Icon(Icons.cancel_rounded,color: Colors.blueGrey.shade900 ,size: height*0.05,),
-          
-        //     label: 'Cancel',
-            
-        //     backgroundColor: Colors.blueGrey.shade900,
-        //   ),
-        //   BottomNavigationBarItem(
-        //     icon: Icon(Icons.save,
-        //             size: height * 0.05,
-        //           color: Colors.blueGrey.shade900),
-        //     label: 'Save',
-        //      backgroundColor: Colors.blueGrey.shade900,
-        //   ),
-        //   ]
-        //     ),
+
         )
         )
         );
