@@ -297,15 +297,19 @@
     },
     {
       "name": "google_sign_in",
+
       "rootUri": "file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in-6.1.4",
+
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "google_sign_in_android",
+
       "rootUri": "file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.15",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+
     },
     {
       "name": "google_sign_in_ios",
@@ -321,7 +325,9 @@
     },
     {
       "name": "google_sign_in_web",
+
       "rootUri": "file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_web-0.12.0+2",
+
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -332,6 +338,7 @@
       "languageVersion": "2.18"
     },
     {
+
       "name": "hive",
       "rootUri": "file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/hive-2.2.3",
       "packageUri": "lib/",
@@ -354,6 +361,7 @@
       "rootUri": "file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+
     },
     {
       "name": "http_multi_server",
@@ -770,7 +778,9 @@
       "languageVersion": "3.0"
     }
   ],
+
   "generated": "2023-06-10T02:53:08.432341Z",
+
   "generator": "pub",
   "generatorVersion": "3.0.3"
 }
