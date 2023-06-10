@@ -5,7 +5,10 @@ import 'Screens/Home/home.dart';
 import 'Screens/Home/VendorExplore.dart';
 import 'Screens/Home/TaskExplore.dart';
 import 'Screens/Task/User/userTaskHome.dart';
-import 'Screens/Task/User/TaskList.dart';
+import 'Screens/LoginandSignUpScreens/logoutscreen.dart';
+import 'Screens/LoginandSignupScreens/signupoptionpage.dart';
+import 'Screens/LoginandSignupScreens/signup.dart';
+import 'Screens/LoginandSignUpScreens/loginpage.dart';
 import 'Screens/Task/User/AddTask.dart';
 
 class Routes extends StatelessWidget {
@@ -20,7 +23,11 @@ class Routes extends StatelessWidget {
         '/TaskExplore': (context) => TaskExplore(),
         '/UserHome': (context) => UserTaskHome(),
         '/TaskList': (context) => TaskList(),
-        '/addTask':(context)=>AddTask(),
+        '/addTask':(context)=> AddTask(),
+        '/LoginPage': (context) => Loginpage(),
+        './SignUpPage': (context) => SignUpPage(),
+        './SignUpOptionPage': (context) => SignUpOptionPage(),
+        './LogOutScreen': (context) => LogOutScreen(),
       },
       home: home(),
     );
