@@ -59,6 +59,11 @@
         <uses-library
             android:name="androidx.window.sidecar"
             android:required="false" />
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="com.example.eventsy.androidx-startup"
+            android:exported="false" />
     </application>
 
 </manifest>

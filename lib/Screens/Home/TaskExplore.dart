@@ -101,7 +101,8 @@ class TaskExplore extends StatelessWidget {
                               fontSize: 30.0,
                               color: Colors.white,
                               fontFamily: "Roboto"),
-                        ))
+                        )
+                        )
                   ],
                 ),
                 SizedBox(

@@ -26,4 +26,9 @@ D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/lib/Fonts/Robo
 D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/NOTICES
 D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/NOTICES.Z
 D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/packages/floating_bottom_bar/assets/images/ic_dot.svg
+D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/packages/floating_bottom_bar/assets/images/ic_instagram.png
+D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/packages/floating_bottom_bar/assets/images/ic_letter_t.png
+D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/packages/floating_bottom_bar/assets/images/ic_plus.png
+D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/packages/floating_bottom_bar/assets/images/ic_youtube.png
 D:/project/eventsy/build/windows/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag

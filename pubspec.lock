@@ -193,14 +193,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
-  dartx:
-    dependency: transitive
-    description:
-      name: dartx
-      sha256: "45d7176701f16c5a5e00a4798791c1964bc231491b879369c818dd9a9c764871"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   device_frame:
     dependency: transitive
     description:
@@ -305,6 +297,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  floating_bottom_bar:
+    dependency: "direct main"
+    description:
+      name: floating_bottom_bar
+      sha256: "4a2efcdb4d0dd7c0cee9efb433c1543c512c359222d54474f05391640a4b066b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -323,6 +323,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_svg:
+    dependency: transitive
+    description:
+      name: flutter_svg
+      sha256: "6ff8c902c8056af9736de2689f63f81c42e2d642b9f4c79dbf8790ae48b63012"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.6"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -377,18 +385,22 @@ packages:
     dependency: "direct main"
     description:
       name: google_sign_in
-      sha256: "03bdb90147f299b02165313fc0e93ae90e7532ae90cb611a655b8e17cd036a98"
+
+      sha256: aab6fdc41374014494f9e9026b9859e7309639d50a0bf4a2a412467a5ae4abc6
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.3"
+    version: "6.1.4"
+
   google_sign_in_android:
     dependency: transitive
     description:
       name: google_sign_in_android
-      sha256: "2a8b90b766ce00b03e7543f4ffeec97b6eb51fb6c3f31ce2a364bd1f1b9dd7fc"
+
+      sha256: e89179df2bbcc5988c0e2e98d1c95d471fe7910d323a15b5569ac6eddf085b95
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.14"
+    version: "6.1.15"
+
   google_sign_in_ios:
     dependency: transitive
     description:
@@ -409,10 +421,12 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_web
-      sha256: "7b154bc84da4c6a578072fc53c0a68ce3168beb39fab8235657d17c18ea12924"
+
+      sha256: "69b9ce0e760945ff52337921a8b5871592b74c92f85e7632293310701eea68cc"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.0+1"
+    version: "0.12.0+2"
+
   graphs:
     dependency: transitive
     description:
@@ -421,14 +435,42 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
+
+  hive:
+    dependency: "direct main"
+    description:
+      name: hive
+      sha256: "8dcf6db979d7933da8217edcec84e9df1bdb4e4edc7fc77dbd5aa74356d6d941"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.3"
+  hive_flutter:
+    dependency: "direct main"
+    description:
+      name: hive_flutter
+      sha256: dca1da446b1d808a51689fb5d0c6c9510c0a2ba01e22805d492c73b68e33eecc
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
+  hive_generator:
+    dependency: "direct dev"
+    description:
+      name: hive_generator
+      sha256: "65998cc4d2cd9680a3d9709d893d2f6bb15e6c1f92626c3f1fa650b4b3281521"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
+
   http:
     dependency: transitive
     description:
       name: http
-      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
+
+      sha256: "4c3f04bfb64d3efd508d06b41b825542f08122d30bda4933fb95c069d22a4fa3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.6"
+    version: "1.0.0"
+
   http_multi_server:
     dependency: transitive
     description:
@@ -470,7 +512,7 @@ packages:
     source: hosted
     version: "1.0.4"
   isar:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: isar
       sha256: "99165dadb2cf2329d3140198363a7e7bff9bbd441871898a87e26914d25cf1ea"
@@ -482,14 +524,6 @@ packages:
     description:
       name: isar_flutter_libs
       sha256: bc6768cc4b9c61aabff77152e7f33b4b17d2fc93134f7af1c3dd51500fe8d5e8
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.0+1"
-  isar_generator:
-    dependency: "direct dev"
-    description:
-      name: isar_generator
-      sha256: "76c121e1295a30423604f2f819bc255bc79f852f3bc8743a24017df6068ad133"
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0+1"
@@ -589,6 +623,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      sha256: e3e67b1629e6f7e8100b367d3db6ba6af4b1f0bb80f64db18ef1fbabd2fa9ccf
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   path_provider:
     dependency: "direct main"
     description:
@@ -637,6 +679,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.6"
+  persistent_bottom_nav_bar_v2:
+    dependency: "direct main"
+    description:
+      name: persistent_bottom_nav_bar_v2
+      sha256: "2fbaf1e8b18108d8a303304a306d68bcfb78abfd553295f489a8a315dff479e2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.8"
   petitparser:
     dependency: transitive
     description:
@@ -866,14 +916,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
-  time:
-    dependency: transitive
-    description:
-      name: time
-      sha256: "83427e11d9072e038364a5e4da559e85869b227cf699a541be0da74f14140124"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.3"
   timing:
     dependency: transitive
     description:
@@ -890,6 +932,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  vector_graphics:
+    dependency: transitive
+    description:
+      name: vector_graphics
+      sha256: b96f10cbdfcbd03a65758633a43e7d04574438f059b1043104b5d61b23d38a4f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.6"
+  vector_graphics_codec:
+    dependency: transitive
+    description:
+      name: vector_graphics_codec
+      sha256: "57a8e6e24662a3bdfe3b3d61257db91768700c0b8f844e235877b56480f31c69"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.6"
+  vector_graphics_compiler:
+    dependency: transitive
+    description:
+      name: vector_graphics_compiler
+      sha256: "7430f5d834d0db4560d7b19863362cd892f1e52b43838553a3c5cdfc9ab28e5b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.6"
   vector_math:
     dependency: transitive
     description:
@@ -938,14 +1004,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.3.0"
-  xxh3:
-    dependency: transitive
-    description:
-      name: xxh3
-      sha256: a92b30944a9aeb4e3d4f3c3d4ddb3c7816ca73475cd603682c4f8149690f56d7
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   yaml:
     dependency: transitive
     description:
@@ -956,4 +1014,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.0.0 <4.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.7.0-0"

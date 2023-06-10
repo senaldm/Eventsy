@@ -1,24 +1,27 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:device_preview/device_preview.dart';
+// import 'package:device_preview/device_preview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:eventsy/navigation.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 
-void main() async => runApp(
-      DevicePreview(
-        builder: (context) => home(),
+// void main() async => runApp(
+//       DevicePreview(
+//         builder: (context) => home(),
         
-      ),
-    );
-
+//       ),
+//     );
+// void main() {
+//   runApp( home());
+// }
 class home  extends StatelessWidget {
   // static SharedPreferences preferences;
  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Roboto'),
       title: 'Eventsy',
       home: Scaffold(
@@ -54,7 +57,10 @@ class home  extends StatelessWidget {
                     },
                   ),
                 ],
-              ))),
+              )
+              )
+              ),
+            
     );
   }
 }

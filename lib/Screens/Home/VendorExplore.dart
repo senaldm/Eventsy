@@ -9,107 +9,112 @@ class VendorExplore extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return Stack(
       children: [
-     
-        
-        Image.asset("assets/Images/Home/vendor_explore_background.jpg",
-            fit:BoxFit.cover,height: height, width: width,),
-           
+        Image.asset(
+          "assets/Images/Home/vendor_explore_background.jpg",
+          fit: BoxFit.cover,
+          height: height,
+          width: width,
+        ),
         Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: width * 0.2,
-                    height: height * 0.1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: width * 0.7,
+          backgroundColor: Colors.transparent,
+          body: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: width * 0.2,
+                  height: height * 0.1,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: width * 0.7,
+                    ),
+                    FloatingActionButton.extended(
+                      heroTag: 'btn1',
+                      backgroundColor: Colors.orange.shade700,
+                      onPressed: null,
+                      icon: Icon(
+                        Icons.search,
+                        color: Colors.black87,
+                        size: width * 0.07,
                       ),
-                      FloatingActionButton.extended(
-                        heroTag: 'btn1',
-                        backgroundColor: Colors.orange.shade700,
-                        onPressed: null,
-                        icon: Icon(
-                          Icons.search,
-                          color: Colors.black87,
-                          size: width * 0.07,
-                        ),
-                        label: Text(
-                          'Find',
-                          style: TextStyle(color: Colors.black87, fontSize: width * 0.035),
-                        ),
+                      label: Text(
+                        'Find',
+                        style: TextStyle(
+                            color: Colors.black87, fontSize: width * 0.035),
                       ),
-                    ],
-                  ),
-                  SizedBox(height: height*0.52,),
-                 Row(
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: height * 0.52,
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [ Text(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Text(
                       'Vendors',
                       style: TextStyle(
                           fontSize: 60.0,
                           color: Colors.white70,
                           fontWeight: FontWeight.bold),
                     ),
-                    
                   ],
-                  
-                 ),
-                 Row(
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                        height: height * 0.02,
-                        
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                              child:Text(
-                            'Are you looking for professionals,\nHere we are',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.white70,
-                              fontWeight: FontWeight.normal,
-                            )),
-                      )
-                      
+                      height: height * 0.02,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                          'Are you looking for professionals,\nHere we are',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.normal,
+                          )),
+                    )
                   ],
-                 ),
-                   SizedBox(
-                    height: height * 0.02,
-                  ),
-                 Row(
+                ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     FloatingActionButton.extended(
-                      heroTag: 'btn2',
-                          onPressed: () {},
-                          backgroundColor: Colors.black87,
-                          label: Text(
-                            "Explore",
-                            style: TextStyle(
-                                fontSize: 30.0,
-                                color: Colors.white,
-                                fontFamily: "Roboto"),
-                          ))
+                        heroTag: 'btn2',
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/LoginPage');
+                        },
+                        backgroundColor: Colors.black87,
+                        label: Text(
+                          "Explore",
+                          style: TextStyle(
+                              fontSize: 30.0,
+                              color: Colors.white,
+                              fontFamily: "Roboto"),
+                        ))
                   ],
-                 ),
-                  SizedBox(width: width*0.05,),
+                ),
+                SizedBox(
+                  width: width * 0.05,
+                ),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                   children:[
-                     FloatingActionButton(
-                      heroTag: 'btn3',
+                    children: [
+                      FloatingActionButton(
+                        heroTag: 'btn3',
                         backgroundColor: Colors.black87,
                         onPressed: () {
                           Navigator.pushNamed(context, '/ImageExplore');
@@ -120,11 +125,13 @@ class VendorExplore extends StatelessWidget {
                           color: Colors.white70,
                         ),
                       ),
-                        SizedBox(width: width*0.6,),
-                         FloatingActionButton(
+                      SizedBox(
+                        width: width * 0.6,
+                      ),
+                      FloatingActionButton(
                         backgroundColor: Colors.black87,
                         onPressed: () {
-                           Navigator.pushNamed(context, '/TaskExplore');
+                          Navigator.pushNamed(context, '/TaskExplore');
                         },
                         child: Icon(
                           Icons.arrow_right,
@@ -132,15 +139,9 @@ class VendorExplore extends StatelessWidget {
                           color: Colors.white70,
                         ),
                       )
-                   ] 
-                )
-                ,
-                
-                ]
-                ),
-                
-
-                )
+                    ]),
+              ]),
+        )
       ],
     );
   }
