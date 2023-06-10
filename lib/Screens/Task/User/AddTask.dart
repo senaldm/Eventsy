@@ -11,14 +11,7 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Container(
 
-  //   );
-  // }
-
-// const AddTask({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
