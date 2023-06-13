@@ -59,7 +59,11 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Select Category'),
+            title: const Text(
+              'Select Category',
+              style:
+                  TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.bold),
+            ),
             content: Container(
               // color: Colors.grey.shade900,
               width: width * 0.8,
@@ -117,17 +121,13 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                               isExpanded: true,
                               hint: const Text(
                                 'Add Category',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.black),
                               ),
                               icon: const Icon(
                                 Icons.arrow_drop_down,
                                 color: Colors.white,
                               ),
                               decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.accessibility_new_rounded,
-                                  color: Colors.purple,
-                                ),
                                 fillColor: Colors.grey.shade900,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
@@ -153,10 +153,12 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                         child: const Text(
                           '  Save ',
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto'),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.greenAccent,
+                          backgroundColor: Colors.green.shade900,
                           minimumSize: Size(100, 50),
                         ),
                       ),
@@ -168,10 +170,12 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                         child: Text(
                           'Cancel ',
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto'),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.greenAccent,
+                          backgroundColor: Colors.green.shade900,
                           minimumSize: Size(100, 50),
                         ),
                       ),
@@ -185,137 +189,155 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
       );
     }
 
-    return Scaffold(
-      backgroundColor: Colors.black12,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          eventsBox.containsKey("events")
-              ? eventsBox.get("events")!.eventName
-              : '',
-          style: const TextStyle(
-              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop(EventSelectionPage());
-          },
-        ),
-        backgroundColor: Colors.greenAccent.shade700,
-        toolbarHeight: 90,
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        reverse: true,
-        controller: PageController(initialPage: 300),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
-          child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 30, left: 200),
-              child: Container(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, './CategoryDetailsShownPage',
-                            arguments: eventsBox.get("events")?.eventName);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.greenAccent,
-                        minimumSize: Size(100, 50),
-                      ),
-                      child: Text('View Details'))),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.blueGrey.shade900,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(height * 0.1),
+
+          // padding:EdgeInsets.only(top: height * 0.02, right: width * 0.02),
+
+          child: AppBar(
+            titleSpacing: 2.2,
+            forceMaterialTransparency: false,
+            backgroundColor: Colors.greenAccent.shade700,
+            automaticallyImplyLeading: true,
+            centerTitle: true,
+            flexibleSpace: Center(
+              child: Text(
+                  eventsBox.containsKey("events")
+                      ? eventsBox.get("events")!.eventName
+                      : '',
+                  style: TextStyle(
+                      fontSize: width * 0.08,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
             ),
-            for (var category in categories)
+          ),
+        ),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          reverse: true,
+          controller: PageController(initialPage: 300),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+            child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 30, left: 200),
                 child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.grey,
-                    width: 5.0,
-                  )),
-                  child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, right: 20),
-                        child: Container(
-                          // width: width * 0.8,
-                          child: Text(
-                            category,
-                            // ignore: prefer_const_constructors
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, './CategoryDetailsShownPage',
+                              arguments: eventsBox.get("events")?.eventName);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green.shade900,
+                          minimumSize: Size(100, 50),
                         ),
-                      ),
-                      for (var task in tasks)
-                        if (task.categoryName == category)
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 20,
-                              top: 10,
-                            ),
+                        child: Text(
+                          'View Details',
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
+                        ))),
+              ),
+              for (var category in categories)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                      color: Colors.grey,
+                      width: 5.0,
+                    )),
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, right: 20),
+                          child: Container(
+                            // width: width * 0.8,
                             child: Text(
-                              task.taskName,
+                              category,
+                              // ignore: prefer_const_constructors
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 30, top: 10, left: 120),
-                        child: Container(
-                          child: Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, './NormalBudgetOptionPage',
-                                      arguments: category);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.greenAccent,
-                                ),
-                                child: Text('Add Task'),
-                              ),
-                            ],
-                          ),
                         ),
-                      )
-                    ],
+                        for (var task in tasks)
+                          if (task.categoryName == category)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: 20,
+                                top: 10,
+                              ),
+                              child: Text(
+                                task.taskName,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: 30, top: 10, left: 120),
+                          child: Container(
+                            child: Row(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, './NormalBudgetOptionPage',
+                                        arguments: category);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green.shade900,
+                                  ),
+                                  child: Text(
+                                    'Add Task',
+                                    style: TextStyle(
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-          ]),
+            ]),
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        clipBehavior: Clip.antiAlias,
-        shape: const CircularNotchedRectangle(),
-        color: Colors.teal,
-        height: 90,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            FloatingActionButton(
-              onPressed: () {
-                _showCategoryPopup();
-              },
-              // ignore: prefer_const_constructors
-              child: Icon(Icons.add),
-            ),
-          ],
+        bottomNavigationBar: BottomAppBar(
+          clipBehavior: Clip.antiAlias,
+          shape: const CircularNotchedRectangle(),
+          color: Colors.greenAccent.shade700,
+          height: 90,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              FloatingActionButton(
+                onPressed: () {
+                  _showCategoryPopup();
+                },
+                // ignore: prefer_const_constructors
+                child: Icon(Icons.add),
+                backgroundColor: Colors.green.shade900,
+              ),
+            ],
+          ),
         ),
       ),
     );
