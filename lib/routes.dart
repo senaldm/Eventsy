@@ -10,6 +10,14 @@ import 'Screens/LoginandSignUpScreens/logoutscreen.dart';
 import 'Screens/LoginandSignupScreens/signupoptionpage.dart';
 import 'Screens/LoginandSignupScreens/signup.dart';
 import 'Screens/LoginandSignUpScreens/loginpage.dart';
+
+import 'Screens/BudgetCalculatorScreens/categorydetailsshowpage.dart';
+import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
+import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
+import 'Model/Budgetcal/eventset.dart';
+import 'Screens/BudgetCalculatorScreens/eventselectionpage.dart';
+import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
+
 class Routes extends StatelessWidget{
 
   @override
@@ -27,7 +35,12 @@ class Routes extends StatelessWidget{
       './SignUpOptionPage': (context) => SignUpOptionPage(),
       './LogOutScreen': (context) => LogOutScreen(),
        
-       //Budgetcalulator Pages Rotes
+       //Budgetcalulator Pages Routes
+        './EventselectionPage': (context) => EventSelectionPage(),
+        './CategoryShownPage': (context) => CategoryShownPage(),
+        './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(categoryName: CategorySet(),),
+        './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
+        './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(eventName: '',),
        
        
       },

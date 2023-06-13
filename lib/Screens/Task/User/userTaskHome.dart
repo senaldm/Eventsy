@@ -50,10 +50,7 @@ class UserTaskHome extends StatelessWidget {
                 // ),
                 actions: <Widget>[
                   IconButton(
-                    onPressed: () {
-                  
-                  
-                    },
+                    onPressed: () {},
                     icon: Icon(Icons.menu_sharp),
                     iconSize: width * 0.1,
                   )
@@ -72,7 +69,9 @@ class UserTaskHome extends StatelessWidget {
                       EdgeInsets.only(left: width * 0.15, right: width * 0.15),
                   borderOnForeground: false,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, './EventselectionPage');
+                    },
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
