@@ -70,7 +70,7 @@ class UserTaskHome extends StatelessWidget {
                   borderOnForeground: false,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/TaskList');
+                      Navigator.pushNamed(context, './EventselectionPage');
                     },
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
