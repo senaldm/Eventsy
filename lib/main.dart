@@ -12,6 +12,7 @@ import 'Screens/LoginandSignupScreens/firebase_options.dart';
 import 'routes.dart';
 
 Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

@@ -30,7 +30,6 @@ class Routes extends StatelessWidget {
         '/addTask':(context)=> AddTask(),
 
         /////////PLANNER TASK/////////
-        
         'PlannerHome':(context)=>PlannerTaskHome(),
 
         /////////////// LOGIN ////////////////////////////
