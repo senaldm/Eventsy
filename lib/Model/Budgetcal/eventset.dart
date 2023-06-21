@@ -24,6 +24,4 @@ class SubTaskSet extends HiveObject {
   late int totalPrice;
   @HiveField(3)
   late String categoryName;
-
-  get category => null;
 }

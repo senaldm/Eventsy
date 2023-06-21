@@ -228,7 +228,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
   Future<void> addEvent(String? eventName) async {
     final events = Eventset();
     events.eventName = eventName!;
-
+  
     eventsBox.put("events", events);
 
     // box.close();

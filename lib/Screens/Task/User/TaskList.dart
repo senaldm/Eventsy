@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:floating_bottom_bar/animated_bottom_navigation_bar.dart';
-
-import 'package:eventsy/Model/Events/Task.dart';
-
+import 'package:eventsy/Model/Event.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:eventsy/Screens/Task/User/bottonNavigationPaint.dart';
 
@@ -28,6 +26,9 @@ class _TaskListState extends State<TaskList> {
   String sort = 'accentOrder';
   String filter = 'all';
 
+//////////////////////sort Task ////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////
   void sortTask() {
     showDialog(
         context: context,
@@ -106,7 +107,9 @@ class _TaskListState extends State<TaskList> {
   }
 
 // Filter function
-
+/////////////////////////Filter Task//////////////////////////////
+/////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
   void filterTask() {
     showDialog(
         context: context,
@@ -168,7 +171,9 @@ class _TaskListState extends State<TaskList> {
           );
         });
   }
-
+//////////////////main view///////////////////////////////
+///////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -183,8 +188,7 @@ class _TaskListState extends State<TaskList> {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(height * 0.1),
 
-            // padding:EdgeInsets.only(top: height * 0.02, right: width * 0.02),
-
+       
             child: AppBar(
               titleSpacing: 2.2,
               forceMaterialTransparency: false,
@@ -202,23 +206,16 @@ class _TaskListState extends State<TaskList> {
             ),
           ),
           body: Container(),
-          // ValueListenableBuilder<Box<Task>>(
-          //     valueListenable: Boxes.getTask().listenable(),
-          //     builder: (context, box, _) {
-          //       final tasks = box.values.toList().cast<Task>();
-
-          //       return buildContent(tasks);
-          //     }),
+     
           bottomNavigationBar: Stack(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-              // crossAxisAlignment: CrossAxisAlignment.center,
+             
               alignment: AlignmentDirectional.bottomEnd,
               children: [
                 Container(
                   height: height * 0.11,
                   width: width,
 
-                  // padding:  EdgeInsets.only(top: height*0.1),
+               
                   child: CustomPaint(
                       painter: ProfileCardPainter(
                         color: Colors.green.shade900,
@@ -230,29 +227,27 @@ class _TaskListState extends State<TaskList> {
                             border: Border.all(
                                 color: Colors.white70, width: width * 0.008),
                             borderRadius: BorderRadius.circular(10.0)
-                            //  borderRadius: BorderRadius.all(Radius.circular(25)),
+                          
                             ),
                       )),
                 ),
-                // Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     children: [
+              
                 Container(
 
                     // alignment: Alignment.bottomCenter,
-                    margin: EdgeInsets.only(top: height * 0.7),
+                    margin: EdgeInsets.only(top: height * 0.8),
+                    // color: Colors.blue,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: height * 0.12,
-                            ),
+                            // SizedBox(
+                            //   height: height * 0.145,
+                            // ),
                             FloatingActionButton.extended(
                               heroTag: 'sort',
                               onPressed: () {
@@ -268,9 +263,10 @@ class _TaskListState extends State<TaskList> {
                           ],
                         ),
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
+                            SizedBox(height: -(height*0.2),),
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/addTask');

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:eventsy/Model/Budgetcal/eventset.dart';
-
-// import 'package:hive/hive.dart';
+import 'package:eventsy/Model/Event.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
@@ -23,10 +22,17 @@ Future main() async {
   );
   Hive.registerAdapter(CategorySetAdapter());
   Hive.registerAdapter(SubTaskSetAdapter());
+  Hive.registerAdapter(TaskAdapter());
+  Hive.registerAdapter(EventAdapter());
+  Hive.registerAdapter(EventTasksAdapter());
+  Hive.registerAdapter(InvitationAdapter());
 
   eventsBox = await Hive.openBox<Eventset>('events');
   categoryBox = await Hive.openBox<CategorySet>('category');
   taskBox = await Hive.openBox<SubTaskSet>('task');
+
+  eventBox=await Hive.openBox<Event>('event');
+  
 
   runApp(
     DevicePreview(
