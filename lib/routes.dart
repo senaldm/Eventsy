@@ -18,26 +18,27 @@ import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
 import 'Model/Budgetcal/eventset.dart';
 import 'Screens/BudgetCalculatorScreens/eventselectionpage.dart';
 import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
+
 class Routes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-   debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         //////// MAIN ////////////
         '/home': (context) => home(),
         '/ImageExplore': (context) => ImageExplore(),
         '/VendorExplore': (context) => VendorExplore(),
         '/TaskExplore': (context) => TaskExplore(),
-        
+
         ////////USER TASK////////
         '/UserHome': (context) => UserTaskHome(),
         '/TaskList': (context) => TaskList(),
-        '/addTask':(context)=> AddTask(),
+        '/addTask': (context) => AddTask(),
 
         /////////PLANNER TASK/////////
-        
-        'PlannerHome':(context)=>PlannerTaskHome(),
+
+        'PlannerHome': (context) => PlannerTaskHome(),
 
         /////////////// LOGIN ////////////////////////////
         '/LoginPage': (context) => Loginpage(),
@@ -45,12 +46,10 @@ class Routes extends StatelessWidget {
         './SignUpOptionPage': (context) => SignUpOptionPage(),
         './LogOutScreen': (context) => LogOutScreen(),
 
-         //////////budget calculator screens////////////////
+        //////////budget calculator screens////////////////
         './EventselectionPage': (context) => EventSelectionPage(),
         './CategoryShownPage': (context) => CategoryShownPage(),
-        './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(
-              categoryName: CategorySet(),
-            ),
+        './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(),
         './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
         './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(
               eventName: '',

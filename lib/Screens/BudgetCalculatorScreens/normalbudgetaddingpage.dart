@@ -3,11 +3,8 @@ import 'package:eventsy/global.dart';
 import 'package:eventsy/Model/Budgetcal/eventset.dart';
 
 class NormalBudgetOptionPage extends StatefulWidget {
-  final CategorySet categoryName;
-
   NormalBudgetOptionPage({
     Key? key,
-    required this.categoryName,
   }) : super(key: key);
 
   @override
@@ -17,16 +14,13 @@ class NormalBudgetOptionPage extends StatefulWidget {
 class _NormalBudgetOptionPageState extends State<NormalBudgetOptionPage> {
   String? taskName;
   String? vendorName;
-  int? totalPrice;
-  late String categoryName;
+  double? totalPrice;
+  String? categoryName;
 
-  List<SubTaskSet> task = [];
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    final category = ModalRoute.of(context)!.settings.arguments as CategorySet;
-    String selectedCategoryName = category!.categoryName;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black12,
@@ -129,7 +123,14 @@ class _NormalBudgetOptionPageState extends State<NormalBudgetOptionPage> {
                         fontWeight: FontWeight.bold),
                     onChanged: (value) {
                       setState(() {
-                        totalPrice = value as int?;
+                        try {
+                          totalPrice = double.parse(value);
+                        } catch (e) {
+                          // Handle the error
+                          totalPrice =
+                              null; // Set the value to null or provide a fallback value
+                          print('Error parsing total price: $e');
+                        }
                       });
                     },
                     decoration: InputDecoration(
@@ -156,20 +157,21 @@ class _NormalBudgetOptionPageState extends State<NormalBudgetOptionPage> {
               children: <Widget>[
                 ElevatedButton(
                   onPressed: () {
-                    addTask(taskName, vendorName, categoryName,
-                        totalPrice as double?);
+                    addTask(taskName, vendorName, totalPrice);
                     Navigator.pushNamed(
                       context,
                       './CategoryShownPage',
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.greenAccent,
-                    minimumSize: Size(100, 50),
-                  ),
+                      backgroundColor: Colors.blueGrey.shade900,
+                      minimumSize: Size(100, 50),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
                   child: const Text(
                     'Save',
-                    style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
                   ),
                 ),
                 ElevatedButton(
@@ -181,12 +183,14 @@ class _NormalBudgetOptionPageState extends State<NormalBudgetOptionPage> {
                     // ignore: use_build_context_synchronously
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.greenAccent,
-                    minimumSize: Size(100, 50),
-                  ),
+                      backgroundColor: Colors.blueGrey.shade900,
+                      minimumSize: Size(100, 50),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
                   child: const Text(
                     'Cancel',
-                    style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -197,13 +201,14 @@ class _NormalBudgetOptionPageState extends State<NormalBudgetOptionPage> {
     );
   }
 
-  Future<void> addTask(String? taskName, String? vendorName,
-      String? categoryName, double? totalPrice) async {
+  Future<void> addTask(
+      String? taskName, String? vendorName, double? totalPrice) async {
     final task = SubTaskSet();
+
+    task.categoryName = categoryName!;
     task.taskName = taskName!;
     task.vendorName = vendorName!;
     task.totalPrice = totalPrice!.toInt();
-    task.categoryName = categoryName!;
     taskBox.add(task);
   }
 }

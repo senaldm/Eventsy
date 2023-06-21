@@ -5,8 +5,6 @@ import 'package:eventsy/Model/Budgetcal/eventset.dart';
 
 // ignore: must_be_immutable
 class CategoryShownPage extends StatefulWidget {
-  var tasks;
-
   CategoryShownPage({
     Key? key,
   }) : super();
@@ -14,40 +12,54 @@ class CategoryShownPage extends StatefulWidget {
   @override
 
   // ignore: library_private_types_in_public_api
-  _CategoryShownPageState createState() => _CategoryShownPageState(this.tasks);
+  _CategoryShownPageState createState() => _CategoryShownPageState();
 }
 
 class _CategoryShownPageState extends State<CategoryShownPage> {
+  String? eventName;
   String? categoryName;
+  String? taskName;
   List<String> categories = [];
-  List<SubTaskSet> tasks = [];
+  Map<String, List<String>> tasks = {};
 
-  _CategoryShownPageState(tasks);
+  _CategoryShownPageState();
   @override
   void initState() {
     super.initState();
-    retrieveCategories();
+    retrieveEventName();
+    retrieveTasks();
+  }
+
+  void retrieveEventName() {
+    final event = eventsBox.get('events');
+    if (event != null) {
+      setState(() {
+        eventName = event.eventName;
+      });
+      retrieveCategories();
+    }
   }
 
   void retrieveCategories() {
     final categoryList = categoryBox.values.toList();
     setState(() {
       categories.clear();
-      categories.addAll(categoryList.map((category) => category.categoryName));
+      categories.addAll(categoryList
+          .where((category) => category.eventName == eventName)
+          .map((category) => category.categoryName));
     });
-    if (categories.isNotEmpty) {
-      retrieveTasks(categories[0]);
-    }
   }
 
-  void retrieveTasks(String categoryName) {
-    final taskList = taskBox.values
-        .where((task) => task.categoryName == categoryName)
-        .toList();
-    setState(() {
-      tasks.clear();
-      tasks.addAll(taskList);
-    });
+  void retrieveTasks() {
+    final taskList = taskBox.values.toList();
+    tasks = {};
+    for (var category in categories) {
+      final categoryTasks = taskList
+          .where((task) => task.categoryName == category)
+          .map((task) => task.taskName)
+          .toList();
+      tasks[category] = categoryTasks;
+    }
   }
 
   Widget build(BuildContext context) {
@@ -204,10 +216,7 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
             automaticallyImplyLeading: true,
             centerTitle: true,
             flexibleSpace: Center(
-              child: Text(
-                  eventsBox.containsKey("events")
-                      ? eventsBox.get("events")!.eventName
-                      : '',
+              child: Text(eventName ?? '',
                   style: TextStyle(
                       fontSize: width * 0.08,
                       fontFamily: 'Roboto',
@@ -233,15 +242,14 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                               arguments: eventsBox.get("events")?.eventName);
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green.shade900,
-                          minimumSize: Size(100, 50),
-                        ),
+                            backgroundColor: Colors.green.shade900,
+                            minimumSize: Size(100, 50),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
                         child: Text(
                           'View Details',
                           style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
+                              fontWeight: FontWeight.bold, fontSize: 15),
                         ))),
               ),
               for (var category in categories)
@@ -271,21 +279,26 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                             ),
                           ),
                         ),
-                        for (var task in tasks)
-                          if (task.categoryName == category)
-                            Padding(
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: tasks[category]?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            final task = tasks[category]![index];
+                            return Padding(
                               padding: const EdgeInsets.only(
                                 bottom: 20,
                                 top: 10,
                               ),
                               child: Text(
-                                task.taskName,
+                                task,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                 ),
                               ),
-                            ),
+                            );
+                          },
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(
                               bottom: 30, top: 10, left: 120),
@@ -294,18 +307,22 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                               children: [
                                 ElevatedButton(
                                   onPressed: () {
+                                    categoryName = category;
+
                                     Navigator.pushNamed(
-                                        context, './NormalBudgetOptionPage',
-                                        arguments: category);
+                                      context,
+                                      './NormalBudgetOptionPage',
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green.shade900,
-                                  ),
+                                      backgroundColor: Colors.green.shade900,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
                                   child: Text(
                                     'Add Task',
-                                    style: TextStyle(
-                                        fontFamily: 'Roboto',
-                                        fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],
@@ -324,19 +341,33 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
           shape: const CircularNotchedRectangle(),
           color: Colors.greenAccent.shade700,
           height: 90,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              FloatingActionButton(
-                onPressed: () {
-                  _showCategoryPopup();
-                },
-                // ignore: prefer_const_constructors
-                child: Icon(Icons.add),
-                backgroundColor: Colors.green.shade900,
-              ),
-            ],
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment:
+                  MainAxisAlignment.center, // Aligns the button at the center
+              crossAxisAlignment:
+                  CrossAxisAlignment.start, // Aligns the button at the top line
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white),
+                  ),
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      _showCategoryPopup();
+                    },
+                    // ignore: prefer_const_constructors
+                    child: Icon(Icons.add),
+                    backgroundColor: Colors.green.shade900,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -347,8 +378,11 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
     if (categoryName != null) {
       final category = CategorySet();
       category.categoryName = categoryName;
+      category.eventName = eventName!;
       categoryBox.add(category);
       retrieveCategories();
+      retrieveTasks();
+      setState(() {}); // Rebuild the UI
     }
   }
 }
