@@ -92,7 +92,6 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                         // hoverColor: const Color.fromARGB(222, 2, 2, 2),
                       ),
                       keyboardType: TextInputType.number,
-                  
                       style: const TextStyle(
                           color: Colors.white,
                           fontSize: 22.0,
@@ -186,14 +185,16 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueGrey.shade900,
-                  ),
+                      backgroundColor: Colors.blueGrey.shade900,
+                      minimumSize: Size(100, 50),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
                   child: const Text(
                     ' Back ',
                     style: TextStyle(
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'Roboto'),
+                        color: Colors.white),
                   ),
                 ),
                 ElevatedButton(
@@ -207,14 +208,16 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueGrey.shade900,
-                  ),
+                      backgroundColor: Colors.blueGrey.shade900,
+                      minimumSize: Size(100, 50),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
                   child: const Text(
                     ' Next ',
                     style: TextStyle(
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'Roboto'),
+                        color: Colors.white),
                   ),
                 ),
               ],

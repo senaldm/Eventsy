@@ -12,6 +12,8 @@ class Eventset extends HiveObject {
 class CategorySet extends HiveObject {
   @HiveField(0)
   late String categoryName;
+  @HiveField(1)
+  late String eventName;
 }
 
 @HiveType(typeId: 2)
