@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:eventsy/Model/Budgetcal/eventset.dart';
+// import 'package:eventsy/Model/Budgetcal/eventset.dart';
 import 'package:eventsy/Model/Event.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -17,23 +17,20 @@ Future main() async {
   );
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  Hive.registerAdapter(
-    EventsetAdapter(),
-  );
-  Hive.registerAdapter(CategorySetAdapter());
-  Hive.registerAdapter(SubTaskSetAdapter());
+  // Hive.registerAdapter(
+  //   EventsetAdapter(),
+  // );
+  // Hive.registerAdapter(CategorySetAdapter());
+  // Hive.registerAdapter(SubTaskSetAdapter());
   Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(EventAdapter());
   Hive.registerAdapter(EventTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
 
-  eventsBox = await Hive.openBox<Eventset>('events');
-  categoryBox = await Hive.openBox<CategorySet>('category');
-  taskBox = await Hive.openBox<SubTaskSet>('task');
-
-  eventBox=await Hive.openBox<Event>('event');
-  
-
+  eventBox = await Hive.openBox<Event>('event');
+  taskBox = await Hive.openBox<Task>('task');
+  eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
+  invitationBox = await Hive.openBox<Invitation>('invitation');
   runApp(
     DevicePreview(
       builder: (context) => FirstPage(),

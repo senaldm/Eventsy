@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:eventsy/Screens/Home/home.dart';
+import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
@@ -17,6 +18,7 @@ class TaskList extends StatefulWidget {
 
 class _TaskListState extends State<TaskList> {
   final List<Task> tasks = [];
+   List<String> taskList = [];
   @override
   void dispose() {
     Hive.box('taks').close();
@@ -174,10 +176,13 @@ class _TaskListState extends State<TaskList> {
 //////////////////main view///////////////////////////////
 ///////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
+///
+  var list = taskBox.values;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+ 
     return SafeArea(
       top: true,
       bottom: true,
@@ -205,7 +210,28 @@ class _TaskListState extends State<TaskList> {
               ),
             ),
           ),
-          body: Container(),
+          
+          body:Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            
+            children: [
+              for(var task in list)
+               
+            
+              
+              Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  margin:
+                      EdgeInsets.only(left: width * 0.15, right: width * 0.15),
+                  borderOnForeground: false,
+                  child: TextButton(
+                    onPressed: () {},
+                   child:Text(task.taskName)
+                  )),
+            ],
+          ) ,
      
           bottomNavigationBar: Stack(
              
@@ -264,9 +290,9 @@ class _TaskListState extends State<TaskList> {
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: -(height*0.2),),
+                            // SizedBox(height: height*0.2),
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/addTask');
@@ -288,9 +314,9 @@ class _TaskListState extends State<TaskList> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              height: height * 0.1,
-                            ),
+                            // SizedBox(
+                            //   height: height * 0.1,
+                            // ),
                             FloatingActionButton.extended(
                               heroTag: 'filter',
                               onPressed: () {
@@ -308,23 +334,16 @@ class _TaskListState extends State<TaskList> {
                       ],
                     )),
 
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: [
-                //     FloatingActionButton.extended(
-                //         onPressed: () {}, label: Text("dfgf")),
-                //     FloatingActionButton.extended(
-                //         onPressed: () {}, label: Text("dfgf"))
-                //   ],
-                // )
+            
               ])),
     );
   }
 
   Widget buildContent(List<Task> task) {
     if (task.isEmpty) {
-      return Center(child: FloatingActionButton(onPressed: () {
+      return Center(child: FloatingActionButton(
+        heroTag: 'addTask',
+        onPressed: () {
         Navigator.pushNamed(context, '/addTask');
       }));
     } else {
@@ -345,4 +364,11 @@ class _TaskListState extends State<TaskList> {
   //   final box = Boxes.getTask();
   //   box.add(task);
   // }
+   void TaskList() {
+
+    setState(() {
+       taskList.clear();
+      taskList.addAll(taskList);
+    });
+  }
 }

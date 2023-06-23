@@ -20,11 +20,11 @@ class Task extends HiveObject {
   }
 
   Task(
-      {required this.categoryName,
-      required this.taskName,
-      this.vendorName = 'null',
-      this.budget = 'null',
-      required this.isComplete});
+      { this.categoryName='',
+       this.taskName='',
+      this.vendorName = '',
+      this.budget = '',
+       this.isComplete=false});
 }
 
 @HiveType(typeId: 1)
