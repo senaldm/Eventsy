@@ -35,7 +35,7 @@ class _NavigationState extends State<Navigation> {
         backgroundColor: Color.fromARGB(255, 219, 219, 219),
         bottomNavigationBar: CurvedNavigationBar(
           index: _activePageIndex,
-          backgroundColor: Color.fromARGB(255, 219, 219, 219),
+          backgroundColor: Colors.black87,
           color: Colors.green,
           //animationCurve: Curves.easeOut,
           items: const <Widget>[

@@ -1,4 +1,3 @@
-
 import 'package:eventsy/Screens/Planners/search/viewProfile.dart';
 import 'package:eventsy/Model/Planner/planner.dart';
 //import 'package:eventsy/widgets/listWidget.dart';
@@ -82,12 +81,11 @@ class _SearchState extends State<Search> {
                   if (snapshot.hasData) {
                     listCopy = snapshot.data!;
                     //print(listCopy);
-                    //return ListWidget(list: _foundPlanners); //snapshot.data ?? []
                     return ListView.builder(
                       physics: BouncingScrollPhysics(),
                       itemCount: _foundPlanners.length,
                       itemBuilder: (context, i) {
-                        return Card(
+                        /* return Card(
                           child: ListTile(
                             leading: const Image(
                               fit: BoxFit.cover,
@@ -126,64 +124,38 @@ class _SearchState extends State<Search> {
                                           list: _foundPlanners, person: i)));
                             },
                           ),
-                        );
-                        /*return GestureDetector(
+                        );*/
+                        return GestureDetector(
                           child: Card(
                             elevation: 15,
-                            color: Colors.white,
+                            color: Colors.black87,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              //crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  height: 150,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.22,
                                     width: MediaQuery.of(context).size.width *
                                         0.30,
                                     child: Image.network(
-                                        'https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+                                        'https://picsum.photos/250?image=29',
                                         fit: BoxFit.fill)),
-                                const SizedBox(width: 5.0),
+                                const SizedBox(width: 10.0),
                                 Flexible(
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        _foundPlanners[i]['name'],
-                                        style: const TextStyle(
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        _foundPlanners[i]['email'],
-                                        style: const TextStyle(
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            _foundPlanners[i]['place'],
-                                            style: const TextStyle(
+                                      printName(_foundPlanners[i]['name']),
+                                      const Text('Event Planner',
+                                          style: TextStyle(
+                                              color: Colors.white,
                                               fontSize: 15.0,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8.0),
-                                            child: Text(
-                                              "${_foundPlanners[i]['rate']}",
-                                              style: const TextStyle(
-                                                  fontSize: 18.0,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Colors.amber),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                              fontStyle: FontStyle.italic)),
+                                      printRate(_foundPlanners[i]['rate']),
+                                      printEmail(_foundPlanners[i]['email']),
+                                      printPlace(_foundPlanners[i]['place'])
                                     ],
                                   ),
                                 ),
@@ -197,7 +169,7 @@ class _SearchState extends State<Search> {
                                     builder: (context) => ViewProfile(
                                         list: _foundPlanners, person: i)));
                           },
-                        );*/
+                        );
                       },
                     );
                   } else {
@@ -212,5 +184,41 @@ class _SearchState extends State<Search> {
         ]),
       ),
     );
+  }
+
+  Widget printName(String name) {
+    return Text(name,
+        style: const TextStyle(
+            color: Colors.white, fontSize: 23.0, fontWeight: FontWeight.bold));
+  }
+
+  Widget printEmail(String email) {
+    return Text(email,
+        style: const TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
+            fontWeight: FontWeight.normal));
+  }
+
+  Widget printRate(int rate) {
+    String stars = '';
+    for (int i = 0; i < rate; i++) {
+      stars += '⭐ ';
+    }
+    return SizedBox(
+      child: Text(
+        stars,
+        style: const TextStyle(
+            color: Colors.amber, fontSize: 23.0, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget printPlace(String place) {
+    return Text(place,
+        style: const TextStyle(
+            color: Colors.white,
+            fontSize: 15.0,
+            fontWeight: FontWeight.normal));
   }
 }

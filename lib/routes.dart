@@ -19,7 +19,7 @@ class Routes extends StatelessWidget {
    debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         //////// MAIN ////////////
-        '/home': (context) => home(),
+       '/home': (context) => home(),
         '/ImageExplore': (context) => ImageExplore(),
         '/VendorExplore': (context) => VendorExplore(),
         '/TaskExplore': (context) => TaskExplore(),

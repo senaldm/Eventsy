@@ -50,8 +50,7 @@ class ViewProfile extends StatelessWidget {
               border: Border.all(color: Colors.white, width: 3.0),
               image: const DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage(
-                      'https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')),
+                  image: NetworkImage('https://picsum.photos/250?image=29')),
             ),
           ),
           Text(
@@ -87,7 +86,7 @@ class ViewProfile extends StatelessWidget {
                 ),
                 IconButton(
                     icon: const Icon(
-                     Icons.mail,
+                      Icons.mail,
                     ),
                     onPressed: () {
                       String mailUrl = "mailto:${list[person]['email']}";
