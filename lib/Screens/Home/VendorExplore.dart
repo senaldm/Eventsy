@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../Planners/navigation.dart';
+
 class VendorExplore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -94,7 +96,8 @@ class VendorExplore extends StatelessWidget {
                     FloatingActionButton.extended(
                         heroTag: 'btn2',
                         onPressed: () {
-                          Navigator.pushNamed(context, '/LoginPage');
+                          Navigator.pushNamed(context, '/PlannersPage');
+                          //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const Navigation()));
                         },
                         backgroundColor: Colors.black87,
                         label: Text(
