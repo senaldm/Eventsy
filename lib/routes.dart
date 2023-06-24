@@ -1,3 +1,4 @@
+import 'package:eventsy/Screens/Planners/splashPlanners.dart';
 import 'package:eventsy/Screens/Task/User/TaskList.dart';
 import 'package:flutter/material.dart';
 import 'Screens/Home/ImageExplore.dart';
@@ -31,6 +32,7 @@ class Routes extends StatelessWidget {
 
         /////////PLANNER TASK/////////
         'PlannerHome':(context)=>PlannerTaskHome(),
+        '/PlannersPage':(context)=>const SplashScreen(),
 
         /////////////// LOGIN ////////////////////////////
         '/LoginPage': (context) => Loginpage(),
