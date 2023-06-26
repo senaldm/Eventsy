@@ -5,7 +5,7 @@ import 'package:eventsy/Model/Event.dart' ;
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
-
+import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:firebase_core/firebase_core.dart';
 import 'Screens/LoginandSignupScreens/firebase_options.dart';
 import 'routes.dart';
@@ -17,6 +17,9 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   WidgetsFlutterBinding.ensureInitialized();
+    // Initialize Hive and get the application documents directory
+  final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
   await Hive.initFlutter();
   // Hive.registerAdapter(
   //   EventsetAdapter(),

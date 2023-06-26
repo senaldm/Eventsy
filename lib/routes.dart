@@ -12,7 +12,8 @@ import 'Screens/LoginandSignupScreens/signup.dart';
 import 'Screens/LoginandSignUpScreens/loginpage.dart';
 import 'Screens/Task/User/AddTask.dart';
 import 'Screens/Task/Planner/PlannerrTaskHome.dart';
-
+import 'Screens/Task/Planner/eventList.dart';
+import 'Screens/Task/Planner/addEventDetails.dart';
 import 'Screens/BudgetCalculatorScreens/categorydetailsshowpage.dart';
 import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
 // import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
@@ -41,6 +42,9 @@ class Routes extends StatelessWidget {
 
         'PlannerHome':(context)=>PlannerTaskHome(),
         '/PlannersPage':(context)=>const SplashScreen(),
+        'EventList':(context)=> EventList(),
+        'addEventDetails':(context)=>addEventDetails(),
+
 
 
         /////////////// LOGIN ////////////////////////////

@@ -23,37 +23,36 @@ class _TaskListState extends State<TaskList> {
   List<String> taskList = [];
   @override
   void dispose() {
-    Hive.box('taks').close();
+    Hive.box('tasks').close();
     super.dispose();
   }
 
-   retriveTask()  {
-  
-
+  List<String> retriveTask() {
+    final taskBox = Hive.box<Task>('task');
+    print(taskBox);
     // Get all the data from the box
-    tasks = taskBox.values.toList();
+    return taskBox.values.map((task) => task.taskName).toList();
 
-    @override
-    Widget build(BuildContext context) {
-        final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-      return    Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-            for (var task in tasks)
-                Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    margin: EdgeInsets.only(
-                        left: width * 0.15, right: width * 0.15),
-                    borderOnForeground: false,
-                    child: TextButton(
-                        onPressed: () {}, child: Text(task.taskName))),
-            ],
-          );
-    }
-
+    // @override
+    // Widget build(BuildContext context) {
+    //     final height = MediaQuery.of(context).size.height;
+    // final width = MediaQuery.of(context).size.width;
+    //   return    Column(
+    //         mainAxisAlignment: MainAxisAlignment.start,
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //         for (var task in tasks)
+    //             Card(
+    //                 shape: RoundedRectangleBorder(
+    //                     borderRadius: BorderRadius.circular(10.0)),
+    //                 margin: EdgeInsets.only(
+    //                     left: width * 0.15, right: width * 0.15),
+    //                 borderOnForeground: false,
+    //                 child: TextButton(
+    //                     onPressed: () {}, child: Text(task.taskName))),
+    //         ],
+    //       );
+    // }
   }
 
   String sort = 'accentOrder';
@@ -210,12 +209,15 @@ class _TaskListState extends State<TaskList> {
 /////////////////////////////////////////////////////////
   ///
 
-  var tasks = taskBox.values.toList();
+  // var tasks = taskBox.values.toList();
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
+    final List<String> taskList = retriveTask();
+    print(taskList);
     return SafeArea(
       top: true,
       bottom: true,
@@ -241,7 +243,28 @@ class _TaskListState extends State<TaskList> {
               ),
             ),
           ),
-          body:retriveTask(),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              
+              // taskList = retriveTask(),
+              for (var taskName in taskList)
+             Text(taskName),
+                // Card(
+                //   color: Colors.white,
+                //     shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(10.0)),
+                //     margin: EdgeInsets.only(
+                //         left: width * 0.15, right: width * 0.15),
+                //     borderOnForeground: false,
+                //     child: TextButton(onPressed: () {}, child: Text(
+                //       // taskName,style: TextStyle(color: Colors.black)
+
+                //       "text"))),
+            ],
+          ),
+          // retriveTask(),
           // FutureBuilder<Widget>(
           //   future: retriveTask(),
           //   builder: (context, snapshot) {
@@ -253,29 +276,29 @@ class _TaskListState extends State<TaskList> {
           //     }
           //   },
 
-              //         Container(
-              //   child: ListView.builder(
-              //     itemCount: tasks.length,
-              //     itemBuilder: (context, index) {
-              //       final task = tasks[index];
-              //       return Card(
-              //         shape: RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(10.0),
-              //         ),
-              //         margin: EdgeInsets.only(
-              //           left: width * 0.15,
-              //           right: width * 0.15,
-              //         ),
-              //         borderOnForeground: false,
-              //         child: TextButton(
-              //           onPressed: () {},
-              //           child: Text(task.taskName),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ),
-           
+          //         Container(
+          //   child: ListView.builder(
+          //     itemCount: tasks.length,
+          //     itemBuilder: (context, index) {
+          //       final task = tasks[index];
+          //       return Card(
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(10.0),
+          //         ),
+          //         margin: EdgeInsets.only(
+          //           left: width * 0.15,
+          //           right: width * 0.15,
+          //         ),
+          //         borderOnForeground: false,
+          //         child: TextButton(
+          //           onPressed: () {},
+          //           child: Text(task.taskName),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+
           bottomNavigationBar:
               Stack(alignment: AlignmentDirectional.bottomEnd, children: [
             Container(

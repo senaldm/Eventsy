@@ -1,12 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:eventsy/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsy/Model/Event.dart';
 import 'package:hive/hive.dart';
-import 'package:eventsy/global.dart';
+
+import 'package:path_provider/path_provider.dart';
 // import 'package:eventsy/main.dart';
 
 class AddTask extends StatefulWidget {
@@ -22,7 +25,7 @@ class _AddTaskState extends State<AddTask> {
   final categoryController = TextEditingController();
   final budgetController = TextEditingController();
   final statusController = TextEditingController();
-  String taskName = 'task1';
+  String taskName = '';
   String categoryName = '';
   String vendorName = '';
   String budget = '';
@@ -328,9 +331,9 @@ class _AddTaskState extends State<AddTask> {
                         onPressed: () async {
                           await addTask(
                             categoryName,
-                            taskName,
-                            vendorName,
-                            budget,
+                            taskController.text,
+                            vendorController.text,
+                            budgetController.text,
                             isComplete,
                           );
                         },
@@ -382,6 +385,8 @@ class _AddTaskState extends State<AddTask> {
     // Navigator.pushNamed(context, '/TaskList');
     addTask(String categoryName, String taskName, String vendorName,
       String budget, bool isComplete) async {
+         final appDocumentDir = await getApplicationDocumentsDirectory();
+    final filePath = '${appDocumentDir.path}/tasks.txt';
     taskBox = await Hive.openBox<Task>('task');
     if (_formKey.currentState!.validate()) {
       // Create a Task object
@@ -393,6 +398,8 @@ class _AddTaskState extends State<AddTask> {
         isComplete: isComplete,
       );
 
+        final file = File(filePath);
+      final tasks = await readTasksFromFile(file);
       // Save the task to Hive
      taskBox.add(task);
       final addedTaskIndex = taskBox.values.toList().indexOf(task);
@@ -409,5 +416,36 @@ class _AddTaskState extends State<AddTask> {
     }
     
     // }
+  }
+
+  
+Future<List<Task>> readTasksFromFile(File file) async {
+    if (await file.exists()) {
+      final contents = await file.readAsString();
+      final taskList = contents.split('\n');
+      final tasks = taskList.map((taskStr) {
+        final taskData = taskStr.split('|');
+        return Task(
+          categoryName: taskData[0],
+          taskName: taskData[1],
+          vendorName: taskData[2],
+          budget: taskData[3],
+          isComplete: taskData[4] == 'true',
+        );
+      }).toList();
+      return tasks;
+    } else {
+      return [];
+    }
+  }
+
+  Future<void> writeTasksToFile(File file, List<Task> tasks) async {
+    final lines = tasks.map((task) {
+      final taskStr =
+          '${task.categoryName}|${task.taskName}|${task.vendorName}|${task.budget}|${task.isComplete}';
+      return taskStr;
+    }).toList();
+    final contents = lines.join('\n');
+    await file.writeAsString(contents);
   }
 }
