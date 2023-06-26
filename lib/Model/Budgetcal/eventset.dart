@@ -6,6 +6,7 @@ part 'eventset.g.dart';
 class Eventset extends HiveObject {
   @HiveField(0)
   late String eventName;
+  
 }
 
 @HiveType(typeId: 1)
@@ -14,6 +15,10 @@ class CategorySet extends HiveObject {
   late String categoryName;
   @HiveField(1)
   late String eventName;
+  @HiveField(2)
+  late String taskName;
+  @HiveField(3)
+  late int totalPrice;
 }
 
 @HiveType(typeId: 2)
@@ -21,11 +26,7 @@ class SubTaskSet extends HiveObject {
   @HiveField(0)
   late String taskName;
   @HiveField(1)
-  late String vendorName;
-  @HiveField(2)
   late int totalPrice;
-  @HiveField(3)
-  late String categoryName;
-
-  get category => null;
+  @HiveField(2)
+  late String eventName;
 }

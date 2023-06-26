@@ -13,11 +13,11 @@ import 'Screens/Task/User/AddTask.dart';
 import 'Screens/Task/Planner/PlannerrTaskHome.dart';
 
 import 'Screens/BudgetCalculatorScreens/categorydetailsshowpage.dart';
-import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
-import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
+//import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
+//import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
 import 'Model/Budgetcal/eventset.dart';
-import 'Screens/BudgetCalculatorScreens/eventselectionpage.dart';
-import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
+//import 'Screens/BudgetCalculatorScreens/eventselectionpage.dart';
+//import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
 
 class Routes extends StatelessWidget {
   @override
@@ -47,10 +47,10 @@ class Routes extends StatelessWidget {
         './LogOutScreen': (context) => LogOutScreen(),
 
         //////////budget calculator screens////////////////
-        './EventselectionPage': (context) => EventSelectionPage(),
-        './CategoryShownPage': (context) => CategoryShownPage(),
-        './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(),
-        './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
+       // './EventselectionPage': (context) => EventSelectionPage(),
+        //'./CategoryShownPage': (context) => CategoryShownPage(),
+        //'./NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(categoryName: 'categoryName',),
+//'./AdvanceBudgetOptionPage': (context) => const AdvanceBudgetOptionPage(),
         './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(
               eventName: '',
             ),

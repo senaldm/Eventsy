@@ -50,17 +50,23 @@ class CategorySetAdapter extends TypeAdapter<CategorySet> {
     };
     return CategorySet()
       ..categoryName = fields[0] as String
-      ..eventName = fields[1] as String;
+      ..eventName = fields[1] as String
+      ..taskName = fields[2] as String
+      ..totalPrice = fields[3] as int;
   }
 
   @override
   void write(BinaryWriter writer, CategorySet obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.categoryName)
       ..writeByte(1)
-      ..write(obj.eventName);
+      ..write(obj.eventName)
+      ..writeByte(2)
+      ..write(obj.taskName)
+      ..writeByte(3)
+      ..write(obj.totalPrice);
   }
 
   @override
@@ -86,23 +92,20 @@ class SubTaskSetAdapter extends TypeAdapter<SubTaskSet> {
     };
     return SubTaskSet()
       ..taskName = fields[0] as String
-      ..vendorName = fields[1] as String
-      ..totalPrice = fields[2] as int
-      ..categoryName = fields[3] as String;
+      ..totalPrice = fields[1] as int
+      ..eventName = fields[2] as String;
   }
 
   @override
   void write(BinaryWriter writer, SubTaskSet obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.taskName)
       ..writeByte(1)
-      ..write(obj.vendorName)
-      ..writeByte(2)
       ..write(obj.totalPrice)
-      ..writeByte(3)
-      ..write(obj.categoryName);
+      ..writeByte(2)
+      ..write(obj.eventName);
   }
 
   @override

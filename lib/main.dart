@@ -25,8 +25,8 @@ Future main() async {
   Hive.registerAdapter(SubTaskSetAdapter());
 
   eventsBox = await Hive.openBox<Eventset>('events');
-  categoryBox = await Hive.openBox<CategorySet>('category');
-  taskBox = await Hive.openBox<SubTaskSet>('task');
+  categoryBox = await Hive.openBox<CategorySet>('task');
+  //taskBox = await Hive.openBox<SubTaskSet>('task');
 
   runApp(
     DevicePreview(

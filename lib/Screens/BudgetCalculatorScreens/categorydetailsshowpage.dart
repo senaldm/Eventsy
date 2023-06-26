@@ -1,5 +1,5 @@
-import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
+import 'notification_service.dart';
 
 class CategoryDetalsShownPage extends StatefulWidget {
   final String eventName;
@@ -14,6 +14,13 @@ class CategoryDetalsShownPage extends StatefulWidget {
 
 class _CategoryDetalsShownPageState extends State<CategoryDetalsShownPage> {
   // ignore: avoid_init_to_null
+  final NotificatinService notificationService = NotificatinService();
+
+  @override
+  void initState() {
+    super.initState();
+    notificationService.intializeNotification();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +48,12 @@ class _CategoryDetalsShownPageState extends State<CategoryDetalsShownPage> {
                     fontWeight: FontWeight.bold,
                   )),
             ),
+            leading: Align(
+              alignment: Alignment.center,
+              child: BackButton(
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
@@ -56,7 +69,7 @@ class _CategoryDetalsShownPageState extends State<CategoryDetalsShownPage> {
                 ElevatedButton(
                   onPressed: () async {
                     // Show the calendar popup screen.
-                    showDatePicker(
+                    DateTime? chosenDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2022),
@@ -78,6 +91,15 @@ class _CategoryDetalsShownPageState extends State<CategoryDetalsShownPage> {
                         );
                       },
                     );
+                    if (chosenDate != null) {
+                      // Set a notification for the chosen date
+                      await notificationService.showNotification(
+                        0, // Provide a unique ID for the notification
+                        'Notification Title',
+                        'Notification Body',
+                        'Notification Payload',
+                      );
+                    }
 
                     // ignore: use_build_context_synchronously
                   },
