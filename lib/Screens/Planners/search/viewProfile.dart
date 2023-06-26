@@ -1,6 +1,7 @@
 //import 'dart:async';
 //import 'dart:convert';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 
@@ -15,22 +16,42 @@ class ViewProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Map<String, dynamic> map = jsonDecode(list);
     return Scaffold(
+      backgroundColor: Colors.blueGrey.shade900,
       appBar: AppBar(
         leading: BackButton(),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.green,
+        title: title(),
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          header(),
+          carousel(),
+          const Divider(height: 2, color: Colors.white),
+          contact(),
+          const Divider(height: 2, color: Colors.white),
+          name(),
+          const Divider(height: 2, color: Colors.white),
           about(),
+          const Divider(height: 2, color: Colors.white),
         ],
       ),
     );
   }
 
+  Widget title() {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      CircleAvatar(backgroundImage: NetworkImage(list[person]['profileIMG'])),
+      const SizedBox(width: 20.0),
+      SizedBox(
+        child: Text(
+          list[person]['name'], // index - 1 is name
+          style: const TextStyle(color: Colors.white, fontSize: 20),
+        ),
+      )
+    ]);
+  }
+  /*
   Widget header() {
     return Container(
       color: Colors.green[700],
@@ -48,9 +69,9 @@ class ViewProfile extends StatelessWidget {
               color: Colors.white,
               shape: BoxShape.circle,
               border: Border.all(color: Colors.white, width: 3.0),
-              image: const DecorationImage(
+              image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage('https://picsum.photos/250?image=29')),
+                  image: NetworkImage(list[person]['profileIMG'])),
             ),
           ),
           Text(
@@ -64,9 +85,46 @@ class ViewProfile extends StatelessWidget {
         ],
       ),
     );
+  }*/
+
+  Widget carousel() {
+    List<String> imageList = [
+      list[person]['image1'],
+      list[person]['image2'],
+      list[person]['image3'],
+      // Add more image URLs or local asset paths as needed
+    ];
+
+    return SingleChildScrollView(
+      child: SizedBox(
+          height: 250,
+          child: CarouselSlider(
+            options: CarouselOptions(
+              height: 200, // Set the desired height of the carousel
+              autoPlay: true, // Enable auto-play
+              aspectRatio: 16 / 9, // Adjust the aspect ratio of the images
+              enlargeCenterPage: true, // Make the center image larger
+              // You can configure more options as per your requirements
+            ),
+            items: imageList.map((imageUrl) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                },
+              );
+            }).toList(),
+          )),
+    );
   }
 
-  Widget about() {
+  Widget contact() {
     return Padding(
       padding: EdgeInsets.all(15.0),
       child: Column(
@@ -100,30 +158,69 @@ class ViewProfile extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 15.0),
-          const Text(
-            "About",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-          ),
-          Text(list[person]['about'],
-              style: const TextStyle(color: Colors.black, fontSize: 15)),
-          const Divider(color: Colors.green),
-          const Text(
-            "Past Projects",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-          ),
-          Text(list[person]['about'],
-              style: const TextStyle(color: Colors.black, fontSize: 15)),
-          const Divider(color: Colors.green),
-          const Text(
-            "Other services by me",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-          ),
-          Text(list[person]['about'],
-              style: const TextStyle(color: Colors.black, fontSize: 15)),
-          const Divider(color: Colors.green),
         ],
       ),
     );
+  }
+
+  Widget name() {
+    return Container(
+      padding: EdgeInsets.all(20),
+      height: 90,
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(list[person]['name'],
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold)),
+                const Text('Professional Event Planner',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 15.0,
+                        fontStyle: FontStyle.italic)),
+              ],
+            ),
+            printRate(list[person]['rate']),
+          ]),
+    );
+  }
+  Widget printRate(int rate) {
+    String stars = '';
+    for (int i = 0; i < rate; i++) {
+      stars += '⭐ ';
+    }
+    return SizedBox(
+      child: Text(
+        stars,
+        style: const TextStyle(
+            color: Colors.amber, fontSize: 23.0, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget about() {
+    return Container(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          const Text(
+            'About',
+            style: TextStyle(
+                color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10.0,),
+          Text(
+            list[person]['description'],
+            style: const TextStyle(color: Colors.white, fontSize: 15.0),
+          )
+        ]));
   }
 }

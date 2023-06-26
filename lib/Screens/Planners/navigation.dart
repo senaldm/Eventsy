@@ -32,10 +32,10 @@ class _NavigationState extends State<Navigation> {
         appBarTheme: AppBarTheme(backgroundColor: Colors.green),
       ),
       home: Scaffold(
-        backgroundColor: Color.fromARGB(255, 219, 219, 219),
+        backgroundColor: Colors.blueGrey.shade900,
         bottomNavigationBar: CurvedNavigationBar(
           index: _activePageIndex,
-          backgroundColor: Colors.black87,
+          backgroundColor: Colors.blueGrey.shade900,
           color: Colors.green,
           //animationCurve: Curves.easeOut,
           items: const <Widget>[

@@ -29,7 +29,7 @@ class _SearchState extends State<Search> {
           .where((planner) =>
               planner['email'].toLowerCase().contains(keyword.toLowerCase()) ||
               planner['name'].toLowerCase().contains(keyword.toLowerCase()) ||
-              planner['place'].toLowerCase().contains(keyword.toLowerCase()))
+              planner['location'].toLowerCase().contains(keyword.toLowerCase()))
           .toList();
     }
     setState(() {
@@ -40,7 +40,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, //Color.fromARGB(255, 219, 219, 219),
+      backgroundColor: Colors.blueGrey.shade900, //Color.fromARGB(255, 219, 219, 219),
       appBar: AppBar(
           // backgroundColor: Colors.green,
           title: const Text(
@@ -74,6 +74,7 @@ class _SearchState extends State<Search> {
                 suffixIconColor: Colors.green),
             onChanged: (value) => _filterList(value),
           ),
+          const SizedBox(height: 8),
           Expanded(
             child: FutureBuilder<List>(
                 future: planners.getAllPlanners(),
@@ -127,6 +128,9 @@ class _SearchState extends State<Search> {
                         );*/
                         return GestureDetector(
                           child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
                             elevation: 15,
                             color: Colors.black87,
                             child: Row(
@@ -138,7 +142,7 @@ class _SearchState extends State<Search> {
                                     width: MediaQuery.of(context).size.width *
                                         0.30,
                                     child: Image.network(
-                                        'https://picsum.photos/250?image=29',
+                                        _foundPlanners[i]['profileIMG'],
                                         fit: BoxFit.fill)),
                                 const SizedBox(width: 10.0),
                                 Flexible(
@@ -155,7 +159,7 @@ class _SearchState extends State<Search> {
                                               fontStyle: FontStyle.italic)),
                                       printRate(_foundPlanners[i]['rate']),
                                       printEmail(_foundPlanners[i]['email']),
-                                      printPlace(_foundPlanners[i]['place'])
+                                      printPlace(_foundPlanners[i]['location'])
                                     ],
                                   ),
                                 ),
