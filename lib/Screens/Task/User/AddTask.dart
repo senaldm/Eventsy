@@ -2,9 +2,12 @@
 
 import 'package:eventsy/global.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsy/Model/Event.dart';
 import 'package:hive/hive.dart';
+import 'package:eventsy/global.dart';
+// import 'package:eventsy/main.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({Key? key}) : super(key: key);
@@ -352,8 +355,8 @@ class _AddTaskState extends State<AddTask> {
     });
   }
 
-  addTask(String categoryName, String taskName, String vendorName,
-      String budget, bool isComplete) async {
+  // addTask(String categoryName, String taskName, String vendorName,
+  //     String budget, bool isComplete) async {
     // final task = Task(
     //   categoryName: categoryName,
     //   taskName: taskName,
@@ -363,21 +366,48 @@ class _AddTaskState extends State<AddTask> {
     // );
 //     events.eventName = eventName!;
 
-  
-    taskBox = await Hive.openBox<Task>('task');
-    if (_formKey.currentState!.validate()) {
-      // Save the form data to Hive
-      Hive.box('taskBox').put('taskName', taskController.text);
-      Hive.box('taskBox').put('vendorName', vendorController.text);
-      Hive.box('taskBox').put('budget', budgetController.text);
-      Hive.box('taskBox').put('categoryName', categoryName);
-      Hive.box('taskBox').put('isComplete', isComplete);
-    }
+    // taskBox = await Hive.openBox<Task>('task');
+    // if (_formKey.currentState!.validate()) {
+    //   // Save the form data to Hive
+    //   taskBox.put('taskName', taskController.text as Task);
+    //   taskBox.put('vendorName', vendorController.text as Task);
+    //   taskBox.put('budget', budgetController.text as Task);
+    //  taskBox.put('categoryName', categoryName as Task);
+    //  taskBox.put('isComplete', isComplete as Task);
+    // }
 
     // taskBox.putAll({'taskName': taskController.text, 'vendorName': vendorController.text,'budget':budgetController,'categoryName':categoryName,'isComplete':isComplete});
     // var check = taskBox.add(task);
     // if (check == true) {
-    Navigator.pushNamed(context, '/TaskList');
+    // Navigator.pushNamed(context, '/TaskList');
+    addTask(String categoryName, String taskName, String vendorName,
+      String budget, bool isComplete) async {
+    taskBox = await Hive.openBox<Task>('task');
+    if (_formKey.currentState!.validate()) {
+      // Create a Task object
+      final task = Task(
+        categoryName: categoryName,
+        taskName: taskName,
+        vendorName: vendorName,
+        budget: budget,
+        isComplete: isComplete,
+      );
+
+      // Save the task to Hive
+     taskBox.add(task);
+      final addedTaskIndex = taskBox.values.toList().indexOf(task);
+      if (addedTaskIndex != -1) {
+        if (kDebugMode) {
+          print('Task added successfully!');
+        }
+      } else {
+        if (kDebugMode) {
+          print('Failed to add task.');
+        }
+      }
+     Navigator.pushNamed(context,'TaskList');
+    }
+    
     // }
   }
 }

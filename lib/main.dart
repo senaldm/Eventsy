@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 // import 'package:eventsy/Model/Budgetcal/eventset.dart';
-import 'package:eventsy/Model/Event.dart';
+import 'package:eventsy/Model/Event.dart' ;
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';

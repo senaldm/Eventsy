@@ -34,8 +34,8 @@ class Routes extends StatelessWidget {
 
         ////////USER TASK////////
         '/UserHome': (context) => UserTaskHome(),
-        '/TaskList': (context) => TaskList(),
-        '/addTask': (context) => AddTask(),
+        'TaskList': (context) => TaskList(),
+        'addTask': (context) => AddTask(),
 
         /////////PLANNER TASK/////////
 
