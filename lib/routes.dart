@@ -48,7 +48,7 @@ class Routes extends StatelessWidget {
 
 
         /////////////// LOGIN ////////////////////////////
-        '/LoginPage': (context) => Loginpage(),
+        'LoginPage': (context) => Loginpage(),
         './SignUpPage': (context) => SignUpPage(),
         './SignUpOptionPage': (context) => SignUpOptionPage(),
         './LogOutScreen': (context) => LogOutScreen(),

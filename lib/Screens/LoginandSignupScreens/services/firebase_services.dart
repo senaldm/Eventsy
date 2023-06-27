@@ -6,7 +6,7 @@ Future<void> signInWithGoogle(BuildContext context) async {
   try {
     GoogleSignInAccount? googleUser = await GoogleSignIn(
             clientId:
-                '901449356823-r558avudl4f3ehfkh6a0kpp4o6s0hhou.apps.googleusercontent.com')
+                '667846412743-vfsi1j7274d2amngj9ufvtfmr24jp5bo.apps.googleusercontent.com')
         .signIn();
     if (googleUser != null) {
       GoogleSignInAuthentication? googleAuth = await googleUser.authentication;

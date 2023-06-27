@@ -36,9 +36,9 @@ Future main() async {
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
   invitationBox = await Hive.openBox<Invitation>('invitation');
   runApp(
-    DevicePreview(
-      builder: (context) => FirstPage(),
-    ),
+    // DevicePreview(
+       FirstPage(),
+    // ),
   );
 }
 
