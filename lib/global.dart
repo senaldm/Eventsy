@@ -1,17 +1,19 @@
 import 'package:hive/hive.dart';
-import 'package:eventsy/Model/Budgetcal/eventset.dart';
+// import 'package:eventsy/Model/Budgetcal/eventset.dart';
+import 'package:eventsy/Model/Event.dart';
 
 // Declare the global variable
-late Box<Eventset> eventsBox;
 
-late Box<CategorySet> categoryBox;
+late Box<Event> eventBox;
 
-late Box<SubTaskSet> taskBox;
+late Box<Task> taskBox;
 
-Future<void> addEvent(Eventset eventName) async {
-  eventsBox.add(eventName);
-  // box.close();
-}
+late Box<EventTasks> eventTaskBox;
 
-var cateindex;
-var categoryData = eventsBox.getAt(cateindex);
+late Box<Invitation> invitationBox;
+
+// Future<void> addEvent(Eventset eventName) async {
+//   eventsBox.add(eventName);
+
+// }
+

@@ -12,11 +12,12 @@ import 'Screens/LoginandSignupScreens/signup.dart';
 import 'Screens/LoginandSignUpScreens/loginpage.dart';
 import 'Screens/Task/User/AddTask.dart';
 import 'Screens/Task/Planner/PlannerrTaskHome.dart';
-
+import 'Screens/Task/Planner/eventList.dart';
+import 'Screens/Task/Planner/addEventDetails.dart';
 import 'Screens/BudgetCalculatorScreens/categorydetailsshowpage.dart';
 import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
-import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
-import 'Model/Budgetcal/eventset.dart';
+// import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
+// import 'Model/Budgetcal/eventset.dart';
 import 'Screens/BudgetCalculatorScreens/eventselectionpage.dart';
 import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
 
@@ -34,26 +35,29 @@ class Routes extends StatelessWidget {
 
         ////////USER TASK////////
         '/UserHome': (context) => UserTaskHome(),
-        '/TaskList': (context) => TaskList(),
-        '/addTask': (context) => AddTask(),
+        'TaskList': (context) => TaskList(),
+        'addTask': (context) => AddTask(),
 
         /////////PLANNER TASK/////////
 
         'PlannerHome':(context)=>PlannerTaskHome(),
         '/PlannersPage':(context)=>const SplashScreen(),
+        'EventList':(context)=> EventList(),
+        'addEventDetails':(context)=>addEventDetails(),
+
 
 
         /////////////// LOGIN ////////////////////////////
-        '/LoginPage': (context) => Loginpage(),
+        'LoginPage': (context) => Loginpage(),
         './SignUpPage': (context) => SignUpPage(),
         './SignUpOptionPage': (context) => SignUpOptionPage(),
         './LogOutScreen': (context) => LogOutScreen(),
 
         //////////budget calculator screens////////////////
-        './EventselectionPage': (context) => EventSelectionPage(),
-        './CategoryShownPage': (context) => CategoryShownPage(),
-        './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(),
-        './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
+        // './EventselectionPage': (context) => EventSelectionPage(),
+        // './CategoryShownPage': (context) => CategoryShownPage(),
+        // './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(),
+        // './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
         './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(
               eventName: '',
             ),

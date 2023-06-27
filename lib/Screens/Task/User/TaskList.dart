@@ -1,15 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:eventsy/Screens/Home/home.dart';
+import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:floating_bottom_bar/animated_bottom_navigation_bar.dart';
-
-import 'package:eventsy/Model/Events/Task.dart';
-
+import 'package:eventsy/Model/Event.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:eventsy/Screens/Task/User/bottonNavigationPaint.dart';
+import 'package:eventsy/global.dart';
+import 'package:eventsy/main.dart';
 
 class TaskList extends StatefulWidget {
   // const TaskList({ Key? key }) : super(key: key);
@@ -18,16 +19,48 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  final List<Task> tasks = [];
+  // final List<Task> tasks = [];
+  List<String> taskList = [];
   @override
   void dispose() {
-    Hive.box('taks').close();
+    Hive.box('tasks').close();
     super.dispose();
+  }
+
+  List<String> retriveTask() {
+    final taskBox = Hive.box<Task>('task');
+    print(taskBox);
+    // Get all the data from the box
+    return taskBox.values.map((task) => task.taskName).toList();
+
+    // @override
+    // Widget build(BuildContext context) {
+    //     final height = MediaQuery.of(context).size.height;
+    // final width = MediaQuery.of(context).size.width;
+    //   return    Column(
+    //         mainAxisAlignment: MainAxisAlignment.start,
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //         for (var task in tasks)
+    //             Card(
+    //                 shape: RoundedRectangleBorder(
+    //                     borderRadius: BorderRadius.circular(10.0)),
+    //                 margin: EdgeInsets.only(
+    //                     left: width * 0.15, right: width * 0.15),
+    //                 borderOnForeground: false,
+    //                 child: TextButton(
+    //                     onPressed: () {}, child: Text(task.taskName))),
+    //         ],
+    //       );
+    // }
   }
 
   String sort = 'accentOrder';
   String filter = 'all';
 
+//////////////////////sort Task ////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////
   void sortTask() {
     showDialog(
         context: context,
@@ -106,7 +139,9 @@ class _TaskListState extends State<TaskList> {
   }
 
 // Filter function
-
+/////////////////////////Filter Task//////////////////////////////
+/////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
   void filterTask() {
     showDialog(
         context: context,
@@ -169,10 +204,20 @@ class _TaskListState extends State<TaskList> {
         });
   }
 
+//////////////////main view///////////////////////////////
+///////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+  ///
+
+  // var tasks = taskBox.values.toList();
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
+    final List<String> taskList = retriveTask();
+    print(taskList);
     return SafeArea(
       top: true,
       bottom: true,
@@ -182,9 +227,6 @@ class _TaskListState extends State<TaskList> {
           backgroundColor: Colors.blueGrey.shade900,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(height * 0.1),
-
-            // padding:EdgeInsets.only(top: height * 0.02, right: width * 0.02),
-
             child: AppBar(
               titleSpacing: 2.2,
               forceMaterialTransparency: false,
@@ -201,136 +243,166 @@ class _TaskListState extends State<TaskList> {
               ),
             ),
           ),
-          body: Container(),
-          // ValueListenableBuilder<Box<Task>>(
-          //     valueListenable: Boxes.getTask().listenable(),
-          //     builder: (context, box, _) {
-          //       final tasks = box.values.toList().cast<Task>();
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              
+              // taskList = retriveTask(),
+              for (var taskName in taskList)
+             Text(taskName),
+                // Card(
+                //   color: Colors.white,
+                //     shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(10.0)),
+                //     margin: EdgeInsets.only(
+                //         left: width * 0.15, right: width * 0.15),
+                //     borderOnForeground: false,
+                //     child: TextButton(onPressed: () {}, child: Text(
+                //       // taskName,style: TextStyle(color: Colors.black)
 
-          //       return buildContent(tasks);
-          //     }),
-          bottomNavigationBar: Stack(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              alignment: AlignmentDirectional.bottomEnd,
-              children: [
-                Container(
-                  height: height * 0.11,
-                  width: width,
+                //       "text"))),
+            ],
+          ),
+          // retriveTask(),
+          // FutureBuilder<Widget>(
+          //   future: retriveTask(),
+          //   builder: (context, snapshot) {
 
-                  // padding:  EdgeInsets.only(top: height*0.1),
-                  child: CustomPaint(
-                      painter: ProfileCardPainter(
-                        color: Colors.green.shade900,
-                        avatarRadius: 30,
-                      ), //3
-                      child: Container(
-                        decoration: BoxDecoration(
-                            //  color: Colors.white,
-                            border: Border.all(
-                                color: Colors.white70, width: width * 0.008),
-                            borderRadius: BorderRadius.circular(10.0)
-                            //  borderRadius: BorderRadius.all(Radius.circular(25)),
-                            ),
-                      )),
-                ),
-                // Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     children: [
-                Container(
+          //     if (snapshot.hasData) {
+          //       return snapshot.data;
+          //     } else {
+          //       return CircularProgressIndicator();
+          //     }
+          //   },
 
-                    // alignment: Alignment.bottomCenter,
-                    margin: EdgeInsets.only(top: height * 0.7),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+          //         Container(
+          //   child: ListView.builder(
+          //     itemCount: tasks.length,
+          //     itemBuilder: (context, index) {
+          //       final task = tasks[index];
+          //       return Card(
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(10.0),
+          //         ),
+          //         margin: EdgeInsets.only(
+          //           left: width * 0.15,
+          //           right: width * 0.15,
+          //         ),
+          //         borderOnForeground: false,
+          //         child: TextButton(
+          //           onPressed: () {},
+          //           child: Text(task.taskName),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+
+          bottomNavigationBar:
+              Stack(alignment: AlignmentDirectional.bottomEnd, children: [
+            Container(
+              height: height * 0.11,
+              width: width,
+              child: CustomPaint(
+                  painter: ProfileCardPainter(
+                    color: Colors.green.shade900,
+                    avatarRadius: 30,
+                  ), //3
+                  child: Container(
+                    decoration: BoxDecoration(
+                        //  color: Colors.white,
+                        border: Border.all(
+                            color: Colors.white70, width: width * 0.008),
+                        borderRadius: BorderRadius.circular(10.0)),
+                  )),
+            ),
+            Container(
+
+                // alignment: Alignment.bottomCenter,
+                margin: EdgeInsets.only(top: height * 0.8),
+                // color: Colors.blue,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: height * 0.12,
-                            ),
-                            FloatingActionButton.extended(
-                              heroTag: 'sort',
-                              onPressed: () {
-                                sortTask();
-                              },
-                              icon: Icon(Icons.sort),
-                              label: Text(
-                                " Sort ",
-                                style: TextStyle(fontSize: width * 0.05),
-                              ),
-                              backgroundColor: Colors.black54,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/addTask');
-                              },
-                              child: Icon(Icons.add_task_sharp),
-                              style: ElevatedButton.styleFrom(
-                                  // alignment:,
-                                  backgroundColor: Colors.green.shade900,
-                                  shape: CircleBorder(),
-                                  fixedSize: Size(width * 0.18, width * 0.18),
-                                  padding: EdgeInsets.all(24),
-                                  side: BorderSide(
-                                      color: Colors.white70,
-                                      width: width * 0.008)),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: height * 0.1,
-                            ),
-                            FloatingActionButton.extended(
-                              heroTag: 'filter',
-                              onPressed: () {
-                                filterTask();
-                              },
-                              icon: Icon(Icons.filter_alt_sharp),
-                              label: Text(
-                                " Filter ",
-                                style: TextStyle(fontSize: width * 0.05),
-                              ),
-                              backgroundColor: Colors.black54,
-                            ),
-                          ],
+                        // SizedBox(
+                        //   height: height * 0.145,
+                        // ),
+                        FloatingActionButton.extended(
+                          heroTag: 'sort',
+                          onPressed: () {
+                            sortTask();
+                          },
+                          icon: Icon(Icons.sort),
+                          label: Text(
+                            " Sort ",
+                            style: TextStyle(fontSize: width * 0.05),
+                          ),
+                          backgroundColor: Colors.black54,
                         ),
                       ],
-                    )),
-
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: [
-                //     FloatingActionButton.extended(
-                //         onPressed: () {}, label: Text("dfgf")),
-                //     FloatingActionButton.extended(
-                //         onPressed: () {}, label: Text("dfgf"))
-                //   ],
-                // )
-              ])),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // SizedBox(height: height*0.2),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, 'addTask');
+                          },
+                          child: Icon(Icons.add_task_sharp),
+                          style: ElevatedButton.styleFrom(
+                              // alignment:,
+                              backgroundColor: Colors.green.shade900,
+                              shape: CircleBorder(),
+                              fixedSize: Size(width * 0.18, width * 0.18),
+                              padding: EdgeInsets.all(24),
+                              side: BorderSide(
+                                  color: Colors.white70, width: width * 0.008)),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // SizedBox(
+                        //   height: height * 0.1,
+                        // ),
+                        FloatingActionButton.extended(
+                          heroTag: 'filter',
+                          onPressed: () {
+                            filterTask();
+                          },
+                          icon: Icon(Icons.filter_alt_sharp),
+                          label: Text(
+                            " Filter ",
+                            style: TextStyle(fontSize: width * 0.05),
+                          ),
+                          backgroundColor: Colors.black54,
+                        ),
+                      ],
+                    ),
+                  ],
+                )),
+          ])),
     );
   }
 
   Widget buildContent(List<Task> task) {
     if (task.isEmpty) {
-      return Center(child: FloatingActionButton(onPressed: () {
-        Navigator.pushNamed(context, '/addTask');
-      }));
+      return Center(
+          child: FloatingActionButton(
+              heroTag: 'addTask',
+              onPressed: () {
+                Navigator.pushNamed(context, '/addTask');
+              }));
     } else {
       return Center(
         child: Text('UnderDeveloped'),
@@ -349,4 +421,74 @@ class _TaskListState extends State<TaskList> {
   //   final box = Boxes.getTask();
   //   box.add(task);
   // }
+  //  void TaskList() {
+  //    final taskList = taskBox.values.toList();
+  //   setState(() {
+  //     //  tasks.clear();
+  //     // tasks.addAll(tasks);
+  //   });
+  // }
 }
+
+// class Task {
+//   String taskName;
+
+//   Task(this.taskName);
+// }
+
+// class TaskWrapper {
+//   Task task;
+
+//   TaskWrapper(this.task);
+// }
+
+
+// class RetriveTask extends StatefulWidget {
+//   const RetriveTask({super.key});
+
+//   @override
+//   State<RetriveTask> createState() => _RetriveTaskState();
+// }
+
+// class _RetriveTaskState extends State<RetriveTask> {
+//   // @override
+//   // void initState() {
+//   //   super.initState();
+//   //   // openBox();
+//   //   retrieveTasks();
+//   // }
+
+
+//   Future<List<TaskWrapper>> retrieveTasks() async {
+//     await Hive.openBox<Task>('task');
+// Box<TaskWrapper> taskBox = Hive.box('tasks');
+//     return  taskBox.values.toList();
+//     // Update your tasks list or perform any other logic
+
+//     // return tasks;
+//   }
+
+  
+
+//   @override
+//   void dispose() {
+//     Hive.close();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     var tasks= retrieveTasks();
+    
+    
+//     return ListView.builder(
+//       itemCount: taskBox.length,
+//       itemBuilder: (context, index) {
+//         final task = taskBox[index] as TaskWrapper;
+//         return ListTile(
+//           title: Text(task.task.taskName),
+//         );
+//       },
+//     );
+//   }
+// }

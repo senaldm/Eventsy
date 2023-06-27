@@ -44,38 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC1KdPPeKa5DxiKcWYINtXnFWQTG9ZfquQ',
-    appId: '1:802168313951:web:e21db6e76ec9ae4c06e3ea',
-    messagingSenderId: '802168313951',
-    projectId: 'signupandsignin-689dc',
-    authDomain: 'signupandsignin-689dc.firebaseapp.com',
-    storageBucket: 'signupandsignin-689dc.appspot.com',
-    measurementId: 'G-Z9Y8F3K9WJ',
+    apiKey: 'AIzaSyBXb0utVGvXDeVVaL6sC-Msg8DS8jM9Pb4',
+    appId: '1:667846412743:web:db56e48b853e8315bbb1e2',
+    messagingSenderId: '667846412743',
+    projectId: 'eventsy-f9d80',
+    authDomain: 'eventsy-f9d80.firebaseapp.com',
+    storageBucket: 'eventsy-f9d80.appspot.com',
+    measurementId: 'G-PYYGSRQJKX',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA2niXwXpgRPLIuNSg7Lv3zLmR_dSS4YtE',
-    appId: '1:802168313951:android:3dfc5212bbed225a06e3ea',
-    messagingSenderId: '802168313951',
-    projectId: 'signupandsignin-689dc',
-    storageBucket: 'signupandsignin-689dc.appspot.com',
+    apiKey: 'AIzaSyDf7lr7G6st7iLA7umMqJ9epMcIXKt-S8A',
+    appId: '1:667846412743:android:1eb8d455c5c8bcd6bbb1e2',
+    messagingSenderId: '667846412743',
+    projectId: 'eventsy-f9d80',
+    storageBucket: 'eventsy-f9d80.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAwd4ev9JjVYxo8bNv_7V__4jjEazBzkb8',
-    appId: '1:802168313951:ios:69fcf4adf7d8224206e3ea',
-    messagingSenderId: '802168313951',
-    projectId: 'signupandsignin-689dc',
-    storageBucket: 'signupandsignin-689dc.appspot.com',
-    iosBundleId: 'com.example.loginsignup',
+    apiKey: 'AIzaSyDgiJu29PK02sMxhu7UJfgEXFxtb3fNVJ4',
+    appId: '1:667846412743:ios:9592001508d97849bbb1e2',
+    messagingSenderId: '667846412743',
+    projectId: 'eventsy-f9d80',
+    storageBucket: 'eventsy-f9d80.appspot.com',
+    iosClientId: '667846412743-ql0k7bpt3smmo6ne6cjribvv6hsq6124.apps.googleusercontent.com',
+    iosBundleId: 'com.example.eventsy',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAwd4ev9JjVYxo8bNv_7V__4jjEazBzkb8',
-    appId: '1:802168313951:ios:641a355aeeda7f5306e3ea',
-    messagingSenderId: '802168313951',
-    projectId: 'signupandsignin-689dc',
-    storageBucket: 'signupandsignin-689dc.appspot.com',
-    iosBundleId: 'com.example.loginsignup.RunnerTests',
+    apiKey: 'AIzaSyDgiJu29PK02sMxhu7UJfgEXFxtb3fNVJ4',
+    appId: '1:667846412743:ios:a6b71e6d3a03d601bbb1e2',
+    messagingSenderId: '667846412743',
+    projectId: 'eventsy-f9d80',
+    storageBucket: 'eventsy-f9d80.appspot.com',
+    iosClientId: '667846412743-pm4f9o9crgctm3d2qdq3jj1r8e61vi07.apps.googleusercontent.com',
+    iosBundleId: 'com.example.eventsy.RunnerTests',
   );
 }

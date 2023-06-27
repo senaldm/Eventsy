@@ -1,50 +1,34 @@
-
 {
   "project_info": {
-    "project_number": "802168313951",
-    "project_id": "signupandsignin-689dc",
-    "storage_bucket": "signupandsignin-689dc.appspot.com"
+    "project_number": "667846412743",
+    "project_id": "eventsy-f9d80",
+    "storage_bucket": "eventsy-f9d80.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:802168313951:android:3dfc5212bbed225a06e3ea",
+        "mobilesdk_app_id": "1:667846412743:android:1eb8d455c5c8bcd6bbb1e2",
         "android_client_info": {
-          "package_name": "com.example.loginsignup"
+          "package_name": "com.example.eventsy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "802168313951-j4k5t0na9a5n4mrgd3hobbar4q9t16bu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.loginsignup",
-            "certificate_hash": "70ec102db7db7fb9724664c342ad30203fc04ff3"
-          }
-        },
-        {
-          "client_id": "802168313951-3ohadr7h5s5ui07gqugcfoccpbhfekto.apps.googleusercontent.com",
+          "client_id": "667846412743-3bishrhvsfd9s4vu0qhad881ln7re13e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA2niXwXpgRPLIuNSg7Lv3zLmR_dSS4YtE"
+          "current_key": "AIzaSyDf7lr7G6st7iLA7umMqJ9epMcIXKt-S8A"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "802168313951-3ohadr7h5s5ui07gqugcfoccpbhfekto.apps.googleusercontent.com",
+              "client_id": "667846412743-3bishrhvsfd9s4vu0qhad881ln7re13e.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "802168313951-a63j6ipeosa2j2nljfp9e2f4qtevb6oo.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.loginsignup"
-              }
             }
           ]
         }

@@ -96,7 +96,7 @@ class VendorExplore extends StatelessWidget {
                     FloatingActionButton.extended(
                         heroTag: 'btn2',
                         onPressed: () {
-                          Navigator.pushNamed(context, '/PlannersPage');
+                          Navigator.pushNamed(context, 'LoginPage');
                           //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const Navigation()));
                         },
                         backgroundColor: Colors.black87,
