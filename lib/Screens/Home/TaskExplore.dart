@@ -131,7 +131,7 @@ class TaskExplore extends StatelessWidget {
                         heroTag: 'btn3',
                         backgroundColor: Colors.black87,
                         onPressed: () {
-                           Navigator.pushNamed(context, '/UserHome');
+                           Navigator.pushNamed(context, 'PlannerHome');
                           // String userType = getUser();
                           // if (userType == "User") {
                           //   Navigator.pushNamed(context, '/UserHome');

@@ -60,7 +60,7 @@ class PlannerTaskHome extends StatelessWidget {
                   borderOnForeground: false,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/TaskList');
+                      Navigator.pushNamed(context, 'EventList');
                     },
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,

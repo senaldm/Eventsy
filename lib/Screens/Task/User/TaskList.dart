@@ -1,16 +1,18 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:eventsy/Screens/Home/home.dart';
-import 'package:eventsy/global.dart';
+// import 'package:eventsy/Screens/Home/home.dart';
+// import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
-import 'package:floating_bottom_bar/animated_bottom_navigation_bar.dart';
+// import 'package:floating_bottom_bar/animated_bottom_navigation_bar.dart';
 import 'package:eventsy/Model/Event.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+// import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:eventsy/Screens/Task/User/bottonNavigationPaint.dart';
-import 'package:eventsy/global.dart';
-import 'package:eventsy/main.dart';
+
+// import 'package:eventsy/main.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class TaskList extends StatefulWidget {
   // const TaskList({ Key? key }) : super(key: key);
@@ -19,41 +21,89 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  // final List<Task> tasks = [];
-  List<String> taskList = [];
+  Box<Task>? taskBox;
+  List<Task> tasks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    openHiveBox();
+    retrieveData();
+  }
+
+  Future<void> openHiveBox() async {
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDir.path);
+    taskBox = await Hive.openBox<Task>('task');
+  }
+
+  Future<void> retrieveData() async {
+    // Retrieve data from Hive box
+    tasks = taskBox?.values.toList() ?? [];
+
+    // Retrieve data from local storage
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/tasks.txt');
+    if (await file.exists()) {
+      final lines = await file.readAsLines();
+      lines.forEach((line) {
+        final data = line.split(',');
+        final task = Task(
+          categoryName: data[0],
+          taskName: data[1],
+          vendorName: data[2],
+          budget: data[3],
+          isComplete: data[4] == 'true',
+        );
+        tasks.add(task);
+        
+      });
+    }
+
+    setState(() {}); // Update the UI
+  }
+
   @override
   void dispose() {
-    Hive.box('tasks').close();
+    Hive.close();
     super.dispose();
   }
 
-  List<String> retriveTask() {
-    final taskBox = Hive.box<Task>('task');
-    print(taskBox);
-    // Get all the data from the box
-    return taskBox.values.map((task) => task.taskName).toList();
+  // final List<Task> tasks = [];
+  // List<String> taskList = [];
+  // @override
+  // void dispose() {
+  //   Hive.box('tasks').close();
+  //   super.dispose();
+  // }
 
-    // @override
-    // Widget build(BuildContext context) {
-    //     final height = MediaQuery.of(context).size.height;
-    // final width = MediaQuery.of(context).size.width;
-    //   return    Column(
-    //         mainAxisAlignment: MainAxisAlignment.start,
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //         for (var task in tasks)
-    //             Card(
-    //                 shape: RoundedRectangleBorder(
-    //                     borderRadius: BorderRadius.circular(10.0)),
-    //                 margin: EdgeInsets.only(
-    //                     left: width * 0.15, right: width * 0.15),
-    //                 borderOnForeground: false,
-    //                 child: TextButton(
-    //                     onPressed: () {}, child: Text(task.taskName))),
-    //         ],
-    //       );
-    // }
-  }
+  // List<String> retriveTask() {
+  //   final taskBox = Hive.box<Task>('task');
+  //   print(taskBox);
+  //   // Get all the data from the box
+  //   return taskBox.values.map((task) => task.taskName).toList();
+
+  // @override
+  // Widget build(BuildContext context) {
+  //     final height = MediaQuery.of(context).size.height;
+  // final width = MediaQuery.of(context).size.width;
+  //   return    Column(
+  //         mainAxisAlignment: MainAxisAlignment.start,
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //         for (var task in tasks)
+  //             Card(
+  //                 shape: RoundedRectangleBorder(
+  //                     borderRadius: BorderRadius.circular(10.0)),
+  //                 margin: EdgeInsets.only(
+  //                     left: width * 0.15, right: width * 0.15),
+  //                 borderOnForeground: false,
+  //                 child: TextButton(
+  //                     onPressed: () {}, child: Text(task.taskName))),
+  //         ],
+  //       );
+  // }
+  // }
 
   String sort = 'accentOrder';
   String filter = 'all';
@@ -216,15 +266,15 @@ class _TaskListState extends State<TaskList> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    final List<String> taskList = retriveTask();
-    print(taskList);
+    // final List<String> taskList = retriveTask();
+    // print(taskList);
     return SafeArea(
       top: true,
       bottom: true,
       left: true,
       right: true,
       child: Scaffold(
-          backgroundColor: Colors.blueGrey.shade900,
+           backgroundColor: Colors.transparent,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(height * 0.1),
             child: AppBar(
@@ -243,27 +293,62 @@ class _TaskListState extends State<TaskList> {
               ),
             ),
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              
-              // taskList = retriveTask(),
-              for (var taskName in taskList)
-             Text(taskName),
-                // Card(
-                //   color: Colors.white,
-                //     shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(10.0)),
-                //     margin: EdgeInsets.only(
-                //         left: width * 0.15, right: width * 0.15),
-                //     borderOnForeground: false,
-                //     child: TextButton(onPressed: () {}, child: Text(
-                //       // taskName,style: TextStyle(color: Colors.black)
+          body:
+          //  Container(
 
-                //       "text"))),
-            ],
+          //     // color: Colors.white,
+          //     width: width*0.8,
+          //     height:height*0.2,
+              
+          //     decoration: BoxDecoration(
+          //       color:Colors.white,
+          //     ),
+          //     child:Text("sfd",style: TextStyle(color:Colors.red),)
+          // ),
+          ListView.builder(
+            itemCount: tasks.length,
+            itemBuilder: (context, index) {
+              final task = tasks[index];
+              print(task.taskName);
+              return Card(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                child: ListTile(
+                  
+                  title: Text(task.taskName),
+                  
+                  // subtitle: Text(task.categoryName),
+                  onTap: () {
+                    // Handle task item tap
+                  },
+                ),
+              );
+            },
           ),
+          // Column(
+          //   mainAxisAlignment: MainAxisAlignment.start,
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+
+          //     // taskList = retriveTask(),
+          //   //   for (var taskName in taskList)
+          //   //  Text(taskName),
+          //       Card(
+          //         color: Colors.white,
+          //           shape: RoundedRectangleBorder(
+          //               borderRadius: BorderRadius.circular(10.0)),
+          //           margin: EdgeInsets.only(
+          //               left: width * 0.15, right: width * 0.15),
+          //           borderOnForeground: false,
+          //           child: TextButton(onPressed: () {}, child: Text(
+          //             taskName,style: TextStyle(color: Colors.black)
+
+          //           ))),
+          //   ],
+          // ),
           // retriveTask(),
           // FutureBuilder<Widget>(
           //   future: retriveTask(),

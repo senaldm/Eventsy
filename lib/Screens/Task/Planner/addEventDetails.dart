@@ -180,14 +180,13 @@ class addEventDetails extends StatelessWidget {
      
      
       // Save the form data to Hive
-      eventBox.put('taskName', eventName as Event);
-      eventBox.put('vendorName', eventDate as Event);
-      eventBox.put('budget', note as Event);
-     eventBox.put('categoryName', clientName as Event);
-     eventBox.put('isComplete', venue as Event);
+      eventBox.put('eventName', eventName as Event);
+      eventBox.put('eventDate', eventDate as Event);
+      eventBox.put('note', note as Event);
+     eventBox.put('clientName', clientName as Event);
+     eventBox.put('venue', venue as Event);
 
      
-  
    
   }
 }
