@@ -53,6 +53,7 @@ class PlannerTaskHome extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,23 +207,60 @@ class PlannerTaskHome extends StatelessWidget {
                   ),
                   
                      
-                ],
-              ),
-             
+                ],),
+
+              // Card(
+              //     shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(10.0)),
+              //     margin:
+              //         EdgeInsets.only(left: width * 0.15, right: width * 0.15),
+              //     borderOnForeground: false,
+              //     child: TextButton(
+              //       onPressed: () {
+              //         Navigator.pushNamed(context, 'EventList');
+              //       },
+              //       child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.start,
+              //           crossAxisAlignment: CrossAxisAlignment.center,
+              //           children: [
+              //             SizedBox(
+              //               height: height * 0.1,
+              //               width: width * 0.08,
+              //             ),
+              //             Image.asset("assets/Images/Home/task.png",
+              //                 width: width * 0.1),
+              //             SizedBox(
+              //               width: width * 0.05,
+              //             ),
+              //             Text(
+              //               'Event',
+              //               style: TextStyle(
+              //                   fontSize: height * 0.04,
+              //                   fontWeight: FontWeight.w600,
+              //                   color: Colors.black87),
+              //             )
+              //           ]),
+              //     )),
+              
+              // SizedBox(
+              //   height: height * 0.03,
+
+              // ),
+          
               
            
             
-              Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: <Color>[
-                      Colors.green.shade900,
-                      Colors.black12,
-                      Colors.orange.shade500,
-                    ])),
-              ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //       gradient: LinearGradient(
+              //           begin: Alignment.topLeft,
+              //           end: Alignment.bottomRight,
+              //           colors: <Color>[
+              //         Colors.green.shade900,
+              //         Colors.black12,
+              //         Colors.orange.shade500,
+              //       ])),
+              // ),
             ],
           ),
         ));
