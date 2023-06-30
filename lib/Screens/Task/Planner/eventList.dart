@@ -83,7 +83,7 @@ class _EventListState extends State<EventList> {
                     ),
                     RadioListTile(
                       title: Text(
-                        "Newest Task First",
+                        "Newest Event First",
                         style: TextStyle(color: Colors.white),
                       ),
                       value: "newestFirst",
@@ -98,7 +98,7 @@ class _EventListState extends State<EventList> {
                     ),
                     RadioListTile(
                       title: Text(
-                        "Olderst Task First",
+                        "Oldest Event First",
                         style: TextStyle(color: Colors.white),
                       ),
                       value: "olderstFirrst",
@@ -134,7 +134,7 @@ class _EventListState extends State<EventList> {
                   children: <Widget>[
                     RadioListTile(
                       title: Text(
-                        "All Tasks",
+                        "All Events",
                         style: TextStyle(color: Colors.white),
                       ),
                       value: "all",
@@ -149,7 +149,7 @@ class _EventListState extends State<EventList> {
                     ),
                     RadioListTile(
                       title: Text(
-                        "Completed Task Only",
+                        "Completed Event Only",
                         style: TextStyle(color: Colors.white),
                       ),
                       value: "completed",
@@ -164,7 +164,7 @@ class _EventListState extends State<EventList> {
                     ),
                     RadioListTile(
                       title: Text(
-                        "Pending Task Only",
+                        "Pending Events Only",
                         style: TextStyle(color: Colors.white),
                       ),
                       value: "pending",
@@ -214,7 +214,7 @@ class _EventListState extends State<EventList> {
                 automaticallyImplyLeading: true,
                 centerTitle: true,
                 flexibleSpace: Center(
-                  child: Text('Task List',
+                  child: Text('Event List',
                       style: TextStyle(
                         fontSize: width * 0.08,
                         fontFamily: 'Roboto',
@@ -333,7 +333,7 @@ class _EventListState extends State<EventList> {
             child: FloatingActionButton(
                 heroTag: 'addTask',
                 onPressed: () {
-                  Navigator.pushNamed(context, '/addTask');
+                  Navigator.pushNamed(context, 'addEventDetails');
                 }));
       } else {
         return Center(

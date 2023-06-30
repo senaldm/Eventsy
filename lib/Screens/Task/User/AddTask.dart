@@ -336,6 +336,7 @@ class _AddTaskState extends State<AddTask> {
                             budgetController.text,
                             isComplete,
                           );
+                          Navigator.pushNamed(context, 'TaskList');
                         },
                         backgroundColor: Colors.blueGrey.shade900,
                         label: Text(
@@ -360,36 +361,43 @@ class _AddTaskState extends State<AddTask> {
 
   // addTask(String categoryName, String taskName, String vendorName,
   //     String budget, bool isComplete) async {
-    // final task = Task(
-    //   categoryName: categoryName,
-    //   taskName: taskName,
-    //   isComplete: isComplete,
-    //   vendorName: vendorName,
-    //   budget: budget,
-    // );
+  // final task = Task(
+  //   categoryName: categoryName,
+  //   taskName: taskName,
+  //   isComplete: isComplete,
+  //   vendorName: vendorName,
+  //   budget: budget,
+  // );
 //     events.eventName = eventName!;
 
-    // taskBox = await Hive.openBox<Task>('task');
-    // if (_formKey.currentState!.validate()) {
-    //   // Save the form data to Hive
-    //   taskBox.put('taskName', taskController.text as Task);
-    //   taskBox.put('vendorName', vendorController.text as Task);
-    //   taskBox.put('budget', budgetController.text as Task);
-    //  taskBox.put('categoryName', categoryName as Task);
-    //  taskBox.put('isComplete', isComplete as Task);
-    // }
+  // taskBox = await Hive.openBox<Task>('task');
+  // if (_formKey.currentState!.validate()) {
+  //   // Save the form data to Hive
+  //   taskBox.put('taskName', taskController.text as Task);
+  //   taskBox.put('vendorName', vendorController.text as Task);
+  //   taskBox.put('budget', budgetController.text as Task);
+  //  taskBox.put('categoryName', categoryName as Task);
+  //  taskBox.put('isComplete', isComplete as Task);
+  // }
 
-    // taskBox.putAll({'taskName': taskController.text, 'vendorName': vendorController.text,'budget':budgetController,'categoryName':categoryName,'isComplete':isComplete});
-    // var check = taskBox.add(task);
-    // if (check == true) {
-    // Navigator.pushNamed(context, '/TaskList');
-    addTask(String categoryName, String taskName, String vendorName,
+  // taskBox.putAll({'taskName': taskController.text, 'vendorName': vendorController.text,'budget':budgetController,'categoryName':categoryName,'isComplete':isComplete});
+  // var check = taskBox.add(task);
+  // if (check == true) {
+  // Navigator.pushNamed(context, '/TaskList');
+  addTask(String categoryName, String taskName, String vendorName,
       String budget, bool isComplete) async {
-         final appDocumentDir = await getApplicationDocumentsDirectory();
-    final filePath = '${appDocumentDir.path}/tasks.txt';
+    // final appDocumentDir = await getApplicationDocumentsDirectory();
+    // final filePath = '${appDocumentDir.path}/tasks.txt';
     taskBox = await Hive.openBox<Task>('task');
+
     if (_formKey.currentState!.validate()) {
-      // Create a Task object
+      categoryName = categoryController.text;
+      taskName = taskController.text;
+      vendorName = vendorController.text;
+      budget = budgetController.text;
+      isComplete = false;
+
+      // Create a new Task object
       final task = Task(
         categoryName: categoryName,
         taskName: taskName,
@@ -398,54 +406,87 @@ class _AddTaskState extends State<AddTask> {
         isComplete: isComplete,
       );
 
-        final file = File(filePath);
-      final tasks = await readTasksFromFile(file);
-      // Save the task to Hive
-     taskBox.add(task);
-      final addedTaskIndex = taskBox.values.toList().indexOf(task);
-      if (addedTaskIndex != -1) {
-        if (kDebugMode) {
-          print('Task added successfully!');
-        }
-      } else {
-        if (kDebugMode) {
-          print('Failed to add task.');
-        }
-      }
-     Navigator.pushNamed(context,'TaskList');
+      // Store the task in Hive
+      storeTask(task);
+
+      // Clear form data
+      categoryController.clear();
+      taskController.clear();
+      vendorController.clear();
+      budgetController.clear();
     }
-    
+
+    // if (_formKey.currentState!.validate()) {
+    //   // Create a Task object
+    //   final task = Task(
+    //     categoryName: categoryName,
+    //     taskName: taskName,
+    //     vendorName: vendorName,
+    //     budget: budget,
+    //     isComplete: isComplete,
+    //   );
+
+    //     final file = File(filePath);
+    //   final tasks = await readTasksFromFile(file);
+    //   // Save the task to Hive
+    //  taskBox.add(task);
+    //   final addedTaskIndex = taskBox.values.toList().indexOf(task);
+    //   if (addedTaskIndex != -1) {
+    //     if (kDebugMode) {
+    //       print('Task added successfully!');
+    //     }
+    //   } else {
+    //     if (kDebugMode) {
+    //       print('Failed to add task.');
+    //     }
+    //   }
+    //  Navigator.pushNamed(context,'TaskList');
+    // }
+
     // }
   }
 
-  
-Future<List<Task>> readTasksFromFile(File file) async {
-    if (await file.exists()) {
-      final contents = await file.readAsString();
-      final taskList = contents.split('\n');
-      final tasks = taskList.map((taskStr) {
-        final taskData = taskStr.split('|');
-        return Task(
-          categoryName: taskData[0],
-          taskName: taskData[1],
-          vendorName: taskData[2],
-          budget: taskData[3],
-          isComplete: taskData[4] == 'true',
-        );
-      }).toList();
-      return tasks;
-    } else {
-      return [];
-    }
-  }
+  Future<void> storeTask(Task task) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/tasks.txt');
+    final exists = await file.exists();
 
-  Future<void> writeTasksToFile(File file, List<Task> tasks) async {
-    final lines = tasks.map((task) {
-      final taskStr =
-          '${task.categoryName}|${task.taskName}|${task.vendorName}|${task.budget}|${task.isComplete}';
-      return taskStr;
-    }).toList();
-    final contents = lines.join('\n');
-    await file.writeAsString(contents);
+    if (!exists) {
+      await file.create();
+    }
+
+    final taskData =
+        '${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete}\n';
+    await file.writeAsString(taskData, mode: FileMode.append);
   }
 }
+//   Future<List<Task>> readTasksFromFile(File file) async {
+//     if (await file.exists()) {
+//       final contents = await file.readAsString();
+//       final taskList = contents.split('\n');
+//       final tasks = taskList.map((taskStr) {
+//         final taskData = taskStr.split('|');
+//         return Task(
+//           categoryName: taskData[0],
+//           taskName: taskData[1],
+//           vendorName: taskData[2],
+//           budget: taskData[3],
+//           isComplete: taskData[4] == 'true',
+//         );
+//       }).toList();
+//       return tasks;
+//     } else {
+//       return [];
+//     }
+//   }
+
+//   Future<void> writeTasksToFile(File file, List<Task> tasks) async {
+//     final lines = tasks.map((task) {
+//       final taskStr =
+//           '${task.categoryName}|${task.taskName}|${task.vendorName}|${task.budget}|${task.isComplete}';
+//       return taskStr;
+//     }).toList();
+//     final contents = lines.join('\n');
+//     await file.writeAsString(contents);
+//   }
+// }
