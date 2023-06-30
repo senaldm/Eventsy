@@ -285,7 +285,7 @@ class _EventListState extends State<EventList> {
                           // SizedBox(height: height*0.2),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, 'addTask');
+                              Navigator.pushNamed(context, 'addEventDetails');
                             },
                             child: Icon(Icons.add_task_sharp),
                             style: ElevatedButton.styleFrom(
