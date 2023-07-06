@@ -12,6 +12,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.flutter.io.fileprovider"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"

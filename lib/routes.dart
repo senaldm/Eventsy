@@ -57,7 +57,7 @@ class Routes extends StatelessWidget {
 
         //////////budget calculator screens////////////////
         // './EventselectionPage': (context) => EventSelectionPage(),
-        // './CategoryShownPage': (context) => CategoryShownPage(),
+         'CategoryShownPage': (context) => CategoryShownPage(),
         // './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(),
         // './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
         './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(

@@ -6,7 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:eventsy/global.dart';
 
 class addEventDetails extends StatelessWidget {
-  // const addEventDetails({super.key});
+  addEventDetails({super.key});
 
   final eventNameController = TextEditingController();
   final eventDateController = TextEditingController();
