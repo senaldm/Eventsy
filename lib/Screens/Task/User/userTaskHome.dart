@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class UserTaskHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -13,9 +12,7 @@ class UserTaskHome extends StatelessWidget {
         bottom: true,
         left: true,
         right: true,
-        
         child: Scaffold(
-          
           backgroundColor: Colors.blueGrey.shade900,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(height * 0.1),
@@ -73,7 +70,7 @@ class UserTaskHome extends StatelessWidget {
                   borderOnForeground: false,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/TaskList');
+                      Navigator.pushNamed(context, './EventselectionPage');
                     },
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
