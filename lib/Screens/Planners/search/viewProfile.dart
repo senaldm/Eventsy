@@ -3,9 +3,13 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+
+import '../../../Model/Planner/planner.dart';
+
 //import 'package:flutter/services.dart';
 
-//import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewProfile extends StatelessWidget {
   final List list;
@@ -17,26 +21,30 @@ class ViewProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey.shade900,
-      appBar: AppBar(
-        leading: BackButton(),
-        backgroundColor: Colors.green,
-        title: title(),
-      ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          carousel(),
-          const Divider(height: 2, color: Colors.white),
-          contact(),
-          const Divider(height: 2, color: Colors.white),
-          name(),
-          const Divider(height: 2, color: Colors.white),
-          about(),
-          const Divider(height: 2, color: Colors.white),
-        ],
-      ),
-    );
+        backgroundColor: Colors.blueGrey.shade900,
+        appBar: AppBar(
+          leading: BackButton(),
+          backgroundColor: Colors.green,
+          title: title(),
+        ),
+        body: ListView(
+          physics: const BouncingScrollPhysics(),
+          children: [
+            carousel(),
+            const Divider(height: 2, color: Colors.white),
+            contact(),
+            const Divider(height: 2, color: Colors.white),
+            name(),
+            const Divider(height: 2, color: Colors.white),
+            about(),
+            const Divider(height: 2, color: Colors.white),
+            service(),
+            const Divider(height: 2, color: Colors.white),
+            history(),
+            const Divider(height: 2, color: Colors.white),
+          ],
+        ),
+        persistentFooterButtons: <Widget>[footer()]);
   }
 
   Widget title() {
@@ -147,13 +155,19 @@ class ViewProfile extends StatelessWidget {
                       Icons.mail,
                     ),
                     onPressed: () {
-                      String mailUrl = "mailto:${list[person]['email']}";
-                      //launchUrl(mailUrl as Uri);
+                      String mail = "mailto:${list[person]['email']}";
+                      final Uri url = Uri.parse(mail);
+                      //print(mail);
+                      launchUrl(url);
                     }),
                 IconButton(
                     icon: Icon(Icons.message),
                     onPressed: () {
-                      //launchUrl("https://wa.me/${list[person]['contact']}" as Uri);
+                      String whatsapp =
+                          "https://wa.me/${list[person]['contact']}?text=Hi this message is through Eventsy";
+                      final Uri url = Uri.parse(whatsapp);
+                      //print(whatsapp);
+                      launchUrl(url);
                     })
               ],
             ),
@@ -190,6 +204,7 @@ class ViewProfile extends StatelessWidget {
           ]),
     );
   }
+
   Widget printRate(int rate) {
     String stars = '';
     for (int i = 0; i < rate; i++) {
@@ -208,19 +223,103 @@ class ViewProfile extends StatelessWidget {
     return Container(
         padding: EdgeInsets.all(20),
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          const Text(
-            'About',
+            //mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'About',
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                list[person]['description'],
+                style: const TextStyle(color: Colors.white, fontSize: 15.0),
+              )
+            ]));
+  }
+
+  Widget history() {
+    List serviceList;
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Container(
+          child: const Text(
+            'Previous Events',
             style: TextStyle(
                 color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 10.0,),
-          Text(
-            list[person]['description'],
-            style: const TextStyle(color: Colors.white, fontSize: 15.0),
-          )
-        ]));
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
+        Container(
+            child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: list[person]['services'].length,
+          itemBuilder: (context, i) {
+            //print(list[person]['services']);
+            serviceList = list[person]['services'];
+            return ListTile(
+              //leading: const Icon(Icons.bubble_chart_rounded),
+              leading: Text(
+                serviceList[i]['serviceName'],
+                style: const TextStyle(color: Colors.white, fontSize: 15.0),
+              ),
+            );
+          },
+        )),
+      ]),
+    );
+  }
+
+  Widget service() {
+    List serviceList;
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Container(
+          child: const Text(
+            'Services By Planner',
+            style: TextStyle(
+                color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
+        Container(
+            child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: list[person]['services'].length,
+          itemBuilder: (context, i) {
+            //print(list[person]['services']);
+            serviceList = list[person]['services'];
+            return ListTile(
+              //leading: const Icon(Icons.bubble_chart_rounded),
+              leading: Text(
+                serviceList[i]['serviceName'],
+                style: const TextStyle(color: Colors.white, fontSize: 15.0),
+              ),
+            );
+          },
+        )),
+      ]),
+    );
+  }
+
+  Widget footer() {
+    return ElevatedButton(
+        onPressed: () {
+          print(" hired ${list[person]['name']}");
+        },
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+        child: const Text('Hire',
+            style: TextStyle(fontSize: 20, color: Colors.black)));
   }
 }

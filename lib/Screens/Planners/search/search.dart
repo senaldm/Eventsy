@@ -83,7 +83,7 @@ class _SearchState extends State<Search> {
                     listCopy = snapshot.data!;
                     //print(listCopy);
                     return ListView.builder(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       itemCount: _foundPlanners.length,
                       itemBuilder: (context, i) {
                         /* return Card(
