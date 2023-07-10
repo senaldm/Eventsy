@@ -3,10 +3,6 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
-
-import '../../../Model/Planner/planner.dart';
-
 //import 'package:flutter/services.dart';
 
 import 'package:url_launcher/url_launcher.dart';
