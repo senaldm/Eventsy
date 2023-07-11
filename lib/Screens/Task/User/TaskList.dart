@@ -1,16 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-// import 'package:eventsy/Screens/Home/home.dart';
-// import 'package:eventsy/global.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
-// import 'package:floating_bottom_bar/animated_bottom_navigation_bar.dart';
+
 import 'package:eventsy/Model/Event.dart';
-// import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+
 import 'package:eventsy/Screens/Task/User/bottonNavigationPaint.dart';
 
-// import 'package:eventsy/main.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 

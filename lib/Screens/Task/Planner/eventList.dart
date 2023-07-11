@@ -296,7 +296,8 @@ class _EventListState extends State<EventList> {
                                 padding: EdgeInsets.all(24),
                                 side: BorderSide(
                                     color: Colors.white70,
-                                    width: width * 0.008)),
+                                    width: width * 0.008)
+                                    ),
                           ),
                         ],
                       ),

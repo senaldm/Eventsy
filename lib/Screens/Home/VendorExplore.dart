@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:eventsy/Screens/Home/userMode.dart';
 
-import '../Planners/navigation.dart';
 
 class VendorExplore extends StatelessWidget {
   @override
@@ -96,7 +96,8 @@ class VendorExplore extends StatelessWidget {
                     FloatingActionButton.extended(
                         heroTag: 'btn2',
                         onPressed: () {
-                          Navigator.pushNamed(context, 'LoginPage');
+                          UserModeSelect.userMode(context);
+                          // Navigator.pushNamed(context, 'LoginPage');
                           //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const Navigation()));
                         },
                         backgroundColor: Colors.black87,

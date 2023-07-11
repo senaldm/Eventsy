@@ -20,11 +20,11 @@ class Task extends HiveObject {
   }
 
   Task(
-      { this.categoryName='',
-       this.taskName='',
+      {this.categoryName = '',
+      this.taskName = '',
       this.vendorName = '',
       this.budget = '',
-       this.isComplete=false});
+      this.isComplete = false});
 }
 
 @HiveType(typeId: 1)
@@ -47,7 +47,7 @@ class EventTasks extends Event {
   late String taskName;
 
   @HiveField(8)
-   String? vendorName;
+  String? vendorName;
 
   @HiveField(9)
   late bool isComplete;
@@ -56,7 +56,7 @@ class EventTasks extends Event {
   late String categoryName;
 
   @HiveField(11)
-   String? budget;
+  String? budget;
 
   EventTasks({
     required String eventName,
@@ -64,14 +64,22 @@ class EventTasks extends Event {
   }) : super(eventName: eventName, date: date);
 }
 
-
 @HiveType(typeId: 3)
 class Invitation extends Event {
   @HiveField(12)
   late String guestName;
+  @HiveField(13)
   late bool isSend;
 
   Invitation({
     required String eventName,
   }) : super(eventName: eventName);
+}
+
+@HiveType(typeId: 4)
+class UserMode extends HiveObject {
+  @HiveField(14)
+  String userMode = 'general';
+  @HiveField(15)
+  bool isFirst = false;
 }

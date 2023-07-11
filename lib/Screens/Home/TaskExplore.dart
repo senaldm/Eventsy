@@ -1,13 +1,34 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:eventsy/Screens/Home/userMode.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
+
+import 'package:eventsy/Model/Event.dart';
 
 class TaskExplore extends StatelessWidget {
+  Box<UserMode>? userModeBox;
+  // bool isFirst=userModeBox?.isFirst;
+  @override
+  void initState() {
+    openHiveBox();
+  }
+
+  Future<void> openHiveBox() async {
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDir.path);
+    userModeBox = await Hive.openBox<UserMode>('userMode');
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
     return Stack(
       children: [
         Image.asset(
@@ -93,7 +114,10 @@ class TaskExplore extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     FloatingActionButton.extended(
-                        onPressed: () {},
+                        onPressed: () {
+                          // if(userModeBox.isFirst)
+                          UserModeSelect.userMode(context);
+                        },
                         backgroundColor: Colors.black87,
                         label: Text(
                           "Explore",
@@ -101,8 +125,7 @@ class TaskExplore extends StatelessWidget {
                               fontSize: 30.0,
                               color: Colors.white,
                               fontFamily: "Roboto"),
-                        )
-                        )
+                        ))
                   ],
                 ),
                 SizedBox(
@@ -131,14 +154,7 @@ class TaskExplore extends StatelessWidget {
                         heroTag: 'btn3',
                         backgroundColor: Colors.black87,
                         onPressed: () {
-                           Navigator.pushNamed(context, 'PlannerHome');
-                          // String userType = getUser();
-                          // if (userType == "User") {
-                          //   Navigator.pushNamed(context, '/UserHome');
-                          // } 
-                          // else if(userType=="Planer") {
-                          //   Navigator.pushNamed(context, '');
-                          // }
+                          Navigator.pushNamed(context, 'PlannerHome');
                         },
                         child: Icon(
                           Icons.arrow_right,
@@ -154,8 +170,9 @@ class TaskExplore extends StatelessWidget {
   }
 }
 
-  getUser() {
-  SharedPreferences prefs = SharedPreferences.getInstance() as SharedPreferences;
+getUser() {
+  SharedPreferences prefs =
+      SharedPreferences.getInstance() as SharedPreferences;
   String userType = prefs.getString("userType") ?? "User";
   return userType;
 }

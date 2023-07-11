@@ -35,7 +35,7 @@ class Routes extends StatelessWidget {
         '/TaskExplore': (context) => TaskExplore(),
 
         ////////USER TASK////////
-        '/UserHome': (context) => UserTaskHome(),
+        'UserHome': (context) => UserTaskHome(),
         'TaskList': (context) => TaskList(),
         'addTask': (context) => AddTask(),
 
@@ -44,7 +44,7 @@ class Routes extends StatelessWidget {
         'PlannerHome':(context)=>PlannerTaskHome(),
         
         '/PlannersPage':(context)=>const SplashScreen(),
-        'EventList':(context)=> EventList(),
+        '/EventList':(context)=> const EventList(),
         'addEventDetails':(context)=>addEventDetails(),
 
 
@@ -64,7 +64,7 @@ class Routes extends StatelessWidget {
               eventName: '',
             ),
       },
-      home: home(),
+      home: ImageExplore(),
     );
   }
 }
