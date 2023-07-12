@@ -17,9 +17,9 @@ class PlannerMode extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            title: Text(
+            title:const Text(
               'User mode',
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
@@ -39,11 +39,11 @@ class PlannerMode extends StatelessWidget {
                       Expanded(
                           child: RichText(
                         textAlign: TextAlign.justify,
-                        text: TextSpan(
+                        text: const TextSpan(
                             text:
                                 "Planner mode is a event planner for whom create this app for plan  professinal multiple events.  Continue as ",
                             style: TextStyle(color: Colors.white70),
-                            children: const [
+                            children:  [
                               TextSpan(
                                   text: '\'Planner mode\' ',
                                   style:
@@ -53,7 +53,7 @@ class PlannerMode extends StatelessWidget {
                                   text: ' \'Back\'  ',
                                   style:
                                       TextStyle(fontWeight: FontWeight.bold)),
-                              TextSpan(text: 'to to back General mode')
+                              TextSpan(text: ' to back to General mode')
                             ]),
                       ))
                     ],

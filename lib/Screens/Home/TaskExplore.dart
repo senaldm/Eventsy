@@ -32,7 +32,7 @@ class TaskExplore extends StatelessWidget {
     return Stack(
       children: [
         Image.asset(
-          "assets/Images/Home/todo_explore_background2.jpg",
+          "assets/Images/Home/todo_explore_background3.jpg",
           fit: BoxFit.cover,
           height: height,
           width: width,

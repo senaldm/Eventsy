@@ -12,7 +12,7 @@ class VendorExplore extends StatelessWidget {
     return Stack(
       children: [
         Image.asset(
-          "assets/Images/Home/vendor_explore_background.jpg",
+          "assets/Images/Home/vendor_explore_background2.jpg",
           fit: BoxFit.cover,
           height: height,
           width: width,
