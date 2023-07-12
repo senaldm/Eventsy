@@ -15,12 +15,11 @@ import 'Screens/Task/User/AddTask.dart';
 import 'Screens/Task/Planner/PlannerrTaskHome.dart';
 import 'Screens/Task/Planner/eventList.dart';
 import 'Screens/Task/Planner/addEventDetails.dart';
-import 'Screens/BudgetCalculatorScreens/categorydetailsshowpage.dart';
-import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
+import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categorydetailsshowpage.dart';
 // import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
 // import 'Model/Budgetcal/eventset.dart';
-import 'Screens/BudgetCalculatorScreens/eventselectionpage.dart';
-import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
+import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/eventselectionpage.dart';
+import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categoryshownpage.dart';
 
 class Routes extends StatelessWidget {
   @override

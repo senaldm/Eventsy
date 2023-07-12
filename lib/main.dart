@@ -1,3 +1,4 @@
+import 'package:eventsy/Model/Budget/eventbudget.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 // import 'package:eventsy/Model/Budgetcal/eventset.dart';
@@ -20,16 +21,17 @@ Future main() async {
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
   await Hive.initFlutter();
-  // Hive.registerAdapter(
-  //   EventsetAdapter(),
-  // );
-  // Hive.registerAdapter(CategorySetAdapter());
-  // Hive.registerAdapter(SubTaskSetAdapter());
+  //for Planner Budget
+  Hive.registerAdapter(BudgetEventAdapter());
+  Hive.registerAdapter(BudgetTaskAdapter());
+
   Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(EventAdapter());
   Hive.registerAdapter(EventTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
 
+  eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
+  taskbudgetBox = await Hive.openBox<BudgetTask>('budgettask');
   eventBox = await Hive.openBox<Event>('event');
   taskBox = await Hive.openBox<Task>('task');
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');

@@ -1,5 +1,7 @@
+import 'package:eventsy/Model/Budget/eventbudget.dart';
+import 'package:eventsy/Model/Event.dart';
 import 'package:flutter/material.dart';
-import 'package:eventsy/Screens/BudgetCalculatorScreens/eventselectionpage.dart';
+import 'package:eventsy/Screens/BudgetCalculatorScreens//EventPlannerBudgetCal/eventselectionpage.dart';
 import 'package:eventsy/global.dart';
 // import 'package:eventsy/Model/Budgetcal/eventset.dart';
 
@@ -27,40 +29,28 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
   void initState() {
     super.initState();
     retrieveEventName();
-    retrieveTasks();
   }
 
   void retrieveEventName() { 
-    // final event = eventsBox.get('events');
-    // if (event != null) {
-    //   setState(() {
-    //     eventName = event.eventName;
-    //   });
-    //   retrieveCategories();
-    // }
+     final event = eventbudgetBox.get('budgetevent');
+    if (event != null) {
+       setState(() {
+        eventName = event.eventName;
+       });
+       retrieveCategories();
+     }
   }
 
   void retrieveCategories() {
-    // final categoryList = categoryBox.values.toList();
-    // setState(() {
-    //   categories.clear();
-    //   categories.addAll(categoryList
-    //       .where((category) => category.eventName == eventName)
-    //       .map((category) => category.categoryName));
-    // });
+    final categoryList = eventTaskBox.values.toList();
+     setState(() {
+      categories.clear();
+      categories.addAll(categoryList
+         .where((category) => category.eventName == eventName)
+         .map((category) => category.categoryName));
+    });
   }
 
-  void retrieveTasks() {
-    final taskList = taskBox.values.toList();
-    tasks = {};
-    for (var category in categories) {
-      final categoryTasks = taskList
-          .where((task) => task.categoryName == category)
-          .map((task) => task.taskName)
-          .toList();
-      tasks[category] = categoryTasks;
-    }
-  }
 
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -374,15 +364,14 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
     );
   }
 
-  // Future<void> addCategory(String? categoryName) async {
-  //   if (categoryName != null) {
-  //     final category = CategorySet();
-  //     category.categoryName = categoryName;
-  //     category.eventName = eventName!;
-  //     categoryBox.add(category);
-  //     retrieveCategories();
-  //     retrieveTasks();
-  //     setState(() {}); // Rebuild the UI
-  //   }
-  // }
+   Future<void> addCategory(String? categoryName) async {
+     if (categoryName != null) {
+       final category = BudgetTask();
+      category.categoryName = categoryName;
+      category.eventName = eventName!;
+      eventTaskBox.add(category as EventTasks);
+    retrieveCategories();
+      setState(() {}); // Rebuild the UI
+    }
+   }
 }
