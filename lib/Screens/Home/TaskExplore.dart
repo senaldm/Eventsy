@@ -39,131 +39,137 @@ class TaskExplore extends StatelessWidget {
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          body: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: width * 0.2,
-                  height: height * 0.1,
-                ),
-                Row(
+          body: Center(
+            child: SingleChildScrollView(
+              child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: width * 0.7,
+                      width: width * 0.2,
+                      height: height * 0.1,
                     ),
-                    FloatingActionButton.extended(
-                      heroTag: 'btn1',
-                      backgroundColor: Colors.white,
-                      onPressed: null,
-                      icon: Icon(
-                        Icons.check_box,
-                        color: Colors.black87,
-                        size: width * 0.07,
-                      ),
-                      label: Text(
-                        'ToDo',
-                        style: TextStyle(
-                            color: Colors.black87, fontSize: width * 0.035),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: width * 0.7,
+                        ),
+                        FloatingActionButton.extended(
+                          heroTag: 'btn1',
+                          backgroundColor: Colors.white,
+                          onPressed: null,
+                          icon: Icon(
+                            Icons.check_box,
+                            color: Colors.black87,
+                            size: width * 0.07,
+                          ),
+                          label: Text(
+                            'ToDo',
+                            style: TextStyle(
+                                color: Colors.black87, fontSize: width * 0.035,fontFamily: "Quintessential",fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: height * 0.52,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
-                      'Planing',
-                      style: TextStyle(
-                          fontSize: 60.0,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
                     SizedBox(
-                      height: height * 0.02,
+                      height: height * 0.55,
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                          'No such thing to plan Event??\n Eventsy is best option',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'Planing',
                           style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white70,
-                            fontWeight: FontWeight.normal,
-                          )),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    FloatingActionButton.extended(
-                        onPressed: () {
-                          // if(userModeBox.isFirst)
-                          UserModeSelect.userMode(context);
-                        },
-                        backgroundColor: Colors.black87,
-                        label: Text(
-                          "Explore",
-                          style: TextStyle(
-                              fontSize: 30.0,
-                              color: Colors.white,
-                              fontFamily: "Roboto"),
-                        ))
-                  ],
-                ),
-                SizedBox(
-                  width: width * 0.05,
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      FloatingActionButton(
-                        heroTag: 'btn2',
-                        backgroundColor: Colors.black87,
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/VendorExplore');
-                        },
-                        child: Icon(
-                          Icons.arrow_left,
-                          size: 50.0,
-                          color: Colors.white70,
+                              fontSize: 40.0,
+                              color: Colors.white70,
+                              fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      SizedBox(
-                        width: width * 0.6,
-                      ),
-                      FloatingActionButton(
-                        heroTag: 'btn3',
-                        backgroundColor: Colors.black87,
-                        onPressed: () {
-                          Navigator.pushNamed(context, 'PlannerHome');
-                        },
-                        child: Icon(
-                          Icons.arrow_right,
-                          size: 50.0,
-                          color: Colors.white70,
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: height * 0.02,
                         ),
-                      )
-                    ]),
-              ]),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                              'No such thing to plan Event??\n Eventsy is best option',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: "Quintessential",
+                                fontSize: 20.0,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.normal,
+                              )),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        FloatingActionButton.extended(
+                            onPressed: () {
+                              // if(userModeBox.isFirst)
+                              UserModeSelect.userMode(context);
+                            },
+                            backgroundColor: Colors.black87,
+                            label: Text(
+                              "Explore",
+                              style: TextStyle(
+                                  fontSize: 24.0,
+                                  color: Colors.white,
+                                  fontFamily: "Roboto"),
+                            ))
+                      ],
+                    ),
+                    SizedBox(
+                      width: width * 0.05,
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          FloatingActionButton(
+                            heroTag: 'btn2',
+                            backgroundColor: Colors.black87,
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/VendorExplore');
+                            },
+                            child: Icon(
+                              Icons.arrow_left,
+                              size: 40.0,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          SizedBox(
+                            width: width * 0.65,
+                          ),
+                          FloatingActionButton(
+                            heroTag: 'btn3',
+                            backgroundColor: Colors.black87,
+                            onPressed: () {
+                              Navigator.pushNamed(context, 'PlannerHome');
+                            },
+                            child: Icon(
+                              Icons.arrow_right,
+                              size: 40.0,
+                              color: Colors.white70,
+                            ),
+                          )
+                        ]),
+                  ]),
+            ),
+          ),
         )
       ],
     );

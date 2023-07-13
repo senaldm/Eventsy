@@ -336,7 +336,7 @@ class _AddTaskState extends State<AddTask> {
                             budgetController.text,
                             isComplete,
                           );
-                          Navigator.pushNamed(context, 'TaskList');
+                          Navigator.pop(context);
                         },
                         backgroundColor: Colors.blueGrey.shade900,
                         label: Text(
