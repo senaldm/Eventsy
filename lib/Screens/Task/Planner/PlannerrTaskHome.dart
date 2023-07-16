@@ -390,7 +390,7 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                         ),
                         Text("Eventsy",style: TextStyle(fontSize: 26.0,color:Colors.white70,
                               fontFamily: 'Quintessential'),),
-                        Text(" Best planing. Best management",style: TextStyle(fontStyle: FontStyle.italic,color:Colors.white70,fontFamily: 'Quintessential' ),),
+                        Text("Good planning makes best Events",style: TextStyle(fontStyle: FontStyle.italic,color:Colors.white70,fontFamily: 'Quintessential' ),),
                          SizedBox(
                           height: height * 0.1,
                         ),

@@ -72,236 +72,244 @@ class _AddTaskState extends State<AddTask> {
                 ),
               ),
             ),
-            body: Form(
-              key: _formKey,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      margin: EdgeInsets.only(
-                          left: width * 0.15, right: width * 0.15),
-
-                      borderOnForeground: false,
-                      // child:SingleChildScrollView(
-                      child: DropdownButtonFormField<String>(
-                        onChanged: (String? categoryName) {
-                          // setState(() {
-                          //   categoryName = categoryName;
-                          // });
-                        },
-                        items: <String>[
-                          'Decoration',
-                          'Food and Beverages',
-                          ' Option 3',
-                          ' Option 4',
-                          ' Option 5',
-                          ' Option 6',
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: SizedBox(
-                              width: 290,
-                              height: 60,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(color: Colors.white),
+            body: Container(
+                decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        margin: EdgeInsets.only(
+                            left: width * 0.15, right: width * 0.15),
+            
+                        borderOnForeground: false,
+                        // child:SingleChildScrollView(
+                        child: DropdownButtonFormField<String>(
+                          onChanged: (String? categoryName) {
+                            // setState(() {
+                            //   categoryName = categoryName;
+                            // });
+                          },
+                          items: <String>[
+                            'Decoration',
+                            'Food and Beverages',
+                            ' Option 3',
+                            ' Option 4',
+                            ' Option 5',
+                            ' Option 6',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: SizedBox(
+                                width: 290,
+                                height: 60,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ),
+                            );
+                          }).toList(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            // fontSize: 20.0,
+                          ),
+                          isExpanded: true,
+                          hint: const Text(
+                            'Add Category',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.white,
+                          ),
+                          decoration: InputDecoration(
+                            fillColor: Colors.grey.shade900,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          );
-                        }).toList(),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          // fontSize: 20.0,
-                        ),
-                        isExpanded: true,
-                        hint: const Text(
-                          'Add Category',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        icon: const Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.white,
-                        ),
-                        decoration: InputDecoration(
-                          fillColor: Colors.grey.shade900,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
                           ),
+                          focusColor: Colors.white,
+                          dropdownColor: Colors.blueGrey.shade900,
                         ),
-                        focusColor: Colors.white,
-                        dropdownColor: Colors.blueGrey.shade900,
                       ),
-                    ),
-
-                    SizedBox(
-                      height: width * 0.05,
-                    ),
-                    // Card(
-                    //   shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(10.0)),
-                    //   margin: EdgeInsets.only(
-                    //       left: width * 0.15, right: width * 0.15),
-                    //   borderOnForeground: false,
-                    //   // child:DropdownButton<String>(
-                    //   //   value:category,
-                    //   //   items: <String>['Birthday','Ceremony','Wedding'].map<DropDownItem<String>>((String value){
-                    //   //   }).toList(),
-                    //   // )
-                    // ),
-                    SizedBox(
-                      height: width * 0.05,
-                    ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      margin: EdgeInsets.only(
-                          left: width * 0.15, right: width * 0.15),
-                      borderOnForeground: false,
-                      child: Hero(
-                        tag: 'taskName',
-                        child: TextField(
-                          controller: taskController,
-                          // onChanged: (value) {
-                          //   if (taskName.isEmpty) {
-                          //     setValidator(true);
-                          //   } else {
-                          //     setValidator(false);
-                          //   }
-                          //   taskName:
-                          //   value;
-
-                          // },
-                          decoration: InputDecoration(
-                            errorText:
-                                isFilled ? null : "Please enter a task name",
-                            border: OutlineInputBorder(),
-                            hintText: 'Task Name',
+            
+                      SizedBox(
+                        height: width * 0.05,
+                      ),
+                      // Card(
+                      //   shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(10.0)),
+                      //   margin: EdgeInsets.only(
+                      //       left: width * 0.15, right: width * 0.15),
+                      //   borderOnForeground: false,
+                      //   // child:DropdownButton<String>(
+                      //   //   value:category,
+                      //   //   items: <String>['Birthday','Ceremony','Wedding'].map<DropDownItem<String>>((String value){
+                      //   //   }).toList(),
+                      //   // )
+                      // ),
+                      SizedBox(
+                        height: width * 0.05,
+                      ),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        margin: EdgeInsets.only(
+                            left: width * 0.15, right: width * 0.15),
+                        borderOnForeground: false,
+                        child: Hero(
+                          tag: 'taskName',
+                          child: TextField(
+                            controller: taskController,
+                            // onChanged: (value) {
+                            //   if (taskName.isEmpty) {
+                            //     setValidator(true);
+                            //   } else {
+                            //     setValidator(false);
+                            //   }
+                            //   taskName:
+                            //   value;
+            
+                            // },
+                            decoration: InputDecoration(
+                              errorText:
+                                  isFilled ? null : "Please enter a task name",
+                              border: OutlineInputBorder(),
+                              hintText: 'Task Name',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: width * 0.05,
-                    ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      margin: EdgeInsets.only(
-                          left: width * 0.15, right: width * 0.15),
-                      borderOnForeground: false,
-                      child: Hero(
-                        tag: 'vendorName',
-                        child: TextField(
-                          controller: vendorController,
-                          // onChanged: (value) {
-                          //   vendorName:
-                          //   value;
-                          // },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'Vendor Name',
+                      SizedBox(
+                        height: width * 0.05,
+                      ),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        margin: EdgeInsets.only(
+                            left: width * 0.15, right: width * 0.15),
+                        borderOnForeground: false,
+                        child: Hero(
+                          tag: 'vendorName',
+                          child: TextField(
+                            controller: vendorController,
+                            // onChanged: (value) {
+                            //   vendorName:
+                            //   value;
+                            // },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Vendor Name',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: width * 0.05,
-                    ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      margin: EdgeInsets.only(
-                          left: width * 0.15, right: width * 0.15),
-                      borderOnForeground: false,
-                      child: Hero(
-                        tag: 'budget',
-                        child: TextField(
-                          controller: budgetController,
-                          // onChanged: (value) {
-                          //   budget:
-                          //   value;
-                          // },
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: ' Budget ',
+                      SizedBox(
+                        height: width * 0.05,
+                      ),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        margin: EdgeInsets.only(
+                            left: width * 0.15, right: width * 0.15),
+                        borderOnForeground: false,
+                        child: Hero(
+                          tag: 'budget',
+                          child: TextField(
+                            controller: budgetController,
+                            // onChanged: (value) {
+                            //   budget:
+                            //   value;
+                            // },
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: ' Budget ',
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: width * 0.06,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: width * 0.05,
-                        ),
-                        Expanded(
-                          child: RichText(
-                            text: TextSpan(
-                              text: label,
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
-                                // decoration: TextDecoration.underline,
+                      SizedBox(
+                        height: width * 0.06,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: width * 0.05,
+                          ),
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                text: label,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  // decoration: TextDecoration.underline,
+                                ),
+                                // recognizer: TapGestureRecognizer()
+                                //   ..onTap = () {
+                                //     debugPrint('Label has been tapped.');
+                                //   },
                               ),
-                              // recognizer: TapGestureRecognizer()
-                              //   ..onTap = () {
-                              //     debugPrint('Label has been tapped.');
-                              //   },
                             ),
                           ),
-                        ),
-                        // Switch(
-                        //   value: value,
-                        //   onChanged: (newValue) {
-                        //     isComplete = newValue;
-                        //   },
-                        // ),
-                        // Container(
-                        //     //  margin: EdgeInsets.only(
-                        //     // left: width * 0.15, right: width * 0.15),
-                        //     child: Text(
-                        //   "Task Completed/Incompleted",
-                        //   style: TextStyle(
-                        //       color: Colors.white70, fontSize: width * 0.05),
-                        // )),
-                        // SizedBox(
-                        //   width: width * 0.05,
-                        // ),
-                        // Switch(
-                        //   value: false,
-                        //   onChanged: (bool newValue) {
-                        //     onChanged(newValue);
-
-                        //     // setState(() => newValue = true);
-                        //     // value:
-                        //     // newValue;
-                        //   },
-                        //   // overrides the default green color of the track
-                        //   activeColor: Colors.green.shade700,
-                        //   // color of the round icon, which moves from right to left
-                        //   thumbColor: Colors.green.shade900,
-                        //   // when the switch is off
-                        //   trackColor: Colors.black,
-                        //   // boolean variable value
-
-                        //   // changes the state of the switch
-                        //   // onChanged: (value) =>
-                        //   //     setState(() => isComplete = value),
-                        // ),
-                      ],
-                    )
-                    //
-                  ]),
+                          // Switch(
+                          //   value: value,
+                          //   onChanged: (newValue) {
+                          //     isComplete = newValue;
+                          //   },
+                          // ),
+                          // Container(
+                          //     //  margin: EdgeInsets.only(
+                          //     // left: width * 0.15, right: width * 0.15),
+                          //     child: Text(
+                          //   "Task Completed/Incompleted",
+                          //   style: TextStyle(
+                          //       color: Colors.white70, fontSize: width * 0.05),
+                          // )),
+                          // SizedBox(
+                          //   width: width * 0.05,
+                          // ),
+                          // Switch(
+                          //   value: false,
+                          //   onChanged: (bool newValue) {
+                          //     onChanged(newValue);
+            
+                          //     // setState(() => newValue = true);
+                          //     // value:
+                          //     // newValue;
+                          //   },
+                          //   // overrides the default green color of the track
+                          //   activeColor: Colors.green.shade700,
+                          //   // color of the round icon, which moves from right to left
+                          //   thumbColor: Colors.green.shade900,
+                          //   // when the switch is off
+                          //   trackColor: Colors.black,
+                          //   // boolean variable value
+            
+                          //   // changes the state of the switch
+                          //   // onChanged: (value) =>
+                          //   //     setState(() => isComplete = value),
+                          // ),
+                        ],
+                      )
+                      //
+                    ]),
+              ),
             ),
             bottomNavigationBar: BottomAppBar(
                 color: Colors.greenAccent.shade700,
@@ -397,6 +405,7 @@ class _AddTaskState extends State<AddTask> {
       budget = budgetController.text;
       isComplete = false;
 
+
       // Create a new Task object
       final task = Task(
         categoryName: categoryName,
@@ -404,6 +413,7 @@ class _AddTaskState extends State<AddTask> {
         vendorName: vendorName,
         budget: budget,
         isComplete: isComplete,
+        timestamp: DateTime.now()
       );
 
       // Store the task in Hive
@@ -454,9 +464,9 @@ class _AddTaskState extends State<AddTask> {
     if (!exists) {
       await file.create();
     }
-
+    final formattedTimestamp = task.timestamp?.toIso8601String() ?? '';
     final taskData =
-        '${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete}\n';
+        '${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},$formattedTimestamp\n';
     await file.writeAsString(taskData, mode: FileMode.append);
   }
 }
