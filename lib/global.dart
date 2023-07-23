@@ -12,6 +12,8 @@ late Box<EventTasks> eventTaskBox;
 
 late Box<Invitation> invitationBox;
 
+late Box<UserMode> userModeBox;
+
 // Future<void> addEvent(Eventset eventName) async {
 //   eventsBox.add(eventName);
 

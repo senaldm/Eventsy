@@ -210,12 +210,13 @@ class _EventListState extends State<EventList> {
               child: AppBar(
                 titleSpacing: 2.2,
                 forceMaterialTransparency: false,
-                backgroundColor: Colors.greenAccent.shade700,
+                backgroundColor: Color.fromARGB(255, 18, 140, 126),
                 automaticallyImplyLeading: true,
                 centerTitle: true,
                 flexibleSpace: Center(
                   child: Text('Event List',
                       style: TextStyle(
+                        color: Colors.black87,
                         fontSize: width * 0.08,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
@@ -296,7 +297,8 @@ class _EventListState extends State<EventList> {
                                 padding: EdgeInsets.all(24),
                                 side: BorderSide(
                                     color: Colors.white70,
-                                    width: width * 0.008)),
+                                    width: width * 0.008)
+                                    ),
                           ),
                         ],
                       ),
@@ -334,7 +336,9 @@ class _EventListState extends State<EventList> {
                 heroTag: 'addTask',
                 onPressed: () {
                   Navigator.pushNamed(context, 'addEventDetails');
-                }));
+                }
+                )
+                );
       } else {
         return Center(
           child: Text('UnderDeveloped'),
