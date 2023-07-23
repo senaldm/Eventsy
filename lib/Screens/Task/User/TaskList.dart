@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
-
+import 'dart:async';
 import 'package:eventsy/Model/Event.dart';
 
 import 'package:eventsy/Screens/Task/User/bottonNavigationPaint.dart';
@@ -24,7 +25,7 @@ class TaskList extends StatefulWidget {
 class _TaskListState extends State<TaskList> {
   Box<Task>? taskBox;
   List<Task> tasks = [];
-
+  late String time;
   @override
   void initState() {
     super.initState();
@@ -57,6 +58,12 @@ class _TaskListState extends State<TaskList> {
           isComplete: data[4] == 'true',
            timestamp: DateTime.tryParse(data[5]),
         );
+        if (task.timestamp == null) {
+          task.timestamp = DateTime(0);
+          time = "null";
+        } else {
+          time = task.timestamp!.toIso8601String();
+        }
         tasks.add(task);
       });
     }
@@ -160,10 +167,10 @@ class _TaskListState extends State<TaskList> {
 /////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
-  filterTask() {
+  filterTask(BuildContext context) {
     showDialog(
         context: context,
-        builder: (BuildContext context) {
+        builder: (context) {
           return AlertDialog(
             backgroundColor: Color.fromARGB(255, 18, 140, 126),
             content: Form(
@@ -221,12 +228,81 @@ class _TaskListState extends State<TaskList> {
           );
         });
   }
- 
+
+
+
+    /////////////////////deleteTask//////////////////////////
+    ///////////////////////////////////////////////
+    /////////////////////////////////////////////////////
+    
+
+static Future<void> deleteTask(String taskName) async {
+    // Get the `task` box.
+    final taskBox = await Hive.openBox<Task>('task');
+
+    // Find the task with the given name.
+    final task = taskBox.values.firstWhere((task) => task.taskName == taskName);
+
+    // Delete the task.
+    taskBox.delete(task.key);
+  }
+
+
+  // ////////////////////Edit or delete////////////////////////////
+  /////////////////////////////////////////////////////////
+
+  editOrDelete(BuildContext context) {
+    // Completer<String> completer = Completer<String>();
+     String action = "";
+ final String taskName = ModalRoute.of(context)?.settings.arguments as String;
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      action = "edit";
+                      Navigator.pop(context, action);
+
+                      // Navigator.pushNamed(context,'UserHome');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 7, 94, 84),
+                    ),
+                    child: Text(" Edit ",
+                        style: TextStyle(
+                          color: Colors.black87,
+                        ))),
+                ElevatedButton(
+                    onPressed: () {
+                      deleteTask(taskName);
+                      Navigator.pop(context, action);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      // alignment:,
+                      backgroundColor: Color.fromARGB(255, 7, 94, 84),
+                    ),
+                    child: Text("Delete",
+                        style: TextStyle(
+                          color: Colors.black87,
+                        ))),
+              ],
+            ),
+          );
+        });
+    // return action;
+  }
+
 //////////////////main view///////////////////////////////
 ///////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
   ///
-
   // var tasks = taskBox.values.toList();
 
   @override
@@ -265,6 +341,7 @@ class _TaskListState extends State<TaskList> {
           ),
           body: Container(
             decoration: BoxDecoration(
+              color: Color.fromARGB(255, 20, 24, 26),
               image: DecorationImage(
                 image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
                 fit: BoxFit.cover,
@@ -282,12 +359,11 @@ class _TaskListState extends State<TaskList> {
                   child: Container(
                     // color: Color.fromARGB(255, 20, 24, 26),
                     padding: EdgeInsetsDirectional.zero,
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom:
-                                BorderSide(color: Colors.white12, width: 2.0
-                                    //  Theme.of(context).dividerColor
-                                    ))),
+                    // decoration: BoxDecoration(
+                    //     border: Border(
+                    //         bottom: BorderSide(color: Colors.white12, width: 0.0
+                    //             //  Theme.of(context).dividerColor
+                    //             ))),
                     margin: EdgeInsets.only(
                         left: 10.0, right: 10.0, bottom: 0, top: 0),
                     // color: Color.fromARGB(255, 20, 24, 26),
@@ -301,18 +377,24 @@ class _TaskListState extends State<TaskList> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+
                           child: ListTile(
                             title: Text(
-                              // "    ${task.taskName}",
-                              "${task.timestamp.toString()}",
+                              "    ${task.taskName}",
+
+                              //  "${task.timestamp?.minute?.toString()}",
                               textAlign: TextAlign.left,
                               style: TextStyle(fontSize: 24.0),
                             ),
                             textColor: Colors.white,
-
-                            // subtitle: Text(task.timestamp?.toString() ?? ''),
+                           subtitle: Text(  "${time}",),
                             onTap: () {
                               // Handle task item tap
+                            },
+                            onLongPress: () {
+                              if (editOrDelete(context)) {
+                                Navigator.pushNamed(context, 'addTask',arguments: task.taskName);
+                              }
                             },
                           ),
                         ),
@@ -368,9 +450,8 @@ class _TaskListState extends State<TaskList> {
                   if (index == 0) {
                     sortTask();
                   } else if (index == 1) {
-                    filterTask();
+                    filterTask(context);
                   }
-                  
                 });
               },
 

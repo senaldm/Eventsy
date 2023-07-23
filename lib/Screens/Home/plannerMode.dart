@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:eventsy/Screens/Task/Planner/PlannerrTaskHome.dart';
+
 class PlannerMode extends StatelessWidget {
   const PlannerMode({super.key});
 
@@ -8,7 +9,6 @@ class PlannerMode extends StatelessWidget {
     return Container();
   }
 
-  
   static void plannerMode(BuildContext context) {
     Size screenSize = WidgetsBinding.instance.window.physicalSize;
     double width = screenSize.width;
@@ -19,7 +19,7 @@ class PlannerMode extends StatelessWidget {
           return AlertDialog(
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            title:const Text(
+            title: const Text(
               'User mode',
               style:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
@@ -43,7 +43,7 @@ class PlannerMode extends StatelessWidget {
                             text:
                                 "Planner mode is a event planner for whom create this app for plan  professinal multiple events.  Continue as ",
                             style: TextStyle(color: Colors.white70),
-                            children:  [
+                            children: [
                               TextSpan(
                                   text: '\'Planner mode\' ',
                                   style:
@@ -79,13 +79,14 @@ class PlannerMode extends StatelessWidget {
                               ))),
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    PlannerTaskHome(),
-                              ),
-                            );
+                            Navigator.pushNamed(context, 'PlannerHome');
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (BuildContext context) =>
+                            //         PlannerTaskHome(),
+                            //   ),
+                            // );
                           },
                           style: ElevatedButton.styleFrom(
                             // alignment:,
