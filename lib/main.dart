@@ -17,6 +17,8 @@ import 'package:flutter/services.dart';
 import 'Screens/Task/User/userTaskHome.dart';
 import 'package:eventsy/Screens/Planners/splashPlanners.dart';
 import 'package:eventsy/Screens/Task/User/TaskList.dart';
+import 'package:eventsy/Screens/Task/User/userDashboard/userDashboard.dart';
+import 'package:eventsy/Screens/Task/User/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'Screens/Home/ImageExplore.dart';
 import 'Screens/Home/home.dart';
@@ -103,6 +105,8 @@ class FirstPage extends StatelessWidget {
           'UserHome': (context) => UserTaskHome(),
           'TaskList': (context) => TaskList(),
           'addTask': (context) => AddTask(),
+          '/userDashboard':(context)=>userDashboard(),
+          '/userSettings':(context)=> userSettings(),
 
           /////////PLANNER TASK/////////
 
