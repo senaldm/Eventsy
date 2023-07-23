@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 
 
-class settings extends StatelessWidget {
+class userSettings extends StatelessWidget {
   // final String title;
 
   // Settings({Key? key, required this.title}) : super(key: key);
