@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'notification_service.dart';
 
-class CategoryDetalsShownPage extends StatefulWidget {
+class UserCategoryDetailsShownPage extends StatefulWidget {
   final String eventName;
-  CategoryDetalsShownPage({Key? key, required this.eventName})
+  UserCategoryDetailsShownPage({Key? key, required this.eventName})
       : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _CategoryDetalsShownPageState createState() =>
-      _CategoryDetalsShownPageState();
+  _UserCategoryDetailsShownPageState createState() =>
+      _UserCategoryDetailsShownPageState();
 }
 
-class _CategoryDetalsShownPageState extends State<CategoryDetalsShownPage> {
+class _UserCategoryDetailsShownPageState extends State<UserCategoryDetailsShownPage> {
   // ignore: avoid_init_to_null
   final NotificatinService notificationService = NotificatinService();
 

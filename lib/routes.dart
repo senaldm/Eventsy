@@ -20,6 +20,9 @@ import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categorydetailssho
 // import 'Model/Budgetcal/eventset.dart';
 import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/eventselectionpage.dart';
 import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categoryshownpage.dart';
+import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categorydetailsshowpage.dart';
+
+import 'Screens/BudgetCalculatorScreens/UserBudgetCal/usercategorydetailsshowpage.dart';
 
 class Routes extends StatelessWidget {
   @override
@@ -28,7 +31,7 @@ class Routes extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         //////// MAIN ////////////
-       '/home': (context) => home(),
+        '/home': (context) => home(),
         '/ImageExplore': (context) => ImageExplore(),
         '/VendorExplore': (context) => VendorExplore(),
         '/TaskExplore': (context) => TaskExplore(),
@@ -40,13 +43,11 @@ class Routes extends StatelessWidget {
 
         /////////PLANNER TASK/////////
 
-        'PlannerHome':(context)=>PlannerTaskHome(),
-        
-        '/PlannersPage':(context)=>const SplashScreen(),
-        '/EventList':(context)=> const EventList(),
-        'addEventDetails':(context)=>addEventDetails(),
+        'PlannerHome': (context) => PlannerTaskHome(),
 
-
+        '/PlannersPage': (context) => const SplashScreen(),
+        '/EventList': (context) => const EventList(),
+        'addEventDetails': (context) => addEventDetails(),
 
         /////////////// LOGIN ////////////////////////////
         'LoginPage': (context) => Loginpage(),
@@ -55,15 +56,15 @@ class Routes extends StatelessWidget {
         './LogOutScreen': (context) => LogOutScreen(),
 
         //////////budget calculator screens////////////////
-        // './EventselectionPage': (context) => EventSelectionPage(),
-         'CategoryShownPage': (context) => CategoryShownPage(),
-        // './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(),
-        // './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
-        './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(
-              eventName: '',
+        'EventselectionPage': (context) => EventSelectionPage(),
+        'CategoryShownPage': (context) => CategoryShownPage(),
+
+        './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(eventName: '',
             ),
+            './UserCategoryDetailsShownPage':((context) => UserCategoryDetailsShownPage(eventName: '',)
+            )
       },
-      home: ImageExplore(),
+      home: EventSelectionPage(),
     );
   }
 }

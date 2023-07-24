@@ -1,4 +1,4 @@
-import 'package:eventsy/Model/Budget/eventbudget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 // import 'package:eventsy/Model/Budgetcal/eventset.dart';
@@ -10,9 +10,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'Screens/LoginandSignupScreens/firebase_options.dart';
 import 'routes.dart';
 import 'global.dart';
-import 'package:flutter/services.dart';
-
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +29,6 @@ Future main() async {
   Hive.registerAdapter(EventAdapter());
   Hive.registerAdapter(EventTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
-  Hive.registerAdapter(UserModeAdapter());
 
   eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
   taskbudgetBox = await Hive.openBox<BudgetTask>('budgettask');
@@ -40,7 +36,6 @@ Future main() async {
   taskBox = await Hive.openBox<Task>('task');
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
   invitationBox = await Hive.openBox<Invitation>('invitation');
-  userModeBox = await Hive.openBox<UserMode>('userMode');
 // void main()=>runApp(
 //     DevicePreview(
 
@@ -50,20 +45,13 @@ Future main() async {
 // }
 
 // void main() {
-  // runApp(FirstPage());
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    runApp(FirstPage());
-  });
+  runApp(FirstPage());
 }
 
 class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        key: navigatorKey,
-        debugShowCheckedModeBanner: false,
-        title: 'Eventsy',
-        home: Routes());
+        debugShowCheckedModeBanner: false, title: 'Eventsy', home: Routes());
   }
 }

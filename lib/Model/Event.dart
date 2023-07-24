@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'Event.g.dart';
@@ -83,3 +84,39 @@ class UserMode extends HiveObject {
   @HiveField(15)
   bool isFirst = false;
 }
+//for budget calculator
+
+@HiveType(typeId: 5)
+@HiveType(typeId: 5)
+class BudgetEvent extends HiveObject {
+  @HiveField(16)
+  String? eventName; 
+
+  @HiveField(17)
+  int? targetBudget; 
+
+  BudgetEvent({
+    this.eventName, 
+    this.targetBudget, 
+  });
+}
+
+
+@HiveType(typeId: 6)
+class BudgetTask extends BudgetEvent {
+  @HiveField(18)
+  late String categoryName;
+  @HiveField(19)
+  late int totalPrice;
+  @HiveField(20)
+  late String vendorName;
+
+   BudgetTask({
+    required String eventName,
+    required int targetBudget,
+    required this.categoryName,
+    required this.totalPrice,
+    required this.vendorName,
+  }) : super(eventName: eventName, targetBudget: targetBudget);
+}
+

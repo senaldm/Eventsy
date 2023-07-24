@@ -1,33 +1,20 @@
 // ignore_for_file: avoid_single_cascade_in_expression_statements
-import 'package:eventsy/Model/Budget/eventbudget.dart';
+import 'package:eventsy/Model/Event.dart';
 import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
-// ignore: must_be_immutable
 
 class EventSelectionPage extends StatefulWidget {
   EventSelectionPage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _EventSelectionPageState createState() => _EventSelectionPageState();
 }
 
 class _EventSelectionPageState extends State<EventSelectionPage> {
-  // ignore: avoid_init_to_null
-  // String? selectedValue = null;
-
-  // @override
-  // void dispose() {
-  //   final eventsBox = Boxes.getEvent();
-  //   if (eventsBox.isOpen) {
-  //     eventsBox.close();
-  //   }
-  //   super.dispose();
-  // }
-
   final List<BudgetEvent> events = [];
-
   String? eventName;
+  int? targetBudget;
+
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -40,9 +27,6 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
         backgroundColor: Colors.blueGrey.shade900,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(height * 0.1),
-
-          // padding:EdgeInsets.only(top: height * 0.02, right: width * 0.02),
-
           child: AppBar(
             titleSpacing: 2.2,
             forceMaterialTransparency: false,
@@ -51,12 +35,13 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
             centerTitle: true,
             flexibleSpace: Center(
               child: Text(
-                'Budget  Calculator',
+                'Budget Calculator',
                 style: TextStyle(
-                    fontSize: width * 0.07,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                  fontSize: width * 0.07,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -65,13 +50,8 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
           child: Container(
             child: Column(
               children: <Widget>[
-                // ignore: prefer_const_constructors
-
-                // ignore: prefer_const_constructors
                 Padding(
                   padding: const EdgeInsets.only(top: 230),
-                  // ignore: prefer_const_constructors
-
                   child: SizedBox(
                     width: width * 0.8,
                     child: TextField(
@@ -85,26 +65,30 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                         prefixIcon: const Icon(Icons.calculate),
                         hintText: 'Add Target Budget',
                         hintStyle: const TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                            fontFamily: 'Roboto'),
-                        // hoverColor: const Color.fromARGB(222, 2, 2, 2),
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                          fontFamily: 'Roboto',
+                        ),
                       ),
                       keyboardType: TextInputType.number,
                       style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Roboto'),
+                        color: Colors.white,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Roboto',
+                      ),
                       cursorColor: const Color.fromARGB(255, 0, 255, 13),
+                      onChanged: (value) {
+                        setState(() {
+                          targetBudget = int.tryParse(value);
+                        });
+                      },
                     ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 50),
-                  // ignore: avoid_unnecessary_containers
                   child: Center(
                     child: SizedBox(
                       width: width * 0.8,
@@ -114,12 +98,11 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                         child: DropdownButtonFormField<String>(
                           alignment: AlignmentDirectional.center,
                           decoration: InputDecoration(
-                            // ignore:prefer_const_constructors
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                          focusColor: Colors
-                              .grey, // Customizing dropdown button text style
+                          focusColor: Colors.grey,
                           dropdownColor: Colors.grey,
                           value: eventName,
                           elevation: 0,
@@ -131,33 +114,34 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                           items: <String>[
                             "Wedding",
                             "Big Girl Party",
-                            "Get to gethor",
+                            "Get together",
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: SizedBox(
-                                width:
-                                    290, // Customizing the width of the DropdownMenuItem
-                                height:
-                                    60, // Customizing the height of the DropdownMenuItem
+                                width: 290,
+                                height: 60,
                                 child: Align(
                                   alignment: Alignment.center,
-                                  child: Text(value,
-                                      // ignore: prefer_const_constructors
-                                      style: TextStyle(color: Colors.white)),
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
                             );
                           }).toList(),
                           style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                           isExpanded: true,
                           hint: const Text(
                             'Event Name',
                             style: TextStyle(color: Colors.white),
-                            //textAlign: Align(alignment: Alignment.center,),
                           ),
                           icon: const Icon(
                             Icons.arrow_drop_down,
@@ -185,39 +169,43 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueGrey.shade900,
-                      minimumSize: Size(100, 50),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
+                    backgroundColor: Colors.blueGrey.shade900,
+                    minimumSize: const Size(100, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   child: const Text(
                     ' Back ',
                     style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await addEvent(eventName);
-
-                    // ignore: use_build_context_synchronously
+                    await addEvent(eventName, targetBudget ?? 0);
                     Navigator.pushNamed(
                       context,
-                      './CategoryShownPage',
+                      'CategoryShownPage',
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueGrey.shade900,
-                      minimumSize: Size(100, 50),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
+                    backgroundColor: Colors.blueGrey.shade900,
+                    minimumSize: const Size(100, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   child: const Text(
                     ' Next ',
                     style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -228,12 +216,8 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
     );
   }
 
-  Future<void> addEvent(String? eventName) async {
-    final budgetevent = BudgetEvent();
-    budgetevent.eventName = eventName!;
-
-    eventbudgetBox.put("budgetevent", budgetevent);
-
-    // box.close();
+   addEvent(String? eventName, int targetBudget) async {
+    eventbudgetBox.put("eventName", eventName as BudgetEvent);
+    eventbudgetBox.put('targetBudget', targetBudget as BudgetEvent);
   }
 }
