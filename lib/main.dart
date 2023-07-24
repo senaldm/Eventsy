@@ -10,6 +10,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'Screens/LoginandSignupScreens/firebase_options.dart';
 import 'routes.dart';
 import 'global.dart';
+import 'package:flutter/services.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +32,7 @@ Future main() async {
   Hive.registerAdapter(EventAdapter());
   Hive.registerAdapter(EventTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
+  Hive.registerAdapter(UserModeAdapter());
 
   eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
   taskbudgetBox = await Hive.openBox<BudgetTask>('budgettask');
@@ -36,6 +40,7 @@ Future main() async {
   taskBox = await Hive.openBox<Task>('task');
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
   invitationBox = await Hive.openBox<Invitation>('invitation');
+  userModeBox = await Hive.openBox<UserMode>('userMode');
 // void main()=>runApp(
 //     DevicePreview(
 
@@ -45,13 +50,20 @@ Future main() async {
 // }
 
 // void main() {
-  runApp(FirstPage());
+  // runApp(FirstPage());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(FirstPage());
+  });
 }
 
 class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false, title: 'Eventsy', home: Routes());
+        key: navigatorKey,
+        debugShowCheckedModeBanner: false,
+        title: 'Eventsy',
+        home: Routes());
   }
 }

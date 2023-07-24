@@ -13,7 +13,7 @@ class ImageExplore extends StatelessWidget {
       children: [
      
         
-        Image.asset("assets/Images/Home/image_explore_background.jpg",
+        Image.asset("assets/Images/Home/image_explore_background2.jpg",
             fit:BoxFit.cover,height: height, width: width,),
            
         Scaffold(

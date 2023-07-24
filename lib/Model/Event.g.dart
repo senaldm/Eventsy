@@ -155,15 +155,18 @@ class InvitationAdapter extends TypeAdapter<Invitation> {
       eventName: fields[5] as String,
     )
       ..guestName = fields[12] as String
+      ..isSend = fields[13] as bool
       ..date = fields[6] as DateTime?;
   }
 
   @override
   void write(BinaryWriter writer, Invitation obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(12)
       ..write(obj.guestName)
+      ..writeByte(13)
+      ..write(obj.isSend)
       ..writeByte(5)
       ..write(obj.eventName)
       ..writeByte(6)
@@ -177,6 +180,42 @@ class InvitationAdapter extends TypeAdapter<Invitation> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is InvitationAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class UserModeAdapter extends TypeAdapter<UserMode> {
+  @override
+  final int typeId = 4;
+
+  @override
+  UserMode read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return UserMode()
+      ..userMode = fields[14] as String
+      ..isFirst = fields[15] as bool;
+  }
+
+  @override
+  void write(BinaryWriter writer, UserMode obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(14)
+      ..write(obj.userMode)
+      ..writeByte(15)
+      ..write(obj.isFirst);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserModeAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
