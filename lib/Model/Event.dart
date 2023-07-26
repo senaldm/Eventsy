@@ -1,9 +1,10 @@
 import 'package:hive/hive.dart';
-
+// import 'package:hive_annotation/hive_annotation.dart';
 part 'Event.g.dart';
 
 @HiveType(typeId: 0)
 class Task extends HiveObject {
+  
   @HiveField(0)
   String categoryName;
   @HiveField(1)
@@ -16,7 +17,7 @@ class Task extends HiveObject {
   bool isComplete;
   @HiveField(16)
   DateTime? timestamp;
-
+  
   void isCompleted() {
     isComplete = false;
   }
