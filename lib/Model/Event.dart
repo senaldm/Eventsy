@@ -93,17 +93,16 @@ class UserMode extends HiveObject {
 //for budget calculator
 
 @HiveType(typeId: 5)
-@HiveType(typeId: 5)
 class BudgetEvent extends HiveObject {
   @HiveField(16)
-  String? eventName; 
+  String eventName; 
 
   @HiveField(17)
-  int? targetBudget; 
+  int targetBudget; 
 
   BudgetEvent({
-    this.eventName, 
-    this.targetBudget, 
+    this.eventName = '', 
+    this.targetBudget=0, 
   });
 }
 
@@ -118,11 +117,11 @@ class BudgetTask extends BudgetEvent {
   late String vendorName;
 
    BudgetTask({
-    required String eventName,
-    required int targetBudget,
-    required this.categoryName,
-    required this.totalPrice,
-    required this.vendorName,
+     String eventName='',
+     int targetBudget=0,
+     this.categoryName ='',
+     this.totalPrice=0,
+     this.vendorName='',
   }) : super(eventName: eventName, targetBudget: targetBudget);
 }
 

@@ -1,18 +1,18 @@
 import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
 
-class CategoryDetalsShownPage extends StatefulWidget {
+class CategoryDeatailsShownPage extends StatefulWidget {
   final String eventName;
-  CategoryDetalsShownPage({Key? key, required this.eventName})
+  CategoryDeatailsShownPage({Key? key, required this.eventName})
       : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _CategoryDetalsShownPageState createState() =>
-      _CategoryDetalsShownPageState();
+  _CategoryDeatailsShownPageState createState() =>
+      _CategoryDeatailsShownPageState();
 }
 
-class _CategoryDetalsShownPageState extends State<CategoryDetalsShownPage> {
+class _CategoryDeatailsShownPageState extends State<CategoryDeatailsShownPage> {
   // ignore: avoid_init_to_null
 
   @override

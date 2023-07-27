@@ -1,7 +1,11 @@
+
+import 'dart:io';
+
 import 'package:eventsy/Model/Event.dart';
 import 'package:flutter/material.dart';
-import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/eventselectionpage.dart';
 import 'package:eventsy/global.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CategoryShownPage extends StatefulWidget {
   CategoryShownPage({
@@ -13,37 +17,60 @@ class CategoryShownPage extends StatefulWidget {
 }
 
 class _CategoryShownPageState extends State<CategoryShownPage> {
-  String? eventName;
-  int? targetBudget;
-  List<String> categories = [];
-
-  @override
   void initState() {
     super.initState();
-    retrieveEventName();
+    openHiveBox();
+    retrieveData();
   }
 
-  void retrieveEventName() {
-    final budgetEvent = eventbudgetBox.get("budgetevent");
-    if (budgetEvent != null) {
-      setState(() {
-        eventName = budgetEvent.eventName;
-        targetBudget = budgetEvent.targetBudget;
+  Future<void> openHiveBox() async {
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDir.path);
+    taskbudgetBox = await Hive.openBox<BudgetTask>('budgettask');
+  }
+  Future<void> retrieveData() async {
+    // Retrieve data from Hive box
+    category = taskbudgetBox?.values.toList() ?? [];
+
+    // Retrieve data from local storage
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/category.txt');
+    if (await file.exists()) {
+      final lines = await file.readAsLines();
+      lines.forEach((line) {
+        final data = line.split(',');
+        final budgettask = BudgetTask(
+          categoryName: data[0],
+          vendorName: data[1],
+          totalPrice: int.parse(data[2]),
+          eventName: data[3],
+          targetBudget: int.parse(data[4]),
+          
+        );
+       
+        category.add(budgettask);
       });
-      retrieveCategories();
     }
+
+    setState(() {}); // Update the UI
   }
 
-  void retrieveCategories() {
-    final categoryList = eventTaskBox.values.toList();
-    setState(() {
-      categories.clear();
-      categories.addAll(categoryList
-          .where((category) => category.eventName == eventName)
-          .map((category) => category.categoryName));
-    });
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
   }
 
+  final eventCategoryController = TextEditingController();
+  final vendorNameController = TextEditingController();
+  final totalPriceContoller = TextEditingController();
+
+  String? eventName;
+  int? targetBudget;
+  final _formKey = GlobalKey<FormState>();
+  List<BudgetTask> category = [];
+
+  @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -71,184 +98,183 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
             content: Container(
               width: width * 0.8,
               height: height * 0.5,
-              child: Column(
-                children: <Widget>[
-                  DropdownButtonFormField<String>(
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        categoryName = newValue;
-                      });
-                    },
-                    value: categoryName,
-                    items: <String>[
-                      'Decoration',
-                      'Food and Beverages',
-                      'Option 3',
-                      'Option 4',
-                      'Option 5',
-                      'Option 6',
-                      'Option 7',
-                      'Option 8',
-                      'Option 9',
-                      'Option 11',
-                      'Option 12',
-                      'Option 13',
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: SizedBox(
-                          width: 290,
-                          height: 60,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              value,
-                              style: TextStyle(
-                                color: Colors.white,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    DropdownButtonFormField<String>(
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          categoryName = newValue;
+                        });
+                      },
+                      value: categoryName,
+                      items: <String>[
+                        'Decoration',
+                        'Food and Beverages',
+                        'Option 3',
+                        'Option 4',
+                        'Option 5',
+                        'Option 6',
+                        'Option 7',
+                        'Option 8',
+                        'Option 9',
+                        'Option 11',
+                        'Option 12',
+                        'Option 13',
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: SizedBox(
+                            width: 290,
+                            height: 60,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                value,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    }).toList(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    isExpanded: true,
-                    hint: const Text(
-                      'Add Category',
-                      style: TextStyle(color: Colors.white),
-                      textAlign: TextAlign.center,
-                    ),
-                    icon: const Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.white,
-                    ),
-                    decoration: InputDecoration(
-                      fillColor: Colors.grey.shade900,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    focusColor: Colors.grey,
-                    dropdownColor: Colors.grey,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Add Vendor',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    color: Colors.grey,
-                    width: width * 0.8,
-                    child: TextField(
-                      style: TextStyle(
+                        );
+                      }).toList(),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
-                      onChanged: (value) {
-                        vendorName = value;
-                      },
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        hintText: "",
+                      isExpanded: true,
+                      hint: const Text(
+                        'Add Category',
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Add Budget',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    color: Colors.grey,
-                    width: width * 0.8,
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      style: TextStyle(
+                      icon: const Icon(
+                        Icons.arrow_drop_down,
                         color: Colors.white,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
                       ),
-                      onChanged: (value) {
-                        totalPrice = int.tryParse(value);
-                      },
                       decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey,
+                        fillColor: Colors.grey.shade900,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        hintText: "",
+                      ),
+                      focusColor: Colors.grey,
+                      dropdownColor: Colors.grey,
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Add Vendor',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          addCategory(
-                            categoryName,
-                            vendorName,
-                            eventName,
-                            totalPrice,
-                          );
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text(
-                          'Save',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto',
-                          ),
+                    const SizedBox(height: 20),
+                    Container(
+                      color: Colors.grey,
+                      width: width * 0.8,
+                      child: TextField(
+                        controller: vendorNameController,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green.shade900,
-                          minimumSize: const Size(100, 50),
+                        onChanged: (value) {
+                          vendorName = value;
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          hintText: "",
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text(
-                          'Cancel',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto',
-                          ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Add Budget',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      color: Colors.grey,
+                      width: width * 0.8,
+                      child: TextField(
+                        controller: totalPriceContoller,
+                        keyboardType: TextInputType.number,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green.shade900,
-                          minimumSize: const Size(100, 50),
+                        onChanged: (value) {
+                          totalPrice = int.tryParse(value);
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.grey,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          hintText: "",
                         ),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(height: 10),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            'Save',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green.shade900,
+                            minimumSize: const Size(100, 50),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green.shade900,
+                            minimumSize: const Size(100, 50),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -314,33 +340,6 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30, left: 200),
                 ),
-                for (var category in categories)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 5.0,
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20, right: 20),
-                            child: Text(
-                              category,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
               ],
             ),
           ),
@@ -380,26 +379,47 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
     );
   }
 
-  void addCategory(String? categoryName, String? vendorName, String? eventName,
-      int? totalPrice) {
-    if (categoryName != null &&
-        vendorName != null &&
-        eventName != null &&
-        totalPrice != null) {
+  addCategory(String categoryName, String eventName, String vendorName,
+      int totalPrice, int targetBudget) async {
+    // final appDocumentDir = await getApplicationDocumentsDirectory();
+    // final filePath = '${appDocumentDir.path}/tasks.txt';
+    taskbudgetBox = (await Hive.openBox<BudgetTask>('budgettask'));
+
+    if (_formKey.currentState!.validate()) {
+      
+      vendorName = vendorNameController.text;
+      totalPrice = totalPriceContoller.text as int;
+
+      // Create a new Task object
       final category = BudgetTask(
-          eventName: '',
-          targetBudget: 0,
-          categoryName: '',
-          totalPrice: 0,
-          vendorName: '');
-      category.categoryName = categoryName;
-      category.eventName = eventName;
-      category.totalPrice = totalPrice;
-      category.vendorName = vendorName;
-      eventTaskBox.add(category as EventTasks);
-      setState(() {
-        retrieveCategories();
-      });
+        categoryName: categoryName,
+        vendorName: vendorName,
+        totalPrice: totalPrice,
+        eventName: eventName,
+        targetBudget: targetBudget,
+      );
+
+      // Store the task in Hive
+      storeCategory(category);
+
+      // Clear form data
+
+      vendorNameController.clear();
+      totalPriceContoller.clear();
     }
+  }
+
+  Future<void> storeCategory(BudgetTask category) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/budgettask.txt');
+    final exists = await file.exists();
+
+    if (!exists) {
+      await file.create();
+    }
+
+    final categoryData =
+        '${category.categoryName},${category.vendorName},${category.totalPrice},${category.eventName},${category.targetBudget},';
+    await file.writeAsString(categoryData, mode: FileMode.append);
   }
 }

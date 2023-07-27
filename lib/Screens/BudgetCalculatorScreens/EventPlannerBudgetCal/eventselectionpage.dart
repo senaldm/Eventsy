@@ -216,8 +216,12 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
     );
   }
 
-   addEvent(String? eventName, int targetBudget) async {
-    eventbudgetBox.put("eventName", eventName as BudgetEvent);
-    eventbudgetBox.put('targetBudget', targetBudget as BudgetEvent);
-  }
+  addEvent(String? eventName, int targetBudget) async {
+  // Assuming BudgetEvent constructor takes eventName and targetBudget as parameters
+  final budgetEvent = BudgetEvent(eventName: eventName!, targetBudget: targetBudget);
+
+  // Put the budgetEvent object into the eventbudgetBox
+  eventbudgetBox.put('budgetEventKey', budgetEvent);
+}
+
 }
