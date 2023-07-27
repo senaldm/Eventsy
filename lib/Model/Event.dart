@@ -15,17 +15,23 @@ class Task extends HiveObject {
   late String budget;
   @HiveField(4)
   bool isComplete;
+  @HiveField(16)
+  DateTime? timestamp;
 
   void isCompleted() {
     isComplete = false;
   }
 
-  Task(
-      {this.categoryName = '',
-      this.taskName = '',
-      this.vendorName = '',
-      this.budget = '',
-      this.isComplete = false});
+  Task({
+    this.categoryName = '',
+    this.taskName = '',
+    this.vendorName = '',
+    this.budget = '',
+    this.isComplete = false,
+    this.timestamp,
+  });
+
+  // const ConstDateTime(0)}) :this.timestamp = timestamp;
 }
 
 @HiveType(typeId: 1)

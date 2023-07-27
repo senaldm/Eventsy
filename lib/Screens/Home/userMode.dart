@@ -19,7 +19,7 @@ class UserModeSelect extends StatelessWidget {
 
     showDialog(
         context: context,
-        builder: (BuildContext context) {
+        builder: ( context) {
           return AlertDialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -71,14 +71,14 @@ class UserModeSelect extends StatelessWidget {
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    UserTaskHome(),
-                              ),
-                            );
-                            // Navigator.pushNamed(context,'UserHome');
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (BuildContext context) =>
+                            //         UserTaskHome(),
+                            //   ),
+                            // );
+                            Navigator.pushNamed(context,'UserHome');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 7, 94, 84),

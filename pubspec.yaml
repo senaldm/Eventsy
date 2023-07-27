@@ -60,8 +60,18 @@ dependencies:
   qr_flutter: ^4.0.0
   url_launcher: ^6.1.11
   curved_navigation_bar: ^1.0.3
+
   flutter_local_notifications: ^15.1.0+1
-  
+
+  animated_notch_bottom_bar: ^1.0.0
+  flutter_svg: ^2.0.7
+  flutter_launcher_icons: ^0.13.1
+  get: ^4.6.5
+  dio: ^4.0.6
+  cached_network_image: ^3.2.1
+  flutter_staggered_grid_view: ^0.6.2
+  loading_animation_widget: ^1.2.0+2
+  unsplash_client: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -93,7 +103,7 @@ flutter:
     - assets/
     - assets/Images/Home/
     - assets/Images/Task/
-
+    - assets/Images/settings/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
