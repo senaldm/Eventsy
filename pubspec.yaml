@@ -65,6 +65,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   intl: ^0.18.0
   collection: ^1.17.1
+  uuid: ^3.0.7
 
   
 

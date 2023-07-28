@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsy/Model/Event.dart';
 import 'package:hive/hive.dart';
-
+import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart';
 // import 'package:eventsy/main.dart';
 
@@ -73,7 +73,7 @@ class _AddTaskState extends State<AddTask> {
               ),
             ),
             body: Container(
-                decoration: BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
                   fit: BoxFit.cover,
@@ -90,7 +90,7 @@ class _AddTaskState extends State<AddTask> {
                             borderRadius: BorderRadius.circular(10.0)),
                         margin: EdgeInsets.only(
                             left: width * 0.15, right: width * 0.15),
-            
+
                         borderOnForeground: false,
                         // child:SingleChildScrollView(
                         child: DropdownButtonFormField<String>(
@@ -145,7 +145,7 @@ class _AddTaskState extends State<AddTask> {
                           dropdownColor: Colors.blueGrey.shade900,
                         ),
                       ),
-            
+
                       SizedBox(
                         height: width * 0.05,
                       ),
@@ -182,7 +182,7 @@ class _AddTaskState extends State<AddTask> {
                             //   }
                             //   taskName:
                             //   value;
-            
+
                             // },
                             decoration: InputDecoration(
                               errorText:
@@ -287,8 +287,9 @@ class _AddTaskState extends State<AddTask> {
                           // Switch(
                           //   value: false,
                           //   onChanged: (bool newValue) {
-                          //     onChanged(newValue);
-            
+                          //     value:
+                          //     true;
+
                           //     // setState(() => newValue = true);
                           //     // value:
                           //     // newValue;
@@ -296,11 +297,11 @@ class _AddTaskState extends State<AddTask> {
                           //   // overrides the default green color of the track
                           //   activeColor: Colors.green.shade700,
                           //   // color of the round icon, which moves from right to left
-                          //   thumbColor: Colors.green.shade900,
+                          //   // thumbColor: Color.fromARGB(255, 60, 101, 63),
                           //   // when the switch is off
-                          //   trackColor: Colors.black,
+                          //   // trackColor: Colors.black,
                           //   // boolean variable value
-            
+
                           //   // changes the state of the switch
                           //   // onChanged: (value) =>
                           //   //     setState(() => isComplete = value),
@@ -367,31 +368,6 @@ class _AddTaskState extends State<AddTask> {
     });
   }
 
-  // addTask(String categoryName, String taskName, String vendorName,
-  //     String budget, bool isComplete) async {
-  // final task = Task(
-  //   categoryName: categoryName,
-  //   taskName: taskName,
-  //   isComplete: isComplete,
-  //   vendorName: vendorName,
-  //   budget: budget,
-  // );
-//     events.eventName = eventName!;
-
-  // taskBox = await Hive.openBox<Task>('task');
-  // if (_formKey.currentState!.validate()) {
-  //   // Save the form data to Hive
-  //   taskBox.put('taskName', taskController.text as Task);
-  //   taskBox.put('vendorName', vendorController.text as Task);
-  //   taskBox.put('budget', budgetController.text as Task);
-  //  taskBox.put('categoryName', categoryName as Task);
-  //  taskBox.put('isComplete', isComplete as Task);
-  // }
-
-  // taskBox.putAll({'taskName': taskController.text, 'vendorName': vendorController.text,'budget':budgetController,'categoryName':categoryName,'isComplete':isComplete});
-  // var check = taskBox.add(task);
-  // if (check == true) {
-  // Navigator.pushNamed(context, '/TaskList');
   addTask(String categoryName, String taskName, String vendorName,
       String budget, bool isComplete) async {
     // final appDocumentDir = await getApplicationDocumentsDirectory();
@@ -404,19 +380,20 @@ class _AddTaskState extends State<AddTask> {
       vendorName = vendorController.text;
       budget = budgetController.text;
       isComplete = false;
-
+      final String uniqueKey = Uuid().v4();
 
       // Create a new Task object
       final task = Task(
-        categoryName: categoryName,
-        taskName: taskName,
-        vendorName: vendorName,
-        budget: budget,
-        isComplete: isComplete,
-        timestamp: DateTime.now()
-      );
+          taskKey: uniqueKey,
+          categoryName: categoryName,
+          taskName: taskName,
+          vendorName: vendorName,
+          budget: budget,
+          isComplete: isComplete,
+          timestamp: DateTime.now());
 
       // Store the task in Hive
+      await taskBox.put(uniqueKey, task);
       storeTask(task);
 
       // Clear form data
@@ -425,8 +402,6 @@ class _AddTaskState extends State<AddTask> {
       vendorController.clear();
       budgetController.clear();
     }
-
-   
   }
 
   Future<void> storeTask(Task task) async {
@@ -439,37 +414,7 @@ class _AddTaskState extends State<AddTask> {
     }
     final formattedTimestamp = task.timestamp?.toIso8601String() ?? '';
     final taskData =
-        '${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},$formattedTimestamp\n';
+        '${task.taskKey},${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},$formattedTimestamp\n';
     await file.writeAsString(taskData, mode: FileMode.append);
   }
 }
-//   Future<List<Task>> readTasksFromFile(File file) async {
-//     if (await file.exists()) {
-//       final contents = await file.readAsString();
-//       final taskList = contents.split('\n');
-//       final tasks = taskList.map((taskStr) {
-//         final taskData = taskStr.split('|');
-//         return Task(
-//           categoryName: taskData[0],
-//           taskName: taskData[1],
-//           vendorName: taskData[2],
-//           budget: taskData[3],
-//           isComplete: taskData[4] == 'true',
-//         );
-//       }).toList();
-//       return tasks;
-//     } else {
-//       return [];
-//     }
-//   }
-
-//   Future<void> writeTasksToFile(File file, List<Task> tasks) async {
-//     final lines = tasks.map((task) {
-//       final taskStr =
-//           '${task.categoryName}|${task.taskName}|${task.vendorName}|${task.budget}|${task.isComplete}';
-//       return taskStr;
-//     }).toList();
-//     final contents = lines.join('\n');
-//     await file.writeAsString(contents);
-//   }
-// }
