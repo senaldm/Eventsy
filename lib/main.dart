@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 // import 'package:eventsy/Model/Budgetcal/eventset.dart';
@@ -10,7 +9,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'Screens/ImageSearchPage/Views/image_show_view.dart';
 import 'Screens/LoginandSignupScreens/firebase_options.dart';
 import 'global.dart';
-
 
 // import file locations for routings
 import 'package:flutter/services.dart';
@@ -42,13 +40,9 @@ import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/eventselectionpage
 import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categoryshownpage.dart';
 import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categorydetailsshowpage.dart';
 
-
-import 'Screens/BudgetCalculatorScreens/UserBudgetCal/notification_service.dart';
 import 'Screens/BudgetCalculatorScreens/UserBudgetCal/usercategorydetailsshowpage.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -88,14 +82,12 @@ Future main() async {
 }
 
 class FirstPage extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       
-     routes: {
-          'UserHome': (context) =>  UserTaskHome(),
-            '/ImageExplore': (context) => ImageExplore(),
+        routes: {
+          'UserHome': (context) => UserTaskHome(),
+          '/ImageExplore': (context) => ImageExplore(),
           '/VendorExplore': (context) => VendorExplore(),
           '/TaskExplore': (context) => TaskExplore(),
 
@@ -103,8 +95,8 @@ class FirstPage extends StatelessWidget {
           'UserHome': (context) => UserTaskHome(),
           'TaskList': (context) => TaskList(),
           'addTask': (context) => AddTask(),
-          '/userDashboard':(context)=>userDashboard(),
-          '/userSettings':(context)=> userSettings(),
+          '/userDashboard': (context) => userDashboard(),
+          '/userSettings': (context) => userSettings(),
 
           /////////PLANNER TASK/////////
 
@@ -123,17 +115,17 @@ class FirstPage extends StatelessWidget {
           //////////budget calculator screens////////////////
           'EventselectionPage': (context) => EventSelectionPage(),
           'CategoryShownPage': (context) => CategoryShownPage(),
-       //  './CategoryDetailsShownPage':(context) => CategoryDetailsShownPage(eventName:''),
+          './CategoryDetailsShownPage': (context) =>
+              CategoryDetailsShownPage(eventName: ''),
 
-          'UserCategoryDetailsShownPage':(context) => UserCategoryDetailsShownPage(eventName: '',),
-           
+          'UserCategoryDetailsShownPage': (context) =>
+              UserCategoryDetailsShownPage(
+                eventName: '',
+              ),
         },
-
-
         key: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Eventsy',
         home: ImageExplore());
   }
 }
-

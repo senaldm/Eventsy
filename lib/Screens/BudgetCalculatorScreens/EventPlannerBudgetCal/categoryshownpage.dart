@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:eventsy/Model/Event.dart';
@@ -23,18 +22,32 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
     retrieveData();
   }
 
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Retrieve the arguments when the page is built
+    final Map<String, dynamic>? arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    if (arguments != null) {
+      eventName = arguments['eventName'] as String?;
+      targetBudget = arguments['targetBudget'] as int?;
+      retrieveData();
+    }
+  }
+
   Future<void> openHiveBox() async {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
+    eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
     taskbudgetBox = await Hive.openBox<BudgetTask>('budgettask');
   }
+
   Future<void> retrieveData() async {
     // Retrieve data from Hive box
     category = taskbudgetBox?.values.toList() ?? [];
 
     // Retrieve data from local storage
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/category.txt');
+    final file = File('${directory.path}/budgettask.txt');
     if (await file.exists()) {
       final lines = await file.readAsLines();
       lines.forEach((line) {
@@ -45,13 +58,13 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
           totalPrice: int.parse(data[2]),
           eventName: data[3],
           targetBudget: int.parse(data[4]),
-          
         );
-       
+
         category.add(budgettask);
       });
     }
-
+    eventName = eventbudgetBox.get('budgetEventKey')?.eventName;
+    targetBudget = eventbudgetBox.get('budgetEVentKey')?.targetBudget;
     setState(() {}); // Update the UI
   }
 
@@ -239,6 +252,8 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop();
+                            addCategory(categoryName!, eventName!, vendorName!,
+                                totalPrice!, targetBudget!);
                           },
                           child: const Text(
                             'Save',
@@ -306,44 +321,101 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          reverse: true,
-          controller: PageController(initialPage: 300),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(padding: const EdgeInsets.only(right: 60)),
-                ElevatedButton(
-                  onPressed: () async {
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushNamed(
-                      context,
-                      './CategoryDetailsShownPage',
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueGrey.shade900,
-                      minimumSize: Size(100, 50),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  child: const Text(
-                    ' View Details ',
-                    style: TextStyle(
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 30, left: 200),
-                ),
-              ],
+        body: Container(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 20, 24, 26),
+              image: DecorationImage(
+                image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        ),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              reverse: true,
+              controller: PageController(initialPage: 300),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(padding: const EdgeInsets.only(right: 60)),
+                  ElevatedButton(
+                    onPressed: () async {
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushNamed(
+                        context,
+                        './CategoryDetailsShownPage',
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueGrey.shade900,
+                        minimumSize: Size(100, 50),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    child: const Text(
+                      ' View Details ',
+                      style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsetsDirectional.zero,
+                      shrinkWrap: false,
+                      itemCount: category.length,
+                      itemBuilder: (context, index) {
+                        final task = category[index];
+
+                        return SizedBox(
+                          height: 70.0,
+                          child: Container(
+                            // color: Color.fromARGB(255, 20, 24, 26),
+                            padding: EdgeInsetsDirectional.zero,
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Colors.white12, width: 0.0
+                                        //  Theme.of(context).dividerColor
+                                        ))),
+                            margin: EdgeInsets.only(
+                                left: 10.0, right: 10.0, bottom: 0, top: 0),
+                            // color: Color.fromARGB(255, 20, 24, 26),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Card(
+                                  color: Color.fromARGB(255, 20, 24, 26),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+
+                                  child: ListTile(
+                                    leading: Text(
+                                      "    ${task.categoryName}",
+
+                                      //  "${task.timestamp?.minute?.toString()}",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(fontSize: 20.0),
+                                    ),
+                                    textColor: Colors.white,
+                                    onTap: () {
+                                      // Handle task item tap
+                                    },
+                                    onLongPress: () {},
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )),
         bottomNavigationBar: BottomAppBar(
           clipBehavior: Clip.antiAlias,
           shape: const CircularNotchedRectangle(),
@@ -386,7 +458,6 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
     taskbudgetBox = (await Hive.openBox<BudgetTask>('budgettask'));
 
     if (_formKey.currentState!.validate()) {
-      
       vendorName = vendorNameController.text;
       totalPrice = totalPriceContoller.text as int;
 

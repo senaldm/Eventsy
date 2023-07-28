@@ -1,24 +1,25 @@
 import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
 
-class CategoryDeatailsShownPage extends StatefulWidget {
+class CategoryDetailsShownPage extends StatefulWidget {
   final String eventName;
-  CategoryDeatailsShownPage({Key? key, required this.eventName})
+  CategoryDetailsShownPage({Key? key, required this.eventName})
       : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _CategoryDeatailsShownPageState createState() =>
-      _CategoryDeatailsShownPageState();
+  _CategoryDetailsShownPageState createState() =>
+      _CategoryDetailsShownPageState();
 }
 
-class _CategoryDeatailsShownPageState extends State<CategoryDeatailsShownPage> {
+class _CategoryDetailsShownPageState extends State<CategoryDetailsShownPage> {
   // ignore: avoid_init_to_null
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.blueGrey.shade900,
@@ -42,6 +43,16 @@ class _CategoryDeatailsShownPageState extends State<CategoryDeatailsShownPage> {
                   )),
             ),
           ),
+        ),
+        body:
+        Container(
+           decoration: BoxDecoration(
+              color: Color.fromARGB(255, 20, 24, 26),
+              image: DecorationImage(
+                image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
         ),
         bottomNavigationBar: BottomAppBar(
           color: Colors.greenAccent.shade700,

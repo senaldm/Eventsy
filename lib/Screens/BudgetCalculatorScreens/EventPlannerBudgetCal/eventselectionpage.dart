@@ -2,6 +2,7 @@
 import 'package:eventsy/Model/Event.dart';
 import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class EventSelectionPage extends StatefulWidget {
   EventSelectionPage({Key? key}) : super(key: key);
@@ -14,6 +15,28 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
   final List<BudgetEvent> events = [];
   String? eventName;
   int? targetBudget;
+  final targetBudgetController = TextEditingController();
+  final eventController = TextEditingController();
+
+  void initState() {
+    super.initState();
+    openHiveBox();
+  }
+
+  Future<void> openHiveBox() async {
+    eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
+    // Retrieve the data from Hive box if available
+    final storedEvent = eventbudgetBox!.get('budgetEventKey');
+    if (storedEvent != null) {
+      setState(() {
+        eventName = storedEvent.eventName;
+        targetBudget = storedEvent.targetBudget;
+        // Set the initial values in the controllers
+        targetBudgetController.text = targetBudget?.toString() ?? '';
+        eventController.text = eventName ?? '';
+      });
+    }
+  }
 
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -48,6 +71,13 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
         ),
         body: Center(
           child: Container(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 20, 24, 26),
+              image: DecorationImage(
+                image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Column(
               children: <Widget>[
                 Padding(
@@ -73,7 +103,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                       ),
                       keyboardType: TextInputType.number,
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black38,
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Roboto',
@@ -84,6 +114,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                           targetBudget = int.tryParse(value);
                         });
                       },
+                      controller: targetBudgetController,
                     ),
                   ),
                 ),
@@ -104,7 +135,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                           ),
                           focusColor: Colors.grey,
                           dropdownColor: Colors.grey,
-                          value: eventName,
+                          value: eventController.text,
                           elevation: 0,
                           onChanged: (String? newval) {
                             setState(() {
@@ -190,6 +221,10 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                     Navigator.pushNamed(
                       context,
                       'CategoryShownPage',
+                      arguments: {
+                        'eventName': eventName,
+                        'targetBudget': targetBudget,
+                      },
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -217,11 +252,11 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
   }
 
   addEvent(String? eventName, int targetBudget) async {
-  // Assuming BudgetEvent constructor takes eventName and targetBudget as parameters
-  final budgetEvent = BudgetEvent(eventName: eventName!, targetBudget: targetBudget);
+    // Assuming BudgetEvent constructor takes eventName and targetBudget as parameters
+    final budgetEvent =
+        BudgetEvent(eventName: eventName!, targetBudget: targetBudget);
 
-  // Put the budgetEvent object into the eventbudgetBox
-  eventbudgetBox.put('budgetEventKey', budgetEvent);
-}
-
+    // Put the budgetEvent object into the eventbudgetBox
+    eventbudgetBox.put('budgetEventKey', budgetEvent);
+  }
 }
