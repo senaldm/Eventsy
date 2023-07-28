@@ -329,7 +329,7 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                       child: TextButton(
                                         onPressed: () {
                                           Navigator.pushNamed(
-                                              context, 'CategoryShownPage');
+                                              context, 'EventselectionPage');
                                         },
                                         child: SizedBox(
                                             height: width * 0.25,
