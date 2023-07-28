@@ -15,6 +15,8 @@ import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_not
 import 'package:eventsy/Screens/Task/User/TaskFilter.dart';
 
 import 'dart:io';
+import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 
 class TaskList extends StatefulWidget {
   // const TaskList({ Key? key }) : super(key: key);
@@ -48,6 +50,7 @@ class _TaskListState extends State<TaskList> {
     final file = File('${directory.path}/tasks.txt');
     if (await file.exists()) {
       final lines = await file.readAsLines();
+      List<Task> newTasks = [];
       lines.forEach((line) {
         final data = line.split(',');
         final task = Task(
@@ -56,19 +59,28 @@ class _TaskListState extends State<TaskList> {
           vendorName: data[2],
           budget: data[3],
           isComplete: data[4] == 'true',
-           timestamp: DateTime.tryParse(data[5]),
+          timestamp: DateTime.tryParse(data[5]),
         );
         if (task.timestamp == null) {
           task.timestamp = DateTime(0);
           time = "null";
         } else {
-          time = task.timestamp!.toIso8601String();
+          // time = task.timestamp!.toIso8601String();
+          time = DateFormat('yyyy-MM-dd').format(task.timestamp!);
+          time = time.toString();
         }
-        tasks.add(task);
+        // tasks.add(task);
+        newTasks.add(task);
+      });
+      setState(() {
+        tasks = newTasks;
+      });
+    } else {
+      setState(() {
+        tasks = [];
       });
     }
-
-    setState(() {}); // Update the UI
+    // Update the UI
   }
 
   @override
@@ -229,32 +241,40 @@ class _TaskListState extends State<TaskList> {
         });
   }
 
+  /////////////////////deleteTask//////////////////////////
+  ///////////////////////////////////////////////
+  /////////////////////////////////////////////////////
 
-
-    /////////////////////deleteTask//////////////////////////
-    ///////////////////////////////////////////////
-    /////////////////////////////////////////////////////
-    
-
-static Future<void> deleteTask(String taskName) async {
-    // Get the `task` box.
+  static Future<void> deleteTask(String taskName) async {
+   
     final taskBox = await Hive.openBox<Task>('task');
 
     // Find the task with the given name.
-    final task = taskBox.values.firstWhere((task) => task.taskName == taskName);
+    // final task = taskBox.values.firstWhere((task) => task.taskName == taskName);
+    // final task = taskBox.values.firstWhereOrNull((task) => task.taskName == taskName);
 
-    // Delete the task.
-    taskBox.delete(task.key);
+    if (taskBox.containsKey(taskName)) {
+      taskBox.delete(taskName);
+    } else {
+      print("Task with name '$taskName' not found.");
+    }
+
+    // if (taskName != null) {
+    
+    //   taskBox.delete(task);
+    // } else {
+
+    //   print("Task with name '$taskName' not found.");
+     
+    // }
+   
   }
-
 
   // ////////////////////Edit or delete////////////////////////////
   /////////////////////////////////////////////////////////
 
-  editOrDelete(BuildContext context) {
-    // Completer<String> completer = Completer<String>();
-     String action = "";
- final String taskName = ModalRoute.of(context)?.settings.arguments as String;
+  void editOrDelete(String name) {
+    String taskName = name;
     showDialog(
         context: context,
         builder: (context) {
@@ -267,8 +287,7 @@ static Future<void> deleteTask(String taskName) async {
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      action = "edit";
-                      Navigator.pop(context, action);
+                      Navigator.pushNamed(context, 'addTask');
 
                       // Navigator.pushNamed(context,'UserHome');
                     },
@@ -282,7 +301,7 @@ static Future<void> deleteTask(String taskName) async {
                 ElevatedButton(
                     onPressed: () {
                       deleteTask(taskName);
-                      Navigator.pop(context, action);
+                      Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
                       // alignment:,
@@ -296,7 +315,7 @@ static Future<void> deleteTask(String taskName) async {
             ),
           );
         });
-    // return action;
+    //return action;
   }
 
 //////////////////main view///////////////////////////////
@@ -359,11 +378,11 @@ static Future<void> deleteTask(String taskName) async {
                   child: Container(
                     // color: Color.fromARGB(255, 20, 24, 26),
                     padding: EdgeInsetsDirectional.zero,
-                    // decoration: BoxDecoration(
-                    //     border: Border(
-                    //         bottom: BorderSide(color: Colors.white12, width: 0.0
-                    //             //  Theme.of(context).dividerColor
-                    //             ))),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Colors.white12, width: 0.0
+                                //  Theme.of(context).dividerColor
+                                ))),
                     margin: EdgeInsets.only(
                         left: 10.0, right: 10.0, bottom: 0, top: 0),
                     // color: Color.fromARGB(255, 20, 24, 26),
@@ -379,22 +398,22 @@ static Future<void> deleteTask(String taskName) async {
                           // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
 
                           child: ListTile(
-                            title: Text(
+                            leading: Text(
                               "    ${task.taskName}",
 
                               //  "${task.timestamp?.minute?.toString()}",
                               textAlign: TextAlign.left,
-                              style: TextStyle(fontSize: 24.0),
+                               style: TextStyle(fontSize: 20.0),
                             ),
                             textColor: Colors.white,
-                           subtitle: Text(  "${time}",),
+                            trailing: Text(
+                              time,
+                            ),
                             onTap: () {
                               // Handle task item tap
                             },
-                            onLongPress: () {
-                              if (editOrDelete(context)) {
-                                Navigator.pushNamed(context, 'addTask',arguments: task.taskName);
-                              }
+                            onLongPress: ()  {
+                              editOrDelete(task.taskName);
                             },
                           ),
                         ),
@@ -412,8 +431,16 @@ static Future<void> deleteTask(String taskName) async {
             // shape: RoundedRectangleBorder(
             //   side: BorderSide(width: 3, color: Colors.white),
             //   borderRadius: BorderRadius.circular(100)),
-            onPressed: () {
-              Navigator.pushNamed(context, 'addTask');
+            onPressed: () async {
+              // Navigator.pushNamed(context, 'addTask');
+              final newTask = await Navigator.pushNamed(context, 'addTask');
+              if (newTask != null) {
+                // If a new task is added, update the data and refresh the UI
+                setState(() {
+                  tasks.add(newTask as Task);
+                });
+              }
+              retrieveData();
             },
             child: Icon(
               Icons.add,
