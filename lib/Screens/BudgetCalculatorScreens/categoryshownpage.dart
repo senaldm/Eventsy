@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:eventsy/Screens/BudgetCalculatorScreens/eventselectionpage.dart';
 import 'package:eventsy/global.dart';
-import 'package:eventsy/Model/Budgetcal/eventset.dart';
+// import 'package:eventsy/Model/Budgetcal/eventset.dart';
 
 // ignore: must_be_immutable
 class CategoryShownPage extends StatefulWidget {
@@ -30,24 +30,24 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
     retrieveTasks();
   }
 
-  void retrieveEventName() {
-    final event = eventsBox.get('events');
-    if (event != null) {
-      setState(() {
-        eventName = event.eventName;
-      });
-      retrieveCategories();
-    }
+  void retrieveEventName() { 
+    // final event = eventsBox.get('events');
+    // if (event != null) {
+    //   setState(() {
+    //     eventName = event.eventName;
+    //   });
+    //   retrieveCategories();
+    // }
   }
 
   void retrieveCategories() {
-    final categoryList = categoryBox.values.toList();
-    setState(() {
-      categories.clear();
-      categories.addAll(categoryList
-          .where((category) => category.eventName == eventName)
-          .map((category) => category.categoryName));
-    });
+    // final categoryList = categoryBox.values.toList();
+    // setState(() {
+    //   categories.clear();
+    //   categories.addAll(categoryList
+    //       .where((category) => category.eventName == eventName)
+    //       .map((category) => category.categoryName));
+    // });
   }
 
   void retrieveTasks() {
@@ -159,7 +159,7 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          addCategory(categoryName);
+                          // addCategory(categoryName);
                           Navigator.of(context).pop();
                         },
                         child: const Text(
@@ -234,23 +234,23 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
             child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 30, left: 200),
-                child: Container(
-                    child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context, './CategoryDetailsShownPage',
-                              arguments: eventsBox.get("events")?.eventName);
-                        },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green.shade900,
-                            minimumSize: Size(100, 50),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        child: Text(
-                          'View Details',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ))),
+                // child: Container(
+                //     child: ElevatedButton(
+                //         onPressed: () {
+                //           Navigator.pushNamed(
+                //               context, './CategoryDetailsShownPage',
+                //               arguments: eventsBox.get("events")?.eventName);
+                //         },
+                //         style: ElevatedButton.styleFrom(
+                //             backgroundColor: Colors.green.shade900,
+                //             minimumSize: Size(100, 50),
+                //             shape: RoundedRectangleBorder(
+                //                 borderRadius: BorderRadius.circular(10))),
+                //         child: Text(
+                //           'View Details',
+                //           style: TextStyle(
+                //               fontWeight: FontWeight.bold, fontSize: 15),
+                //         ))),
               ),
               for (var category in categories)
                 Padding(
@@ -374,15 +374,15 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
     );
   }
 
-  Future<void> addCategory(String? categoryName) async {
-    if (categoryName != null) {
-      final category = CategorySet();
-      category.categoryName = categoryName;
-      category.eventName = eventName!;
-      categoryBox.add(category);
-      retrieveCategories();
-      retrieveTasks();
-      setState(() {}); // Rebuild the UI
-    }
-  }
+  // Future<void> addCategory(String? categoryName) async {
+  //   if (categoryName != null) {
+  //     final category = CategorySet();
+  //     category.categoryName = categoryName;
+  //     category.eventName = eventName!;
+  //     categoryBox.add(category);
+  //     retrieveCategories();
+  //     retrieveTasks();
+  //     setState(() {}); // Rebuild the UI
+  //   }
+  // }
 }
