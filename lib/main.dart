@@ -126,6 +126,6 @@ class FirstPage extends StatelessWidget {
         key: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Eventsy',
-        home: ImageExplore());
+        home: ImageShowView());
   }
 }

@@ -322,7 +322,7 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
           ),
         ),
         body: Container(
-            decoration: BoxDecoration(
+            decoration:const  BoxDecoration(
               color: Color.fromARGB(255, 20, 24, 26),
               image: DecorationImage(
                 image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
@@ -336,26 +336,29 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(padding: const EdgeInsets.only(right: 60)),
-                  ElevatedButton(
-                    onPressed: () async {
-                      // ignore: use_build_context_synchronously
-                      Navigator.pushNamed(
-                        context,
-                        './CategoryDetailsShownPage',
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueGrey.shade900,
-                        minimumSize: Size(100, 50),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    child: const Text(
-                      ' View Details ',
-                      style: TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                  const  Padding(padding: const EdgeInsets.only(right: 60)),
+                  Padding(
+                    padding: const EdgeInsets.only(top:30,right: 40),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushNamed(
+                          context,
+                          './CategoryDetailsShownPage',
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueGrey.shade900,
+                          minimumSize: Size(100, 50),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      child: const Text(
+                        ' View Details ',
+                        style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -371,13 +374,13 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                           child: Container(
                             // color: Color.fromARGB(255, 20, 24, 26),
                             padding: EdgeInsetsDirectional.zero,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 border: Border(
                                     bottom: BorderSide(
                                         color: Colors.white12, width: 0.0
                                         //  Theme.of(context).dividerColor
                                         ))),
-                            margin: EdgeInsets.only(
+                            margin: const EdgeInsets.only(
                                 left: 10.0, right: 10.0, bottom: 0, top: 0),
                             // color: Color.fromARGB(255, 20, 24, 26),
                             child: Column(
@@ -397,7 +400,7 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
 
                                       //  "${task.timestamp?.minute?.toString()}",
                                       textAlign: TextAlign.left,
-                                      style: TextStyle(fontSize: 20.0),
+                                      style: const TextStyle(fontSize: 20.0),
                                     ),
                                     textColor: Colors.white,
                                     onTap: () {

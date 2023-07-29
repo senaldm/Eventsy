@@ -199,7 +199,7 @@ class MyAppBar extends StatelessWidget {
           image: DecorationImage(
             colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.3), BlendMode.darken),
-            image: const AssetImage('assets/Images/ImageSearch/1.jpg'),
+            image: const AssetImage("assets/Images/ImageSearch/1.jpg"),
             fit: BoxFit.cover,
           ),
         ),
