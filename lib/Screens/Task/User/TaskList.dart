@@ -54,12 +54,13 @@ class _TaskListState extends State<TaskList> {
       lines.forEach((line) {
         final data = line.split(',');
         final task = Task(
-          categoryName: data[0],
-          taskName: data[1],
-          vendorName: data[2],
-          budget: data[3],
-          isComplete: data[4] == 'true',
-          timestamp: DateTime.tryParse(data[5]),
+          taskKey: data[0],
+          categoryName: data[1],
+          taskName: data[2],
+          vendorName: data[3],
+          budget: data[4],
+          isComplete: data[5] == 'true',
+          timestamp: DateTime.tryParse(data[6]),
         );
         if (task.timestamp == null) {
           task.timestamp = DateTime(0);
@@ -69,6 +70,7 @@ class _TaskListState extends State<TaskList> {
           time = DateFormat('yyyy-MM-dd').format(task.timestamp!);
           time = time.toString();
         }
+
         // tasks.add(task);
         newTasks.add(task);
       });
@@ -244,37 +246,39 @@ class _TaskListState extends State<TaskList> {
   /////////////////////deleteTask//////////////////////////
   ///////////////////////////////////////////////
   /////////////////////////////////////////////////////
-
-  static Future<void> deleteTask(String taskName) async {
-   
+  
+  static Future<void> deleteTask(String taskKey) async {
     final taskBox = await Hive.openBox<Task>('task');
 
-    // Find the task with the given name.
-    // final task = taskBox.values.firstWhere((task) => task.taskName == taskName);
-    // final task = taskBox.values.firstWhereOrNull((task) => task.taskName == taskName);
 
-    if (taskBox.containsKey(taskName)) {
-      taskBox.delete(taskName);
-    } else {
-      print("Task with name '$taskName' not found.");
-    }
-
-    // if (taskName != null) {
-    
-    //   taskBox.delete(task);
-    // } else {
-
-    //   print("Task with name '$taskName' not found.");
-     
-    // }
+    if (taskBox.containsKey(taskKey)) {
    
-  }
+      taskBox.delete(taskKey);
+    } 
 
+
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/tasks.txt');
+    if (await file.exists()) {
+      final lines = await file.readAsLines();
+      final updatedLines = lines.where((line) {
+        final data = line.split(',');
+        final taskKeyInFile = data[0];
+        return taskKeyInFile != taskKey;
+      }).toList();
+
+      await file.writeAsString(updatedLines.join('\n'));
+    
+    } 
+  }
+  
   // ////////////////////Edit or delete////////////////////////////
   /////////////////////////////////////////////////////////
 
-  void editOrDelete(String name) {
-    String taskName = name;
+  void editOrDelete(String key) {
+    // String taskKey = key;
+    String taskKey = key.trim();
+    print('Attempting to delete task with key: $taskKey');
     showDialog(
         context: context,
         builder: (context) {
@@ -299,9 +303,12 @@ class _TaskListState extends State<TaskList> {
                           color: Colors.black87,
                         ))),
                 ElevatedButton(
-                    onPressed: () {
-                      deleteTask(taskName);
+                    onPressed: () async {
+                      await deleteTask(taskKey);
+                      retrieveData();
                       Navigator.pop(context);
+                      // deleteTask(taskKey);
+                      // Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
                       // alignment:,
@@ -331,7 +338,6 @@ class _TaskListState extends State<TaskList> {
     final width = MediaQuery.of(context).size.width;
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     // final List<String> taskList = retriveTask();
-    // print(taskList);
 
     return SafeArea(
       top: true,
@@ -399,11 +405,11 @@ class _TaskListState extends State<TaskList> {
 
                           child: ListTile(
                             leading: Text(
-                              "    ${task.taskName}",
+                              task.taskName,
 
                               //  "${task.timestamp?.minute?.toString()}",
                               textAlign: TextAlign.left,
-                               style: TextStyle(fontSize: 20.0),
+                              style: TextStyle(fontSize: 20.0),
                             ),
                             textColor: Colors.white,
                             trailing: Text(
@@ -412,8 +418,8 @@ class _TaskListState extends State<TaskList> {
                             onTap: () {
                               // Handle task item tap
                             },
-                            onLongPress: ()  {
-                              editOrDelete(task.taskName);
+                            onLongPress: () {
+                              editOrDelete(task.taskKey);
                             },
                           ),
                         ),

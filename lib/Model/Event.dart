@@ -5,18 +5,20 @@ part 'Event.g.dart';
 
 @HiveType(typeId: 0)
 class Task extends HiveObject {
-  
+
   @HiveField(0)
-  String categoryName;
+  String taskKey;
   @HiveField(1)
-  String taskName;
+  String categoryName;
   @HiveField(2)
-  String vendorName;
+  String taskName;
   @HiveField(3)
-  late String budget;
+  String vendorName;
   @HiveField(4)
+  late String budget;
+  @HiveField(5)
   bool isComplete;
-  @HiveField(16)
+  @HiveField(6)
   DateTime? timestamp;
   
   void isCompleted() {
@@ -24,6 +26,7 @@ class Task extends HiveObject {
   }
 
   Task({
+    this.taskKey='',
     this.categoryName = '',
     this.taskName = '',
     this.vendorName = '',
@@ -37,10 +40,10 @@ class Task extends HiveObject {
 
 @HiveType(typeId: 1)
 class Event extends HiveObject {
-  @HiveField(5)
+  @HiveField(7)
   String eventName;
 
-  @HiveField(6)
+  @HiveField(8)
   DateTime? date;
 
   Event({
@@ -51,19 +54,19 @@ class Event extends HiveObject {
 
 @HiveType(typeId: 2)
 class EventTasks extends Event {
-  @HiveField(7)
+  @HiveField(9)
   late String taskName;
 
-  @HiveField(8)
+  @HiveField(10)
   String? vendorName;
 
-  @HiveField(9)
+  @HiveField(11)
   late bool isComplete;
 
-  @HiveField(10)
+  @HiveField(12)
   late String categoryName;
 
-  @HiveField(11)
+  @HiveField(13)
   String? budget;
 
   EventTasks({
@@ -74,9 +77,9 @@ class EventTasks extends Event {
 
 @HiveType(typeId: 3)
 class Invitation extends Event {
-  @HiveField(12)
+  @HiveField(14)
   late String guestName;
-  @HiveField(13)
+  @HiveField(15)
   late bool isSend;
 
   Invitation({
@@ -86,9 +89,9 @@ class Invitation extends Event {
 
 @HiveType(typeId: 4)
 class UserMode extends HiveObject {
-  @HiveField(14)
+  @HiveField(16)
   String userMode = 'general';
-  @HiveField(15)
+  @HiveField(17)
   bool isFirst = false;
 }
 //for budget calculator

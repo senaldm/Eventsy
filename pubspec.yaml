@@ -74,6 +74,7 @@ dependencies:
   unsplash_client: ^2.1.1
   intl: ^0.18.0
   collection: ^1.17.1
+  uuid: ^3.0.7
 
   
 
