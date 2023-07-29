@@ -53,7 +53,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
           child: AppBar(
             titleSpacing: 2.2,
             forceMaterialTransparency: false,
-            backgroundColor: Colors.greenAccent.shade700,
+            backgroundColor: Color.fromARGB(255, 18, 140, 126),
             automaticallyImplyLeading: true,
             centerTitle: true,
             flexibleSpace: Center(
@@ -135,7 +135,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                           ),
                           focusColor: Colors.grey,
                           dropdownColor: Colors.grey,
-                          value: eventController.text,
+                          value:eventName,
                           elevation: 0,
                           onChanged: (String? newval) {
                             setState(() {
@@ -188,7 +188,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          color: Colors.greenAccent.shade700,
+          color: Color.fromARGB(255, 18, 140, 126),
           height: 90,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 15),

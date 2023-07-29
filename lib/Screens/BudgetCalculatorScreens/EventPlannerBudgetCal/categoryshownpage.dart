@@ -61,8 +61,11 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
         );
 
         category.add(budgettask);
+        print(budgettask.categoryName);
       });
     }
+    // print('Retrieved data from Hive box: ${taskbudgetBox?.values}');
+    // print('Retrieved data from local storage file: $category');
     eventName = eventbudgetBox.get('budgetEventKey')?.eventName;
     targetBudget = eventbudgetBox.get('budgetEVentKey')?.targetBudget;
     setState(() {}); // Update the UI
@@ -97,7 +100,7 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
           int? totalPrice;
 
           return AlertDialog(
-            backgroundColor: Colors.blueGrey,
+            backgroundColor: Color.fromARGB(255, 18, 140, 126),
             title: const Text(
               'Add Category',
               style: TextStyle(
@@ -254,6 +257,7 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                             Navigator.of(context).pop();
                             addCategory(categoryName!, eventName!, vendorName!,
                                 totalPrice!, targetBudget!);
+                            retrieveData();
                           },
                           child: const Text(
                             'Save',
@@ -264,7 +268,7 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green.shade900,
+                            backgroundColor: Color.fromARGB(255, 18, 140, 126),
                             minimumSize: const Size(100, 50),
                           ),
                         ),
@@ -282,7 +286,7 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green.shade900,
+                            backgroundColor: Color.fromARGB(255, 18, 140, 126),
                             minimumSize: const Size(100, 50),
                           ),
                         ),
@@ -299,158 +303,153 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.blueGrey.shade900,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(height * 0.1),
-          child: AppBar(
-            titleSpacing: 2.2,
-            forceMaterialTransparency: false,
-            backgroundColor: Colors.greenAccent.shade700,
-            automaticallyImplyLeading: true,
-            centerTitle: true,
-            flexibleSpace: Center(
-              child: Text(
-                eventName ?? '',
-                style: TextStyle(
-                  fontSize: width * 0.08,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+          backgroundColor: Colors.blueGrey.shade900,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(height * 0.1),
+            child: AppBar(
+              titleSpacing: 2.2,
+              forceMaterialTransparency: false,
+              backgroundColor: Color.fromARGB(255, 18, 140, 126),
+              automaticallyImplyLeading: true,
+              centerTitle: true,
+              flexibleSpace: Center(
+                child: Text(
+                  eventName ?? '',
+                  style: TextStyle(
+                    fontSize: width * 0.08,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        body: Container(
-            decoration:const  BoxDecoration(
+          body: Container(
+            decoration: BoxDecoration(
               color: Color.fromARGB(255, 20, 24, 26),
               image: DecorationImage(
                 image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              reverse: true,
-              controller: PageController(initialPage: 300),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const  Padding(padding: const EdgeInsets.only(right: 60)),
-                  Padding(
-                    padding: const EdgeInsets.only(top:30,right: 40),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushNamed(
-                          context,
-                          './CategoryDetailsShownPage',
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueGrey.shade900,
-                          minimumSize: Size(100, 50),
+            
+            child: ListView.builder(
+              padding: EdgeInsetsDirectional.zero,
+              shrinkWrap: false,
+              itemCount: category.length,
+              itemBuilder: (context, index) {
+                final task = category[index];
+
+                return SizedBox(
+                  height: 70.0,
+                  child: Container(
+                    // color: Color.fromARGB(255, 20, 24, 26),
+                    padding: EdgeInsetsDirectional.zero,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Colors.white12, width: 0.0
+                                //  Theme.of(context).dividerColor
+                                ))),
+                    margin: EdgeInsets.only(
+                        left: 10.0, right: 10.0, bottom: 0, top: 0),
+                    // color: Color.fromARGB(255, 20, 24, 26),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Card(
+                          color: Color.fromARGB(255, 20, 24, 26),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      child: const Text(
-                        ' View Details ',
-                        style: TextStyle(
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsetsDirectional.zero,
-                      shrinkWrap: false,
-                      itemCount: category.length,
-                      itemBuilder: (context, index) {
-                        final task = category[index];
-
-                        return SizedBox(
-                          height: 70.0,
-                          child: Container(
-                            // color: Color.fromARGB(255, 20, 24, 26),
-                            padding: EdgeInsetsDirectional.zero,
-                            decoration: const BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: Colors.white12, width: 0.0
-                                        //  Theme.of(context).dividerColor
-                                        ))),
-                            margin: const EdgeInsets.only(
-                                left: 10.0, right: 10.0, bottom: 0, top: 0),
-                            // color: Color.fromARGB(255, 20, 24, 26),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Card(
-                                  color: Color.fromARGB(255, 20, 24, 26),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-
-                                  child: ListTile(
-                                    leading: Text(
-                                      "    ${task.categoryName}",
-
-                                      //  "${task.timestamp?.minute?.toString()}",
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(fontSize: 20.0),
-                                    ),
-                                    textColor: Colors.white,
-                                    onTap: () {
-                                      // Handle task item tap
-                                    },
-                                    onLongPress: () {},
-                                  ),
-                                ),
-                              ],
-                            ),
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
-                        );
-                      },
+                          // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+
+                          child: ListTile(
+                            leading: Text(
+                              task.categoryName,
+                              //  "${task.timestamp?.minute?.toString()}",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            textColor: Colors.white,
+                            onTap: () {
+                              // Handle task item tap
+                            },
+                            onLongPress: () {},
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            )),
-        bottomNavigationBar: BottomAppBar(
-          clipBehavior: Clip.antiAlias,
-          shape: const CircularNotchedRectangle(),
-          color: Colors.greenAccent.shade700,
-          height: 90,
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white),
-                  ),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      _showCategoryPopup();
-                    },
-                    child: Icon(Icons.add),
-                    backgroundColor: Colors.green.shade900,
-                  ),
-                ),
-              ],
+                );
+              },
             ),
           ),
-        ),
-      ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Color.fromARGB(255, 18, 140, 126),
+            // shape: RoundedRectangleBorder(
+            //   side: BorderSide(width: 3, color: Colors.white),
+            //   borderRadius: BorderRadius.circular(100)),
+            onPressed: () async {
+              // Navigator.pushNamed(context, 'addTask');
+              _showCategoryPopup();
+              retrieveData();
+            },
+            child: Icon(
+              Icons.add,
+              color: Colors.black87,
+            ),
+          ),
+          bottomNavigationBar: BottomAppBar(
+            //to add curve margin around floating action button . use notcMargin. default is 4
+            notchMargin: 4,
+
+            clipBehavior: Clip.antiAlias,
+
+            // use about attribute to get the curve shape for notchMargin
+            shape: CircularNotchedRectangle(),
+            // ← carves notch for FAB in BottomAppBar
+            color: Color.fromARGB(255, 18, 140, 126),
+            //  Theme.of(context).primaryColor.withAlpha(0),
+
+            // ↑ use .withAlpha(0) to debug/peek underneath ↑ BottomAppBar
+            elevation:
+                8, // ← removes slight shadow under FAB, hardly noticeable
+            // ↑ default elevation is 8. Peek it by setting color ↑ alpha to 0
+            child: BottomNavigationBar(
+              // ***** NAVBAR  *************************
+              elevation: 1, // 0 removes ugly rectangular NavBar shadow
+              // CRITICAL ↓ a solid color here destroys FAB notch. Use alpha 0!
+              backgroundColor: Color.fromARGB(255, 18, 140, 126),
+              // Theme.of(context).primaryColor.withAlpha(0),
+              // ====================== END OF INTERESTING STUFF =================
+              selectedItemColor: Theme.of(context).colorScheme.onSurface,
+
+              items: [
+                BottomNavigationBarItem(
+
+                    // backgroundColor: Colors.black,
+                    icon: Icon(
+                      Icons.sort,
+                      size: 40,
+                      color: Colors.black,
+                      //  Theme.of(context).colorScheme.onBackground
+                    ),
+                    label: 'Sort'),
+                BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.filter_alt,
+                      size: 40,
+                      color: Colors.black,
+                      // Theme.of(context).colorScheme.onBackground
+                    ),
+                    label: 'Filter')
+              ],
+            ),
+          )),
     );
   }
 
@@ -472,18 +471,25 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
         eventName: eventName,
         targetBudget: targetBudget,
       );
-
+      await taskbudgetBox.add(category);
       // Store the task in Hive
-      storeCategory(category);
+      await storeCategoryInHive(category);
 
       // Clear form data
-
+      await storeCategoryInLocalStorage(category);
       vendorNameController.clear();
       totalPriceContoller.clear();
+
+      retrieveData();
     }
   }
 
-  Future<void> storeCategory(BudgetTask category) async {
+  Future<void> storeCategoryInHive(BudgetTask category) async {
+    taskbudgetBox = await Hive.openBox<BudgetTask>('budgettask');
+    taskbudgetBox.add(category);
+  }
+
+  Future<void> storeCategoryInLocalStorage(BudgetTask category) async {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/budgettask.txt');
     final exists = await file.exists();
@@ -492,8 +498,10 @@ class _CategoryShownPageState extends State<CategoryShownPage> {
       await file.create();
     }
 
+    print(category.categoryName);
     final categoryData =
         '${category.categoryName},${category.vendorName},${category.totalPrice},${category.eventName},${category.targetBudget},';
     await file.writeAsString(categoryData, mode: FileMode.append);
+    retrieveData();
   }
 }

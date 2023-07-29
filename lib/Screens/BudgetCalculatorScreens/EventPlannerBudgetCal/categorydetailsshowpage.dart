@@ -31,7 +31,7 @@ class _CategoryDetailsShownPageState extends State<CategoryDetailsShownPage> {
           child: AppBar(
             titleSpacing: 2.2,
             forceMaterialTransparency: false,
-            backgroundColor: Colors.greenAccent.shade700,
+             backgroundColor: Color.fromARGB(255, 18, 140, 126),
             automaticallyImplyLeading: true,
             centerTitle: true,
             flexibleSpace: Center(
@@ -55,7 +55,7 @@ class _CategoryDetailsShownPageState extends State<CategoryDetailsShownPage> {
             ),
         ),
         bottomNavigationBar: BottomAppBar(
-          color: Colors.greenAccent.shade700,
+         color: Color.fromARGB(255, 18, 140, 126),
           height: 90,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 15),
