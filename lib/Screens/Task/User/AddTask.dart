@@ -8,8 +8,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsy/Model/Event.dart';
 import 'package:hive/hive.dart';
-
+import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 // import 'package:eventsy/main.dart';
 
 class AddTask extends StatefulWidget {
@@ -32,6 +33,7 @@ class _AddTaskState extends State<AddTask> {
   bool isComplete = false;
 
   final String label = "Task Completed/Incompleted";
+  bool isSwitchOn = false;
 
   final bool value = false;
   final bool onChanged = true;
@@ -48,7 +50,7 @@ class _AddTaskState extends State<AddTask> {
         right: true,
         // ignore: sort_child_properties_last
         child: Scaffold(
-            backgroundColor: Colors.blueGrey.shade900,
+            // backgroundColor: Color.fromARGB(255, 18, 140, 126),
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(height * 0.1),
 
@@ -57,7 +59,7 @@ class _AddTaskState extends State<AddTask> {
               child: AppBar(
                 titleSpacing: 2.2,
                 forceMaterialTransparency: false,
-                backgroundColor: Colors.greenAccent.shade700,
+                backgroundColor: Color.fromARGB(255, 18, 140, 126),
                 automaticallyImplyLeading: true,
                 centerTitle: true,
                 flexibleSpace: Center(
@@ -66,14 +68,14 @@ class _AddTaskState extends State<AddTask> {
                     style: TextStyle(
                         fontSize: width * 0.07,
                         fontFamily: 'Roboto',
-                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
                 ),
               ),
             ),
             body: Container(
-                decoration: BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
                   fit: BoxFit.cover,
@@ -90,7 +92,7 @@ class _AddTaskState extends State<AddTask> {
                             borderRadius: BorderRadius.circular(10.0)),
                         margin: EdgeInsets.only(
                             left: width * 0.15, right: width * 0.15),
-            
+
                         borderOnForeground: false,
                         // child:SingleChildScrollView(
                         child: DropdownButtonFormField<String>(
@@ -145,7 +147,7 @@ class _AddTaskState extends State<AddTask> {
                           dropdownColor: Colors.blueGrey.shade900,
                         ),
                       ),
-            
+
                       SizedBox(
                         height: width * 0.05,
                       ),
@@ -174,16 +176,30 @@ class _AddTaskState extends State<AddTask> {
                           tag: 'taskName',
                           child: TextField(
                             controller: taskController,
-                            // onChanged: (value) {
-                            //   if (taskName.isEmpty) {
-                            //     setValidator(true);
-                            //   } else {
-                            //     setValidator(false);
+                            // validator: (value) {
+                            //   if (value == null || value.isEmpty) {
+                            //     return "Please enter a task name";
                             //   }
-                            //   taskName:
-                            //   value;
-            
+                            //   return null;
                             // },
+                            onChanged: (value) {
+                              setState(() {
+                                isFilled = value.isNotEmpty;
+                              });
+                              if (taskController.text.isEmpty) {
+                                setValidator(true);
+                              } else {
+                                setValidator(false);
+                              }
+                              taskName:
+                              value;
+                            },
+                            // decoration: InputDecoration(
+                            //   errorText:
+                            //       isFilled ? null : "Please enter a task name",
+                            //   border: OutlineInputBorder(),
+                            //   hintText: 'Task Name',
+                            // ),
                             decoration: InputDecoration(
                               errorText:
                                   isFilled ? null : "Please enter a task name",
@@ -252,26 +268,26 @@ class _AddTaskState extends State<AddTask> {
                           SizedBox(
                             width: width * 0.05,
                           ),
-                          Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                text: label,
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  // decoration: TextDecoration.underline,
-                                ),
-                                // recognizer: TapGestureRecognizer()
-                                //   ..onTap = () {
-                                //     debugPrint('Label has been tapped.');
-                                //   },
+                          RichText(
+                            text: TextSpan(
+                              text: label,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                // decoration: TextDecoration.underline,
                               ),
+                              // recognizer: TapGestureRecognizer()
+                              //   ..onTap = () {
+                              //     debugPrint('Label has been tapped.');
+                              //   },
                             ),
                           ),
-                          // Switch(
-                          //   value: value,
-                          //   onChanged: (newValue) {
-                          //     isComplete = newValue;
-                          //   },
+                          // SizedBox(
+                          //   child: Switch(
+                          //     value: value,
+                          //     onChanged: (newValue) {
+                          //       isComplete = newValue;
+                          //     },
+                          //   ),
                           // ),
                           // Container(
                           //     //  margin: EdgeInsets.only(
@@ -279,32 +295,54 @@ class _AddTaskState extends State<AddTask> {
                           //     child: Text(
                           //   "Task Completed/Incompleted",
                           //   style: TextStyle(
-                          //       color: Colors.white70, fontSize: width * 0.05),
+                          //       color: Colors.white70, fontSize: 15),
                           // )),
-                          // SizedBox(
-                          //   width: width * 0.05,
-                          // ),
-                          // Switch(
-                          //   value: false,
-                          //   onChanged: (bool newValue) {
-                          //     onChanged(newValue);
-            
-                          //     // setState(() => newValue = true);
-                          //     // value:
-                          //     // newValue;
-                          //   },
-                          //   // overrides the default green color of the track
-                          //   activeColor: Colors.green.shade700,
-                          //   // color of the round icon, which moves from right to left
-                          //   thumbColor: Colors.green.shade900,
-                          //   // when the switch is off
-                          //   trackColor: Colors.black,
-                          //   // boolean variable value
-            
-                          //   // changes the state of the switch
-                          //   // onChanged: (value) =>
-                          //   //     setState(() => isComplete = value),
-                          // ),
+                          SizedBox(
+                            width: width * 0.05,
+                          ),
+
+                          LiteRollingSwitch(
+                            value: isSwitchOn,
+                            textOn: 'Completed',
+                            textOff: 'Incompleted',
+                            // colorOn: Colors.greenAccent[700],
+                            // colorOff: Colors.redAccent[700],
+                            iconOn: Icons.done,
+                            iconOff: Icons.remove_circle_outline,
+                            onTap: doNothing,
+                            onDoubleTap: doNothing,
+                            onSwipe: doNothing,
+                            textSize:
+                                12.0, // Use the variable to hold the switch state
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                isSwitchOn =
+                                    newValue; // Update the state with the new value
+                              });
+                            },
+
+                            // value: false,
+                            // onChanged: (bool newValue) {
+                            //   value:
+                            //   true;
+
+                            //   setState(() => newValue = true);
+                            //   value:
+                            //   newValue;
+                            // },
+                            // overrides the default green color of the track
+                            // activeColor: Colors.green.shade700,
+
+                            // color of the round icon, which moves from right to left
+                            // thumbColor: Color.fromARGB(255, 60, 101, 63),
+                            // when the switch is off
+                            // trackColor: Colors.black,
+                            // boolean variable value
+
+                            // changes the state of the switch
+                            // onChanged: (value) =>
+                            //     setState(() => isComplete = value),
+                          ),
                         ],
                       )
                       //
@@ -312,7 +350,7 @@ class _AddTaskState extends State<AddTask> {
               ),
             ),
             bottomNavigationBar: BottomAppBar(
-                color: Colors.greenAccent.shade700,
+                color: Color.fromARGB(255, 18, 140, 126),
                 height: 90,
                 child: Center(
                   child: Row(
@@ -329,28 +367,30 @@ class _AddTaskState extends State<AddTask> {
                         label: Text(
                           'Cancel',
                           style: TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 15.0,
+                              // fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
                       ),
                       FloatingActionButton.extended(
                         heroTag: Text('save'),
                         onPressed: () async {
-                          await addTask(
-                            categoryName,
-                            taskController.text,
-                            vendorController.text,
-                            budgetController.text,
-                            isComplete,
-                          );
-                          Navigator.pop(context);
+                          if (isFilled == false) {
+                            await addTask(
+                              categoryName,
+                              taskController.text,
+                              vendorController.text,
+                              budgetController.text,
+                              isComplete,
+                            );
+                            Navigator.pop(context);
+                          }
                         },
                         backgroundColor: Colors.blueGrey.shade900,
                         label: Text(
                           ' Save ',
                           style: TextStyle(
-                              fontSize: 22.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
@@ -360,38 +400,19 @@ class _AddTaskState extends State<AddTask> {
                 ))));
   }
 
-  bool isFilled = true;
+  void doNothing() {}
+
+  bool isFormValid() {
+    return _formKey.currentState?.validate() ?? false;
+  }
+
+  bool isFilled = false;
   void setValidator(valid) {
     setState(() {
       isFilled = valid;
     });
   }
 
-  // addTask(String categoryName, String taskName, String vendorName,
-  //     String budget, bool isComplete) async {
-  // final task = Task(
-  //   categoryName: categoryName,
-  //   taskName: taskName,
-  //   isComplete: isComplete,
-  //   vendorName: vendorName,
-  //   budget: budget,
-  // );
-//     events.eventName = eventName!;
-
-  // taskBox = await Hive.openBox<Task>('task');
-  // if (_formKey.currentState!.validate()) {
-  //   // Save the form data to Hive
-  //   taskBox.put('taskName', taskController.text as Task);
-  //   taskBox.put('vendorName', vendorController.text as Task);
-  //   taskBox.put('budget', budgetController.text as Task);
-  //  taskBox.put('categoryName', categoryName as Task);
-  //  taskBox.put('isComplete', isComplete as Task);
-  // }
-
-  // taskBox.putAll({'taskName': taskController.text, 'vendorName': vendorController.text,'budget':budgetController,'categoryName':categoryName,'isComplete':isComplete});
-  // var check = taskBox.add(task);
-  // if (check == true) {
-  // Navigator.pushNamed(context, '/TaskList');
   addTask(String categoryName, String taskName, String vendorName,
       String budget, bool isComplete) async {
     // final appDocumentDir = await getApplicationDocumentsDirectory();
@@ -403,20 +424,21 @@ class _AddTaskState extends State<AddTask> {
       taskName = taskController.text;
       vendorName = vendorController.text;
       budget = budgetController.text;
-      isComplete = false;
-
+      isComplete = isSwitchOn;
+      final String uniqueKey = Uuid().v4();
 
       // Create a new Task object
       final task = Task(
-        categoryName: categoryName,
-        taskName: taskName,
-        vendorName: vendorName,
-        budget: budget,
-        isComplete: isComplete,
-        timestamp: DateTime.now()
-      );
+          taskKey: uniqueKey,
+          categoryName: categoryName,
+          taskName: taskName,
+          vendorName: vendorName,
+          budget: budget,
+          isComplete: isComplete,
+          timestamp: DateTime.now());
 
       // Store the task in Hive
+      await taskBox.put(uniqueKey, task);
       storeTask(task);
 
       // Clear form data
@@ -425,35 +447,6 @@ class _AddTaskState extends State<AddTask> {
       vendorController.clear();
       budgetController.clear();
     }
-
-    // if (_formKey.currentState!.validate()) {
-    //   // Create a Task object
-    //   final task = Task(
-    //     categoryName: categoryName,
-    //     taskName: taskName,
-    //     vendorName: vendorName,
-    //     budget: budget,
-    //     isComplete: isComplete,
-    //   );
-
-    //     final file = File(filePath);
-    //   final tasks = await readTasksFromFile(file);
-    //   // Save the task to Hive
-    //  taskBox.add(task);
-    //   final addedTaskIndex = taskBox.values.toList().indexOf(task);
-    //   if (addedTaskIndex != -1) {
-    //     if (kDebugMode) {
-    //       print('Task added successfully!');
-    //     }
-    //   } else {
-    //     if (kDebugMode) {
-    //       print('Failed to add task.');
-    //     }
-    //   }
-    //  Navigator.pushNamed(context,'TaskList');
-    // }
-
-    // }
   }
 
   Future<void> storeTask(Task task) async {
@@ -466,37 +459,7 @@ class _AddTaskState extends State<AddTask> {
     }
     final formattedTimestamp = task.timestamp?.toIso8601String() ?? '';
     final taskData =
-        '${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},$formattedTimestamp\n';
+        '${task.taskKey},${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},$formattedTimestamp\n';
     await file.writeAsString(taskData, mode: FileMode.append);
   }
 }
-//   Future<List<Task>> readTasksFromFile(File file) async {
-//     if (await file.exists()) {
-//       final contents = await file.readAsString();
-//       final taskList = contents.split('\n');
-//       final tasks = taskList.map((taskStr) {
-//         final taskData = taskStr.split('|');
-//         return Task(
-//           categoryName: taskData[0],
-//           taskName: taskData[1],
-//           vendorName: taskData[2],
-//           budget: taskData[3],
-//           isComplete: taskData[4] == 'true',
-//         );
-//       }).toList();
-//       return tasks;
-//     } else {
-//       return [];
-//     }
-//   }
-
-//   Future<void> writeTasksToFile(File file, List<Task> tasks) async {
-//     final lines = tasks.map((task) {
-//       final taskStr =
-//           '${task.categoryName}|${task.taskName}|${task.vendorName}|${task.budget}|${task.isComplete}';
-//       return taskStr;
-//     }).toList();
-//     final contents = lines.join('\n');
-//     await file.writeAsString(contents);
-//   }
-// }
