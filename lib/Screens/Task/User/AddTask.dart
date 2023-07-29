@@ -10,6 +10,7 @@ import 'package:eventsy/Model/Event.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 // import 'package:eventsy/main.dart';
 
 class AddTask extends StatefulWidget {
@@ -32,6 +33,7 @@ class _AddTaskState extends State<AddTask> {
   bool isComplete = false;
 
   final String label = "Task Completed/Incompleted";
+  bool isSwitchOn = false;
 
   final bool value = false;
   final bool onChanged = true;
@@ -48,7 +50,7 @@ class _AddTaskState extends State<AddTask> {
         right: true,
         // ignore: sort_child_properties_last
         child: Scaffold(
-            backgroundColor: Colors.blueGrey.shade900,
+            // backgroundColor: Color.fromARGB(255, 18, 140, 126),
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(height * 0.1),
 
@@ -57,7 +59,7 @@ class _AddTaskState extends State<AddTask> {
               child: AppBar(
                 titleSpacing: 2.2,
                 forceMaterialTransparency: false,
-                backgroundColor: Colors.greenAccent.shade700,
+                backgroundColor: Color.fromARGB(255, 18, 140, 126),
                 automaticallyImplyLeading: true,
                 centerTitle: true,
                 flexibleSpace: Center(
@@ -66,7 +68,7 @@ class _AddTaskState extends State<AddTask> {
                     style: TextStyle(
                         fontSize: width * 0.07,
                         fontFamily: 'Roboto',
-                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
                 ),
@@ -174,16 +176,30 @@ class _AddTaskState extends State<AddTask> {
                           tag: 'taskName',
                           child: TextField(
                             controller: taskController,
-                            // onChanged: (value) {
-                            //   if (taskName.isEmpty) {
-                            //     setValidator(true);
-                            //   } else {
-                            //     setValidator(false);
+                            // validator: (value) {
+                            //   if (value == null || value.isEmpty) {
+                            //     return "Please enter a task name";
                             //   }
-                            //   taskName:
-                            //   value;
-
+                            //   return null;
                             // },
+                            onChanged: (value) {
+                              setState(() {
+                                isFilled = value.isNotEmpty;
+                              });
+                              if (taskController.text.isEmpty) {
+                                setValidator(true);
+                              } else {
+                                setValidator(false);
+                              }
+                              taskName:
+                              value;
+                            },
+                            // decoration: InputDecoration(
+                            //   errorText:
+                            //       isFilled ? null : "Please enter a task name",
+                            //   border: OutlineInputBorder(),
+                            //   hintText: 'Task Name',
+                            // ),
                             decoration: InputDecoration(
                               errorText:
                                   isFilled ? null : "Please enter a task name",
@@ -252,26 +268,26 @@ class _AddTaskState extends State<AddTask> {
                           SizedBox(
                             width: width * 0.05,
                           ),
-                          Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                text: label,
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  // decoration: TextDecoration.underline,
-                                ),
-                                // recognizer: TapGestureRecognizer()
-                                //   ..onTap = () {
-                                //     debugPrint('Label has been tapped.');
-                                //   },
+                          RichText(
+                            text: TextSpan(
+                              text: label,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                // decoration: TextDecoration.underline,
                               ),
+                              // recognizer: TapGestureRecognizer()
+                              //   ..onTap = () {
+                              //     debugPrint('Label has been tapped.');
+                              //   },
                             ),
                           ),
-                          // Switch(
-                          //   value: value,
-                          //   onChanged: (newValue) {
-                          //     isComplete = newValue;
-                          //   },
+                          // SizedBox(
+                          //   child: Switch(
+                          //     value: value,
+                          //     onChanged: (newValue) {
+                          //       isComplete = newValue;
+                          //     },
+                          //   ),
                           // ),
                           // Container(
                           //     //  margin: EdgeInsets.only(
@@ -279,33 +295,54 @@ class _AddTaskState extends State<AddTask> {
                           //     child: Text(
                           //   "Task Completed/Incompleted",
                           //   style: TextStyle(
-                          //       color: Colors.white70, fontSize: width * 0.05),
+                          //       color: Colors.white70, fontSize: 15),
                           // )),
-                          // SizedBox(
-                          //   width: width * 0.05,
-                          // ),
-                          // Switch(
-                          //   value: false,
-                          //   onChanged: (bool newValue) {
-                          //     value:
-                          //     true;
+                          SizedBox(
+                            width: width * 0.05,
+                          ),
 
-                          //     // setState(() => newValue = true);
-                          //     // value:
-                          //     // newValue;
-                          //   },
-                          //   // overrides the default green color of the track
-                          //   activeColor: Colors.green.shade700,
-                          //   // color of the round icon, which moves from right to left
-                          //   // thumbColor: Color.fromARGB(255, 60, 101, 63),
-                          //   // when the switch is off
-                          //   // trackColor: Colors.black,
-                          //   // boolean variable value
+                          LiteRollingSwitch(
+                            value: isSwitchOn,
+                            textOn: 'Completed',
+                            textOff: 'Incompleted',
+                            // colorOn: Colors.greenAccent[700],
+                            // colorOff: Colors.redAccent[700],
+                            iconOn: Icons.done,
+                            iconOff: Icons.remove_circle_outline,
+                            onTap: doNothing,
+                            onDoubleTap: doNothing,
+                            onSwipe: doNothing,
+                            textSize:
+                                12.0, // Use the variable to hold the switch state
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                isSwitchOn =
+                                    newValue; // Update the state with the new value
+                              });
+                            },
 
-                          //   // changes the state of the switch
-                          //   // onChanged: (value) =>
-                          //   //     setState(() => isComplete = value),
-                          // ),
+                            // value: false,
+                            // onChanged: (bool newValue) {
+                            //   value:
+                            //   true;
+
+                            //   setState(() => newValue = true);
+                            //   value:
+                            //   newValue;
+                            // },
+                            // overrides the default green color of the track
+                            // activeColor: Colors.green.shade700,
+
+                            // color of the round icon, which moves from right to left
+                            // thumbColor: Color.fromARGB(255, 60, 101, 63),
+                            // when the switch is off
+                            // trackColor: Colors.black,
+                            // boolean variable value
+
+                            // changes the state of the switch
+                            // onChanged: (value) =>
+                            //     setState(() => isComplete = value),
+                          ),
                         ],
                       )
                       //
@@ -313,7 +350,7 @@ class _AddTaskState extends State<AddTask> {
               ),
             ),
             bottomNavigationBar: BottomAppBar(
-                color: Colors.greenAccent.shade700,
+                color: Color.fromARGB(255, 18, 140, 126),
                 height: 90,
                 child: Center(
                   child: Row(
@@ -330,28 +367,30 @@ class _AddTaskState extends State<AddTask> {
                         label: Text(
                           'Cancel',
                           style: TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 15.0,
+                              // fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
                       ),
                       FloatingActionButton.extended(
                         heroTag: Text('save'),
                         onPressed: () async {
-                          await addTask(
-                            categoryName,
-                            taskController.text,
-                            vendorController.text,
-                            budgetController.text,
-                            isComplete,
-                          );
-                          Navigator.pop(context);
+                          if (isFilled == false) {
+                            await addTask(
+                              categoryName,
+                              taskController.text,
+                              vendorController.text,
+                              budgetController.text,
+                              isComplete,
+                            );
+                            Navigator.pop(context);
+                          }
                         },
                         backgroundColor: Colors.blueGrey.shade900,
                         label: Text(
                           ' Save ',
                           style: TextStyle(
-                              fontSize: 22.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
@@ -361,7 +400,13 @@ class _AddTaskState extends State<AddTask> {
                 ))));
   }
 
-  bool isFilled = true;
+  void doNothing() {}
+
+  bool isFormValid() {
+    return _formKey.currentState?.validate() ?? false;
+  }
+
+  bool isFilled = false;
   void setValidator(valid) {
     setState(() {
       isFilled = valid;
@@ -379,7 +424,7 @@ class _AddTaskState extends State<AddTask> {
       taskName = taskController.text;
       vendorName = vendorController.text;
       budget = budgetController.text;
-      isComplete = false;
+      isComplete = isSwitchOn;
       final String uniqueKey = Uuid().v4();
 
       // Create a new Task object
