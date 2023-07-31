@@ -10,7 +10,6 @@ import 'Screens/LoginandSignupScreens/firebase_options.dart';
 import 'routes.dart';
 import 'global.dart';
 
-
 // import file locations for routings
 import 'package:flutter/services.dart';
 
@@ -34,6 +33,7 @@ import 'Screens/Task/User/AddTask.dart';
 import 'Screens/Task/Planner/PlannerrTaskHome.dart';
 import 'Screens/Task/Planner/eventList.dart';
 import 'Screens/Task/Planner/addEventDetails.dart';
+import 'Screens/Task/User/updateTask.dart';
 import 'Screens/BudgetCalculatorScreens/categorydetailsshowpage.dart';
 import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
 // import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
@@ -41,11 +41,7 @@ import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
 import 'Screens/BudgetCalculatorScreens/eventselectionpage.dart';
 import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
 
-
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -90,14 +86,12 @@ Future main() async {
 }
 
 class FirstPage extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
-     routes: {
-          'UserHome': (context) =>  UserTaskHome(),
-            '/ImageExplore': (context) => ImageExplore(),
+        routes: {
+          'UserHome': (context) => UserTaskHome(),
+          '/ImageExplore': (context) => ImageExplore(),
           '/VendorExplore': (context) => VendorExplore(),
           '/TaskExplore': (context) => TaskExplore(),
 
@@ -105,8 +99,10 @@ class FirstPage extends StatelessWidget {
           'UserHome': (context) => UserTaskHome(),
           'TaskList': (context) => TaskList(),
           'addTask': (context) => AddTask(),
-          '/userDashboard':(context)=>userDashboard(),
-          '/userSettings':(context)=> userSettings(),
+          '/userDashboard': (context) => userDashboard(),
+          '/userSettings': (context) => userSettings(),
+          'updateTask': (context) => UpdateTask(
+              Key:  ModalRoute.of(context)!.settings.arguments as String),
 
           /////////PLANNER TASK/////////
 
@@ -129,10 +125,8 @@ class FirstPage extends StatelessWidget {
           // './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
           './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(
                 eventName: '',
-              ), 
+              ),
         },
-
-
         key: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Eventsy',

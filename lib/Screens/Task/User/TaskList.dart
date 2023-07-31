@@ -27,6 +27,7 @@ class TaskList extends StatefulWidget {
 class _TaskListState extends State<TaskList> {
   Box<Task>? taskBox;
   List<Task> tasks = [];
+  List<Task> originalTasks = [];
   late String time;
   @override
   void initState() {
@@ -52,16 +53,17 @@ class _TaskListState extends State<TaskList> {
       final lines = await file.readAsLines();
       List<Task> newTasks = [];
       lines.forEach((line) {
-        final data = line.split(',');
+        final taskData = line.split(',');
         final task = Task(
-          taskKey: data[0],
-          categoryName: data[1],
-          taskName: data[2],
-          vendorName: data[3],
-          budget: data[4],
-          isComplete: data[5] == 'true',
-          timestamp: DateTime.tryParse(data[6]),
+          taskKey: taskData[0],
+          categoryName: taskData[1],
+          taskName: taskData[2],
+          vendorName: taskData[3],
+          budget: taskData[4],
+          isComplete: taskData[5] == 'true',
+          timestamp: DateTime.tryParse(taskData[6]),
         );
+
         if (task.timestamp == null) {
           task.timestamp = DateTime(0);
           time = "null";
@@ -70,18 +72,20 @@ class _TaskListState extends State<TaskList> {
           time = DateFormat('yyyy-MM-dd').format(task.timestamp!);
           time = time.toString();
         }
-
+        print(task.isComplete);
         // tasks.add(task);
         newTasks.add(task);
       });
       setState(() {
         tasks = newTasks;
+         originalTasks = newTasks.toList();
       });
     } else {
       setState(() {
         tasks = [];
       });
     }
+
     // Update the UI
   }
 
@@ -93,6 +97,38 @@ class _TaskListState extends State<TaskList> {
 
   String sort = 'accentOrder';
   String filter = 'all';
+
+  List<Task>? sortTaskByMethod(String method) {
+    setState(() {
+      if (method == 'accent') {
+        return tasks.sort((a, b) => a.taskName.compareTo(b.taskName));
+      } else if (method == 'deaccent') {
+        return tasks.sort((a, b) => b.taskName.compareTo(a.taskName));
+      } else if (method == 'newestFirst') {
+        return tasks.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
+      } else if (method == 'oldestFirst') {
+        return tasks.sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
+      }
+    });
+    return null;
+  }
+
+  void filterTasksByMethod(String method) {
+    setState(() {
+     
+      // tasks = newTasks;
+      if (method == 'completed') {
+        tasks = originalTasks.where((task) => task.isComplete).toList();
+      } else if (method == 'pending') {
+        // tasks = newTasks;
+        tasks = originalTasks.where((task) => !task.isComplete).toList();
+      } else {
+        // Reset the tasks list to show all tasks
+        retrieveData();
+      }
+      // tasks = newTasks;
+    });
+  }
 
 //////////////////////sort Task ////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -110,7 +146,7 @@ class _TaskListState extends State<TaskList> {
                 children: <Widget>[
                   RadioListTile(
                     title: Text(
-                      "Accent Order",
+                      "\u2B07 A-Z",
                       style: TextStyle(color: Colors.white),
                     ),
                     value: "accent",
@@ -119,13 +155,14 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         sort = value.toString();
+                        sortTaskByMethod(sort);
                         Navigator.pop(context);
                       });
                     },
                   ),
                   RadioListTile(
                     title: Text(
-                      "Deaccent Order",
+                      "\u2B06 Z-A",
                       style: TextStyle(color: Colors.white),
                     ),
                     value: "deaccent",
@@ -134,6 +171,7 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         sort = value.toString();
+                        sortTaskByMethod(sort);
                         Navigator.pop(context);
                       });
                     },
@@ -150,6 +188,7 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         sort = value.toString();
+                        sortTaskByMethod(sort);
                         Navigator.pop(context);
                       });
                     },
@@ -165,6 +204,7 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         sort = value.toString();
+                        sortTaskByMethod(sort);
                         Navigator.pop(context);
                       });
                     },
@@ -202,6 +242,8 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         filter = value.toString();
+
+                        filterTasksByMethod(filter);
                         Navigator.pop(context);
                       });
                     },
@@ -217,6 +259,7 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         filter = value.toString();
+                        filterTasksByMethod(filter);
                         Navigator.pop(context);
                       });
                     },
@@ -232,6 +275,7 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         filter = value.toString();
+                        filterTasksByMethod(filter);
                         Navigator.pop(context);
                       });
                     },
@@ -246,32 +290,28 @@ class _TaskListState extends State<TaskList> {
   /////////////////////deleteTask//////////////////////////
   ///////////////////////////////////////////////
   /////////////////////////////////////////////////////
-  
+
   static Future<void> deleteTask(String taskKey) async {
     final taskBox = await Hive.openBox<Task>('task');
 
-
     if (taskBox.containsKey(taskKey)) {
-   
       taskBox.delete(taskKey);
-    } 
-
+    }
 
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/tasks.txt');
     if (await file.exists()) {
       final lines = await file.readAsLines();
       final updatedLines = lines.where((line) {
-        final data = line.split(',');
-        final taskKeyInFile = data[0];
+        final taskData = line.split(',');
+        final taskKeyInFile = taskData[0];
         return taskKeyInFile != taskKey;
       }).toList();
 
       await file.writeAsString(updatedLines.join('\n'));
-    
-    } 
+    }
   }
-  
+
   // ////////////////////Edit or delete////////////////////////////
   /////////////////////////////////////////////////////////
 
@@ -291,12 +331,13 @@ class _TaskListState extends State<TaskList> {
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, 'addTask');
+                      Navigator.pushNamed(context, 'updateTask',
+                          arguments: taskKey);
 
                       // Navigator.pushNamed(context,'UserHome');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 7, 94, 84),
+                      backgroundColor: Color.fromARGB(255, 37, 211, 102),
                     ),
                     child: Text(" Edit ",
                         style: TextStyle(
@@ -312,7 +353,7 @@ class _TaskListState extends State<TaskList> {
                     },
                     style: ElevatedButton.styleFrom(
                       // alignment:,
-                      backgroundColor: Color.fromARGB(255, 7, 94, 84),
+                      backgroundColor: Color.fromARGB(255, 118, 6, 6),
                     ),
                     child: Text("Delete",
                         style: TextStyle(
@@ -357,7 +398,7 @@ class _TaskListState extends State<TaskList> {
               flexibleSpace: Center(
                 child: Text('Task List',
                     style: TextStyle(
-                       fontSize: width * 0.07,
+                      fontSize: width * 0.07,
                       // fontSize: 30,
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
