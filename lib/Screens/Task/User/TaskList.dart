@@ -78,7 +78,7 @@ class _TaskListState extends State<TaskList> {
       });
       setState(() {
         tasks = newTasks;
-         originalTasks = newTasks.toList();
+        originalTasks = newTasks.toList();
       });
     } else {
       setState(() {
@@ -115,7 +115,6 @@ class _TaskListState extends State<TaskList> {
 
   void filterTasksByMethod(String method) {
     setState(() {
-     
       // tasks = newTasks;
       if (method == 'completed') {
         tasks = originalTasks.where((task) => task.isComplete).toList();
@@ -315,7 +314,7 @@ class _TaskListState extends State<TaskList> {
   // ////////////////////Edit or delete////////////////////////////
   /////////////////////////////////////////////////////////
 
-  void editOrDelete(String key) {
+  editOrDelete(String key) {
     // String taskKey = key;
     String taskKey = key.trim();
     print('Attempting to delete task with key: $taskKey');
@@ -330,10 +329,19 @@ class _TaskListState extends State<TaskList> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, 'updateTask',
+                    onPressed: () async {
+                      final updatedTask = await Navigator.pushNamed(
+                          context, 'updateTask',
                           arguments: taskKey);
+                      retrieveData();
+                      // if (updatedTask != null) {
+                      //   // If a new task is added, update the data and refresh the UI
+                      //   setState(() {
+                      //     tasks.add(updatedTask as Task);
+                      //   });
+                      // }
 
+                      Navigator.pop(context, updatedTask);
                       // Navigator.pushNamed(context,'UserHome');
                     },
                     style: ElevatedButton.styleFrom(
@@ -347,7 +355,7 @@ class _TaskListState extends State<TaskList> {
                     onPressed: () async {
                       await deleteTask(taskKey);
                       retrieveData();
-                      Navigator.pop(context);
+                      Navigator.pop(context, null);
                       // deleteTask(taskKey);
                       // Navigator.pop(context);
                     },
@@ -377,7 +385,7 @@ class _TaskListState extends State<TaskList> {
     // currentIndex:selected;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
+     MediaQuery.of(context).viewInsets.bottom != 0.0;
     // final List<String> taskList = retriveTask();
 
     return SafeArea(
@@ -460,8 +468,15 @@ class _TaskListState extends State<TaskList> {
                             onTap: () {
                               // Handle task item tap
                             },
-                            onLongPress: () {
-                              editOrDelete(task.taskKey);
+                            onLongPress: () async {
+                              final updatedTask = editOrDelete(task.taskKey);
+                              if (updatedTask != null) {
+                                // If a new task is added, update the data and refresh the UI
+                                setState(() {
+                                  retrieveData();
+                                });
+                              }
+                              // await retrieveData();
                             },
                           ),
                         ),
@@ -482,12 +497,12 @@ class _TaskListState extends State<TaskList> {
             onPressed: () async {
               // Navigator.pushNamed(context, 'addTask');
               final newTask = await Navigator.pushNamed(context, 'addTask');
-              if (newTask != null) {
-                // If a new task is added, update the data and refresh the UI
-                setState(() {
-                  tasks.add(newTask as Task);
-                });
-              }
+              // if (newTask != null) {
+              //   // If a new task is added, update the data and refresh the UI
+              //   setState(() {
+              //     tasks.add(newTask as Task);
+              //   });
+              // }
               retrieveData();
             },
             child: Icon(
