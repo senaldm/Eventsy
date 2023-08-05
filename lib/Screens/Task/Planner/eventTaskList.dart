@@ -1,67 +1,71 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'dart:async';
 import 'package:eventsy/Model/Event.dart';
-
-import 'package:eventsy/Screens/Task/User/bottonNavigationPaint.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-
-import 'package:eventsy/Screens/Task/User/TaskFilter.dart';
-
 import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:collection/collection.dart';
 
-class TaskList extends StatefulWidget {
-  // const TaskList({ Key? key }) : super(key: key);
+class EventTaskList extends StatefulWidget {
+  final Event event;
+  const EventTaskList({required this.event});
   @override
-  _TaskListState createState() => _TaskListState();
+  _EventTaskListState createState() => _EventTaskListState();
 }
 
-class _TaskListState extends State<TaskList> {
-  Box<Task>? taskBox;
-  List<Task> tasks = [];
-  List<Task> originalTasks = [];
+class _EventTaskListState extends State<EventTaskList> {
+  late Event event;
+  late String eventKey;
+  late String eventName;
+  Box<EventTasks>? eventTaskBox;
+  List<EventTasks> tasks = [];
+  List<EventTasks> originalTasks = [];
   late String time;
+
   @override
   void initState() {
     super.initState();
+    eventKey = widget.event.eventKey;
+    eventName = widget.event.eventName;
+    event = widget.event;
     openHiveBox();
-    retrieveData();
+    retrieveData(eventKey);
   }
 
   Future<void> openHiveBox() async {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
-    taskBox = await Hive.openBox<Task>('task');
+    eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
   }
 
-  Future<void> retrieveData() async {
-    // Retrieve data from Hive box
-    tasks = taskBox?.values.toList() ?? [];
+  Future<void> retrieveData(String eventKey) async {
+    // Retrieve data from eventTaskBox
+    tasks = eventTaskBox?.values
+            .where((task) => task.eventKey == eventKey)
+            .toList() ??
+        [];
 
     // Retrieve data from local storage
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/tasks.txt');
+    final file = File('${directory.path}/eventTasks.txt');
     if (await file.exists()) {
       final lines = await file.readAsLines();
-      List<Task> newTasks = [];
+      List<EventTasks> newTasks = [];
       lines.forEach((line) {
         final taskData = line.split(',');
-        final task = Task(
-          taskKey: taskData[0],
-          categoryName: taskData[1],
-          taskName: taskData[2],
-          vendorName: taskData[3],
-          budget: taskData[4],
-          isComplete: taskData[5] == 'true',
-          timestamp: DateTime.tryParse(taskData[6]),
+        final task = EventTasks(
+          eventKey: taskData[0],
+          eventName: taskData[1],
+          taskKey: taskData[2],
+          categoryName: taskData[3],
+          taskName: taskData[4],
+          vendorName: taskData[5],
+          budget: taskData[6],
+          isComplete: taskData[7] == 'true',
+          taskTimestamp: DateTime.parse(taskData[8]),
         );
 
         if (task.timestamp == null) {
@@ -69,12 +73,14 @@ class _TaskListState extends State<TaskList> {
           time = "null";
         } else {
           // time = task.timestamp!.toIso8601String();
-          time = DateFormat('yyyy-MM-dd').format(task.timestamp!);
-          time = time.toString();
+          time = DateFormat('yyyy-MM-dd').format(task.timestamp!).toString();
         }
-        print(task.isComplete);
-        // tasks.add(task);
-        newTasks.add(task);
+
+        tasks.add(task);
+        if (task.eventKey == eventKey) {
+          newTasks.add(task);
+        } 
+       
       });
       setState(() {
         tasks = newTasks;
@@ -120,10 +126,10 @@ class _TaskListState extends State<TaskList> {
         tasks = originalTasks.where((task) => task.isComplete).toList();
       } else if (method == 'pending') {
         // tasks = newTasks;
-        tasks = originalTasks.where((task) => !task.isComplete).toList();
+        tasks = originalTasks.where((task) => task.isComplete).toList();
       } else {
         // Reset the tasks list to show all tasks
-        retrieveData();
+        retrieveData(eventKey);
       }
       // tasks = newTasks;
     });
@@ -291,10 +297,10 @@ class _TaskListState extends State<TaskList> {
   /////////////////////////////////////////////////////
 
   static Future<void> deleteTask(String taskKey) async {
-    final taskBox = await Hive.openBox<Task>('task');
+    final eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
 
-    if (taskBox.containsKey(taskKey)) {
-      taskBox.delete(taskKey);
+    if (eventTaskBox.containsKey(taskKey)) {
+      eventTaskBox.delete(taskKey);
     }
 
     final directory = await getApplicationDocumentsDirectory();
@@ -333,7 +339,7 @@ class _TaskListState extends State<TaskList> {
                       final updatedTask = await Navigator.pushNamed(
                           context, '/updateTask',
                           arguments: taskKey);
-                      retrieveData();
+                      retrieveData(eventKey);
                       // if (updatedTask != null) {
                       //   // If a new task is added, update the data and refresh the UI
                       //   setState(() {
@@ -354,7 +360,7 @@ class _TaskListState extends State<TaskList> {
                 ElevatedButton(
                     onPressed: () async {
                       await deleteTask(taskKey);
-                      retrieveData();
+                      retrieveData(eventKey);
                       Navigator.pop(context, null);
                       // deleteTask(taskKey);
                       // Navigator.pop(context);
@@ -378,7 +384,7 @@ class _TaskListState extends State<TaskList> {
 ///////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
   ///
-  // var tasks = taskBox.values.toList();
+  // var tasks = eventTaskBox.values.toList();
 
   @override
   Widget build(BuildContext context) {
@@ -386,7 +392,7 @@ class _TaskListState extends State<TaskList> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     MediaQuery.of(context).viewInsets.bottom != 0.0;
-    // final List<String> taskList = retriveTask();
+    // final List<String> EventTaskList = retriveTask();
 
     return SafeArea(
       top: true,
@@ -404,7 +410,7 @@ class _TaskListState extends State<TaskList> {
               automaticallyImplyLeading: true,
               centerTitle: true,
               flexibleSpace: Center(
-                child: Text('Task List',
+                child: Text(eventName,
                     style: TextStyle(
                       fontSize: width * 0.07,
                       // fontSize: 30,
@@ -412,106 +418,113 @@ class _TaskListState extends State<TaskList> {
                       fontWeight: FontWeight.bold,
                     )),
               ),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/viewEvent',
+                          arguments: event);
+                    },
+                    icon: Icon(Icons.info_outline))
+              ],
             ),
           ),
-          body: tasks.isEmpty 
-          ? Container(
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 20, 24, 26),
-              image: DecorationImage(
-                image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child:Container(
-              margin: const EdgeInsets.symmetric(
-                      horizontal: 30, vertical: 200),
-              decoration: BoxDecoration(
-               image: DecorationImage(
-                      image: AssetImage("assets/Images/Task/emptyTask.jpg"),
-                      
-                    ),
-              ),
-              
-            )
-          )
-          :Container(
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 20, 24, 26),
-              image: DecorationImage(
-                image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: ListView.builder(
-              padding: EdgeInsetsDirectional.zero,
-              shrinkWrap: false,
-              itemCount: tasks.length,
-              itemBuilder: (context, index) {
-                final task = tasks[index];
-
-                return SizedBox(
-                  height: 70.0,
-                  child: Container(
-                    // color: Color.fromARGB(255, 20, 24, 26),
-                    padding: EdgeInsetsDirectional.zero,
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(color: Colors.white12, width: 0.0
-                                //  Theme.of(context).dividerColor
-                                ))),
-                    margin: EdgeInsets.only(
-                        left: 10.0, right: 10.0, bottom: 0, top: 0),
-                    // color: Color.fromARGB(255, 20, 24, 26),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Card(
-                          color: Color.fromARGB(255, 20, 24, 26),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-
-                          child: ListTile(
-                            leading: Text(
-                              task.taskName,
-
-                              //  "${task.timestamp?.minute?.toString()}",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                            textColor: Colors.white,
-                            trailing: Text(
-                              time,
-                            ),
-                            onTap: () async {
-                              Navigator.pushNamed(context, '/viewTask',
-                                  arguments: task);
-                              // setState(() {
-                              //   retrieveData();
-                              // });
-                            },
-                            onLongPress: () async {
-                              final updatedTask = editOrDelete(task.taskKey);
-                              if (updatedTask != null) {
-                                // If a new task is added, update the data and refresh the UI
-                                setState(() {
-                                  retrieveData();
-                                });
-                              }
-                              // await retrieveData();
-                            },
-                          ),
-                        ),
-                      ],
+          body: tasks.isEmpty
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 20, 24, 26),
+                    image: DecorationImage(
+                      image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                );
-              },
-            ),
-          ),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 200),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/Images/Task/emptyTask.jpg"),
+                      ),
+                    ),
+                  ))
+              : Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 20, 24, 26),
+                    image: DecorationImage(
+                      image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: ListView.builder(
+                    padding: EdgeInsetsDirectional.zero,
+                    shrinkWrap: false,
+                    itemCount: tasks.length,
+                    itemBuilder: (context, index) {
+                      final task = tasks[index];
+
+                      return SizedBox(
+                        height: 70.0,
+                        child: Container(
+                          // color: Color.fromARGB(255, 20, 24, 26),
+                          padding: EdgeInsetsDirectional.zero,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.white12, width: 0.0
+                                      //  Theme.of(context).dividerColor
+                                      ))),
+                          margin: EdgeInsets.only(
+                              left: 10.0, right: 10.0, bottom: 0, top: 0),
+                          // color: Color.fromARGB(255, 20, 24, 26),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Card(
+                                color: Color.fromARGB(255, 20, 24, 26),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+
+                                child: ListTile(
+                                  leading: Text(
+                                    task.taskName,
+
+                                    //  "${task.timestamp?.minute?.toString()}",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                  textColor: Colors.white,
+                                  trailing: Text(
+                                    time,
+                                  ),
+                                  onTap: () async {
+                                    Navigator.pushNamed(context, '/viewTask',
+                                        arguments: task);
+                                    // setState(() {
+                                    //   retrieveData();
+                                    // });
+                                  },
+                                  onLongPress: () async {
+                                    final updatedTask =
+                                        editOrDelete(task.taskKey);
+                                    if (updatedTask != null) {
+                                      // If a new task is added, update the data and refresh the UI
+                                      setState(() {
+                                        retrieveData(eventKey);
+                                      });
+                                    }
+                                    // await retrieveData();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
@@ -521,14 +534,19 @@ class _TaskListState extends State<TaskList> {
             //   borderRadius: BorderRadius.circular(100)),
             onPressed: () async {
               // Navigator.pushNamed(context, 'addTask');
-              final newTask = await Navigator.pushNamed(context, 'addTask');
+              final newTask = await Navigator.pushNamed(
+                  context, '/addEventTask',
+                  arguments: {
+                    'eventName': event.eventName,
+                    'eventKey': event.eventKey,
+                  });
               if (newTask != null) {
                 // If a new task is added, update the data and refresh the UI
                 setState(() {
-                  tasks.add(newTask as Task);
+                  tasks.add(newTask as EventTasks);
                 });
               }
-              await retrieveData();
+              await retrieveData(eventKey);
             },
             child: Icon(
               Icons.add,
@@ -593,20 +611,5 @@ class _TaskListState extends State<TaskList> {
             ),
           )),
     );
-  }
-
-  Widget buildContent(List<Task> task) {
-    if (task.isEmpty) {
-      return Center(
-          child: FloatingActionButton(
-              heroTag: 'addTask',
-              onPressed: () {
-                // Navigator.pushNamed(context, '/addTask');
-              }));
-    } else {
-      return Center(
-        child: Text('UnderDeveloped'),
-      );
-    }
   }
 }

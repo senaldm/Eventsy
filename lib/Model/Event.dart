@@ -4,7 +4,6 @@ part 'Event.g.dart';
 
 @HiveType(typeId: 0)
 class Task extends HiveObject {
-
   @HiveField(0)
   String taskKey;
   @HiveField(1)
@@ -19,15 +18,15 @@ class Task extends HiveObject {
   bool isComplete;
   @HiveField(6)
   DateTime? timestamp;
-  
+
   void isCompleted() {
     isComplete = false;
   }
 
   Task({
-    this.taskKey='',
+    required this.taskKey,
     this.categoryName = '',
-    this.taskName = '',
+    required this.taskName,
     this.vendorName = '',
     this.budget = '',
     this.isComplete = false,
@@ -39,57 +38,95 @@ class Task extends HiveObject {
 
 @HiveType(typeId: 1)
 class Event extends HiveObject {
-  @HiveField(7)
+  @HiveField(0)
+  String eventKey;
+
+  @HiveField(1)
   String eventName;
 
-  @HiveField(8)
-  DateTime? date;
+  @HiveField(2)
+  DateTime? eventDate;
+
+  @HiveField(3)
+  String note;
+
+  @HiveField(4)
+  String venue;
+
+  @HiveField(5)
+  DateTime? timestamp;
+
+  @HiveField(6)
+  bool isEventComplete;
 
   Event({
+    required this.eventKey,
     required this.eventName,
-    this.date,
+    this.eventDate,
+    this.note = '',
+    this.venue = '',
+    this.timestamp,
+    this.isEventComplete = false,
   });
 }
 
 @HiveType(typeId: 2)
 class EventTasks extends Event {
-  @HiveField(9)
+  @HiveField(7)
+  String taskKey;
+
+  @HiveField(8)
   late String taskName;
 
-  @HiveField(10)
+  @HiveField(9)
   String? vendorName;
 
+  @HiveField(10)
+  bool isComplete;
+
   @HiveField(11)
-  late bool isComplete;
+  late String? categoryName;
 
   @HiveField(12)
-  late String categoryName;
-
-  @HiveField(13)
   String? budget;
 
+  @HiveField(13)
+  DateTime taskTimestamp;
+
   EventTasks({
-    required String eventName,
-    required DateTime date,
-  }) : super(eventName: eventName, date: date);
+    required eventKey,
+    required eventName,
+    required this.taskKey,
+    required this.taskName,
+    this.vendorName,
+    this.isComplete=false,
+    this.categoryName,
+    this.budget,
+    required this.taskTimestamp,
+  }) : super(
+          eventKey: eventKey,
+          eventName: eventName,
+        );
 }
 
 @HiveType(typeId: 3)
 class Invitation extends Event {
-  @HiveField(14)
+  @HiveField(7)
   late String guestName;
-  @HiveField(15)
+  @HiveField(8)
   late bool isSend;
 
   Invitation({
+    required String eventKey,
     required String eventName,
-  }) : super(eventName: eventName);
+  }) : super(eventKey: eventKey, eventName: eventName);
 }
 
 @HiveType(typeId: 4)
 class UserMode extends HiveObject {
-  @HiveField(16)
+  @HiveField(0)
   String userMode = 'general';
-  @HiveField(17)
-  bool isFirst = false;
+  @HiveField(1)
+  bool isFirst = true;
+  UserMode({required String userMode, required bool isFirst});
 }

@@ -11,34 +11,53 @@ import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sliding_switch/sliding_switch.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
+// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
 // import 'package:eventsy/main.dart';
 
-class AddTask extends StatefulWidget {
-  const AddTask({Key? key}) : super(key: key);
+class AddEvent extends StatefulWidget {
+  const AddEvent({Key? key}) : super(key: key);
 
   @override
-  _AddTaskState createState() => _AddTaskState();
+  _AddEventState createState() => _AddEventState();
 }
 
-class _AddTaskState extends State<AddTask> {
-  final taskController = TextEditingController();
-  final vendorController = TextEditingController();
-  // final categoryController = TextEditingController();
-  final budgetController = TextEditingController();
-  final statusController = TextEditingController();
-  String taskName = '';
-  String categoryName = '';
-  String vendorName = '';
-  String budget = '';
-  bool isComplete = false;
+class _AddEventState extends State<AddEvent> {
+  String eventName = '';
 
-  final String label = "Task Completed";
+  DateTime eventDate = DateTime.now();
+  String note = '';
+  String venue = '';
+  bool isEventComplete = false;
+  final String label = "Event Completed";
   bool isSwitchOn = false;
+
+  final eventNameController = TextEditingController();
+  final noteController = TextEditingController();
+  final venueController = TextEditingController();
+  final eventStatusController = TextEditingController();
+  // final eventDateController =TextEditingController(text: eventDate.toLocal().toString().split(' ')[0]);
 
   final bool value = false;
   final bool onChanged = true;
   final _formKey = GlobalKey<FormState>();
-  final List<Task> task = [];
+  final List<Event> event = [];
+
+  void showDatePicker(BuildContext context) async {
+    DateTime? newEventDate = await showRoundedDatePicker(
+      context: context,
+      theme: ThemeData.dark(),
+    );
+    // eventDate = newDateTime!;
+    if (newEventDate != null) {
+      setState(() {
+        eventDate = newEventDate;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -65,7 +84,7 @@ class _AddTaskState extends State<AddTask> {
                 centerTitle: true,
                 flexibleSpace: Center(
                   child: Text(
-                    'Task List',
+                    'Event List',
                     style: TextStyle(
                         fontSize: width * 0.07,
                         fontFamily: 'Roboto',
@@ -93,118 +112,155 @@ class _AddTaskState extends State<AddTask> {
                             borderRadius: BorderRadius.circular(10.0)),
                         margin: EdgeInsets.only(
                             left: width * 0.15, right: width * 0.15),
-
-                        borderOnForeground: false,
-                        // child:SingleChildScrollView(
-                        child: DropdownButtonFormField<String>(
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              categoryName = newValue!;
-                            });
-                          },
-                          // value: categoryName,
-                          items: <String>[
-                            'Decoration',
-                            'Food and Beverages',
-                            'Option 3',
-                            'Option 4',
-                            'Option 5',
-                            'Decorations',
-                            'Food and Beveragess',
-                            'Option 3s',
-                            'Option 4s',
-                            'Option 5s',
-                            'Decorationy',
-                            'Food and Beveragesy',
-                            'Option 3y',
-                            'Option 4y',
-                            'Option 5y',
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: SizedBox(
-                                width: 290,
-                                height: 60,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                         
-                          style: const TextStyle(
-                            color: Colors.black87,
-                            // fontSize: 20.0,
-                          ),
-                          isExpanded: true,
-                          hint: const Text(
-                            'Add Category',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black87,
-                          ),
-                          decoration: InputDecoration(
-                            fillColor: Colors.grey.shade900,
-                            border: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              
-                            ),
-                            prefixIcon: Icon(Icons.category_outlined,),
-                            hintText: 'Category',
-                          ),
-                          focusColor: Colors.black87,
-                          dropdownColor: Colors.blueGrey.shade900,
-                        ),
-                      ),
-
-                      // SizedBox(
-                      //   height: width * 0.05,
-                      // ),
-                    
-                      SizedBox(
-                        height: width * 0.05,
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        margin: EdgeInsets.only(
-                            left: width * 0.15, right: width * 0.15),
                         borderOnForeground: false,
                         child: Hero(
-                          tag: 'taskName',
+                          tag: 'eventName',
                           child: TextFormField(
-                            controller: taskController,
+                            controller: eventNameController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "Please enter a task name";
+                                return "Please enter the Event name";
                               }
                               return null;
                             },
                             //   validator: (value) {
                             //   if (value!.isEmpty) {
-                            //     return 'Please enter a task name';
+                            //     return 'Please enter a event name';
                             //   }
                             //   return null;
 
                             // },
 
                             decoration: InputDecoration(
-                               border: UnderlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon:Icon(Icons.task_outlined),
-                            
-                              hintText: 'Task Name',
-                              // prefixText:'Task Name',
+                              border: UnderlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              prefixIcon: Icon(Icons.event_outlined),
+
+                              hintText: 'Event Name',
+                              // prefixText:'event Name',
                               // prefixIconColor:Colors.green,
-                              
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: width * 0.05,
+                      ),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        margin: EdgeInsets.only(
+                            left: width * 0.15, right: width * 0.15),
+
+                        borderOnForeground: false,
+                        // child:SingleChildScrollView(
+                        child: TextFormField(
+                          onTap: () {
+                            showDatePicker(context);
+                          },
+                          // keyboardType: TextInputType.datetime,
+                          controller: TextEditingController(
+                              text:
+                                  eventDate.toLocal().toString().split(' ')[0]),
+                          readOnly: true,
+
+                          // DropdownButtonFormField<String>(
+                          //   onChanged: (String? newValue) {
+                          //     setState(() {
+                          //       eventDate = newValue!;
+                          //     });
+                          //   },
+                          //   // value: eventDate,
+                          //   items: <String>[
+                          //     'Decoration',
+                          //     'Food and Beverages',
+                          //     'Option 3',
+                          //     'Option 4',
+                          //     'Option 5',
+                          //     'Decorations',
+                          //     'Food and Beveragess',
+                          //     'Option 3s',
+                          //     'Option 4s',
+                          //     'Option 5s',
+                          //     'Decorationy',
+                          //     'Food and Beveragesy',
+                          //     'Option 3y',
+                          //     'Option 4y',
+                          //     'Option 5y',
+                          //   ].map<DropdownMenuItem<String>>((String value) {
+                          //     return DropdownMenuItem<String>(
+                          //       value: value,
+                          //       child: SizedBox(
+                          //         width: 290,
+                          //         height: 60,
+                          //         child: Align(
+                          //           alignment: Alignment.center,
+                          //           child: Text(
+                          //             value,
+                          //             style: TextStyle(
+                          //               color: Colors.white,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     );
+                          // }).toList(),
+
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            // fontSize: 20.0,
+                          ),
+                          // isExpanded: true,
+                          // hint: const Text(
+                          //   'Add Category',
+                          //   style: TextStyle(color: Colors.black),
+                          // ),
+                          // icon: const Icon(
+                          //   Icons.arrow_drop_down,
+                          //   color: Colors.black87,
+                          // ),
+                          decoration: InputDecoration(
+                            fillColor: Colors.grey.shade900,
+                            border: UnderlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.calendar_month_rounded,
+                            ),
+                            hintText: 'Event Date',
+                          ),
+                          // focusColor: Colors.black87,
+                          // dropdownColor: Colors.blueGrey.shade900,
+                        ),
+                      ),
+
+                      // SizedBox(
+                      //   height: width * 0.05,
+                      // ),
+
+                      SizedBox(
+                        height: width * 0.05,
+                      ),
+
+                      Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        margin: EdgeInsets.only(
+                            left: width * 0.15, right: width * 0.15),
+                        borderOnForeground: false,
+                        child: Hero(
+                          tag: 'note',
+                          child: TextField(
+                            controller: noteController,
+                            // onChanged: (value) {
+                            //   note:
+                            //   value;
+                            // },
+                            decoration: InputDecoration(
+                              border: UnderlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              prefixIcon: Icon(Icons.note_alt_outlined),
+                              hintText: 'Note',
                             ),
                           ),
                         ),
@@ -219,45 +275,19 @@ class _AddTaskState extends State<AddTask> {
                             left: width * 0.15, right: width * 0.15),
                         borderOnForeground: false,
                         child: Hero(
-                          tag: 'vendorName',
+                          tag: 'venue',
                           child: TextField(
-                            controller: vendorController,
+                            controller: venueController,
                             // onChanged: (value) {
-                            //   vendorName:
+                            //   venue:
                             //   value;
                             // },
+                            keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-                                  prefixIcon: Icon(Icons.business_center_outlined),
-                              hintText: 'Vendor Name',
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: width * 0.05,
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        margin: EdgeInsets.only(
-                            left: width * 0.15, right: width * 0.15),
-                        borderOnForeground: false,
-                        child: Hero(
-                          tag: 'budget',
-                          child: TextField(
-                            controller: budgetController,
-                            // onChanged: (value) {
-                            //   budget:
-                            //   value;
-                            // },
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                                  prefixIcon: Icon(Icons.attach_money_rounded),
-                              hintText: ' Budget ',
+                              prefixIcon: Icon(Icons.location_on),
+                              hintText: ' venue ',
                             ),
                           ),
                         ),
@@ -326,7 +356,7 @@ class _AddTaskState extends State<AddTask> {
                       FloatingActionButton.extended(
                         heroTag: Text('cancel'),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/TaskList');
+                          Navigator.pushNamed(context, '/eventList');
                         },
                         backgroundColor: Colors.blueGrey.shade900,
                         label: Text(
@@ -341,12 +371,12 @@ class _AddTaskState extends State<AddTask> {
                         heroTag: Text('save'),
                         onPressed: () async {
                           if (_formKey.currentState?.validate() == true) {
-                            await addTask(
-                              categoryName,
-                              taskController.text,
-                              vendorController.text,
-                              budgetController.text,
-                              isComplete,
+                            await addEvent(
+                              eventDate,
+                              eventNameController.text,
+                              venueController.text,
+                              noteController.text,
+                              isSwitchOn,
                             );
                             Navigator.pop(context);
                           }
@@ -378,57 +408,57 @@ class _AddTaskState extends State<AddTask> {
     });
   }
 
-  addTask(String categoryName, String taskName, String vendorName,
-      String budget, bool isComplete) async {
+  addEvent(DateTime eventDate, String eventName, String venue, String note,
+      bool isSwitchOn) async {
     // final appDocumentDir = await getApplicationDocumentsDirectory();
-    // final filePath = '${appDocumentDir.path}/tasks.txt';
-    taskBox = await Hive.openBox<Task>('task');
+    // final filePath = '${appDocumentDir.path}/events.txt';
+    eventBox = await Hive.openBox<Event>('event');
 
     if (_formKey.currentState!.validate()) {
-      categoryName = categoryName;
-      // categoryName = categoryController.text;
-      taskName = taskController.text;
-      vendorName = vendorController.text;
-      budget = budgetController.text;
-      isComplete = isSwitchOn;
-      final String uniqueKey = Uuid().v4();
+      eventDate = eventDate;
+      // eventDate = categoryController.text;
+      eventName = eventNameController.text;
+      note = noteController.text;
+      venue = venueController.text;
+      isEventComplete = isSwitchOn;
+      final String uniqueEventKey = Uuid().v4();
 
-      // Create a new Task object
-      final task = Task(
-          taskKey: uniqueKey,
-          categoryName: categoryName,
-          taskName: taskName,
-          vendorName: vendorName,
-          budget: budget,
-          isComplete: isComplete,
+      // Create a new event object
+      final event = Event(
+          eventKey: uniqueEventKey,
+          eventDate: eventDate,
+          eventName: eventName,
+          note: note,
+          venue: venue,
+          isEventComplete: isEventComplete,
           timestamp: DateTime.now());
 
-      // Store the task in Hive
-      await taskBox.put(uniqueKey, task);
-      storeTask(task);
+      await eventBox.put(uniqueEventKey, event);
+      storeEvent(event);
 
       // Clear form data
       // categoryController.clear();
-      taskController.clear();
-      vendorController.clear();
-      budgetController.clear();
+      eventNameController.clear();
+      venueController.clear();
+      noteController.clear();
     }
   }
 
-  Future<void> storeTask(Task task) async {
+  Future<void> storeEvent(Event event) async {
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/tasks.txt');
+    final file = File('${directory.path}/events.txt');
     final exists = await file.exists();
-
+    print(event.eventName);
+    print(event.eventKey);
     if (!exists) {
       await file.create();
     }
-    
 
-    final formattedTimestamp = task.timestamp?.toIso8601String() ?? '';
+    final formattedTimestamp = event.timestamp?.toIso8601String() ?? '';
+    final formatedEventDate = event.eventDate?.toIso8601String() ?? '';
 
-    final taskData =
-        '${task.taskKey},${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},$formattedTimestamp\n';
-    await file.writeAsString(taskData, mode: FileMode.append);
+    final eventData =
+        '${event.eventKey},${event.eventName},$formatedEventDate,${event.note},${event.venue},${event.isEventComplete},$formattedTimestamp\n';
+    await file.writeAsString(eventData, mode: FileMode.append);
   }
 }

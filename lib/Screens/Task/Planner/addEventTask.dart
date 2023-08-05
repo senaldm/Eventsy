@@ -1,11 +1,9 @@
-
-
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, use_key_in_widget_constructors, library_private_types_in_public_api
+// ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
 
 import 'package:eventsy/global.dart';
-// import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsy/Model/Event.dart';
@@ -13,120 +11,45 @@ import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sliding_switch/sliding_switch.dart';
-import 'dart:convert';
 // import 'package:eventsy/main.dart';
 
-class UpdateTask extends StatefulWidget {
-  
-  final String Key;
-
-  const UpdateTask({required this.Key});
+class AddEventTask extends StatefulWidget {
+  final String eventName;
+  final String eventKey;
+  const AddEventTask({required this.eventName, required this.eventKey});
 
   @override
-  _UpdateTaskState createState() => _UpdateTaskState();
+  _AddEventTaskState createState() => _AddEventTaskState();
 }
 
-class _UpdateTaskState extends State<UpdateTask> {
-  late String taskKey;
+class _AddEventTaskState extends State<AddEventTask> {
+  late String eventName;
+  late String eventKey;
 
   final taskController = TextEditingController();
   final vendorController = TextEditingController();
   // final categoryController = TextEditingController();
   final budgetController = TextEditingController();
   final statusController = TextEditingController();
-  // String taskName = '';
-  // String categoryName = 'Decoration';
-  // String vendorName = '';
-  // String budget = '';
+  String taskName = '';
+  String categoryName = '';
+  String vendorName = '';
+  String budget = '';
   bool isComplete = false;
 
-  final String label = "Task Completed/Incompleted";
-   late bool isSwitchOn;
-  late String categoryName;
-  // final bool value = false;
+  final String label = "Task Completed";
+  bool isSwitchOn = false;
+
+  final bool value = false;
   final bool onChanged = true;
   final _formKey = GlobalKey<FormState>();
-  // final List<Task> task = [];
+  final List<EventTasks> task = [];
 
-  Box<Task>? taskBox;
-  List taskDetails = [];
-  late String timestamp;
-
-  @override
-  void initState() {  
+  void initState() {
     super.initState();
-    taskKey = widget.Key;
-    openHiveBox();
-
-    taskController.text = '';
-    vendorController.text = '';
-    budgetController.text = '';
-    categoryName = 'Decoration';
-    // isSwitchOn = true;
-    timestamp = DateTime.now().toIso8601String();
-    fillFormFields();
+    eventKey = widget.eventKey;
+    eventName = widget.eventName;
     
-  }
-
-  Future<void> openHiveBox() async {
-    final appDocumentDir = await getApplicationDocumentsDirectory();
-    Hive.init(appDocumentDir.path);
-    taskBox = await Hive.openBox<Task>('task');
-  }
-
-  Future<void> fillFormFields() async {
-    Task? task = taskBox?.get(taskKey);
-    if (task == null) {
-      task = await getTaskFromLocalStorage(taskKey);
-    }
-    if (task != null) {
-      setState(() {
-        categoryName = task!.categoryName;
-        taskController.text = task.taskName;
-        vendorController.text = task.vendorName;
-        budgetController.text = task.budget;
-        isSwitchOn = task.isComplete;
-        timestamp = task.timestamp?.toIso8601String() ?? '';
-      });
-      if (taskController.text != '') {
-        print(categoryName);
-        print(task.taskKey);
-        print(task.taskName);
-        print(isSwitchOn);
-      } else {
-        print('task is empty');
-      }
-    }
-  }
-
-  Future<Task?> getTaskFromLocalStorage(String taskKey) async {
-    try {
-      final directory = await getApplicationDocumentsDirectory();
-      final file = File('${directory.path}/tasks.txt');
-
-      if (await file.exists()) {
-        final lines = await file.readAsLines();
-        for (final line in lines) {
-          final taskData = line.split(',');
-          if (taskData[0] == taskKey) {
-            final task = Task(
-              taskKey: taskData[0],
-              categoryName: taskData[1],
-              taskName: taskData[2],
-              vendorName: taskData[3],
-              budget: taskData[4],
-              isComplete: taskData[5] == 'true',
-              timestamp: DateTime.tryParse(taskData[6]),
-            );
-
-            return task;
-          }
-        }
-      }
-    } catch (e) {
-      print("Error while reading from local storage: $e");
-    }
-    return null;
   }
 
   @override
@@ -155,7 +78,7 @@ class _UpdateTaskState extends State<UpdateTask> {
                 centerTitle: true,
                 flexibleSpace: Center(
                   child: Text(
-                    'Update Task',
+                    eventName,
                     style: TextStyle(
                         fontSize: width * 0.07,
                         fontFamily: 'Roboto',
@@ -187,19 +110,28 @@ class _UpdateTaskState extends State<UpdateTask> {
                         borderOnForeground: false,
                         // child:SingleChildScrollView(
                         child: DropdownButtonFormField<String>(
-                          value: categoryName,
                           onChanged: (String? newValue) {
                             setState(() {
                               categoryName = newValue!;
                             });
                           },
+                          // value: categoryName,
                           items: <String>[
                             'Decoration',
                             'Food and Beverages',
-                            ' Option 3',
-                            ' Option 4',
-                            ' Option 5',
-                            ' Option 6',
+                            'Option 3',
+                            'Option 4',
+                            'Option 5',
+                            'Decorations',
+                            'Food and Beveragess',
+                            'Option 3s',
+                            'Option 4s',
+                            'Option 5s',
+                            'Decorationy',
+                            'Food and Beveragesy',
+                            'Option 3y',
+                            'Option 4y',
+                            'Option 5y',
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -207,17 +139,20 @@ class _UpdateTaskState extends State<UpdateTask> {
                                 width: 290,
                                 height: 60,
                                 child: Align(
-                                   alignment: Alignment.centerLeft,
+                                  alignment: Alignment.center,
                                   child: Text(
                                     value,
-                                    style: TextStyle(color: Colors.black87),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
                             );
                           }).toList(),
+
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: Colors.black87,
                             // fontSize: 20.0,
                           ),
                           isExpanded: true,
@@ -227,37 +162,27 @@ class _UpdateTaskState extends State<UpdateTask> {
                           ),
                           icon: const Icon(
                             Icons.arrow_drop_down,
-                            color: Colors.black,
+                            color: Colors.black87,
                           ),
                           decoration: InputDecoration(
                             fillColor: Colors.grey.shade900,
-                             border: UnderlineInputBorder(
+                            border: UnderlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             prefixIcon: Icon(
                               Icons.category_outlined,
                             ),
+                            hintText: 'Category',
                           ),
-                          focusColor: Colors.white,
+                          focusColor: Colors.black87,
                           dropdownColor: Colors.blueGrey.shade900,
                         ),
                       ),
 
-                      SizedBox(
-                        height: width * 0.05,
-                      ),
-                      // Card(
-                      //   shape: RoundedRectangleBorder(
-                      //       borderRadius: BorderRadius.circular(10.0)),
-                      //   margin: EdgeInsets.only(
-                      //       left: width * 0.15, right: width * 0.15),
-                      //   borderOnForeground: false,
-                      //   // child:DropdownButton<String>(
-                      //   //   value:category,
-                      //   //   items: <String>['Birthday','Ceremony','Wedding'].map<DropDownItem<String>>((String value){
-                      //   //   }).toList(),
-                      //   // )
+                      // SizedBox(
+                      //   height: width * 0.05,
                       // ),
+
                       SizedBox(
                         height: width * 0.05,
                       ),
@@ -277,19 +202,22 @@ class _UpdateTaskState extends State<UpdateTask> {
                               }
                               return null;
                             },
-                            onChanged: (value) {
-                              setState(() {
-                                isFilled = value.isNotEmpty;
-                              });
-                            
-                            },
-                         
+                            //   validator: (value) {
+                            //   if (value!.isEmpty) {
+                            //     return 'Please enter a task name';
+                            //   }
+                            //   return null;
+
+                            // },
+
                             decoration: InputDecoration(
-                                border: UnderlineInputBorder(
+                              border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
                               prefixIcon: Icon(Icons.task_outlined),
-                              
+
                               hintText: 'Task Name',
+                              // prefixText:'Task Name',
+                              // prefixIconColor:Colors.green,
                             ),
                           ),
                         ),
@@ -312,7 +240,7 @@ class _UpdateTaskState extends State<UpdateTask> {
                             //   value;
                             // },
                             decoration: InputDecoration(
-                                border: UnderlineInputBorder(
+                              border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
                               prefixIcon: Icon(Icons.business_center_outlined),
                               hintText: 'Vendor Name',
@@ -348,10 +276,10 @@ class _UpdateTaskState extends State<UpdateTask> {
                         ),
                       ),
                       SizedBox(
-                        height: width * 0.06,
+                        height: width * 0.4,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Column(
@@ -366,14 +294,14 @@ class _UpdateTaskState extends State<UpdateTask> {
                                   text: label,
                                   style: TextStyle(
                                     fontSize: 15.0,
-                                    color: Color.fromARGB(255, 18, 140, 126),
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
                             ],
                           ),
                           SlidingSwitch(
-                            value: isSwitchOn,
+                            value: false,
                             width: 100,
                             height: 50,
                             onTap: () {},
@@ -426,18 +354,14 @@ class _UpdateTaskState extends State<UpdateTask> {
                         heroTag: Text('save'),
                         onPressed: () async {
                           if (_formKey.currentState?.validate() == true) {
-                            await updateTask(
+                            await addEventTask(
                               categoryName,
                               taskController.text,
                               vendorController.text,
                               budgetController.text,
                               isComplete,
                             );
-
-                            //trying to view the updated the task
-
                             Navigator.pop(context);
-                            // Navigator.pushNamed(context, 'TaskList');
                           }
                         },
                         backgroundColor: Colors.blueGrey.shade900,
@@ -467,71 +391,56 @@ class _UpdateTaskState extends State<UpdateTask> {
     });
   }
 
-  Future<void> updateTask(String categoryName, String taskName,
-      String vendorName, String budget, bool isComplete) async {
+  addEventTask(String categoryName, String taskName, String vendorName,
+      String budget, bool isComplete) async {
     // final appDocumentDir = await getApplicationDocumentsDirectory();
     // final filePath = '${appDocumentDir.path}/tasks.txt';
-    taskBox = await Hive.openBox<Task>('task');
+    eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
 
     if (_formKey.currentState!.validate()) {
-      // Task? = taskBox?.get(taskKey);
-
-      // if (!= null) {
       categoryName = categoryName;
+      // categoryName = categoryController.text;
       taskName = taskController.text;
       vendorName = vendorController.text;
       budget = budgetController.text;
       isComplete = isSwitchOn;
-      timestamp = DateTime.now().toIso8601String();
+      final String uniqueKey = Uuid().v4();
 
-      // Create a new Task object
-      final task = Task(
-          taskKey: taskKey,
+      final eventTask = EventTasks(
+        eventKey: eventKey,
+        eventName: eventName,
+          taskKey: uniqueKey,
           categoryName: categoryName,
           taskName: taskName,
           vendorName: vendorName,
           budget: budget,
           isComplete: isComplete,
-          timestamp: DateTime.now());
+          taskTimestamp: DateTime.now());
 
       // Store the task in Hive
-      await taskBox?.put(taskKey, task);
-      await updateTaskInLocal(task);
-      // }
+      await eventTaskBox.put(uniqueKey, eventTask);
+      storeEventTask(eventTask);
+
       // Clear form data
-      // categoryController.clear();
       taskController.clear();
       vendorController.clear();
       budgetController.clear();
     }
   }
 
-  Future<void> updateTaskInLocal(Task task) async {
+  Future<void> storeEventTask(EventTasks eventTask) async {
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/tasks.txt');
+    final file = File('${directory.path}/eventTasks.txt');
     final exists = await file.exists();
 
     if (!exists) {
       await file.create();
     }
 
-    final lines = await file.readAsLines();
-    final updatedLines = <String>[];
+    final formattedTimestamp = eventTask.taskTimestamp.toIso8601String();
 
-    for (final line in lines) {
-      final taskData = line.split(',');
-      if (taskData[0] == task.taskKey) {
-        // Replace the line with the updated task data
-        final formattedTimestamp = task.timestamp?.toIso8601String() ?? '';
-        final updatedTaskData =
-            '${task.taskKey},${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},$formattedTimestamp';
-        updatedLines.add(updatedTaskData);
-      } else {
-        // Add other tasks as they are
-        updatedLines.add(line);
-      }
-      print(task.taskName);
-    }
-    await file.writeAsString(updatedLines.join('\n'));
+    final taskData =
+        '${eventTask.eventKey},${eventTask.eventName},${eventTask.taskKey},${eventTask.categoryName},${eventTask.taskName},${eventTask.vendorName},${eventTask.budget},${eventTask.isComplete},$formattedTimestamp\n';
+    await file.writeAsString(taskData, mode: FileMode.append);
   }
 }

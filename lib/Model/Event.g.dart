@@ -69,19 +69,34 @@ class EventAdapter extends TypeAdapter<Event> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Event(
-      eventName: fields[7] as String,
-      date: fields[8] as DateTime?,
+      eventKey: fields[0] as String,
+      eventName: fields[1] as String,
+      eventDate: fields[2] as DateTime?,
+      note: fields[3] as String,
+      venue: fields[4] as String,
+      timestamp: fields[5] as DateTime?,
+      isEventComplete: fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Event obj) {
     writer
-      ..writeByte(2)
       ..writeByte(7)
+      ..writeByte(0)
+      ..write(obj.eventKey)
+      ..writeByte(1)
       ..write(obj.eventName)
-      ..writeByte(8)
-      ..write(obj.date);
+      ..writeByte(2)
+      ..write(obj.eventDate)
+      ..writeByte(3)
+      ..write(obj.note)
+      ..writeByte(4)
+      ..write(obj.venue)
+      ..writeByte(5)
+      ..write(obj.timestamp)
+      ..writeByte(6)
+      ..write(obj.isEventComplete);
   }
 
   @override
@@ -106,34 +121,55 @@ class EventTasksAdapter extends TypeAdapter<EventTasks> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return EventTasks(
-      eventName: fields[7] as String,
-      date: fields[8] as DateTime,
+      eventKey: fields[0] as dynamic,
+      eventName: fields[1] as dynamic,
+      taskKey: fields[7] as String,
+      taskName: fields[8] as String,
+      vendorName: fields[9] as String?,
+      isComplete: fields[10] as bool,
+      categoryName: fields[11] as String?,
+      budget: fields[12] as String?,
+      taskTimestamp: fields[13] as DateTime,
     )
-      ..taskName = fields[9] as String
-      ..vendorName = fields[10] as String?
-      ..isComplete = fields[11] as bool
-      ..categoryName = fields[12] as String
-      ..budget = fields[13] as String?;
+      ..eventDate = fields[2] as DateTime?
+      ..note = fields[3] as String
+      ..venue = fields[4] as String
+      ..timestamp = fields[5] as DateTime?
+      ..isEventComplete = fields[6] as bool;
   }
 
   @override
   void write(BinaryWriter writer, EventTasks obj) {
     writer
+      ..writeByte(14)
       ..writeByte(7)
-      ..writeByte(9)
-      ..write(obj.taskName)
-      ..writeByte(10)
-      ..write(obj.vendorName)
-      ..writeByte(11)
-      ..write(obj.isComplete)
-      ..writeByte(12)
-      ..write(obj.categoryName)
-      ..writeByte(13)
-      ..write(obj.budget)
-      ..writeByte(7)
-      ..write(obj.eventName)
+      ..write(obj.taskKey)
       ..writeByte(8)
-      ..write(obj.date);
+      ..write(obj.taskName)
+      ..writeByte(9)
+      ..write(obj.vendorName)
+      ..writeByte(10)
+      ..write(obj.isComplete)
+      ..writeByte(11)
+      ..write(obj.categoryName)
+      ..writeByte(12)
+      ..write(obj.budget)
+      ..writeByte(13)
+      ..write(obj.taskTimestamp)
+      ..writeByte(0)
+      ..write(obj.eventKey)
+      ..writeByte(1)
+      ..write(obj.eventName)
+      ..writeByte(2)
+      ..write(obj.eventDate)
+      ..writeByte(3)
+      ..write(obj.note)
+      ..writeByte(4)
+      ..write(obj.venue)
+      ..writeByte(5)
+      ..write(obj.timestamp)
+      ..writeByte(6)
+      ..write(obj.isEventComplete);
   }
 
   @override
@@ -158,25 +194,40 @@ class InvitationAdapter extends TypeAdapter<Invitation> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Invitation(
-      eventName: fields[7] as String,
+      eventKey: fields[0] as String,
+      eventName: fields[1] as String,
     )
-      ..guestName = fields[14] as String
-      ..isSend = fields[15] as bool
-      ..date = fields[8] as DateTime?;
+      ..guestName = fields[7] as String
+      ..isSend = fields[8] as bool
+      ..eventDate = fields[2] as DateTime?
+      ..note = fields[3] as String
+      ..venue = fields[4] as String
+      ..timestamp = fields[5] as DateTime?
+      ..isEventComplete = fields[6] as bool;
   }
 
   @override
   void write(BinaryWriter writer, Invitation obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(14)
-      ..write(obj.guestName)
-      ..writeByte(15)
-      ..write(obj.isSend)
+      ..writeByte(9)
       ..writeByte(7)
-      ..write(obj.eventName)
+      ..write(obj.guestName)
       ..writeByte(8)
-      ..write(obj.date);
+      ..write(obj.isSend)
+      ..writeByte(0)
+      ..write(obj.eventKey)
+      ..writeByte(1)
+      ..write(obj.eventName)
+      ..writeByte(2)
+      ..write(obj.eventDate)
+      ..writeByte(3)
+      ..write(obj.note)
+      ..writeByte(4)
+      ..write(obj.venue)
+      ..writeByte(5)
+      ..write(obj.timestamp)
+      ..writeByte(6)
+      ..write(obj.isEventComplete);
   }
 
   @override
@@ -200,18 +251,19 @@ class UserModeAdapter extends TypeAdapter<UserMode> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return UserMode()
-      ..userMode = fields[16] as String
-      ..isFirst = fields[17] as bool;
+    return UserMode(
+      userMode: fields[0] as String,
+      isFirst: fields[1] as bool,
+    );
   }
 
   @override
   void write(BinaryWriter writer, UserMode obj) {
     writer
       ..writeByte(2)
-      ..writeByte(16)
+      ..writeByte(0)
       ..write(obj.userMode)
-      ..writeByte(17)
+      ..writeByte(1)
       ..write(obj.isFirst);
   }
 
