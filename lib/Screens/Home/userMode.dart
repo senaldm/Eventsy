@@ -81,7 +81,7 @@ class UserModeSelect extends StatelessWidget {
                             Navigator.pushNamed(context,'UserHome');
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 7, 94, 84),
+                            backgroundColor: Color.fromARGB(255, 18, 140, 126),
                           ),
                           child: Text("General mode",
                               style: TextStyle(
@@ -93,7 +93,7 @@ class UserModeSelect extends StatelessWidget {
                           },
                           style: ElevatedButton.styleFrom(
                             // alignment:,
-                            backgroundColor:  Color.fromARGB(255, 7, 94, 84),
+                            backgroundColor:  Color.fromARGB(255, 18, 140, 126),
                             // Color.fromARGB(255, 37, 211, 102),
                           ),
                           child: Text("      Next      ",

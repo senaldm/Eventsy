@@ -1,3 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
+import 'package:eventsy/Screens/Task/User/viewTask.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 // import 'package:eventsy/Model/Budgetcal/eventset.dart';
@@ -9,7 +13,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'Screens/LoginandSignupScreens/firebase_options.dart';
 import 'routes.dart';
 import 'global.dart';
-
 
 // import file locations for routings
 import 'package:flutter/services.dart';
@@ -31,9 +34,15 @@ import 'Screens/LoginandSignupScreens/signup.dart';
 import 'Screens/LoginandSignUpScreens/loginpage.dart';
 
 import 'Screens/Task/User/AddTask.dart';
+
 import 'Screens/Task/Planner/PlannerrTaskHome.dart';
 import 'Screens/Task/Planner/eventList.dart';
-import 'Screens/Task/Planner/addEventDetails.dart';
+import 'Screens/Task/Planner/addEvent.dart';
+import 'Screens/Task/User/updateTask.dart';
+import 'Screens/Task/Planner/eventTaskList.dart';
+import 'Screens/Task/Planner/viewEvent.dart';
+import 'Screens/Task/Planner/viewEventTask.dart';
+
 import 'Screens/BudgetCalculatorScreens/categorydetailsshowpage.dart';
 import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
 // import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
@@ -41,11 +50,7 @@ import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
 import 'Screens/BudgetCalculatorScreens/eventselectionpage.dart';
 import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
 
-
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -90,14 +95,11 @@ Future main() async {
 }
 
 class FirstPage extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
-     routes: {
-          'UserHome': (context) =>  UserTaskHome(),
-            '/ImageExplore': (context) => ImageExplore(),
+        routes: {
+          '/ImageExplore': (context) => ImageExplore(),
           '/VendorExplore': (context) => VendorExplore(),
           '/TaskExplore': (context) => TaskExplore(),
 
@@ -105,16 +107,34 @@ class FirstPage extends StatelessWidget {
           'UserHome': (context) => UserTaskHome(),
           'TaskList': (context) => TaskList(),
           'addTask': (context) => AddTask(),
-          '/userDashboard':(context)=>userDashboard(),
-          '/userSettings':(context)=> userSettings(),
+          '/viewTask': (context) => ViewTask(
+              task: ModalRoute.of(context)!.settings.arguments as Task),
+          '/userDashboard': (context) => userDashboard(),
+          '/userSettings': (context) => userSettings(),
+          '/updateTask': (context) => UpdateTask(
+              Key: ModalRoute.of(context)!.settings.arguments as String),
 
           /////////PLANNER TASK/////////
 
           'PlannerHome': (context) => PlannerTaskHome(),
-
+          '/eventTaskList': (context) => EventTaskList(
+              event: ModalRoute.of(context)!.settings.arguments as Event),
           '/PlannersPage': (context) => const SplashScreen(),
-          '/EventList': (context) => const EventList(),
-          'addEventDetails': (context) => addEventDetails(),
+          '/EventList': (context) => EventList(),
+          '/addEvent': (context) => AddEvent(),
+          '/viewEvent': (context) => ViewEvent(
+              event: ModalRoute.of(context)!.settings.arguments as Event),
+          '/addEventTask': (context) {
+            final Map<String, dynamic> arguments = ModalRoute.of(context)
+                ?.settings
+                .arguments as Map<String, dynamic>;
+            return AddEventTask(
+              eventName: arguments['eventName'],
+              eventKey: arguments['eventKey'],
+            );
+          },
+          '/viewEventTask': (context) => ViewEventTask(
+              task: ModalRoute.of(context)!.settings.arguments as EventTasks),
 
           /////////////// LOGIN ////////////////////////////
           'LoginPage': (context) => Loginpage(),
@@ -129,10 +149,8 @@ class FirstPage extends StatelessWidget {
           // './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
           './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(
                 eventName: '',
-              ), 
+              ),
         },
-
-
         key: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Eventsy',

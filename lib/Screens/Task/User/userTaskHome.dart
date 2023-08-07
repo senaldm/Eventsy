@@ -39,19 +39,7 @@ class UserTaskHome extends StatelessWidget {
                   centerTitle: true,
 
                   flexibleSpace: Image.asset(
-                    "assets/Images/Task/appbarBackground5.jpeg",
-                  ),
-
-                  title: Text(
-                    '',
-                    style: TextStyle(
-                        fontSize: width * 0.1,
-                        fontFamily: 'Quintessential',
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 77, 230, 0)),
-                    textAlign: TextAlign.center,
-                  ),
-
+                    "assets/Images/Task/appbarBackground5.jpeg", ),
                   actions: <Widget>[
                     PopupMenuButton(
                         color: Color.fromARGB(255, 20, 24, 26),
@@ -82,15 +70,6 @@ class UserTaskHome extends StatelessWidget {
                             Navigator.pushNamed(context, '/userDashboard');
                           }
                         }),
-
-                    // IconButton(
-                    //   onPressed: () {
-                    //     // DropdownMenu();
-                    //   },
-                    //   icon: Icon(Icons.menu_open_sharp),
-                    //   splashRadius: 24.0,
-                    //   iconSize: width * 0.1,
-                    // )
                   ],
                 ),
               ),
@@ -135,8 +114,7 @@ class UserTaskHome extends StatelessWidget {
                                             CrossAxisAlignment.center,
                                         children: [
                                           CircleAvatar(
-                                            backgroundColor: Color.fromARGB(
-                                                255, 20, 158, 85),
+                                            backgroundColor: Color.fromARGB( 255, 20, 158, 85),
                                             radius: 24.0,
                                             child: Image.asset(
                                                 "assets/Images/Home/task.png",
@@ -229,11 +207,6 @@ class UserTaskHome extends StatelessWidget {
                                             // height: height * 0.1,
                                             width: width * 0.05,
                                           ),
-                                          // Image.asset("assets/Images/Home/invitation.png",
-                                          //     width: width * 0.1),
-                                          // SizedBox(
-                                          //   width: width * 0.01,
-                                          // ),
                                           Text(
                                             'Invitation',
                                             style: TextStyle(
@@ -244,18 +217,6 @@ class UserTaskHome extends StatelessWidget {
                                         ]),
                                   ),
                                 )),
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //       gradient: LinearGradient(
-                            //           begin: Alignment.topLeft,
-                            //           end: Alignment.bottomRight,
-                            //           colors: <Color>[
-                            //         Colors.green.shade900,
-                            //         Colors.black12,
-                            //         Colors.orange.shade500,
-                            //       ])),
-                            // ),
-
                             Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -298,25 +259,4 @@ class UserTaskHome extends StatelessWidget {
           },
         ));
   }
-  // return Scaffold(
-  //   backgroundColor: Colors.black87,
-
-  //   appBar: AppBar(
-
-  //     backgroundColor: Colors.black87,
-  //     flexibleSpace: Text(
-  //       'Eventsy',
-  //       style:
-  //           TextStyle(fontSize: width * 0.1, color: Colors.orange.shade900),
-  //       textAlign: TextAlign.center,
-  //     ),
-  //     actions: <Widget>[IconButton(onPressed: () {}, icon: Icon(Icons.menu_sharp),iconSize: width*0.1,)],
-  //   ),
-  //   body: Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       crossAxisAlignment: CrossAxisAlignment.center,
-  //       children: const []),
-  // );
-//     throw UnimplementedError();
-//   }
 }
