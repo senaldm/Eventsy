@@ -496,7 +496,7 @@ class _TaskListState extends State<TaskList> {
                             onLongPress: () async {
                               final updatedTask = editOrDelete(task.taskKey);
                               if (updatedTask != null) {
-                                // If a new task is added, update the data and refresh the UI
+                        
                                 setState(() {
                                   retrieveData();
                                 });
@@ -523,7 +523,7 @@ class _TaskListState extends State<TaskList> {
               // Navigator.pushNamed(context, 'addTask');
               final newTask = await Navigator.pushNamed(context, 'addTask');
               if (newTask != null) {
-                // If a new task is added, update the data and refresh the UI
+            
                 setState(() {
                   tasks.add(newTask as Task);
                 });

@@ -79,16 +79,16 @@ class EventTasks extends Event {
   late String taskName;
 
   @HiveField(9)
-  String? vendorName;
+  String vendorName;
 
   @HiveField(10)
   bool isComplete;
 
   @HiveField(11)
-  late String? categoryName;
+  String categoryName;
 
   @HiveField(12)
-  String? budget;
+  String budget;
 
   @HiveField(13)
   DateTime taskTimestamp;
@@ -98,10 +98,10 @@ class EventTasks extends Event {
     required eventName,
     required this.taskKey,
     required this.taskName,
-    this.vendorName,
+    this.vendorName='',
     this.isComplete=false,
-    this.categoryName,
-    this.budget,
+    this.categoryName='',
+    this.budget='',
     required this.taskTimestamp,
   }) : super(
           eventKey: eventKey,

@@ -13,7 +13,7 @@ mixin DeleteEvent {
     }
 
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/tasks.txt');
+    final file = File('${directory.path}/events.txt');
     if (await file.exists()) {
       final lines = await file.readAsLines();
       final updatedLines = lines.where((line) {

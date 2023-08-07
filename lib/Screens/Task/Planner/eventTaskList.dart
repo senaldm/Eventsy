@@ -68,13 +68,10 @@ class _EventTaskListState extends State<EventTaskList> {
           taskTimestamp: DateTime.parse(taskData[8]),
         );
 
-        if (task.timestamp == null) {
-          task.timestamp = DateTime(0);
-          time = "null";
-        } else {
+        
           // time = task.timestamp!.toIso8601String();
-          time = DateFormat('yyyy-MM-dd').format(task.timestamp!).toString();
-        }
+          time = DateFormat('yyyy-MM-dd').format(task.taskTimestamp).toString();
+        
 
         tasks.add(task);
         if (task.eventKey == eventKey) {
@@ -97,14 +94,14 @@ class _EventTaskListState extends State<EventTaskList> {
 
   @override
   void dispose() {
-    Hive.close();
+    eventTaskBox?.close();
     super.dispose();
   }
 
   String sort = 'accentOrder';
   String filter = 'all';
 
-  List<Task>? sortTaskByMethod(String method) {
+  List<EventTasks>? sortTaskByMethod(String method) {
     setState(() {
       if (method == 'accent') {
         return tasks.sort((a, b) => a.taskName.compareTo(b.taskName));
@@ -499,7 +496,7 @@ class _EventTaskListState extends State<EventTaskList> {
                                     time,
                                   ),
                                   onTap: () async {
-                                    Navigator.pushNamed(context, '/viewTask',
+                                    Navigator.pushNamed(context, '/viewEventTask',
                                         arguments: task);
                                     // setState(() {
                                     //   retrieveData();

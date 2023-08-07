@@ -3,21 +3,12 @@
 import 'package:eventsy/Model/Event.dart';
 import 'package:eventsy/Screens/Task/User/deleteTask.dart';
 import 'package:flutter/material.dart';
-class ViewTask extends StatefulWidget {
-  final Task task;
-  const ViewTask({required this.task});
 
-  @override
-  State<ViewTask> createState() => _ViewTaskState();
-}
-
-class _ViewTaskState extends State<ViewTask> {
-  late Task currentTask;
-  @override
-  void initState() {
-    super.initState();
-    currentTask = widget.task;
-  }
+class ViewEventTask extends StatelessWidget with DeleteTask {
+  final EventTasks task;
+  const ViewEventTask({
+    required this.task,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,27 +25,24 @@ class _ViewTaskState extends State<ViewTask> {
           child: AppBar(
             backgroundColor: Color.fromARGB(255, 18, 140, 126),
             title: Text(
-              currentTask.taskName,
+              task.taskName,
               textAlign: TextAlign.center,
             ),
             actions: [
               IconButton(
                 onPressed: () {
-                  DeleteTask.deleteTask(currentTask.taskKey);
+                  DeleteTask.deleteTask(task.taskKey);
 
-                  Navigator.pushNamed(context, 'TaskList');
+                  Navigator.pushNamed(context, '/eventTaskList');
                 },
                 icon: Icon(Icons.delete),
               ),
               IconButton(
                 onPressed: () async {
-                  final updatedTask = await Navigator.pushNamed(
-                      context, '/updateTask',
-                      arguments: currentTask.taskKey);
-                  if (updatedTask != null) {
-                    // ignore: use_build_context_synchronously
-                    currentTask = updatedTask as Task;
-                  }
+                  // final updatedTask = await Navigator.pushNamed(
+                  //     context, '/updateTask',
+                  //     arguments: task.taskKey);
+                  // Navigator.pop(context, updatedTask);
                 },
                 icon: Icon(Icons.edit),
               ),
@@ -108,28 +96,28 @@ class _ViewTaskState extends State<ViewTask> {
                       textColor: Colors.white,
                       leading: Icon(Icons.assignment),
                       title: Text('Task Name'),
-                      subtitle: Text(currentTask.taskName),
+                      subtitle: Text(task.taskName),
                     ),
                     ListTile(
                       iconColor: Colors.white70,
                       textColor: Colors.white,
                       leading: Icon(Icons.store),
                       title: Text('Vendor Name'),
-                      subtitle: Text(currentTask.vendorName),
+                      subtitle: Text(task.vendorName),
                     ),
                     ListTile(
                       iconColor: Colors.white70,
                       textColor: Colors.white,
                       leading: Icon(Icons.attach_money),
                       title: Text('Budget'),
-                      subtitle: Text(currentTask.budget),
+                      subtitle: Text(task.budget),
                     ),
                     ListTile(
                       iconColor: Colors.white70,
                       textColor: Colors.white,
                       leading: Icon(Icons.check),
                       title: Text('Is Complete'),
-                      subtitle: Text(currentTask.isComplete ? 'Yes' : 'No'),
+                      subtitle: Text(task.isComplete ? 'Yes' : 'No'),
                     ),
                     SizedBox(height: 20),
                     ElevatedButton(

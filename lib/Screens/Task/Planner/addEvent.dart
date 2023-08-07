@@ -40,8 +40,8 @@ class _AddEventState extends State<AddEvent> {
   final eventStatusController = TextEditingController();
   // final eventDateController =TextEditingController(text: eventDate.toLocal().toString().split(' ')[0]);
 
-  final bool value = false;
-  final bool onChanged = true;
+  // final bool value = false;
+  // final bool onChanged = true;
   final _formKey = GlobalKey<FormState>();
   final List<Event> event = [];
 
@@ -448,8 +448,7 @@ class _AddEventState extends State<AddEvent> {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/events.txt');
     final exists = await file.exists();
-    print(event.eventName);
-    print(event.eventKey);
+
     if (!exists) {
       await file.create();
     }

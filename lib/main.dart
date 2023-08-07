@@ -41,6 +41,7 @@ import 'Screens/Task/Planner/addEvent.dart';
 import 'Screens/Task/User/updateTask.dart';
 import 'Screens/Task/Planner/eventTaskList.dart';
 import 'Screens/Task/Planner/viewEvent.dart';
+import 'Screens/Task/Planner/viewEventTask.dart';
 
 import 'Screens/BudgetCalculatorScreens/categorydetailsshowpage.dart';
 import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
@@ -98,7 +99,6 @@ class FirstPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         routes: {
-        
           '/ImageExplore': (context) => ImageExplore(),
           '/VendorExplore': (context) => VendorExplore(),
           '/TaskExplore': (context) => TaskExplore(),
@@ -107,26 +107,34 @@ class FirstPage extends StatelessWidget {
           'UserHome': (context) => UserTaskHome(),
           'TaskList': (context) => TaskList(),
           'addTask': (context) => AddTask(),
-          '/viewTask':(context)=>ViewTask(task: ModalRoute.of(context)!.settings.arguments as Task),
+          '/viewTask': (context) => ViewTask(
+              task: ModalRoute.of(context)!.settings.arguments as Task),
           '/userDashboard': (context) => userDashboard(),
           '/userSettings': (context) => userSettings(),
-          '/updateTask': (context) => UpdateTask(Key:  ModalRoute.of(context)!.settings.arguments as String),
+          '/updateTask': (context) => UpdateTask(
+              Key: ModalRoute.of(context)!.settings.arguments as String),
 
           /////////PLANNER TASK/////////
 
           'PlannerHome': (context) => PlannerTaskHome(),
-          '/eventTaskList':(context)=>EventTaskList(event: ModalRoute.of(context)!.settings.arguments as Event),
+          '/eventTaskList': (context) => EventTaskList(
+              event: ModalRoute.of(context)!.settings.arguments as Event),
           '/PlannersPage': (context) => const SplashScreen(),
-          '/EventList': (context) =>  EventList(),
+          '/EventList': (context) => EventList(),
           '/addEvent': (context) => AddEvent(),
-          '/viewEvent':(context) => ViewEvent(event:ModalRoute.of(context)!.settings.arguments as Event),
+          '/viewEvent': (context) => ViewEvent(
+              event: ModalRoute.of(context)!.settings.arguments as Event),
           '/addEventTask': (context) {
-            final Map<String, dynamic> arguments = ModalRoute.of(context) ?.settings.arguments as Map<String, dynamic>;
+            final Map<String, dynamic> arguments = ModalRoute.of(context)
+                ?.settings
+                .arguments as Map<String, dynamic>;
             return AddEventTask(
               eventName: arguments['eventName'],
               eventKey: arguments['eventKey'],
             );
           },
+          '/viewEventTask': (context) => ViewEventTask(
+              task: ModalRoute.of(context)!.settings.arguments as EventTasks),
 
           /////////////// LOGIN ////////////////////////////
           'LoginPage': (context) => Loginpage(),

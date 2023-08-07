@@ -125,10 +125,10 @@ class EventTasksAdapter extends TypeAdapter<EventTasks> {
       eventName: fields[1] as dynamic,
       taskKey: fields[7] as String,
       taskName: fields[8] as String,
-      vendorName: fields[9] as String?,
+      vendorName: fields[9] as String,
       isComplete: fields[10] as bool,
-      categoryName: fields[11] as String?,
-      budget: fields[12] as String?,
+      categoryName: fields[11] as String,
+      budget: fields[12] as String,
       taskTimestamp: fields[13] as DateTime,
     )
       ..eventDate = fields[2] as DateTime?

@@ -32,8 +32,15 @@ class ViewEvent extends StatelessWidget with DeleteEvent {
               IconButton(
                 onPressed: () {
                   DeleteEvent.deleteEvent(event.eventKey);
-
-                  Navigator.pushNamed(context, 'eventList');
+                  bool isDeleted = true;
+                  Navigator.pop(context,isDeleted);
+                  // Navigator.pushNamed(context, 'EventList');
+                  // then((result) {
+                  //   if (result != null && result is bool && result) {
+                  //     // Navigation completed successfully, call retrieveData
+                  //     retrieveData(event.eventKey);
+                  //   }
+                  // });
                 },
                 icon: Icon(Icons.delete),
               ),

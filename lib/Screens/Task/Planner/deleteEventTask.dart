@@ -6,15 +6,15 @@ import 'package:path_provider/path_provider.dart';
 
 mixin DeleteTask {
   static Future<void> deleteTask(String taskKey) async {
-    final taskBox = await Hive.openBox<Task>('task');
+    final eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
 
-  
-      if (taskBox.containsKey(taskKey)) {
-        taskBox.delete(taskKey);
+
+      if (eventTaskBox.containsKey(taskKey)) {
+        eventTaskBox.delete(taskKey);
       }
     
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/tasks.txt');
+    final file = File('${directory.path}/eventTasks.txt');
     if (await file.exists()) {
       final lines = await file.readAsLines();
       final updatedLines = lines.where((line) {

@@ -73,7 +73,7 @@ class _EventListState extends State<EventList> {
           time = DateFormat('yyyy-MM-dd').format(event.timestamp!).toString();
           
         }
-        print(event.eventName);
+
         // events.add(event);
         newEvents.add(event);
       });
@@ -524,7 +524,7 @@ class _EventListState extends State<EventList> {
                 final newEvent =
                     await Navigator.pushNamed(context, '/addEvent');
                 if (newEvent != null) {
-                  // If a new event is added, update the data and refresh the UI
+
                   setState(() {
                     events.add(newEvent as Event);
                   });
