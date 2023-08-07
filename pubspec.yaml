@@ -60,6 +60,7 @@ dependencies:
   qr_flutter: ^4.0.0
   url_launcher: ^6.1.11
   curved_navigation_bar: ^1.0.3
+  carousel_slider: ^4.2.1
   animated_notch_bottom_bar: ^1.0.0
   flutter_svg: ^2.0.7
   flutter_launcher_icons: ^0.13.1
