@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:eventsy/Screens/LoginandSignUpScreens/loginpage.dart';
 
 class LogOutScreen extends StatefulWidget {
   const LogOutScreen({super.key});
@@ -31,7 +30,7 @@ class _LogOutScreenState extends State<LogOutScreen> {
                 FirebaseAuth.instance.signOut().then((value) {
                   print("Sign Out");
 
-                  Navigator.pushNamed(context, '/LoginPage');
+                  Navigator.pushNamed(context, 'LoginPage');
                 });
               },
             )

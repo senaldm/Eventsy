@@ -1,19 +1,26 @@
-import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
+import 'notification_service.dart';
 
-class CategoryDetalsShownPage extends StatefulWidget {
+class UserCategoryDetailsShownPage extends StatefulWidget {
   final String eventName;
-  CategoryDetalsShownPage({Key? key, required this.eventName})
+  UserCategoryDetailsShownPage({Key? key, required this.eventName})
       : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _CategoryDetalsShownPageState createState() =>
-      _CategoryDetalsShownPageState();
+  _UserCategoryDetailsShownPageState createState() =>
+      _UserCategoryDetailsShownPageState();
 }
 
-class _CategoryDetalsShownPageState extends State<CategoryDetalsShownPage> {
+class _UserCategoryDetailsShownPageState extends State<UserCategoryDetailsShownPage> {
   // ignore: avoid_init_to_null
+  final NotificatinService notificationService = NotificatinService();
+
+  @override
+  void initState() {
+    super.initState();
+    notificationService.intializeNotification();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +48,12 @@ class _CategoryDetalsShownPageState extends State<CategoryDetalsShownPage> {
                     fontWeight: FontWeight.bold,
                   )),
             ),
+            leading: Align(
+              alignment: Alignment.center,
+              child: BackButton(
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
@@ -56,7 +69,7 @@ class _CategoryDetalsShownPageState extends State<CategoryDetalsShownPage> {
                 ElevatedButton(
                   onPressed: () async {
                     // Show the calendar popup screen.
-                    showDatePicker(
+                    DateTime? chosenDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime(2022),
@@ -78,6 +91,15 @@ class _CategoryDetalsShownPageState extends State<CategoryDetalsShownPage> {
                         );
                       },
                     );
+                    if (chosenDate != null) {
+                      // Set a notification for the chosen date
+                      await notificationService.showNotification(
+                        0, // Provide a unique ID for the notification
+                        'Notification Title',
+                        'Notification Body',
+                        'Notification Payload',
+                      );
+                    }
 
                     // ignore: use_build_context_synchronously
                   },

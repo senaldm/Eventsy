@@ -18,11 +18,80 @@ class _NavigationState extends State<Navigation> {
   int _activePageIndex = 0;
   final List<Widget> _pages = [Search(), Message(), Booking(), Profile()];
 
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      // This will call _showLoginScreen after the first frame is built
+      _showLoginScreen(context);
+    });
+  }
+
   void onTapped(int index) {
     setState(() {
       _activePageIndex = index;
     });
   }
+
+  void _showLoginScreen(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.blueGrey.shade900,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(Icons.close),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Welcome to Eventsy',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Please log in or sign up to continue.',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'LoginPage');
+              },
+              style: ElevatedButton.styleFrom(primary: Colors.green),
+              child: Text('Login'),
+            ),
+            SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, './SignUpPage');
+              },
+              style: ElevatedButton.styleFrom(primary: Colors.green),
+              child: Text('Sign Up'),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
