@@ -237,19 +237,34 @@ class BudgetEventAdapter extends TypeAdapter<BudgetEvent> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return BudgetEvent(
-      eventName: fields[16] as String,
-      targetBudget: fields[17] as int,
+      eventKey: fields[16] as String,
+      eventName: fields[17] as String,
+      targetBudget: fields[18] as String,
+      taskeventKey: fields[19] as String,
+      categoryName: fields[20] as String,
+      totalPrice: fields[21] as String,
+      vendorName: fields[22] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, BudgetEvent obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(7)
       ..writeByte(16)
-      ..write(obj.eventName)
+      ..write(obj.eventKey)
       ..writeByte(17)
-      ..write(obj.targetBudget);
+      ..write(obj.eventName)
+      ..writeByte(18)
+      ..write(obj.targetBudget)
+      ..writeByte(19)
+      ..write(obj.taskeventKey)
+      ..writeByte(20)
+      ..write(obj.categoryName)
+      ..writeByte(21)
+      ..write(obj.totalPrice)
+      ..writeByte(22)
+      ..write(obj.vendorName);
   }
 
   @override
@@ -259,52 +274,6 @@ class BudgetEventAdapter extends TypeAdapter<BudgetEvent> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is BudgetEventAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
-
-class BudgetTaskAdapter extends TypeAdapter<BudgetTask> {
-  @override
-  final int typeId = 6;
-
-  @override
-  BudgetTask read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return BudgetTask(
-      eventName: fields[16] as String,
-      targetBudget: fields[17] as int,
-      categoryName: fields[18] as String,
-      totalPrice: fields[19] as int,
-      vendorName: fields[20] as String,
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, BudgetTask obj) {
-    writer
-      ..writeByte(5)
-      ..writeByte(18)
-      ..write(obj.categoryName)
-      ..writeByte(19)
-      ..write(obj.totalPrice)
-      ..writeByte(20)
-      ..write(obj.vendorName)
-      ..writeByte(16)
-      ..write(obj.eventName)
-      ..writeByte(17)
-      ..write(obj.targetBudget);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is BudgetTaskAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

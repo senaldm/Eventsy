@@ -3,6 +3,7 @@ import 'package:eventsy/Model/Event.dart';
 import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 
 class EventSelectionPage extends StatefulWidget {
   EventSelectionPage({Key? key}) : super(key: key);
@@ -14,7 +15,8 @@ class EventSelectionPage extends StatefulWidget {
 class _EventSelectionPageState extends State<EventSelectionPage> {
   final List<BudgetEvent> events = [];
   String? eventName;
-  int? targetBudget;
+  String? targetBudget;
+  String? eventKey;
   final targetBudgetController = TextEditingController();
   final eventController = TextEditingController();
 
@@ -31,8 +33,9 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
       setState(() {
         eventName = storedEvent.eventName;
         targetBudget = storedEvent.targetBudget;
+        eventKey = storedEvent.eventKey;
         // Set the initial values in the controllers
-        targetBudgetController.text = targetBudget?.toString() ?? '';
+        targetBudgetController.text = targetBudget?? '';
         eventController.text = eventName ?? '';
       });
     }
@@ -111,7 +114,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                       cursorColor: const Color.fromARGB(255, 0, 255, 13),
                       onChanged: (value) {
                         setState(() {
-                          targetBudget = int.tryParse(value);
+                          targetBudget = value;
                         });
                       },
                       controller: targetBudgetController,
@@ -135,7 +138,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                           ),
                           focusColor: Colors.grey,
                           dropdownColor: Colors.grey,
-                          value:eventName,
+                          value: eventName,
                           elevation: 0,
                           onChanged: (String? newval) {
                             setState(() {
@@ -217,13 +220,18 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await addEvent(eventName, targetBudget ?? 0);
+                    await addEvent(
+                      eventName,
+                      targetBudget,
+                    );
+                    // ignore: use_build_context_synchronously
                     Navigator.pushNamed(
                       context,
                       'CategoryShownPage',
                       arguments: {
-                        'eventName': eventName,
-                        'targetBudget': targetBudget,
+                        'eventName':eventName,
+                         'targetBudget':targetBudget,
+                         'eventKey':eventKey,
                       },
                     );
                   },
@@ -251,12 +259,19 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
     );
   }
 
-  addEvent(String? eventName, int targetBudget) async {
+  addEvent(
+    String? eventName,
+    String? targetBudget,
+  ) async {
     // Assuming BudgetEvent constructor takes eventName and targetBudget as parameters
-    final budgetEvent =
-        BudgetEvent(eventName: eventName!, targetBudget: targetBudget);
+    final String eventKey = const Uuid().v4();
 
+    final budgetEvent = BudgetEvent(
+        eventName: eventName!, targetBudget: targetBudget!, eventKey: eventKey);
+  
     // Put the budgetEvent object into the eventbudgetBox
     eventbudgetBox.put('budgetEventKey', budgetEvent);
+    
   }
+  
 }

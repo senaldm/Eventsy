@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:device_preview/device_preview.dart';
-// import 'package:eventsy/Model/Budgetcal/eventset.dart';
 import 'package:eventsy/Model/Event.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:hive/hive.dart';
@@ -36,11 +34,11 @@ import 'Screens/Task/Planner/addEventDetails.dart';
 
 // import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
 // import 'Model/Budgetcal/eventset.dart';
+import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/budgetaddingoption.dart';
 import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/eventselectionpage.dart';
 import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categoryshownpage.dart';
-import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categorydetailsshowpage.dart';
 
-import 'Screens/BudgetCalculatorScreens/UserBudgetCal/usercategorydetailsshowpage.dart';
+import 'Screens/ImageSearchPage/Views/image_show_view.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -56,7 +54,6 @@ Future main() async {
   await Hive.initFlutter();
   //for Planner Budget
   Hive.registerAdapter(BudgetEventAdapter());
-  Hive.registerAdapter(BudgetTaskAdapter());
 
   Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(EventAdapter());
@@ -64,7 +61,7 @@ Future main() async {
   Hive.registerAdapter(InvitationAdapter());
 
   eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
-  taskbudgetBox = await Hive.openBox<BudgetTask>('budgettask');
+  taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
   eventBox = await Hive.openBox<Event>('event');
   taskBox = await Hive.openBox<Task>('task');
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
@@ -113,15 +110,13 @@ class FirstPage extends StatelessWidget {
           './LogOutScreen': (context) => LogOutScreen(),
 
           //////////budget calculator screens////////////////
+          'BudgetAddingEventList': (context) => BugetAddingEventList(),
           'EventselectionPage': (context) => EventSelectionPage(),
           'CategoryShownPage': (context) => CategoryShownPage(),
-          './CategoryDetailsShownPage': (context) =>
-              CategoryDetailsShownPage(eventName: ''),
 
-          'UserCategoryDetailsShownPage': (context) =>
-              UserCategoryDetailsShownPage(
-                eventName: '',
-              ),
+          //Image Search
+
+          'ImageShowView': (context) => (ImageShowView()),
         },
         key: navigatorKey,
         debugShowCheckedModeBanner: false,

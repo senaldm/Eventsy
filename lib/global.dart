@@ -4,7 +4,7 @@ import 'package:eventsy/Model/Event.dart';
 // Declare the global variable
 
 late Box<BudgetEvent> eventbudgetBox;
-late Box<BudgetTask> taskbudgetBox;
+late Box<BudgetEvent> taskbudgetBox;
 
 late Box<Event> eventBox;
 

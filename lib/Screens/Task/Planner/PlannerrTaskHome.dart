@@ -353,7 +353,7 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                       child: TextButton(
                                         onPressed: () {
                                           Navigator.pushNamed(
-                                              context, 'EventselectionPage');
+                                              context, 'BudgetAddingEventList');
                                         },
                                         child: SizedBox(
                                             height: width * 0.25,

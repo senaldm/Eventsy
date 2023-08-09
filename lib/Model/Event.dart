@@ -5,7 +5,6 @@ part 'Event.g.dart';
 
 @HiveType(typeId: 0)
 class Task extends HiveObject {
-
   @HiveField(0)
   String taskKey;
   @HiveField(1)
@@ -20,13 +19,13 @@ class Task extends HiveObject {
   bool isComplete;
   @HiveField(6)
   DateTime? timestamp;
-  
+
   void isCompleted() {
     isComplete = false;
   }
 
   Task({
-    this.taskKey='',
+    this.taskKey = '',
     this.categoryName = '',
     this.taskName = '',
     this.vendorName = '',
@@ -99,33 +98,29 @@ class UserMode extends HiveObject {
 @HiveType(typeId: 5)
 class BudgetEvent extends HiveObject {
   @HiveField(16)
-  String eventName; 
-
+  String eventKey;
   @HiveField(17)
-  int targetBudget; 
+  String eventName;
 
-  BudgetEvent({
-    this.eventName = '', 
-    this.targetBudget=0, 
+  @HiveField(18)
+  String targetBudget;
+
+  @HiveField(19)
+  String taskeventKey;
+
+  @HiveField(20)
+  late String categoryName;
+  @HiveField(21)
+  late String totalPrice;
+  @HiveField(22)
+  late String vendorName;
+  BudgetEvent( {
+    this.eventKey = '',
+    this.eventName = '',
+    this.targetBudget = '',
+    this.taskeventKey='',
+    this.categoryName = '',
+    this.totalPrice = '',
+    this.vendorName = '',
   });
 }
-
-
-@HiveType(typeId: 6)
-class BudgetTask extends BudgetEvent {
-  @HiveField(18)
-  late String categoryName;
-  @HiveField(19)
-  late int totalPrice;
-  @HiveField(20)
-  late String vendorName;
-
-   BudgetTask({
-     String eventName='',
-     int targetBudget=0,
-     this.categoryName ='',
-     this.totalPrice=0,
-     this.vendorName='',
-  }) : super(eventName: eventName, targetBudget: targetBudget);
-}
-

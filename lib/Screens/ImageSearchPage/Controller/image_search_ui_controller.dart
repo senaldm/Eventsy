@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 
 import '../Model/image_model.dart';
-import '../Service/dio_service.dart';
+import '../Service/api_service.dart';
 
 class SimpleUIController extends GetxController {
   RxList<PhotosModel> photos = RxList();
@@ -22,7 +22,7 @@ class SimpleUIController extends GetxController {
   /// Get Picture 
   getPictureData() async {
     isLoading.value = true;
-    var response = await DioService().getMethod(
+    var response = await ApiService().getMethod(
         "https://api.unsplash.com/photos/?per_page=30&order_by=${orderBy.value}&client_id=$apikey");
     photos = RxList();
     if (response.statusCode == 200) {

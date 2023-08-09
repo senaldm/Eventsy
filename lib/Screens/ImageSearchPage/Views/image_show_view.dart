@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eventsy/Screens/ImageSearchPage/Service/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -17,6 +18,7 @@ class ImageShowView extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
+  //  ApiService.getMethod("");
     return SafeArea(
       child: Scaffold(
         body: SizedBox(
@@ -196,13 +198,13 @@ class MyAppBar extends StatelessWidget {
         width: size.width,
         height: size.height / 3.5,
         decoration: BoxDecoration(
-          image: DecorationImage(
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.3), BlendMode.darken),
-            image: const AssetImage("assets/Images/ImageSearch/1.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
+            // image: DecorationImage(
+            //   colorFilter: ColorFilter.mode(
+            //       Colors.black.withOpacity(0.3), BlendMode.darken),
+            //   image: const AssetImage(""),
+            //   fit: BoxFit.cover,
+            // ),
+            ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
