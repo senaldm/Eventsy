@@ -276,10 +276,11 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                 children: [
                                   Card(
                                       shape: RoundedRectangleBorder(
+
                                           borderRadius:
                                               BorderRadius.circular(10.0)),
                                       // margin: EdgeInsets.only(
-                                      //     left: width * 0.15, right: width * 0.15),
+
                                       borderOnForeground: false,
                                       child: TextButton(
                                         onPressed: () {},
@@ -310,11 +311,13 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                                             width:
                                                                 width * 0.09),
                                                       ),
+
                                                       // Image.asset(
                                                       //     "assets/Images/Home/invitation.png",
                                                       //     width: width * 0.1),
                                                       SizedBox(
                                                           width: width * 0.02),
+
                                                     ]),
                                                 SizedBox(
                                                   height: width * 0.02,

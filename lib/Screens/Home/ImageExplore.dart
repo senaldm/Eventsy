@@ -102,9 +102,12 @@ class ImageExplore extends StatelessWidget {
                         children: [
                           FloatingActionButton.extended(
                               heroTag: 'btn2',
+
                               onPressed: () {
                                 Navigator.pushNamed(context, 'ImageShowView');
                               },
+
+                            
                               backgroundColor: Colors.black87,
                               label: Text(
                                 "Explore",

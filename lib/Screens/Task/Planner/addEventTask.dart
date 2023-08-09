@@ -13,14 +13,19 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sliding_switch/sliding_switch.dart';
 // import 'package:eventsy/main.dart';
 
-class AddTask extends StatefulWidget {
-  const AddTask({Key? key}) : super(key: key);
+class AddEventTask extends StatefulWidget {
+  final String eventName;
+  final String eventKey;
+  const AddEventTask({required this.eventName, required this.eventKey});
 
   @override
-  _AddTaskState createState() => _AddTaskState();
+  _AddEventTaskState createState() => _AddEventTaskState();
 }
 
-class _AddTaskState extends State<AddTask> {
+class _AddEventTaskState extends State<AddEventTask> {
+  late String eventName;
+  late String eventKey;
+
   final taskController = TextEditingController();
   final vendorController = TextEditingController();
   // final categoryController = TextEditingController();
@@ -38,7 +43,15 @@ class _AddTaskState extends State<AddTask> {
   final bool value = false;
   final bool onChanged = true;
   final _formKey = GlobalKey<FormState>();
-  final List<Task> task = [];
+  final List<EventTasks> task = [];
+
+  void initState() {
+    super.initState();
+    eventKey = widget.eventKey;
+    eventName = widget.eventName;
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -65,7 +78,7 @@ class _AddTaskState extends State<AddTask> {
                 centerTitle: true,
                 flexibleSpace: Center(
                   child: Text(
-                    'Task List',
+                    eventName,
                     style: TextStyle(
                         fontSize: width * 0.07,
                         fontFamily: 'Roboto',
@@ -102,7 +115,7 @@ class _AddTaskState extends State<AddTask> {
                               categoryName = newValue!;
                             });
                           },
-
+                          // value: categoryName,
                           items: <String>[
                             'Decoration',
                             'Food and Beverages',
@@ -137,7 +150,7 @@ class _AddTaskState extends State<AddTask> {
                               ),
                             );
                           }).toList(),
-                         
+
                           style: const TextStyle(
                             color: Colors.black87,
                             // fontSize: 20.0,
@@ -155,9 +168,10 @@ class _AddTaskState extends State<AddTask> {
                             fillColor: Colors.grey.shade900,
                             border: UnderlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              
                             ),
-                            prefixIcon: Icon(Icons.category_outlined,),
+                            prefixIcon: Icon(
+                              Icons.category_outlined,
+                            ),
                             hintText: 'Category',
                           ),
                           focusColor: Colors.black87,
@@ -168,7 +182,7 @@ class _AddTaskState extends State<AddTask> {
                       // SizedBox(
                       //   height: width * 0.05,
                       // ),
-                    
+
                       SizedBox(
                         height: width * 0.05,
                       ),
@@ -197,14 +211,13 @@ class _AddTaskState extends State<AddTask> {
                             // },
 
                             decoration: InputDecoration(
-                               border: UnderlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon:Icon(Icons.task_outlined),
-                            
+                              border: UnderlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              prefixIcon: Icon(Icons.task_outlined),
+
                               hintText: 'Task Name',
                               // prefixText:'Task Name',
                               // prefixIconColor:Colors.green,
-                              
                             ),
                           ),
                         ),
@@ -229,7 +242,7 @@ class _AddTaskState extends State<AddTask> {
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-                                  prefixIcon: Icon(Icons.business_center_outlined),
+                              prefixIcon: Icon(Icons.business_center_outlined),
                               hintText: 'Vendor Name',
                             ),
                           ),
@@ -256,7 +269,7 @@ class _AddTaskState extends State<AddTask> {
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-                                  prefixIcon: Icon(Icons.attach_money_rounded),
+                              prefixIcon: Icon(Icons.attach_money_rounded),
                               hintText: ' Budget ',
                             ),
                           ),
@@ -341,7 +354,7 @@ class _AddTaskState extends State<AddTask> {
                         heroTag: Text('save'),
                         onPressed: () async {
                           if (_formKey.currentState?.validate() == true) {
-                            await addTask(
+                            await addEventTask(
                               categoryName,
                               taskController.text,
                               vendorController.text,
@@ -378,11 +391,11 @@ class _AddTaskState extends State<AddTask> {
     });
   }
 
-  addTask(String categoryName, String taskName, String vendorName,
+  addEventTask(String categoryName, String taskName, String vendorName,
       String budget, bool isComplete) async {
     // final appDocumentDir = await getApplicationDocumentsDirectory();
     // final filePath = '${appDocumentDir.path}/tasks.txt';
-    taskBox = await Hive.openBox<Task>('task');
+    eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
 
     if (_formKey.currentState!.validate()) {
       categoryName = categoryName;
@@ -393,42 +406,41 @@ class _AddTaskState extends State<AddTask> {
       isComplete = isSwitchOn;
       final String uniqueKey = Uuid().v4();
 
-      // Create a new Task object
-      final task = Task(
+      final eventTask = EventTasks(
+        eventKey: eventKey,
+        eventName: eventName,
           taskKey: uniqueKey,
           categoryName: categoryName,
           taskName: taskName,
           vendorName: vendorName,
           budget: budget,
           isComplete: isComplete,
-          timestamp: DateTime.now());
+          taskTimestamp: DateTime.now());
 
       // Store the task in Hive
-      await taskBox.put(uniqueKey, task);
-      storeTask(task);
+      await eventTaskBox.put(uniqueKey, eventTask);
+      storeEventTask(eventTask);
 
       // Clear form data
-      // categoryController.clear();
       taskController.clear();
       vendorController.clear();
       budgetController.clear();
     }
   }
 
-  Future<void> storeTask(Task task) async {
+  Future<void> storeEventTask(EventTasks eventTask) async {
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/tasks.txt');
+    final file = File('${directory.path}/eventTasks.txt');
     final exists = await file.exists();
 
     if (!exists) {
       await file.create();
     }
-    
 
-    final formattedTimestamp = task.timestamp?.toIso8601String() ?? '';
+    final formattedTimestamp = eventTask.taskTimestamp.toIso8601String();
 
     final taskData =
-        '${task.taskKey},${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},$formattedTimestamp\n';
+        '${eventTask.eventKey},${eventTask.eventName},${eventTask.taskKey},${eventTask.categoryName},${eventTask.taskName},${eventTask.vendorName},${eventTask.budget},${eventTask.isComplete},$formattedTimestamp\n';
     await file.writeAsString(taskData, mode: FileMode.append);
   }
 }
