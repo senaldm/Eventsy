@@ -104,7 +104,7 @@ class VendorExplore extends StatelessWidget {
                               heroTag: 'btn2',
                               onPressed: () {
                                 UserModeSelect.userMode(context,'vendor');
-                                // Navigator.pushNamed(context, 'LoginPage');
+                               // Navigator.pushNamed(context, 'LoginPage');
                                 //Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const Navigation()));
                               },
                               backgroundColor: Colors.black87,

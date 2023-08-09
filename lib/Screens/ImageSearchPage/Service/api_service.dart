@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 class ApiService {
 
-  Future<dynamic> getMethod(String url) async {
+  Future<dynamic> getMethod(String url, {required Map<String, String> headers}) async {
     Dio dio = Dio();
     dio.options.headers['content-Type'] = 'application/json';
     return await dio

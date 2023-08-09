@@ -7,10 +7,14 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../Controller/image_search_ui_controller.dart';
 import '../Views/image_details_show.dart';
+// ignore: duplicate_import
+import '../Service/api_service.dart';
 
 // ignore: must_be_immutable
 class ImageShowView extends StatelessWidget {
-  ImageShowView({Key? key}) : super(key: key);
+  ImageShowView({
+    Key? key,
+  }) : super(key: key);
 
   SimpleUIController homeController = Get.put(SimpleUIController());
 
@@ -18,9 +22,12 @@ class ImageShowView extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-  //  ApiService.getMethod("");
+    ApiService().getMethod(
+        "https://api.unsplash.com/photos/?per_page=3000&order_by=latest&client_id=mZWpG8t2oknfFn6q6pxu5Ry92G1jxkML_Z_YFPTcBOY",
+        headers: {});
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.blueGrey.shade900,
         body: SizedBox(
           width: double.infinity,
           height: double.infinity,
@@ -223,7 +230,15 @@ class MyAppBar extends StatelessWidget {
                   width: double.infinity,
                   height: 50,
                   child: TextField(
-                    readOnly: true,
+                    readOnly: false,
+                    onChanged: (value) {
+                      var homeController;
+                      homeController.searchQuery = value;
+                    },
+                    onSubmitted: (value) {
+                       var homeController;
+                      homeController.searchPhotos();
+                    },
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: const Color.fromARGB(255, 228, 228, 228),
