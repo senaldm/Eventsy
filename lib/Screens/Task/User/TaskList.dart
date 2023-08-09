@@ -357,7 +357,8 @@ class _TaskListState extends State<TaskList> {
               flexibleSpace: Center(
                 child: Text('Task List',
                     style: TextStyle(
-                      fontSize: 30,
+                       fontSize: width * 0.07,
+                      // fontSize: 30,
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
                     )),
