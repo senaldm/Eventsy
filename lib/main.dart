@@ -3,7 +3,7 @@
 import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
 import 'package:eventsy/Screens/Task/User/viewTask.dart';
 import 'package:flutter/material.dart';
-import 'package:device_preview/device_preview.dart';
+
 // import 'package:eventsy/Model/Budgetcal/eventset.dart';
 import 'package:eventsy/Model/Event.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -11,7 +11,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:firebase_core/firebase_core.dart';
 import 'Screens/LoginandSignupScreens/firebase_options.dart';
-import 'routes.dart';
+
 import 'global.dart';
 
 // import file locations for routings
@@ -21,12 +21,18 @@ import 'Screens/Task/User/userTaskHome.dart';
 import 'package:eventsy/Screens/Planners/splashPlanners.dart';
 import 'package:eventsy/Screens/Task/User/TaskList.dart';
 
+import 'package:eventsy/Screens/Task/User/userDashboard/userDashboard.dart';
+import 'package:eventsy/Screens/Task/User/settings/settings.dart';
+
+
+
 import 'package:flutter/material.dart';
+
 import 'Screens/Home/ImageExplore.dart';
-import 'Screens/Home/home.dart';
+
 import 'Screens/Home/VendorExplore.dart';
 import 'Screens/Home/TaskExplore.dart';
-import 'Screens/Task/User/userTaskHome.dart';
+
 import 'Screens/LoginandSignUpScreens/logoutscreen.dart';
 import 'Screens/LoginandSignupScreens/signupoptionpage.dart';
 import 'Screens/LoginandSignupScreens/signup.dart';
@@ -43,10 +49,10 @@ import 'Screens/Task/Planner/viewEvent.dart';
 import 'Screens/Task/Planner/viewEventTask.dart';
 
 import 'Screens/BudgetCalculatorScreens/categorydetailsshowpage.dart';
-import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
+
 // import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
 // import 'Model/Budgetcal/eventset.dart';
-import 'Screens/BudgetCalculatorScreens/eventselectionpage.dart';
+
 import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
 
 import 'package:eventsy/Screens/Task/User/userDashboard/userDashboard.dart';

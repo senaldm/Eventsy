@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eventsy/Screens/Task/Planner/PlannerrTaskHome.dart';
+
 
 class PlannerMode extends StatelessWidget {
   const PlannerMode({super.key});
@@ -9,7 +9,7 @@ class PlannerMode extends StatelessWidget {
     return Container();
   }
 
-  static void plannerMode(BuildContext context) {
+  static void plannerMode(BuildContext context,String type) {
     Size screenSize = WidgetsBinding.instance.window.physicalSize;
     double width = screenSize.width;
     double height = screenSize.height;
@@ -79,7 +79,12 @@ class PlannerMode extends StatelessWidget {
                               ))),
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, 'PlannerHome');
+                             if (type == 'vendor') {
+                              Navigator.pushNamed(context, '/PlannersPage');
+                            } else if (type == 'planning') {
+                              Navigator.pushNamed(context, 'PlannerHome');
+                            }
+                          
                             // Navigator.push(
                             //   context,
                             //   MaterialPageRoute(
