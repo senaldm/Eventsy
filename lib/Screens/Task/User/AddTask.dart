@@ -102,7 +102,7 @@ class _AddTaskState extends State<AddTask> {
                               categoryName = newValue!;
                             });
                           },
-                          // value: categoryName,
+
                           items: <String>[
                             'Decoration',
                             'Food and Beverages',

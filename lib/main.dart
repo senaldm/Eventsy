@@ -4,15 +4,15 @@ import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
 import 'package:eventsy/Screens/Task/User/viewTask.dart';
 import 'package:flutter/material.dart';
 
-// import 'package:eventsy/Model/Budgetcal/eventset.dart';
-import 'package:eventsy/Model/Event.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:firebase_core/firebase_core.dart';
+import 'Screens/ImageSearchPage/Views/image_show_view.dart';
 import 'Screens/LoginandSignupScreens/firebase_options.dart';
 
 import 'global.dart';
+import 'Model/Event.dart';
 
 // import file locations for routings
 import 'package:flutter/services.dart';
@@ -23,8 +23,6 @@ import 'package:eventsy/Screens/Task/User/TaskList.dart';
 
 import 'package:eventsy/Screens/Task/User/userDashboard/userDashboard.dart';
 import 'package:eventsy/Screens/Task/User/settings/settings.dart';
-
-
 
 import 'package:flutter/material.dart';
 
@@ -42,18 +40,25 @@ import 'Screens/Task/User/AddTask.dart';
 
 import 'Screens/Task/Planner/PlannerrTaskHome.dart';
 import 'Screens/Task/Planner/eventList.dart';
+
+//import 'Screens/Task/Planner/addEventDetails.dart';
+
+// import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
+// import 'Model/Budgetcal/eventset.dart';
+import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/budgetaddingoption.dart';
+import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/eventselectionpage.dart';
+import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categoryshownpage.dart';
+
+import 'Screens/ImageSearchPage/Views/image_show_view.dart';
+
 import 'Screens/Task/Planner/addEvent.dart';
 import 'Screens/Task/User/updateTask.dart';
 import 'Screens/Task/Planner/eventTaskList.dart';
 import 'Screens/Task/Planner/viewEvent.dart';
 import 'Screens/Task/Planner/viewEventTask.dart';
 
-import 'Screens/BudgetCalculatorScreens/categorydetailsshowpage.dart';
-
 // import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
 // import 'Model/Budgetcal/eventset.dart';
-
-import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
 
 import 'package:eventsy/Screens/Task/User/userDashboard/userDashboard.dart';
 import 'package:eventsy/Screens/Task/User/settings/settings.dart';
@@ -76,22 +81,20 @@ Future main() async {
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
   await Hive.initFlutter();
-  // Hive.registerAdapter(
-  //   EventsetAdapter(),
-  // );
-  // Hive.registerAdapter(CategorySetAdapter());
-  // Hive.registerAdapter(SubTaskSetAdapter());
+  //for Planner Budget
+  Hive.registerAdapter(BudgetEventAdapter());
+
   Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(EventAdapter());
   Hive.registerAdapter(EventTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
-  Hive.registerAdapter(UserModeAdapter());
 
+  eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
+  taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
   eventBox = await Hive.openBox<Event>('event');
   taskBox = await Hive.openBox<Task>('task');
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
   invitationBox = await Hive.openBox<Invitation>('invitation');
-  userModeBox = await Hive.openBox<UserMode>('userMode');
 // void main()=>runApp(
 //     DevicePreview(
 
@@ -101,11 +104,7 @@ Future main() async {
 // }
 
 // void main() {
-  // runApp(FirstPage());
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    runApp(FirstPage());
-  });
+  runApp(FirstPage());
 }
 
 class FirstPage extends StatelessWidget {
@@ -121,6 +120,9 @@ class FirstPage extends StatelessWidget {
           'UserHome': (context) => UserTaskHome(),
           'TaskList': (context) => TaskList(),
           'addTask': (context) => AddTask(),
+          '/userDashboard': (context) => userDashboard(),
+          '/userSettings': (context) => userSettings(),
+
           '/viewTask': (context) => ViewTask(
               task: ModalRoute.of(context)!.settings.arguments as Task),
           '/userDashboard': (context) => userDashboard(),
@@ -157,25 +159,26 @@ class FirstPage extends StatelessWidget {
           './LogOutScreen': (context) => LogOutScreen(),
 
           //////////budget calculator screens////////////////
-          // './EventselectionPage': (context) => EventSelectionPage(),
+          'BudgetAddingEventList': (context) => BugetAddingEventList(),
+          'EventselectionPage': (context) => EventSelectionPage(),
           'CategoryShownPage': (context) => CategoryShownPage(),
+
+          //Image Search
+          'ImageShowView': (context) => (ImageShowView()),
+
           // './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(),
           // './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
-          './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(
-                eventName: '',
-              ),
 
-              
-        /////SETTINGS///
-        'ProfileSettingsPage':(context)=>ProfileSettingsPage(),
-        'NotificationSettingsPage':(context)=>NotificationSettingsPage(),
-        'FeedbackAndContactPage':(context)=>FeedbackAndContactPage(),
-        'SimpleRatingBar':(context)=>SimpleRatingBar(),
-        'PasswordChangePage':(context)=>PasswordChangePage(),
-        'LogoutPage':(context)=>LogoutPage(),
+          /////SETTINGS///
+          'ProfileSettingsPage': (context) => ProfileSettingsPage(),
+          'NotificationSettingsPage': (context) => NotificationSettingsPage(),
+          'FeedbackAndContactPage': (context) => FeedbackAndContactPage(),
+          'SimpleRatingBar': (context) => SimpleRatingBar(),
+          'PasswordChangePage': (context) => PasswordChangePage(),
+          'LogoutPage': (context) => LogoutPage(),
         },
 
-
+     
 
         key: navigatorKey,
         debugShowCheckedModeBanner: false,

@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:eventsy/routes.dart';
+
 class PlannerTaskHome extends StatefulWidget {
   const PlannerTaskHome({super.key});
 
@@ -10,9 +10,7 @@ class PlannerTaskHome extends StatefulWidget {
 }
 
 class _PlannerTaskHomeState extends State<PlannerTaskHome> {
- 
-
-    bool _isExpanded = false;
+  bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -45,16 +43,16 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                 //  padding: EdgeInsets.only(top: height * 0.02, right: width * 0.02),
                 child: AppBar(
                   //  titleSpacing: 2.2,
-        
+
                   forceMaterialTransparency: false,
                   backgroundColor: Colors.transparent,
                   automaticallyImplyLeading: false,
                   centerTitle: true,
-        
+
                   flexibleSpace: Image.asset(
                     "assets/Images/Task/appbarBackground5.jpeg",
                   ),
-        
+
                   title: Text(
                     '',
                     style: TextStyle(
@@ -64,39 +62,35 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                         color: Color.fromARGB(255, 77, 230, 0)),
                     textAlign: TextAlign.center,
                   ),
-        
+
                   actions: <Widget>[
-        
-                     PopupMenuButton(
-                      color:Color.fromARGB(255, 20, 24, 26),
-                      icon: Icon(Icons.menu_open,color:Colors.white70),
-                      iconSize: 40.0,
-            
-            itemBuilder: (context){
-              return [
-                    PopupMenuItem<int>(
-                        value: 0,
-                        child: Text("Settings",style: TextStyle(color: Colors.white70),),
-                    ),
-        
-                    PopupMenuItem<int>(
-                        value: 1,
-                        child: Text("Dashboard",style: TextStyle(color: Colors.white70),),
-                    ),
-        
-                
-                ];
-            },
-            onSelected:(value){
-              if(value == 0){
-                  
-              }else if(value == 1){
-                 
-              }
-            }
-          ),
-                         
-        
+                    PopupMenuButton(
+                        color: Color.fromARGB(255, 20, 24, 26),
+                        icon: Icon(Icons.menu_open, color: Colors.white70),
+                        iconSize: 40.0,
+                        itemBuilder: (context) {
+                          return [
+                            PopupMenuItem<int>(
+                              value: 0,
+                              child: Text(
+                                "Settings",
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                            ),
+                            PopupMenuItem<int>(
+                              value: 1,
+                              child: Text(
+                                "Dashboard",
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                            ),
+                          ];
+                        },
+                        onSelected: (value) {
+                          if (value == 0) {
+                          } else if (value == 1) {}
+                        }),
+
                     // IconButton(
                     //   onPressed: () {
                     //     // DropdownMenu();
@@ -109,21 +103,21 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                 ),
               ),
             ),
-        
-            body: Column(
-              children:[ Expanded(
-                flex:1,
+
+            body: Column(children: [
+              Expanded(
+                flex: 1,
                 child: SingleChildScrollView(
                   physics: NeverScrollableScrollPhysics(),
                   child: Container(
-                     decoration:  BoxDecoration(
-                      image:  DecorationImage(
-                        image:  AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
                         fit: BoxFit.cover,
                       ),
                     ),
                     child: SingleChildScrollView(
-                       physics: NeverScrollableScrollPhysics(),
+                      physics: NeverScrollableScrollPhysics(),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,11 +136,13 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                   Card(
                                       color: Colors.white,
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10.0)),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
                                       borderOnForeground: false,
                                       child: TextButton(
                                         onPressed: () {
-                                          Navigator.pushNamed(context, '/EventList');
+                                          Navigator.pushNamed(
+                                              context, '/EventList');
                                         },
                                         child: SizedBox(
                                             height: width * 0.25,
@@ -159,22 +155,27 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                               children: [
                                                 Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.center,
+                                                        CrossAxisAlignment
+                                                            .center,
                                                     children: [
                                                       CircleAvatar(
-                                                        backgroundColor: Color.fromARGB(
-                                                            255, 20, 158, 85),
+                                                        backgroundColor:
+                                                            Color.fromARGB(255,
+                                                                20, 158, 85),
                                                         radius: 24.0,
                                                         child: Image.asset(
                                                             "assets/Images/Home/task.png",
-                                                            width: width * 0.09),
+                                                            width:
+                                                                width * 0.09),
                                                       ),
                                                       // Image.asset(
                                                       //     "assets/Images/Home/task.png",
                                                       //     width: width * 0.1),
-                                                      SizedBox(width: width * 0.02),
+                                                      SizedBox(
+                                                          width: width * 0.02),
                                                     ]),
                                                 SizedBox(
                                                   height: width * 0.02,
@@ -188,9 +189,12 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                                     Text(
                                                       'Event',
                                                       style: TextStyle(
-                                                          fontSize: height * 0.02,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.black87),
+                                                          fontSize:
+                                                              height * 0.02,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color:
+                                                              Colors.black87),
                                                     )
                                                   ],
                                                 )
@@ -202,7 +206,8 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                   ),
                                   Card(
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10.0)),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
                                       borderOnForeground: false,
                                       child: TextButton(
                                         onPressed: () {},
@@ -217,19 +222,24 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                               children: [
                                                 Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.center,
+                                                        CrossAxisAlignment
+                                                            .center,
                                                     children: [
                                                       CircleAvatar(
-                                                        backgroundColor: Color.fromARGB(
-                                                            255, 77, 230, 0),
+                                                        backgroundColor:
+                                                            Color.fromARGB(255,
+                                                                77, 230, 0),
                                                         radius: 24.0,
                                                         child: Image.asset(
                                                             "assets/Images/Home/vendor.png",
-                                                            width: width * 0.99),
+                                                            width:
+                                                                width * 0.99),
                                                       ),
-                                                      SizedBox(width: width * 0.02),
+                                                      SizedBox(
+                                                          width: width * 0.02),
                                                     ]),
                                                 SizedBox(
                                                   height: width * 0.02,
@@ -243,9 +253,12 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                                     Text(
                                                       'Vendor',
                                                       style: TextStyle(
-                                                          fontSize: height * 0.02,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.black87),
+                                                          fontSize:
+                                                              height * 0.02,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color:
+                                                              Colors.black87),
                                                     )
                                                   ],
                                                 )
@@ -263,7 +276,11 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                 children: [
                                   Card(
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10.0)),
+
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      // margin: EdgeInsets.only(
+
                                       borderOnForeground: false,
                                       child: TextButton(
                                         onPressed: () {},
@@ -278,19 +295,29 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                               children: [
                                                 Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.center,
+                                                        CrossAxisAlignment
+                                                            .center,
                                                     children: [
                                                       CircleAvatar(
-                                                        backgroundColor: Color.fromARGB(
-                                                            255, 77, 230, 0),
+                                                        backgroundColor:
+                                                            Color.fromARGB(255,
+                                                                77, 230, 0),
                                                         radius: 24.0,
                                                         child: Image.asset(
                                                             "assets/Images/Task/invitation.png",
-                                                            width: width * 0.09),
+                                                            width:
+                                                                width * 0.09),
                                                       ),
-                                                      SizedBox(width: width * 0.02),
+
+                                                      // Image.asset(
+                                                      //     "assets/Images/Home/invitation.png",
+                                                      //     width: width * 0.1),
+                                                      SizedBox(
+                                                          width: width * 0.02),
+
                                                     ]),
                                                 SizedBox(
                                                   height: width * 0.02,
@@ -304,9 +331,12 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                                     Text(
                                                       'Invitation',
                                                       style: TextStyle(
-                                                          fontSize: height * 0.02,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.black87),
+                                                          fontSize:
+                                                              height * 0.02,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color:
+                                                              Colors.black87),
                                                     )
                                                   ],
                                                 )
@@ -318,14 +348,15 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                   ),
                                   Card(
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10.0)),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
                                       // margin: EdgeInsets.only(
                                       //     left: width * 0.15, right: width * 0.15),
                                       borderOnForeground: true,
                                       child: TextButton(
                                         onPressed: () {
                                           Navigator.pushNamed(
-                                              context, 'CategoryShownPage');
+                                              context, 'BudgetAddingEventList');
                                         },
                                         child: SizedBox(
                                             height: width * 0.25,
@@ -338,13 +369,16 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                               children: [
                                                 Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.center,
+                                                        CrossAxisAlignment
+                                                            .center,
                                                     children: [
                                                       CircleAvatar(
-                                                        backgroundColor: Color.fromARGB(
-                                                            255, 77, 230, 0),
+                                                        backgroundColor:
+                                                            Color.fromARGB(255,
+                                                                77, 230, 0),
                                                         radius: 24.0,
                                                         child: Image.asset(
                                                             "assets/Images/Task/budgetCal.png",
@@ -366,11 +400,15 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                                   children: [
                                                     Text(
                                                       'Budget',
-                                                      textAlign: TextAlign.center,
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       style: TextStyle(
-                                                          fontSize: height * 0.02,
-                                                          fontWeight: FontWeight.w600,
-                                                          color: Colors.black87),
+                                                          fontSize:
+                                                              height * 0.02,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color:
+                                                              Colors.black87),
                                                     )
                                                   ],
                                                 )
@@ -382,24 +420,34 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                             ],
                           ),
                           SizedBox(
-                            height: height*0.15,
+                            height: height * 0.15,
                           ),
-                          Text("Eventsy",style: TextStyle(fontSize: 26.0,color:Colors.white70,
-                                fontFamily: 'Quintessential'),),
-                          Text("Good planning makes best Events",style: TextStyle(fontStyle: FontStyle.italic,color:Colors.white70,fontFamily: 'Quintessential' ),),
-                           SizedBox(
+                          Text(
+                            "Eventsy",
+                            style: TextStyle(
+                                fontSize: 26.0,
+                                color: Colors.white70,
+                                fontFamily: 'Quintessential'),
+                          ),
+                          Text(
+                            "Good planning makes best Events",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.white70,
+                                fontFamily: 'Quintessential'),
+                          ),
+                          SizedBox(
                             height: height * 0.1,
                           ),
-                        
-                         ],
+                        ],
                       ),
                     ),
                   ),
                 ),
-              ),]
-            ),
+              ),
+            ]),
           ),
-            onWillPop: () async {
+          onWillPop: () async {
             // Exit the app.
             Navigator.pushNamed(context, '/TaskExplore');
             return false;
@@ -407,4 +455,3 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
         ));
   }
 }
-
