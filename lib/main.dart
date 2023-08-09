@@ -20,8 +20,7 @@ import 'package:flutter/services.dart';
 import 'Screens/Task/User/userTaskHome.dart';
 import 'package:eventsy/Screens/Planners/splashPlanners.dart';
 import 'package:eventsy/Screens/Task/User/TaskList.dart';
-import 'package:eventsy/Screens/Task/User/userDashboard/userDashboard.dart';
-import 'package:eventsy/Screens/Task/User/settings/settings.dart';
+
 import 'package:flutter/material.dart';
 import 'Screens/Home/ImageExplore.dart';
 import 'Screens/Home/home.dart';
@@ -49,6 +48,15 @@ import 'Screens/BudgetCalculatorScreens/normalbudgetaddingpage.dart';
 // import 'Model/Budgetcal/eventset.dart';
 import 'Screens/BudgetCalculatorScreens/eventselectionpage.dart';
 import 'Screens/BudgetCalculatorScreens/categoryshownpage.dart';
+
+import 'package:eventsy/Screens/Task/User/userDashboard/userDashboard.dart';
+import 'package:eventsy/Screens/Task/User/settings/settings.dart';
+import 'package:eventsy/Screens/Task/User/settings/ProfileSettingsPage.dart';
+import 'package:eventsy/Screens/Task/User/settings/Notification.dart';
+import 'package:eventsy/Screens/Task/User/settings/help_support.dart';
+import 'package:eventsy/Screens/Task/User/settings/RateUs.dart';
+import 'package:eventsy/Screens/Task/User/settings/privacy_Security.dart';
+import 'package:eventsy/Screens/Task/User/settings/logout.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -150,7 +158,19 @@ class FirstPage extends StatelessWidget {
           './CategoryDetailsShownPage': (context) => CategoryDetalsShownPage(
                 eventName: '',
               ),
+
+              
+        /////SETTINGS///
+        'ProfileSettingsPage':(context)=>ProfileSettingsPage(),
+        'NotificationSettingsPage':(context)=>NotificationSettingsPage(),
+        'FeedbackAndContactPage':(context)=>FeedbackAndContactPage(),
+        'SimpleRatingBar':(context)=>SimpleRatingBar(),
+        'PasswordChangePage':(context)=>PasswordChangePage(),
+        'LogoutPage':(context)=>LogoutPage(),
         },
+
+
+
         key: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Eventsy',
