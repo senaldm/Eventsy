@@ -27,7 +27,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
             flexibleSpace: Center(
               child: Text('Notifications',
                   style: TextStyle(
-                      fontSize: width * 0.07,
+                      fontSize: width * 0.06,
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
@@ -49,10 +49,6 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                   horizontal: width * 0.0, vertical: width * 0.3),
               child: Column(
                 children: [
-                   Divider(
-                  color: Color(0xFF4D4A4A), // Set the color of the line
-                  thickness: 1,
-                ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -60,7 +56,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                         padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30),
                         child: Text(
                           'Enable Notifications',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          style: TextStyle(fontSize: 18, color: Colors.white,),
                         ),
                       ),
                       Container(
@@ -96,20 +92,21 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
         ),
          bottomNavigationBar: BottomAppBar(
             color:  Color.fromARGB(255, 18, 140, 126),
-            height: height*0.11,
+            height: height*0.10,
             child: Center(
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  
                   FloatingActionButton.extended(
                     onPressed: () {
                       //Navigator.pushNamed(context, '/TaskList');
                     },
                     backgroundColor: Colors.blueGrey.shade900,
                     label: Text(
-                      'Done',
+                      ' Back ',
                       style: TextStyle(
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
@@ -122,7 +119,7 @@ class _NotificationSettingsPageState extends State<NotificationSettingsPage> {
                     },
                     backgroundColor: Colors.blueGrey.shade900,
                     label: Text(
-                      ' Back ',
+                      'Done',
                       style: TextStyle(
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
