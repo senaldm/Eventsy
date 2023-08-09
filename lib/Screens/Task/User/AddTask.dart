@@ -75,243 +75,246 @@ class _AddTaskState extends State<AddTask> {
                 ),
               ),
             ),
-            body: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
-                  fit: BoxFit.cover,
+            body: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        margin: EdgeInsets.only(
-                            left: width * 0.15, right: width * 0.15),
-
-                        borderOnForeground: false,
-                        // child:SingleChildScrollView(
-                        child: DropdownButtonFormField<String>(
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              categoryName = newValue!;
-                            });
-                          },
-                          // value: categoryName,
-                          items: <String>[
-                            'Decoration',
-                            'Food and Beverages',
-                            'Option 3',
-                            'Option 4',
-                            'Option 5',
-                            'Decorations',
-                            'Food and Beveragess',
-                            'Option 3s',
-                            'Option 4s',
-                            'Option 5s',
-                            'Decorationy',
-                            'Food and Beveragesy',
-                            'Option 3y',
-                            'Option 4y',
-                            'Option 5y',
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: SizedBox(
-                                width: 290,
-                                height: 60,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    value,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          margin: EdgeInsets.only(
+                              left: width * 0.15, right: width * 0.15),
+            
+                          borderOnForeground: false,
+                          // child:SingleChildScrollView(
+                          child: DropdownButtonFormField<String>(
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                categoryName = newValue!;
+                              });
+                            },
+                            // value: categoryName,
+                            items: <String>[
+                              'Decoration',
+                              'Food and Beverages',
+                              'Option 3',
+                              'Option 4',
+                              'Option 5',
+                              'Decorations',
+                              'Food and Beveragess',
+                              'Option 3s',
+                              'Option 4s',
+                              'Option 5s',
+                              'Decorationy',
+                              'Food and Beveragesy',
+                              'Option 3y',
+                              'Option 4y',
+                              'Option 5y',
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: SizedBox(
+                                  width: 290,
+                                  height: 60,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                           
+                            style: const TextStyle(
+                              color: Colors.black87,
+                              // fontSize: 20.0,
+                            ),
+                            isExpanded: true,
+                            hint: const Text(
+                              'Add Category',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            icon: const Icon(
+                              Icons.arrow_drop_down,
+                              color: Colors.black87,
+                            ),
+                            decoration: InputDecoration(
+                              fillColor: Colors.grey.shade900,
+                              border: UnderlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                
+                              ),
+                              prefixIcon: Icon(Icons.category_outlined,),
+                              hintText: 'Category',
+                            ),
+                            focusColor: Colors.black87,
+                            dropdownColor: Colors.blueGrey.shade900,
+                          ),
+                        ),
+            
+                        // SizedBox(
+                        //   height: width * 0.05,
+                        // ),
+                      
+                        SizedBox(
+                          height: width * 0.05,
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          margin: EdgeInsets.only(
+                              left: width * 0.15, right: width * 0.15),
+                          borderOnForeground: false,
+                          child: Hero(
+                            tag: 'taskName',
+                            child: TextFormField(
+                              controller: taskController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter a task name";
+                                }
+                                return null;
+                              },
+                              //   validator: (value) {
+                              //   if (value!.isEmpty) {
+                              //     return 'Please enter a task name';
+                              //   }
+                              //   return null;
+            
+                              // },
+            
+                              decoration: InputDecoration(
+                                 border: UnderlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                                prefixIcon:Icon(Icons.task_outlined),
+                              
+                                hintText: 'Task Name',
+                                // prefixText:'Task Name',
+                                // prefixIconColor:Colors.green,
+                                
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: width * 0.05,
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          margin: EdgeInsets.only(
+                              left: width * 0.15, right: width * 0.15),
+                          borderOnForeground: false,
+                          child: Hero(
+                            tag: 'vendorName',
+                            child: TextField(
+                              controller: vendorController,
+                              // onChanged: (value) {
+                              //   vendorName:
+                              //   value;
+                              // },
+                              decoration: InputDecoration(
+                                border: UnderlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                    prefixIcon: Icon(Icons.business_center_outlined),
+                                hintText: 'Vendor Name',
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: width * 0.05,
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          margin: EdgeInsets.only(
+                              left: width * 0.15, right: width * 0.15),
+                          borderOnForeground: false,
+                          child: Hero(
+                            tag: 'budget',
+                            child: TextField(
+                              controller: budgetController,
+                              // onChanged: (value) {
+                              //   budget:
+                              //   value;
+                              // },
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                border: UnderlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                    prefixIcon: Icon(Icons.attach_money_rounded),
+                                hintText: ' Budget ',
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: width * 0.4,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: width * 0.05,
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: label,
                                     style: TextStyle(
+                                      fontSize: 15.0,
                                       color: Colors.white,
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }).toList(),
-                         
-                          style: const TextStyle(
-                            color: Colors.black87,
-                            // fontSize: 20.0,
-                          ),
-                          isExpanded: true,
-                          hint: const Text(
-                            'Add Category',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          icon: const Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black87,
-                          ),
-                          decoration: InputDecoration(
-                            fillColor: Colors.grey.shade900,
-                            border: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              
+                              ],
                             ),
-                            prefixIcon: Icon(Icons.category_outlined,),
-                            hintText: 'Category',
-                          ),
-                          focusColor: Colors.black87,
-                          dropdownColor: Colors.blueGrey.shade900,
-                        ),
-                      ),
-
-                      // SizedBox(
-                      //   height: width * 0.05,
-                      // ),
-                    
-                      SizedBox(
-                        height: width * 0.05,
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        margin: EdgeInsets.only(
-                            left: width * 0.15, right: width * 0.15),
-                        borderOnForeground: false,
-                        child: Hero(
-                          tag: 'taskName',
-                          child: TextFormField(
-                            controller: taskController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter a task name";
-                              }
-                              return null;
-                            },
-                            //   validator: (value) {
-                            //   if (value!.isEmpty) {
-                            //     return 'Please enter a task name';
-                            //   }
-                            //   return null;
-
-                            // },
-
-                            decoration: InputDecoration(
-                               border: UnderlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon:Icon(Icons.task_outlined),
-                            
-                              hintText: 'Task Name',
-                              // prefixText:'Task Name',
-                              // prefixIconColor:Colors.green,
-                              
+                            SlidingSwitch(
+                              value: false,
+                              width: 100,
+                              height: 50,
+                              onTap: () {},
+                              onDoubleTap: () {},
+                              onSwipe: () {},
+                              iconOff: Icons.cancel_rounded,
+                              iconOn: Icons.done,
+                              contentSize: 24,
+                              colorOn: Color.fromARGB(255, 10, 224, 17),
+                              colorOff: Color.fromARGB(255, 126, 19, 11),
+                              background: Colors.black87,
+                              buttonColor: const Color(0xfff7f5f7),
+                              inactiveColor: const Color(0xff636f7b),
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  isSwitchOn = newValue;
+                                });
+                              },
                             ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: width * 0.05,
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        margin: EdgeInsets.only(
-                            left: width * 0.15, right: width * 0.15),
-                        borderOnForeground: false,
-                        child: Hero(
-                          tag: 'vendorName',
-                          child: TextField(
-                            controller: vendorController,
-                            // onChanged: (value) {
-                            //   vendorName:
-                            //   value;
-                            // },
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                                  prefixIcon: Icon(Icons.business_center_outlined),
-                              hintText: 'Vendor Name',
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: width * 0.05,
-                      ),
-                      Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        margin: EdgeInsets.only(
-                            left: width * 0.15, right: width * 0.15),
-                        borderOnForeground: false,
-                        child: Hero(
-                          tag: 'budget',
-                          child: TextField(
-                            controller: budgetController,
-                            // onChanged: (value) {
-                            //   budget:
-                            //   value;
-                            // },
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                                  prefixIcon: Icon(Icons.attach_money_rounded),
-                              hintText: ' Budget ',
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: width * 0.4,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: width * 0.05,
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  text: label,
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SlidingSwitch(
-                            value: false,
-                            width: 100,
-                            height: 50,
-                            onTap: () {},
-                            onDoubleTap: () {},
-                            onSwipe: () {},
-                            iconOff: Icons.cancel_rounded,
-                            iconOn: Icons.done,
-                            contentSize: 24,
-                            colorOn: Color.fromARGB(255, 10, 224, 17),
-                            colorOff: Color.fromARGB(255, 126, 19, 11),
-                            background: Colors.black87,
-                            buttonColor: const Color(0xfff7f5f7),
-                            inactiveColor: const Color(0xff636f7b),
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                isSwitchOn = newValue;
-                              });
-                            },
-                          ),
-                        ],
-                      )
-                      //
-                    ]),
+                          ],
+                        )
+                        //
+                      ]),
+                ),
               ),
             ),
             bottomNavigationBar: BottomAppBar(
