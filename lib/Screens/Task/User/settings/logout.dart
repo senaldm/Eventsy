@@ -77,7 +77,7 @@ class LogoutPage extends StatelessWidget {
               flexibleSpace: Center(
                 child: Text('Logout',
                     style: TextStyle(
-                        fontSize: width * 0.07,
+                        fontSize: width * 0.06,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
                         color: Colors.white)),
@@ -115,20 +115,21 @@ class LogoutPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
             color:  Color.fromARGB(255, 18, 140, 126),
-            height: height*0.11,
+            height: height*0.10,
             child: Center(
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  
                   FloatingActionButton.extended(
                     onPressed: () {
                       //Navigator.pushNamed(context, '/TaskList');
                     },
                     backgroundColor: Colors.blueGrey.shade900,
                     label: Text(
-                      'Done',
+                      ' Back ',
                       style: TextStyle(
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
@@ -141,7 +142,7 @@ class LogoutPage extends StatelessWidget {
                     },
                     backgroundColor: Colors.blueGrey.shade900,
                     label: Text(
-                      ' Back ',
+                      'Done',
                       style: TextStyle(
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,

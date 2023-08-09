@@ -29,7 +29,7 @@ class userSettings extends StatelessWidget {
               flexibleSpace: Center(
                 child: Text('Settings',
                     style: TextStyle(
-                        fontSize: width * 0.07,
+                        fontSize: width * 0.06,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
                         color: Colors.white)),
@@ -44,7 +44,7 @@ class userSettings extends StatelessWidget {
                 ),
               ),
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 0, vertical:width*0.2),
+              margin: EdgeInsets.symmetric(horizontal: 0, vertical:width*0.1),
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: <Widget>
@@ -76,14 +76,13 @@ class userSettings extends StatelessWidget {
                             .infinity,// Expand button width to fill the container
                         height: 50,
                         child: ListTile(
-                          leading: Image.asset(
-                              'assets/Images/settings/profile.png'),
+                          leading: Icon(Icons.account_circle_rounded,color: Colors.white,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Profile Setting',
                               style: TextStyle(
-                                fontSize: width * 0.05,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -114,14 +113,13 @@ class userSettings extends StatelessWidget {
                             .infinity, // Expand button width to fill the container
                         height: 50,
                         child: ListTile(
-                          leading: Image.asset(
-                              'assets/Images/settings/privacy_security.png'),
+                          leading: Icon(Icons.lock_person_rounded,color: Colors.blueGrey,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Privacy & Security',
                               style: TextStyle(
-                                fontSize: width * 0.05,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -152,14 +150,13 @@ class userSettings extends StatelessWidget {
                             .infinity, // Expand button width to fill the container
                         height: 50,
                         child: ListTile(
-                          leading: Image.asset(
-                              'assets/Images/settings/notifications.png'),
+                          leading: Icon(Icons.notifications_active_rounded,color: Colors.lightBlueAccent,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Notification',
                               style: TextStyle(
-                                fontSize: width * 0.05,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -190,14 +187,13 @@ class userSettings extends StatelessWidget {
                             .infinity, // Expand button width to fill the container
                         height: 50,
                         child: ListTile(
-                          leading: Image.asset(
-                              'assets/Images/settings/help_support.png'),
+                          leading: Icon(Icons.help_center_rounded,color: Colors.lightGreenAccent,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Help & Support',
                               style: TextStyle(
-                                fontSize: width * 0.05,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -229,13 +225,13 @@ class userSettings extends StatelessWidget {
                         height: 50,
                         child: ListTile(
                           leading:
-                              Image.asset('assets/Images/settings/rate us.png'),
+                              Icon(Icons.star_half_rounded,color: Colors.amber,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Rate Us',
                               style: TextStyle(
-                                fontSize: width * 0.05,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -267,13 +263,13 @@ class userSettings extends StatelessWidget {
                         height: 50,
                         child: ListTile(
                           leading:
-                              Image.asset('assets/Images/settings/logout.png'),
+                             Icon(Icons.logout_rounded,color: Colors.red,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Logout',
                               style: TextStyle(
-                                fontSize: width * 0.05,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -305,13 +301,13 @@ class userSettings extends StatelessWidget {
                         height: 50,
                         child: ListTile(
                           leading:
-                              Image.asset('assets/Images/settings/profile.png'),
+                             Icon(Icons.cached_rounded,color: Colors.lime,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Switch User Mode',
                               style: TextStyle(
-                                fontSize: width * 0.05,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -329,20 +325,21 @@ class userSettings extends StatelessWidget {
           
           bottomNavigationBar: BottomAppBar(
               color: Color.fromARGB(255, 18, 140, 126),
-              height: 90,
+              height: 80,
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    
                     FloatingActionButton.extended(
                       onPressed: () {
-                        //Navigator.pushNamed(context, '/TaskList');
+                        Navigator.pushNamed(context, 'UserHome');
                       },
                       backgroundColor: Colors.blueGrey.shade900,
                       label: Text(
-                        ' Add ',
+                        ' Back ',
                         style: TextStyle(
                             fontSize: 15.0,
                             fontWeight: FontWeight.bold,
@@ -351,11 +348,11 @@ class userSettings extends StatelessWidget {
                     ),
                     FloatingActionButton.extended(
                       onPressed: () {
-                        Navigator.pushNamed(context, 'UserHome');
+                        //Navigator.pushNamed(context, '/TaskList');
                       },
                       backgroundColor: Colors.blueGrey.shade900,
                       label: Text(
-                        ' Back ',
+                        ' Add ',
                         style: TextStyle(
                             fontSize: 15.0,
                             fontWeight: FontWeight.bold,
