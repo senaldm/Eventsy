@@ -12,7 +12,7 @@ class UserModeSelect extends StatelessWidget {
     return Container();
   }
 
-  static void userMode(BuildContext context) {
+  static void userMode(BuildContext context,String type) {
     Size screenSize = WidgetsBinding.instance.window.physicalSize;
     double width = screenSize.width;
     double height = screenSize.height;
@@ -78,7 +78,15 @@ class UserModeSelect extends StatelessWidget {
                             //         UserTaskHome(),
                             //   ),
                             // );
-                            Navigator.pushNamed(context,'UserHome');
+                            if(type=='vendor')
+                            {
+                              Navigator.pushNamed(context, '/PlannersPage');
+                            }
+                            else if(type=='planning')
+                            {
+                              Navigator.pushNamed(context, 'UserHome');
+                            }
+                            
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 18, 140, 126),
@@ -89,7 +97,7 @@ class UserModeSelect extends StatelessWidget {
                               ))),
                       ElevatedButton(
                           onPressed: () {
-                            PlannerMode.plannerMode(context);
+                            PlannerMode.plannerMode(context,type);
                           },
                           style: ElevatedButton.styleFrom(
                             // alignment:,
