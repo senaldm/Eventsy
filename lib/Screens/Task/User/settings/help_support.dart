@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class FeedbackAndContactPage extends StatelessWidget {
   TextEditingController feedbackController = TextEditingController();
@@ -35,7 +37,7 @@ class FeedbackAndContactPage extends StatelessWidget {
               flexibleSpace: Center(
                 child: Text('Help & Support',
                     style: TextStyle(
-                        fontSize: width * 0.07,
+                        fontSize: width * 0.05,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
                         color: Colors.white)),
@@ -54,40 +56,46 @@ class FeedbackAndContactPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 16),
-             Divider(thickness: 1,
-                  color:Colors.white.withOpacity(0.3),),
             ExpansionTile(
-                title: Text(
-                  'Contact Us',
-                  style: TextStyle(
-                    fontSize: width * 0.05,
-                    color: Colors.white,
+                  title: Text(
+                    'Contact Us',
+                    style: TextStyle(
+                      fontSize: width * 0.045,
+                      color: Colors.white,
+                    ),
                   ),
+                  children: [
+                    GestureDetector(
+                      onTap: () => _launchGmail('contact@example.com'),
+                      child: Text(
+                        'Email: ',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey, // Set email text color
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => _launchGmail('contact@example.com'),
+                      child: SelectableText(
+                        'contact@example.com',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white, // Set email text color
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                children: [
-                  Text(
-                    'Email: ',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey, // Set email text color
-                    ),
-                  ),
-                  SelectableText(
-                    'contact@example.com',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white, // Set email text color
-                    ),
-                  ),
-                ],
-              ),
+
+
                Divider(thickness: 1,
                   color:Colors.white.withOpacity(0.3),),
               ExpansionTile(
                 title: Text(
                   'Give Feedback',
                   style: TextStyle(
-                    fontSize: width * 0.05,
+                    fontSize: width * 0.045,
                     color: Colors.white,
                   ),
                 ),
@@ -108,7 +116,7 @@ class FeedbackAndContactPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       filled: true,
-                      //fillColor: Colors.white, // Set feedback input field color
+                      fillColor:  Colors.blueGrey.shade900, // Set feedback input field color
                     ),
                     style: TextStyle(
                       color: Colors.white, // Set feedback input text color
@@ -156,19 +164,7 @@ class FeedbackAndContactPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  FloatingActionButton.extended(
-                    onPressed: () {
-                      //Navigator.pushNamed(context, '/TaskList');
-                    },
-                    backgroundColor: Colors.blueGrey.shade900,
-                    label: Text(
-                      'Done',
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
+                  
                   FloatingActionButton.extended(
                     onPressed: () {
                       //Navigator.pushNamed(context, '/TaskList');
@@ -182,10 +178,51 @@ class FeedbackAndContactPage extends StatelessWidget {
                           color: Colors.white),
                     ),
                   ),
+                  FloatingActionButton.extended(
+                    onPressed: () {
+                      //Navigator.pushNamed(context, '/TaskList');
+                    },
+                    backgroundColor: Colors.blueGrey.shade900,
+                    label: Text(
+                      'Done',
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
             )),
       ),
     );
   }
+
+  Future<void> _launchGmail(String emailAddress) async {
+  final Uri uri = Uri(
+    scheme: 'mailto',
+    path: emailAddress,
+  );
+
+  // Use a custom URL scheme for Gmail
+  final gmailUri = Uri(
+    scheme: 'googlegmail',
+    path: 'co',
+    queryParameters: {'to': emailAddress},
+  );
+
+  // Launch the Gmail app using the custom URL scheme
+  if (await canLaunch(gmailUri.toString())) {
+    await launch(gmailUri.toString());
+  } else {
+    // If Gmail app is not installed, use the mailto scheme as a fallback
+    if (await canLaunch(uri.toString())) {
+      await launch(uri.toString());
+    } else {
+      throw 'Could not launch email app.';
+    }
+  }
+}
+
+
 }
