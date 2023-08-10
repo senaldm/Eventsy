@@ -1,7 +1,6 @@
 //import 'dart:async';
 //import 'dart:convert';
 
-import 'dart:html';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -17,17 +16,17 @@ class ViewProfile extends StatelessWidget {
       : super(key: key);
 
 
-  Future addFriend(int id) async
-  {
-     Uri url = "http://127.0.0.1:8000/api/hire/$id" as Uri;
-     final response = await http.post(url);
-     var result = response.body;
-     if(result == true)
-     {
-      print('hired');
-     }
-     else{print('Error Occured');}
-  }
+  // Future addFriend(int id) async
+  // {
+  //    Uri url = "http://127.0.0.1:8000/api/hire/$id" as Uri;
+  //    final response = await http.post(url);
+  //    var result = response.body;
+  //    if(result == true)
+  //    {
+  //     print('hired');
+  //    }
+  //    else{print('Error Occured');}
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -326,7 +325,7 @@ class ViewProfile extends StatelessWidget {
   Widget footer() {
     return ElevatedButton(
         onPressed: () {
-          addFriend(list[person]['plannerID']);
+          //addFriend(list[person]['plannerID']);
         },
         style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
         child: const Text('Hire',
