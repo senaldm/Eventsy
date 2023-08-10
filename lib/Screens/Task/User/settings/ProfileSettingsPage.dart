@@ -49,7 +49,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
               flexibleSpace: Center(
                 child: Text('Profile Settings',
                     style: TextStyle(
-                        fontSize: width * 0.07,
+                        fontSize: width * 0.06,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
                         color: Colors.white)),
@@ -79,20 +79,39 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                       color:   Color.fromARGB(255, 18, 140, 126),
                       
                     ),
+
+
                     child: Stack(
-                        children: [
-                          Container(
-                            child: Positioned(
-                              bottom: -0.5,
-                              right: -0.5,
+                            children: [
+                              Container(
+                                width: 200,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color.fromARGB(255, 18, 140, 126),
+                                ),
+                                child: ClipOval(
+                                  child: _imageFile != null
+                                      ? Image.file(
+                                          _imageFile!,
+                                          width: 200,
+                                          height: 200,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Container(), // Empty container when no image is selected
+                                ),
+                              ),
+                              Positioned(
+                                bottom: -0.5,
+                                right: -0.5,
                                 child: Container(
                                   width: 55,
-                                  height: 55,   
+                                  height: 55,
                                   decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.grey, width: 2),
-                                  color:  const Color.fromARGB(255, 13, 18, 20), // Set the desired blue color here
-                                ),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.grey, width: 2),
+                                    color: const Color.fromARGB(255, 13, 18, 20), // Desired blue color
+                                  ),
                                   child: IconButton(
                                     icon: Icon(
                                       Icons.photo_camera,
@@ -103,10 +122,9 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                                   ),
                                 ),
                               ),
-                            ),
-                          
-                        ],
-                      ),
+                            ],
+                          ),
+
                   ),
                 ),
                 // Small circle
@@ -363,19 +381,21 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
   }
 
   // Function to take a photo using the camera
-  Future<void> _takePhoto() async {
-    if (await _requestCameraPermission()) {
-      final pickedFile = await _picker.getImage(source: ImageSource.camera);
-      if (pickedFile != null) {
-        setState(() {
-          _imageFile = File(pickedFile.path);
-        });
-      }
-    } else {
-      // Handle no camera permission
-      print('Permission to access camera not granted.');
+ // Function to take a photo using the camera
+Future<void> _takePhoto() async {
+  if (await _requestCameraPermission()) {
+    final pickedFile = await _picker.getImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
     }
+  } else {
+    // Handle no camera permission
+    print('Permission to access camera not granted.');
   }
+}
+
 
   // Function to request gallery permission
   Future<bool> _requestGalleryPermission() async {

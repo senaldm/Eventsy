@@ -32,7 +32,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
             flexibleSpace: Center(
               child: Text('Privacy & Security',
                   style: TextStyle(
-                      fontSize: width * 0.07,
+                      fontSize: width * 0.06,
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
@@ -47,17 +47,10 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(top: 25, bottom: 0, left: 0, right: 0),
+            padding: const EdgeInsets.only(top: 40, bottom: 0, left: 0, right: 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Divider(
-                    color: Color(0xFF4D4A4A), // Set the color of the line
-                    thickness: 1,
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.only(
                       top: 0, bottom: 3, left: 20, right: 0),
@@ -80,7 +73,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                       'Change Password',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: width * 0.05), // Set button text color
+                          fontSize: width * 0.04), // Set button text color
                     ),
                   ),
                 ),
@@ -142,7 +135,7 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
                       'Privacy and Policies',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: width * 0.05), // Set button text color
+                          fontSize: width * 0.04), // Set button text color
                     ),
                   ),
                 ),
@@ -154,6 +147,45 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
             ),
           ),
         ),
+                bottomNavigationBar: BottomAppBar(
+            color:  Color.fromARGB(255, 18, 140, 126),
+            height: height*0.10,
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+
+                  FloatingActionButton.extended(
+                    onPressed: () {
+                      //Navigator.pushNamed(context, '/TaskList');
+                    },
+                    backgroundColor: Colors.blueGrey.shade900,
+                    label: Text(
+                      ' Back ',
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                                    FloatingActionButton.extended(
+                    onPressed: () {
+                      //Navigator.pushNamed(context, '/TaskList');
+                    },
+                    backgroundColor: Colors.blueGrey.shade900,
+                    label: Text(
+                      'Done',
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            )),
       ),
     );
   }

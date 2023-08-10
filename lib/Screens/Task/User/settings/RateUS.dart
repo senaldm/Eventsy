@@ -34,7 +34,7 @@ class _SimpleRatingBarState extends State<SimpleRatingBar> {
             flexibleSpace: Center(
               child: Text('Rate Us',
                   style: TextStyle(
-                      fontSize: width * 0.07,
+                      fontSize: width * 0.06,
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
                       color: Colors.white)),
@@ -84,26 +84,14 @@ class _SimpleRatingBarState extends State<SimpleRatingBar> {
         ),
         bottomNavigationBar: BottomAppBar(
             color:  Color.fromARGB(255, 18, 140, 126),
-            height: height*0.11,
+            height: height*0.10,
             child: Center(
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  FloatingActionButton.extended(
-                    onPressed: () {
-                      //Navigator.pushNamed(context, '/TaskList');
-                    },
-                    backgroundColor: Colors.blueGrey.shade900,
-                    label: Text(
-                      'Done',
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
+
                   FloatingActionButton.extended(
                     onPressed: () {
                       //Navigator.pushNamed(context, '/TaskList');
@@ -111,6 +99,19 @@ class _SimpleRatingBarState extends State<SimpleRatingBar> {
                     backgroundColor: Colors.blueGrey.shade900,
                     label: Text(
                       ' Back ',
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                                    FloatingActionButton.extended(
+                    onPressed: () {
+                      //Navigator.pushNamed(context, '/TaskList');
+                    },
+                    backgroundColor: Colors.blueGrey.shade900,
+                    label: Text(
+                      'Done',
                       style: TextStyle(
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
