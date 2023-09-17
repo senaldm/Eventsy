@@ -1,8 +1,10 @@
 import 'package:hive/hive.dart';
 // import 'package:eventsy/Model/Budgetcal/eventset.dart';
 import 'package:eventsy/Model/Event.dart';
-
 // Declare the global variable
+
+late Box<BudgetEvent> eventbudgetBox;
+late Box<BudgetEvent> taskbudgetBox;
 
 late Box<Event> eventBox;
 

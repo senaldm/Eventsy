@@ -2,8 +2,6 @@ import 'dart:math';
 //import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
-
-
 class userSettings extends StatelessWidget {
   // final String title;
 
@@ -23,61 +21,68 @@ class userSettings extends StatelessWidget {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(height * 0.1),
             child: AppBar(
-            titleSpacing: 2.2,
-            forceMaterialTransparency: false,
-            backgroundColor: Colors.greenAccent.shade700,
-            automaticallyImplyLeading: true,
-            centerTitle: true,
-             flexibleSpace: Center(
+              titleSpacing: 2.2,
+              forceMaterialTransparency: false,
+              backgroundColor:Color.fromARGB(255, 18, 140, 126),
+              automaticallyImplyLeading: true,
+              centerTitle: true,
+              flexibleSpace: Center(
                 child: Text('Settings',
                     style: TextStyle(
-                      fontSize: width * 0.08,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white
-                    )),
+                        fontSize: width * 0.06,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white)),
               ),
             ),
           ),
           body: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 5, vertical: 35),
+              margin: EdgeInsets.symmetric(horizontal: 0, vertical:width*0.1),
               child: ListView(
                 scrollDirection: Axis.vertical,
-                children: <Widget>[
+                children: <Widget>
+                [
+                  Divider(thickness: 1,
+                  color:Colors.white.withOpacity(0.3),),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    width: double
+                            .infinity,
+                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           recievedProjects(title: ' recievedProjects')),
-                        // );
+                        Navigator.pushNamed(context, 'ProfileSettingsPage');
                       },
                       style: ElevatedButton.styleFrom(
+                        
                         primary: Colors
-                            .blueGrey.shade900, // Set button color to black
+                            .blueGrey.shade900.withOpacity(0.1), // Set button color to black
                         padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.circular(14), // Set border radius
+                              BorderRadius.circular(0), // Set border radius
                         ), //// Remove padding
                       ),
+                      
                       child: Container(
+                        
                         width: double
-                            .infinity, // Expand button width to fill the container
+                            .infinity,// Expand button width to fill the container
                         height: 50,
                         child: ListTile(
-                          leading:
-                              Image.asset('assets/Images/settings//profile.png'),
+                          leading: Icon(Icons.account_circle_rounded,color: Colors.white,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Profile Setting',
                               style: TextStyle(
-                                fontSize: 25,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -86,24 +91,21 @@ class userSettings extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Divider(thickness: 1,
+                  color:Colors.white.withOpacity(0.3),),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           UserDashboard(title: 'Dashboard')),
-                        // );
+                       Navigator.pushNamed(context, 'PasswordChangePage');
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors
-                            .blueGrey.shade900, // Set button color to black
+                        primary:  Colors
+                            .blueGrey.shade900.withOpacity(0.1), // Set button color to black
                         padding: EdgeInsets.zero,
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.circular(14), // Set border radius
+                              BorderRadius.circular(0), // Set border radius
                         ), // // Remove padding
                       ),
                       child: Container(
@@ -111,14 +113,13 @@ class userSettings extends StatelessWidget {
                             .infinity, // Expand button width to fill the container
                         height: 50,
                         child: ListTile(
-                          leading: Image.asset(
-                              'assets/Images/settings//privacy_security.png'),
+                          leading: Icon(Icons.lock_person_rounded,color: Colors.blueGrey,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Privacy & Security',
                               style: TextStyle(
-                                fontSize: 25,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -127,24 +128,21 @@ class userSettings extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Divider(thickness: 1,
+                  color:Colors.white.withOpacity(0.3),),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           UserDashboard(title: 'Dashboard')),
-                        // );
+                        Navigator.pushNamed(context, 'NotificationSettingsPage');
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors
-                            .blueGrey.shade900, // Set button color to black
+                            .blueGrey.shade900.withOpacity(0.1), // Set button color to black
                         padding: EdgeInsets.zero, // Remove padding
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.circular(14), // Set border radius
+                              BorderRadius.circular(0), // Set border radius
                         ), // Remove padding
                       ),
                       child: Container(
@@ -152,14 +150,13 @@ class userSettings extends StatelessWidget {
                             .infinity, // Expand button width to fill the container
                         height: 50,
                         child: ListTile(
-                          leading: Image.asset(
-                              'assets/Images/settings/notifications.png'),
+                          leading: Icon(Icons.notifications_active_rounded,color: Colors.lightBlueAccent,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Notification',
                               style: TextStyle(
-                                fontSize: 25,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -168,24 +165,21 @@ class userSettings extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Divider(thickness: 1,
+                  color:Colors.white.withOpacity(0.3),),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           UserDashboard(title: 'Dashboard')),
-                        // );
+                        Navigator.pushNamed(context, 'FeedbackAndContactPage');
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors
-                            .blueGrey.shade900, // Set button color to black
+                            .blueGrey.shade900.withOpacity(0.1), // Set button color to black
                         padding: EdgeInsets.zero, // Remove padding
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.circular(14), // Set border radius
+                              BorderRadius.circular(0), // Set border radius
                         ), // Remove padding
                       ),
                       child: Container(
@@ -193,14 +187,13 @@ class userSettings extends StatelessWidget {
                             .infinity, // Expand button width to fill the container
                         height: 50,
                         child: ListTile(
-                          leading: Image.asset(
-                              'assets/Images/settings/help_support.png'),
+                          leading: Icon(Icons.help_center_rounded,color: Colors.lightGreenAccent,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Help & Support',
                               style: TextStyle(
-                                fontSize: 25,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -209,24 +202,21 @@ class userSettings extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Divider(thickness: 1,
+                  color:Colors.white.withOpacity(0.3),),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           UserDashboard(title: 'Dashboard')),
-                        // );
+                         Navigator.pushNamed(context, 'SimpleRatingBar');
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors
-                            .blueGrey.shade900, // Set button color to black
+                            .blueGrey.shade900.withOpacity(0.1), // Set button color to black
                         padding: EdgeInsets.zero, // Remove padding
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.circular(14), // Set border radius
+                              BorderRadius.circular(0), // Set border radius
                         ), // Remove padding
                       ),
                       child: Container(
@@ -235,13 +225,13 @@ class userSettings extends StatelessWidget {
                         height: 50,
                         child: ListTile(
                           leading:
-                              Image.asset('assets/Images/settings/rate us.png'),
+                              Icon(Icons.star_half_rounded,color: Colors.amber,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Rate Us',
                               style: TextStyle(
-                                fontSize: 25,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -250,24 +240,21 @@ class userSettings extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Divider(thickness: 1,
+                  color:Colors.white.withOpacity(0.3),),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           UserDashboard(title: 'Dashboard')),
-                        // );
+                        Navigator.pushNamed(context, 'LogoutPage');
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors
-                            .blueGrey.shade900, // Set button color to black
+                            .blueGrey.shade900.withOpacity(0.1), // Set button color to black
                         padding: EdgeInsets.zero, // Remove padding
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.circular(14), // Set border radius
+                              BorderRadius.circular(0), // Set border radius
                         ), // Remove padding
                       ),
                       child: Container(
@@ -276,13 +263,13 @@ class userSettings extends StatelessWidget {
                         height: 50,
                         child: ListTile(
                           leading:
-                              Image.asset('assets/Images/settings/logout.png'),
+                             Icon(Icons.logout_rounded,color: Colors.red,size: 30,),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: Text(
                               'Logout',
                               style: TextStyle(
-                                fontSize: 25,
+                                fontSize: width * 0.04,
                                 color: Colors.white, // Set font color to white
                               ),
                             ),
@@ -291,28 +278,70 @@ class userSettings extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Divider(thickness: 1,
+                  color:Colors.white.withOpacity(0.3),),
+                   Container(
+                    margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'LogoutPage');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors
+                            .blueGrey.shade900.withOpacity(0.1), // Set button color to black
+                        padding: EdgeInsets.zero, // Remove padding
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(0), // Set border radius
+                        ), // Remove padding
+                      ),
+                      child: Container(
+                        width: double
+                            .infinity, // Expand button width to fill the container
+                        height: 50,
+                        child: ListTile(
+                          leading:
+                             Icon(Icons.cached_rounded,color: Colors.lime,size: 30,),
+                          title: Padding(
+                            padding: const EdgeInsets.only(top: 5, bottom: 5),
+                            child: Text(
+                              'Switch User Mode',
+                              style: TextStyle(
+                                fontSize: width * 0.04,
+                                color: Colors.white, // Set font color to white
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Divider(thickness: 1,
+                  color:Colors.white.withOpacity(0.3),),
                 ],
               ),
             ),
           ),
+          
           bottomNavigationBar: BottomAppBar(
-              color: Colors.greenAccent.shade700,
-              height: 90,
+              color: Color.fromARGB(255, 18, 140, 126),
+              height: 80,
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
+                    
                     FloatingActionButton.extended(
                       onPressed: () {
-                        //Navigator.pushNamed(context, '/TaskList');
+                        Navigator.pushNamed(context, 'UserHome');
                       },
                       backgroundColor: Colors.blueGrey.shade900,
                       label: Text(
-                        'Add',
+                        ' Back ',
                         style: TextStyle(
-                            fontSize: 22.0,
+                            fontSize: 15.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
@@ -323,9 +352,9 @@ class userSettings extends StatelessWidget {
                       },
                       backgroundColor: Colors.blueGrey.shade900,
                       label: Text(
-                        ' Back ',
+                        ' Add ',
                         style: TextStyle(
-                            fontSize: 22.0,
+                            fontSize: 15.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),

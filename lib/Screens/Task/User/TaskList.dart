@@ -27,6 +27,7 @@ class TaskList extends StatefulWidget {
 class _TaskListState extends State<TaskList> {
   Box<Task>? taskBox;
   List<Task> tasks = [];
+  List<Task> originalTasks = [];
   late String time;
   @override
   void initState() {
@@ -52,16 +53,17 @@ class _TaskListState extends State<TaskList> {
       final lines = await file.readAsLines();
       List<Task> newTasks = [];
       lines.forEach((line) {
-        final data = line.split(',');
+        final taskData = line.split(',');
         final task = Task(
-          taskKey: data[0],
-          categoryName: data[1],
-          taskName: data[2],
-          vendorName: data[3],
-          budget: data[4],
-          isComplete: data[5] == 'true',
-          timestamp: DateTime.tryParse(data[6]),
+          taskKey: taskData[0],
+          categoryName: taskData[1],
+          taskName: taskData[2],
+          vendorName: taskData[3],
+          budget: taskData[4],
+          isComplete: taskData[5] == 'true',
+          timestamp: DateTime.tryParse(taskData[6]),
         );
+
         if (task.timestamp == null) {
           task.timestamp = DateTime(0);
           time = "null";
@@ -70,18 +72,20 @@ class _TaskListState extends State<TaskList> {
           time = DateFormat('yyyy-MM-dd').format(task.timestamp!);
           time = time.toString();
         }
-
+        print(task.isComplete);
         // tasks.add(task);
         newTasks.add(task);
       });
       setState(() {
         tasks = newTasks;
+        originalTasks = newTasks.toList();
       });
     } else {
       setState(() {
         tasks = [];
       });
     }
+
     // Update the UI
   }
 
@@ -93,6 +97,37 @@ class _TaskListState extends State<TaskList> {
 
   String sort = 'accentOrder';
   String filter = 'all';
+
+  List<Task>? sortTaskByMethod(String method) {
+    setState(() {
+      if (method == 'accent') {
+        return tasks.sort((a, b) => a.taskName.compareTo(b.taskName));
+      } else if (method == 'deaccent') {
+        return tasks.sort((a, b) => b.taskName.compareTo(a.taskName));
+      } else if (method == 'newestFirst') {
+        return tasks.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
+      } else if (method == 'oldestFirst') {
+        return tasks.sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
+      }
+    });
+    return null;
+  }
+
+  void filterTasksByMethod(String method) {
+    setState(() {
+      // tasks = newTasks;
+      if (method == 'completed') {
+        tasks = originalTasks.where((task) => task.isComplete).toList();
+      } else if (method == 'pending') {
+        // tasks = newTasks;
+        tasks = originalTasks.where((task) => !task.isComplete).toList();
+      } else {
+        // Reset the tasks list to show all tasks
+        retrieveData();
+      }
+      // tasks = newTasks;
+    });
+  }
 
 //////////////////////sort Task ////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
@@ -110,7 +145,7 @@ class _TaskListState extends State<TaskList> {
                 children: <Widget>[
                   RadioListTile(
                     title: Text(
-                      "Accent Order",
+                      "\u2B07 A-Z",
                       style: TextStyle(color: Colors.white),
                     ),
                     value: "accent",
@@ -119,13 +154,14 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         sort = value.toString();
+                        sortTaskByMethod(sort);
                         Navigator.pop(context);
                       });
                     },
                   ),
                   RadioListTile(
                     title: Text(
-                      "Deaccent Order",
+                      "\u2B06 Z-A",
                       style: TextStyle(color: Colors.white),
                     ),
                     value: "deaccent",
@@ -134,6 +170,7 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         sort = value.toString();
+                        sortTaskByMethod(sort);
                         Navigator.pop(context);
                       });
                     },
@@ -150,6 +187,7 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         sort = value.toString();
+                        sortTaskByMethod(sort);
                         Navigator.pop(context);
                       });
                     },
@@ -165,6 +203,7 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         sort = value.toString();
+                        sortTaskByMethod(sort);
                         Navigator.pop(context);
                       });
                     },
@@ -202,6 +241,8 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         filter = value.toString();
+
+                        filterTasksByMethod(filter);
                         Navigator.pop(context);
                       });
                     },
@@ -217,6 +258,7 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         filter = value.toString();
+                        filterTasksByMethod(filter);
                         Navigator.pop(context);
                       });
                     },
@@ -232,6 +274,7 @@ class _TaskListState extends State<TaskList> {
                     onChanged: (value) {
                       setState(() {
                         filter = value.toString();
+                        filterTasksByMethod(filter);
                         Navigator.pop(context);
                       });
                     },
@@ -246,39 +289,35 @@ class _TaskListState extends State<TaskList> {
   /////////////////////deleteTask//////////////////////////
   ///////////////////////////////////////////////
   /////////////////////////////////////////////////////
-  
+
   static Future<void> deleteTask(String taskKey) async {
     final taskBox = await Hive.openBox<Task>('task');
 
-
     if (taskBox.containsKey(taskKey)) {
-   
       taskBox.delete(taskKey);
-    } 
-
+    }
 
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/tasks.txt');
     if (await file.exists()) {
       final lines = await file.readAsLines();
       final updatedLines = lines.where((line) {
-        final data = line.split(',');
-        final taskKeyInFile = data[0];
+        final taskData = line.split(',');
+        final taskKeyInFile = taskData[0];
         return taskKeyInFile != taskKey;
       }).toList();
 
       await file.writeAsString(updatedLines.join('\n'));
-    
-    } 
+    }
   }
-  
+
   // ////////////////////Edit or delete////////////////////////////
   /////////////////////////////////////////////////////////
 
-  void editOrDelete(String key) {
+  editOrDelete(String key) {
     // String taskKey = key;
-    String taskKey = key.trim();
-    print('Attempting to delete task with key: $taskKey');
+    String taskKey = key;
+
     showDialog(
         context: context,
         builder: (context) {
@@ -290,13 +329,23 @@ class _TaskListState extends State<TaskList> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, 'addTask');
+                    onPressed: () async {
+                      final updatedTask = await Navigator.pushNamed(
+                          context, '/updateTask',
+                          arguments: taskKey);
+                      retrieveData();
+                      // if (updatedTask != null) {
+                      //   // If a new task is added, update the data and refresh the UI
+                      //   setState(() {
+                      //     tasks.add(updatedTask as Task);
+                      //   });
+                      // }
 
+                      Navigator.pop(context, updatedTask);
                       // Navigator.pushNamed(context,'UserHome');
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 7, 94, 84),
+                      backgroundColor: Color.fromARGB(255, 37, 211, 102),
                     ),
                     child: Text(" Edit ",
                         style: TextStyle(
@@ -306,13 +355,13 @@ class _TaskListState extends State<TaskList> {
                     onPressed: () async {
                       await deleteTask(taskKey);
                       retrieveData();
-                      Navigator.pop(context);
+                      Navigator.pop(context, null);
                       // deleteTask(taskKey);
                       // Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
                       // alignment:,
-                      backgroundColor: Color.fromARGB(255, 7, 94, 84),
+                      backgroundColor: Color.fromARGB(255, 118, 6, 6),
                     ),
                     child: Text("Delete",
                         style: TextStyle(
@@ -336,7 +385,7 @@ class _TaskListState extends State<TaskList> {
     // currentIndex:selected;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
+    MediaQuery.of(context).viewInsets.bottom != 0.0;
     // final List<String> taskList = retriveTask();
 
     return SafeArea(
@@ -357,7 +406,7 @@ class _TaskListState extends State<TaskList> {
               flexibleSpace: Center(
                 child: Text('Task List',
                     style: TextStyle(
-                       fontSize: width * 0.07,
+                      fontSize: width * 0.07,
                       // fontSize: 30,
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
@@ -365,7 +414,28 @@ class _TaskListState extends State<TaskList> {
               ),
             ),
           ),
-          body: Container(
+          body: tasks.isEmpty 
+          ? Container(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 20, 24, 26),
+              image: DecorationImage(
+                image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child:Container(
+              margin: const EdgeInsets.symmetric(
+                      horizontal: 30, vertical: 200),
+              decoration: BoxDecoration(
+               image: DecorationImage(
+                      image: AssetImage("assets/Images/Task/emptyTask.jpg"),
+                      
+                    ),
+              ),
+              
+            )
+          )
+          :Container(
             decoration: BoxDecoration(
               color: Color.fromARGB(255, 20, 24, 26),
               image: DecorationImage(
@@ -416,11 +486,22 @@ class _TaskListState extends State<TaskList> {
                             trailing: Text(
                               time,
                             ),
-                            onTap: () {
-                              // Handle task item tap
+                            onTap: () async {
+                              Navigator.pushNamed(context, '/viewTask',
+                                  arguments: task);
+                              // setState(() {
+                              //   retrieveData();
+                              // });
                             },
-                            onLongPress: () {
-                              editOrDelete(task.taskKey);
+                            onLongPress: () async {
+                              final updatedTask = editOrDelete(task.taskKey);
+                              if (updatedTask != null) {
+                        
+                                setState(() {
+                                  retrieveData();
+                                });
+                              }
+                              // await retrieveData();
                             },
                           ),
                         ),
@@ -442,12 +523,12 @@ class _TaskListState extends State<TaskList> {
               // Navigator.pushNamed(context, 'addTask');
               final newTask = await Navigator.pushNamed(context, 'addTask');
               if (newTask != null) {
-                // If a new task is added, update the data and refresh the UI
+            
                 setState(() {
                   tasks.add(newTask as Task);
                 });
               }
-              retrieveData();
+              await retrieveData();
             },
             child: Icon(
               Icons.add,
@@ -529,211 +610,3 @@ class _TaskListState extends State<TaskList> {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   // Column(
-          //   mainAxisAlignment: MainAxisAlignment.start,
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-
-          //     // taskList = retriveTask(),
-          //   //   for (var taskName in taskList)
-          //   //  Text(taskName),
-          //       Card(
-          //         color: Colors.white,
-          //           shape: RoundedRectangleBorder(
-          //               borderRadius: BorderRadius.circular(10.0)),
-          //           margin: EdgeInsets.only(
-          //               left: width * 0.15, right: width * 0.15),
-          //           borderOnForeground: false,
-          //           child: TextButton(onPressed: () {}, child: Text(
-          //             taskName,style: TextStyle(color: Colors.black)
-
-          //           ))),
-          //   ],
-          // ),
-          // retriveTask(),
-          // FutureBuilder<Widget>(
-          //   future: retriveTask(),
-          //   builder: (context, snapshot) {
-
-          //     if (snapshot.hasData) {
-          //       return snapshot.data;
-          //     } else {
-          //       return CircularProgressIndicator();
-          //     }
-          //   },
-
-          //         Container(
-          //   child: ListView.builder(
-          //     itemCount: tasks.length,
-          //     itemBuilder: (context, index) {
-          //       final task = tasks[index];
-          //       return Card(
-          //         shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(10.0),
-          //         ),
-          //         margin: EdgeInsets.only(
-          //           left: width * 0.15,
-          //           right: width * 0.15,
-          //         ),
-          //         borderOnForeground: false,
-          //         child: TextButton(
-          //           onPressed: () {},
-          //           child: Text(task.taskName),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
-          // floatingActionButtonLocation:
-          //     FloatingActionButtonLocation.centerDocked,
-          // floatingActionButton: FloatingActionButton(
-          //   backgroundColor: Color.fromARGB(255, 18, 140, 126),
-          //   onPressed: () {},
-          //   tooltip: 'Increment',
-          //   child: Icon(Icons.add,color: Colors.black87,),
-          // ),
-          // bottomNavigationBar: BottomAppBar(
-          //   // ****** APP BAR ******************
-          //   clipBehavior: Clip.antiAlias,
-          //   shape:
-          //       CircularNotchedRectangle(),
-          //       // ← carves notch for FAB in BottomAppBar
-          //   color: Color.fromARGB(255, 18, 140, 126),
-          //   //  Theme.of(context).primaryColor.withAlpha(255),
-
-          //   // ↑ use .withAlpha(0) to debug/peek underneath ↑ BottomAppBar
-          //   elevation:
-          //       0, // ← removes slight shadow under FAB, hardly noticeable
-          //   // ↑ default elevation is 8. Peek it by setting color ↑ alpha to 0
-          //   child: BottomNavigationBar(
-          //     // ***** NAVBAR  *************************
-          //     elevation: 1, // 0 removes ugly rectangular NavBar shadow
-          //     // CRITICAL ↓ a solid color here destroys FAB notch. Use alpha 0!
-          //     backgroundColor: Color.fromARGB(255, 18, 140, 126),
-          //     // Theme.of(context).primaryColor.withAlpha(0),
-          //     // ====================== END OF INTERESTING STUFF =================
-          //     selectedItemColor: Theme.of(context).colorScheme.onSurface,
-          //     items: [
-          //       BottomNavigationBarItem(
-                 
-          //           // backgroundColor: Colors.black,
-          //           icon: Icon(Icons.sort,
-          //               size: 40,
-          //               color: Colors.black,
-          //               //  Theme.of(context).colorScheme.onBackground
-          //               ),
-          //           label: 'Sort'),
-          //       BottomNavigationBarItem(
-          //           icon: Icon(Icons.filter_alt,
-          //               size: 40,
-          //               color: Colors.black,
-          //               // Theme.of(context).colorScheme.onBackground
-          //               ),
-          //           label: 'Filter')
-          //     ],
-          //   ),
-          // )
-
-        
-          //   Container(
-
-          //       // alignment: Alignment.bottomCenter,
-          //       margin: EdgeInsets.only(top: height * 0.8),
-          //       // color: Colors.blue,
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //         crossAxisAlignment: CrossAxisAlignment.center,
-          //         children: [
-          //           Column(
-          //             mainAxisAlignment: MainAxisAlignment.center,
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: [
-          //               // SizedBox(
-          //               //   height: height * 0.145,
-          //               // ),
-          //               FloatingActionButton.extended(
-          //                 heroTag: 'sort',
-          //                 onPressed: () {
-          //                   sortTask();
-          //                 },
-          //                 icon: Icon(Icons.sort),
-          //                 label: Text(
-          //                   " Sort ",
-          //                   style: TextStyle(fontSize: width * 0.05),
-          //                 ),
-          //                 backgroundColor: Colors.black54,
-          //               ),
-          //             ],
-          //           ),
-          //           Column(
-          //             mainAxisAlignment: MainAxisAlignment.start,
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: [
-          //               // SizedBox(height: height*0.2),
-          //               ElevatedButton(
-          //                 onPressed: () {
-          //                   Navigator.pushNamed(context, 'addTask');
-          //                 },
-          //                 child: Icon(Icons.add_task_sharp),
-          //                 style: ElevatedButton.styleFrom(
-          //                     // alignment:,
-          //                     backgroundColor: Colors.green.shade900,
-          //                     shape: CircleBorder(),
-          //                     fixedSize: Size(width * 0.18, width * 0.18),
-          //                     padding: EdgeInsets.all(24),
-          //                     side: BorderSide(
-          //                         color: Colors.white70, width: width * 0.008)),
-          //               ),
-          //             ],
-          //           ),
-          //           Column(
-          //             mainAxisAlignment: MainAxisAlignment.center,
-          //             crossAxisAlignment: CrossAxisAlignment.center,
-          //             children: [
-          //               // SizedBox(
-          //               //   height: height * 0.1,
-          //               // ),
-          //               FloatingActionButton.extended(
-          //                 heroTag: 'filter',
-          //                 onPressed: () {
-          //                   filterTask();
-          //                 },
-          //                 icon: Icon(Icons.filter_alt_sharp),
-          //                 label: Text(
-          //                   " Filter ",
-          //                   style: TextStyle(fontSize: width * 0.05),
-          //                 ),
-          //                 backgroundColor: Colors.black54,
-          //               ),
-          //             ],
-          //           ),
-          //         ],
-          //       )),
-          // ]
-          // )
