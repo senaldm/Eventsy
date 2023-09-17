@@ -1,5 +1,5 @@
-import 'package:eventsy/Screens/Planners/search/viewProfile.dart';
 import 'package:eventsy/Model/Planner/planner.dart';
+import 'package:eventsy/Screens/Planners/search/viewProfile.dart';
 //import 'package:eventsy/widgets/listWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +10,7 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+
   Planners planners = Planners();
   List listCopy = [];
 
@@ -86,46 +87,6 @@ class _SearchState extends State<Search> {
                       physics: const BouncingScrollPhysics(),
                       itemCount: _foundPlanners.length,
                       itemBuilder: (context, i) {
-                        /* return Card(
-                          child: ListTile(
-                            leading: const Image(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  'https://images.pexels.com/photos/462118/pexels-photo-462118.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'),
-                            ),
-                            title: Text(
-                              _foundPlanners[i]['name'],
-                              style: const TextStyle(
-                                  color: Colors.green, fontSize: 22.0),
-                            ),
-                            subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 5.0),
-                                  Text(_foundPlanners[i]['email'],
-                                      style: const TextStyle(
-                                        fontSize: 18.0,
-                                      )),
-                                  const SizedBox(height: 5.0),
-                                  Text(_foundPlanners[i]['place'],
-                                      style: const TextStyle(
-                                        fontSize: 18.0,
-                                      ))
-                                ]),
-                            trailing: Text(
-                              "${_foundPlanners[i]['rate']}",
-                              style: const TextStyle(
-                                  fontSize: 20.0, color: Colors.amber),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ViewProfile(
-                                          list: _foundPlanners, person: i)));
-                            },
-                          ),
-                        );*/
                         return GestureDetector(
                           child: Card(
                             shape: RoundedRectangleBorder(
@@ -170,8 +131,7 @@ class _SearchState extends State<Search> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ViewProfile(
-                                        list: _foundPlanners, person: i)));
+                                    builder: (context) => ViewProfile(list: _foundPlanners, person: i)));
                           },
                         );
                       },
