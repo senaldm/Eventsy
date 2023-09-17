@@ -27,7 +27,7 @@ import 'package:eventsy/Screens/Task/User/settings/settings.dart';
 import 'package:flutter/material.dart';
 
 import 'Screens/Home/ImageExplore.dart';
-
+import 'Screens/Home/TicketHandling.dart';
 import 'Screens/Home/VendorExplore.dart';
 import 'Screens/Home/TaskExplore.dart';
 
@@ -49,8 +49,6 @@ import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/budgetaddingoption
 import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/eventselectionpage.dart';
 import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categoryshownpage.dart';
 
-import 'Screens/ImageSearchPage/Views/image_show_view.dart';
-
 import 'Screens/Task/Planner/addEvent.dart';
 import 'Screens/Task/User/updateTask.dart';
 import 'Screens/Task/Planner/eventTaskList.dart';
@@ -60,14 +58,16 @@ import 'Screens/Task/Planner/viewEventTask.dart';
 // import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
 // import 'Model/Budgetcal/eventset.dart';
 
-import 'package:eventsy/Screens/Task/User/userDashboard/userDashboard.dart';
-import 'package:eventsy/Screens/Task/User/settings/settings.dart';
 import 'package:eventsy/Screens/Task/User/settings/ProfileSettingsPage.dart';
 import 'package:eventsy/Screens/Task/User/settings/Notification.dart';
 import 'package:eventsy/Screens/Task/User/settings/help_support.dart';
 import 'package:eventsy/Screens/Task/User/settings/RateUs.dart';
 import 'package:eventsy/Screens/Task/User/settings/privacy_Security.dart';
 import 'package:eventsy/Screens/Task/User/settings/logout.dart';
+
+
+import 'package:eventsy/Screens/Tickets/ticketHandlingHome.dart';
+
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -115,6 +115,12 @@ class FirstPage extends StatelessWidget {
           '/ImageExplore': (context) => ImageExplore(),
           '/VendorExplore': (context) => VendorExplore(),
           '/TaskExplore': (context) => TaskExplore(),
+          '/TicketHandling': (context) => TicketHandling(),
+
+
+          ////////TicketHandling/////////////
+          
+          '/ticketHandlingHome':(context)=>TicketHandlingHome(),
 
           ////////USER TASK////////
           'UserHome': (context) => UserTaskHome(),
@@ -124,9 +130,7 @@ class FirstPage extends StatelessWidget {
           '/userSettings': (context) => userSettings(),
 
           '/viewTask': (context) => ViewTask(
-              task: ModalRoute.of(context)!.settings.arguments as Task),
-          '/userDashboard': (context) => userDashboard(),
-          '/userSettings': (context) => userSettings(),
+              task: ModalRoute.of(context)!.settings.arguments as Task),       
           '/updateTask': (context) => UpdateTask(
               Key: ModalRoute.of(context)!.settings.arguments as String),
 
@@ -177,9 +181,6 @@ class FirstPage extends StatelessWidget {
           'PasswordChangePage': (context) => PasswordChangePage(),
           'LogoutPage': (context) => LogoutPage(),
         },
-
-     
-
         key: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Eventsy',
