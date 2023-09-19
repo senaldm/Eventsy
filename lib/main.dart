@@ -69,6 +69,11 @@ import 'package:eventsy/Screens/Task/User/settings/RateUs.dart';
 import 'package:eventsy/Screens/Task/User/settings/privacy_Security.dart';
 import 'package:eventsy/Screens/Task/User/settings/logout.dart';
 
+
+
+
+
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future main() async {
@@ -89,12 +94,13 @@ Future main() async {
   Hive.registerAdapter(EventTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
 
-  eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
-  taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
-  eventBox = await Hive.openBox<Event>('event');
-  taskBox = await Hive.openBox<Task>('task');
-  eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
-  invitationBox = await Hive.openBox<Invitation>('invitation');
+eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
+taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
+eventBox = await Hive.openBox<Event>('event');
+taskBox = await Hive.openBox<Task>('task');
+eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
+invitationBox = await Hive.openBox<Invitation>('invitation');
+
 // void main()=>runApp(
 //     DevicePreview(
 
