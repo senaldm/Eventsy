@@ -70,6 +70,14 @@ import 'package:eventsy/Screens/Task/User/settings/privacy_Security.dart';
 import 'package:eventsy/Screens/Task/User/settings/logout.dart';
 
 
+import 'package:eventsy/Screens/Task/User/vendors/vendorlist.dart';
+
+
+
+import 'package:eventsy/Screens/Task/User/userDashboard/Tasks/your_tasks.dart';
+
+
+
 
 
 
@@ -100,7 +108,6 @@ eventBox = await Hive.openBox<Event>('event');
 taskBox = await Hive.openBox<Task>('task');
 eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
 invitationBox = await Hive.openBox<Invitation>('invitation');
-
 // void main()=>runApp(
 //     DevicePreview(
 
@@ -126,12 +133,12 @@ class FirstPage extends StatelessWidget {
           'UserHome': (context) => UserTaskHome(),
           'TaskList': (context) => TaskList(),
           'addTask': (context) => AddTask(),
-          '/userDashboard': (context) => userDashboard(),
+          '/userDashboard': (context) => UserDashboard(),
           '/userSettings': (context) => userSettings(),
 
           '/viewTask': (context) => ViewTask(
               task: ModalRoute.of(context)!.settings.arguments as Task),
-          '/userDashboard': (context) => userDashboard(),
+          '/userDashboard': (context) => UserDashboard(),
           '/userSettings': (context) => userSettings(),
           '/updateTask': (context) => UpdateTask(
               Key: ModalRoute.of(context)!.settings.arguments as String),
@@ -182,6 +189,15 @@ class FirstPage extends StatelessWidget {
           'SimpleRatingBar': (context) => SimpleRatingBar(),
           'PasswordChangePage': (context) => PasswordChangePage(),
           'LogoutPage': (context) => LogoutPage(),
+
+
+          //vendor//
+          'VendorList':(context)=>VendorList(),
+
+          //dashboard//
+          'your_tasks': (context) => your_tasks(),
+
+
         },
 
      

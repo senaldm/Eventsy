@@ -71,13 +71,13 @@ class UserModeSelect extends StatelessWidget {
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (BuildContext context) =>
-                            //         UserTaskHome(),
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    UserTaskHome(),
+                              ),
+                            );
                             if(type=='vendor')
                             {
                               Navigator.pushNamed(context, '/PlannersPage');
