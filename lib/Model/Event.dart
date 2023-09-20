@@ -20,6 +20,7 @@ class Task extends HiveObject {
   @HiveField(6)
   DateTime? timestamp;
 
+
   void isCompleted() {
     isComplete = false;
   }

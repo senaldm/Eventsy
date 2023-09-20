@@ -204,44 +204,44 @@ class event_details extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-        color: Colors.greenAccent.shade700,
-        height: 90,
-        child:Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              FloatingActionButton.extended(
-                onPressed: () {
-                        //Navigator.pushNamed(context, '/TaskList');
-                },
-              backgroundColor: Colors.blueGrey.shade900 ,
-               label: Text(
-                  'Edit',
-                  style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold,color: Colors.white),
-                ),
-              ),
-              
-                FloatingActionButton.extended(
-                        onPressed: () {
-                          //Navigator.pushNamed(context, '/TaskList');
-                        },
-                        backgroundColor: Colors.blueGrey.shade900,
-                        label: Text(
-                          ' Add ',
-                          style: TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
+              color: Color.fromARGB(255, 18, 140, 126),
+              height: 80,
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    
+                    FloatingActionButton.extended(
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'UserHome');
+                      },
+                      backgroundColor: Colors.blueGrey.shade900,
+                      label: Text(
+                        ' Back ',
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
-            ],
-          ),
-
-            )
-
-        )
+                    ),
+                    FloatingActionButton.extended(
+                      onPressed: () {
+                        //Navigator.pushNamed(context, '/TaskList');
+                      },
+                      backgroundColor: Colors.blueGrey.shade900,
+                      label: Text(
+                        ' Add ',
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ))
       ),
     );
   }
