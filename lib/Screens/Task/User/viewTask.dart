@@ -150,4 +150,12 @@ class _ViewTaskState extends State<ViewTask> {
       ),
     );
   }
+
+  void _markAsCompleted() {
+    // Update the currentTask's isComplete property
+    currentTask.isComplete = true;
+
+    // Notify the userDashboard that a task is completed
+    Navigator.pop(context, true); // Pass 'true' as a result
+  }
 }

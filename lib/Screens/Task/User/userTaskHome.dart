@@ -144,7 +144,9 @@ class UserTaskHome extends StatelessWidget {
                                     left: width * 0.15, right: width * 0.15),
                                 borderOnForeground: false,
                                 child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                     Navigator.pushNamed(context, 'VendorList');
+                                  },
                                   child: SizedBox(
                                     width: width * 0.4,
                                     height: height * 0.07,
