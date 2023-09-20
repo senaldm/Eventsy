@@ -330,7 +330,7 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
                                   time,
                                 ),
                                 onTap: () async {
-                                  Navigator.pushNamed(context, '/eventTaskList',
+                                  Navigator.pushNamed(context, 'BudgetTaskList',
                                       arguments: event);
                                   setState(() {
                                     retrieveData();
