@@ -22,13 +22,13 @@ class your_tasks extends StatelessWidget {
           child: AppBar(
               titleSpacing: 2.2,
               forceMaterialTransparency: false,
-              backgroundColor: Colors.greenAccent.shade700,
+              backgroundColor:Color.fromARGB(255, 18, 140, 126),
               automaticallyImplyLeading: true,
               centerTitle: true,
              flexibleSpace: Center(
                 child: Text('Your Events',
                     style: TextStyle(
-                      fontSize: width * 0.05,
+                      fontSize: width * 0.06,
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.bold,
                       color: Colors.white
@@ -36,8 +36,13 @@ class your_tasks extends StatelessWidget {
               ),
           ),
         ),
-      body: Container(        
-          //color:Colors.blueGrey.shade900, // Set the background color of the body to black
+      body: Container(  
+        decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),      
           child: ListView(
             scrollDirection: Axis.vertical,
             children: <Widget>[
@@ -170,45 +175,45 @@ class your_tasks extends StatelessWidget {
             ],
           ),
         ),
- bottomNavigationBar: BottomAppBar(
-        color: Colors.greenAccent.shade700,
-        height: 90,
-        child:Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              FloatingActionButton.extended(
-                onPressed: () {
-                        //Navigator.pushNamed(context, '/TaskList');
-                },
-              backgroundColor: Colors.blueGrey.shade900 ,
-               label: const Text(
-                  'Sort',
-                  style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold,color: Colors.white),
-                ),
-              ),
-              
-                FloatingActionButton.extended(
-                        onPressed: () {
-                          //Navigator.pushNamed(context, '/TaskList');
-                        },
-                        backgroundColor: Colors.blueGrey.shade900,
-                        label: const Text(
-                          ' Filter ',
-                          style: TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
+bottomNavigationBar: BottomAppBar(
+              color: Color.fromARGB(255, 18, 140, 126),
+              height: 80,
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    
+                    FloatingActionButton.extended(
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'UserHome');
+                      },
+                      backgroundColor: Colors.blueGrey.shade900,
+                      label: Text(
+                        ' Add ',
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
-            ],
-          ),
-
-            )
-
-        )
+                    ),
+                    FloatingActionButton.extended(
+                      onPressed: () {
+                        //Navigator.pushNamed(context, '/TaskList');
+                      },
+                      backgroundColor: Colors.blueGrey.shade900,
+                      label: Text(
+                        ' Sort ',
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ))
       ),
     );
   }

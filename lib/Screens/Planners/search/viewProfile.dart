@@ -1,13 +1,16 @@
-//import 'dart:async';
+import 'dart:async';
+import 'dart:convert';
 //import 'dart:convert';
 
-//import 'dart:html';
-
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:eventsy/Model/Planner/currentId.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+
+currentId currentuser = currentId();
+int currentuserid = currentuser.currentUserId;
 
 class ViewProfile extends StatelessWidget {
   final List list;
@@ -16,18 +19,24 @@ class ViewProfile extends StatelessWidget {
   const ViewProfile({Key? key, required this.list, required this.person})
       : super(key: key);
 
+  Future<void> addFriend(int id) async {
+    String hire = "http://127.0.0.1:8000/api/hire/$currentuserid/$id";
+    final Uri url = Uri.parse(hire);
+    print(url);
 
-  Future addFriend(int id) async
-  {
-     Uri url = "http://127.0.0.1:8000/api/hire/$id" as Uri;
-     final response = await http.post(url);
-     var result = response.body;
-     if(result == true)
-     {
-      print('hired');
-     }
-     else{print('Error Occured');}
+    try {
+      final response = await http.post(url);
+      if (response.statusCode == 200) {
+        print("Request was successful");
+        print("Response body: ${response.body}");
+      } else {
+        print("Request failed with status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +58,8 @@ class ViewProfile extends StatelessWidget {
             about(),
             const Divider(height: 2, color: Colors.white),
             service(),
+            const Divider(height: 2, color: Colors.white),
+            friends(),
             const Divider(height: 2, color: Colors.white),
             history(),
             const Divider(height: 2, color: Colors.white),
@@ -163,6 +174,7 @@ class ViewProfile extends StatelessWidget {
                 IconButton(
                     icon: const Icon(
                       Icons.mail,
+                      color: Colors.blue,
                     ),
                     onPressed: () {
                       String mail = "mailto:${list[person]['email']}";
@@ -171,7 +183,7 @@ class ViewProfile extends StatelessWidget {
                       launchUrl(url);
                     }),
                 IconButton(
-                    icon: Icon(Icons.message),
+                    icon: const Icon(Icons.chat,color: Colors.green,),
                     onPressed: () {
                       String whatsapp =
                           "https://wa.me/${list[person]['contact']}?text=Hi this message is through Eventsy";
@@ -323,14 +335,57 @@ class ViewProfile extends StatelessWidget {
     );
   }
 
+  Widget friends() {
+    List friendList;
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Container(
+          child: const Text(
+            'Contributers with Planner',
+            style: TextStyle(
+                color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
+        Container(
+            child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: list[person]['friends'].length,
+          itemBuilder: (context, i) {
+            friendList = list[person]['friends'];
+            return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              CircleAvatar(
+                  backgroundImage: NetworkImage(friendList[i]['profileIMG'])),
+              const SizedBox(width: 20.0),
+              SizedBox(
+                child: Text(
+                  friendList[i]['name'], // index - 1 is name
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              )
+            ]);
+          },
+        )),
+      ]),
+    );
+  }
+
   Widget footer() {
+    //String button = "Hire";
+    if (list[person]['plannerID'] == currentuserid) {
+      return const SizedBox(
+        height: 0,
+      );
+    }
     return ElevatedButton(
         onPressed: () {
           addFriend(list[person]['plannerID']);
         },
         style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-        child: const Text('Hire',
+        child: const Text("Hire",
             style: TextStyle(fontSize: 20, color: Colors.black)));
   }
-
 }

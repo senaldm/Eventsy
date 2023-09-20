@@ -11,7 +11,7 @@ import 'package:hive/hive.dart';
 
 import 'package:eventsy/Model/Event.dart';
 
-class TaskExplore extends StatelessWidget {
+class TicketHandling extends StatelessWidget {
   Box<UserMode>? userModeBox;
   // bool isFirst=userModeBox?.isFirst;
   @override
@@ -70,7 +70,10 @@ class TaskExplore extends StatelessWidget {
                             label: Text(
                               'ToDo',
                               style: TextStyle(
-                                  color: Colors.black87, fontSize: width * 0.035,fontFamily: "Quintessential",fontWeight: FontWeight.bold),
+                                  color: Colors.black87,
+                                  fontSize: width * 0.035,
+                                  fontFamily: "Quintessential",
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
@@ -122,9 +125,12 @@ class TaskExplore extends StatelessWidget {
                           FloatingActionButton.extended(
                               onPressed: () {
                                 // if(userModeBox.isFirst)
-                                UserModeSelect.userMode(context,'planning');
+                                Navigator.pushNamed(
+                                    context, '/ticketHandlingHome');
                               },
                               backgroundColor: Colors.black87,
+                              icon: Icon(Icons.workspace_premium,
+                                  color: Colors.yellow.shade700),
                               label: Text(
                                 "Explore",
                                 style: TextStyle(
@@ -145,7 +151,7 @@ class TaskExplore extends StatelessWidget {
                               heroTag: 'btn2',
                               backgroundColor: Colors.black87,
                               onPressed: () {
-                                Navigator.pushNamed(context, '/VendorExplore');
+                                Navigator.pushNamed(context, '/TaskExplore');
                               },
                               child: Icon(
                                 Icons.arrow_left,
@@ -160,7 +166,7 @@ class TaskExplore extends StatelessWidget {
                               heroTag: 'btn3',
                               backgroundColor: Colors.black87,
                               onPressed: () {
-                                Navigator.pushNamed(context, '/TicketHandling');
+                                Navigator.pushNamed(context, '/ImageExplore');
                               },
                               child: Icon(
                                 Icons.arrow_right,

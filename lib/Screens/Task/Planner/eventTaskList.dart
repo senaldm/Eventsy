@@ -39,6 +39,7 @@ class _EventTaskListState extends State<EventTaskList> {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
     eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
+
   }
 
   Future<void> retrieveData(String eventKey) async {
@@ -56,28 +57,27 @@ class _EventTaskListState extends State<EventTaskList> {
       List<EventTasks> newTasks = [];
       lines.forEach((line) {
         final taskData = line.split(',');
-        final task = EventTasks(
-          eventKey: taskData[0],
-          eventName: taskData[1],
-          taskKey: taskData[2],
-          categoryName: taskData[3],
-          taskName: taskData[4],
-          vendorName: taskData[5],
-          budget: taskData[6],
-          isComplete: taskData[7] == 'true',
-          taskTimestamp: DateTime.parse(taskData[8]),
-        );
-
-        
-          // time = task.timestamp!.toIso8601String();
+        if (taskData[0] == eventKey) {
+          final task = EventTasks(
+            eventKey: taskData[0],
+            eventName: taskData[1],
+            taskKey: taskData[2],
+            categoryName: taskData[3],
+            taskName: taskData[4],
+            vendorName: taskData[5],
+            budget: taskData[6],
+            isComplete: taskData[7] == 'true',
+            taskTimestamp: DateTime.parse(taskData[8]),
+          );
           time = DateFormat('yyyy-MM-dd').format(task.taskTimestamp).toString();
-        
 
-        tasks.add(task);
-        if (task.eventKey == eventKey) {
-          newTasks.add(task);
-        } 
-       
+          if (task.eventKey == eventKey) {
+            tasks.add(task);
+            newTasks.add(task);
+          }
+        }
+
+        // time = task.timestamp!.toIso8601String();
       });
       setState(() {
         tasks = newTasks;
@@ -123,7 +123,7 @@ class _EventTaskListState extends State<EventTaskList> {
         tasks = originalTasks.where((task) => task.isComplete).toList();
       } else if (method == 'pending') {
         // tasks = newTasks;
-        tasks = originalTasks.where((task) => task.isComplete).toList();
+        tasks = originalTasks.where((task) => !task.isComplete).toList();
       } else {
         // Reset the tasks list to show all tasks
         retrieveData(eventKey);
@@ -301,7 +301,7 @@ class _EventTaskListState extends State<EventTaskList> {
     }
 
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/tasks.txt');
+    final file = File('${directory.path}/eventTasks.txt');
     if (await file.exists()) {
       final lines = await file.readAsLines();
       final updatedLines = lines.where((line) {
@@ -357,7 +357,7 @@ class _EventTaskListState extends State<EventTaskList> {
                 ElevatedButton(
                     onPressed: () async {
                       await deleteTask(taskKey);
-                      retrieveData(eventKey);
+                      // retrieveData(eventKey);
                       Navigator.pop(context, null);
                       // deleteTask(taskKey);
                       // Navigator.pop(context);
@@ -425,103 +425,111 @@ class _EventTaskListState extends State<EventTaskList> {
               ],
             ),
           ),
-          body: tasks.isEmpty
-              ? Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 20, 24, 26),
-                    image: DecorationImage(
-                      image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 200),
+          body: WillPopScope(
+            onWillPop: () async {
+              await Navigator.pushNamed(context, '/EventList');
+              return false;
+            },
+            child: tasks.isEmpty
+                ? Container(
                     decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 20, 24, 26),
                       image: DecorationImage(
-                        image: AssetImage("assets/Images/Task/emptyTask.jpg"),
+                        image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ))
-              : Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 20, 24, 26),
-                    image: DecorationImage(
-                      image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
-                      fit: BoxFit.cover,
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 200),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/Images/Task/emptyTask.jpg"),
+                        ),
+                      ),
+                    ))
+                : Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 20, 24, 26),
+                      image: DecorationImage(
+                        image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: ListView.builder(
+                      padding: EdgeInsetsDirectional.zero,
+                      shrinkWrap: false,
+                      itemCount: tasks.length,
+                      itemBuilder: (context, index) {
+                        final task = tasks[index];
+
+                        return SizedBox(
+                          height: 70.0,
+                          child: Container(
+                            // color: Color.fromARGB(255, 20, 24, 26),
+                            padding: EdgeInsetsDirectional.zero,
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Colors.white12, width: 0.0
+                                        //  Theme.of(context).dividerColor
+                                        ))),
+                            margin: EdgeInsets.only(
+                                left: 10.0, right: 10.0, bottom: 0, top: 0),
+                            // color: Color.fromARGB(255, 20, 24, 26),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Card(
+                                  color: Color.fromARGB(255, 20, 24, 26),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+
+                                  child: ListTile(
+                                    leading: Text(
+                                      task.taskName,
+
+                                      //  "${task.timestamp?.minute?.toString()}",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(fontSize: 20.0),
+                                    ),
+                                    textColor: Colors.white,
+                                    trailing: Text(
+                                      time,
+                                    ),
+                                    onTap: () async {
+                                      Navigator.pushNamed(
+                                          context, '/viewEventTask',
+                                          arguments: {
+                                            'task':task,
+                                            'event':event});
+                                      // setState(() {
+                                      //   retrieveData();
+                                      // });
+                                    },
+                                    onLongPress: () async {
+                                      final updatedTask =
+                                          editOrDelete(task.taskKey);
+                                      if (updatedTask != null) {
+                                        setState(() {
+                                          retrieveData(eventKey);
+                                        });
+                                      }
+                                      // await retrieveData();
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                  child: ListView.builder(
-                    padding: EdgeInsetsDirectional.zero,
-                    shrinkWrap: false,
-                    itemCount: tasks.length,
-                    itemBuilder: (context, index) {
-                      final task = tasks[index];
-
-                      return SizedBox(
-                        height: 70.0,
-                        child: Container(
-                          // color: Color.fromARGB(255, 20, 24, 26),
-                          padding: EdgeInsetsDirectional.zero,
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      color: Colors.white12, width: 0.0
-                                      //  Theme.of(context).dividerColor
-                                      ))),
-                          margin: EdgeInsets.only(
-                              left: 10.0, right: 10.0, bottom: 0, top: 0),
-                          // color: Color.fromARGB(255, 20, 24, 26),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Card(
-                                color: Color.fromARGB(255, 20, 24, 26),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-
-                                child: ListTile(
-                                  leading: Text(
-                                    task.taskName,
-
-                                    //  "${task.timestamp?.minute?.toString()}",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                  textColor: Colors.white,
-                                  trailing: Text(
-                                    time,
-                                  ),
-                                  onTap: () async {
-                                    Navigator.pushNamed(context, '/viewEventTask',
-                                        arguments: task);
-                                    // setState(() {
-                                    //   retrieveData();
-                                    // });
-                                  },
-                                  onLongPress: () async {
-                                    final updatedTask =
-                                        editOrDelete(task.taskKey);
-                                    if (updatedTask != null) {
-                                      // If a new task is added, update the data and refresh the UI
-                                      setState(() {
-                                        retrieveData(eventKey);
-                                      });
-                                    }
-                                    // await retrieveData();
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+          ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
@@ -536,6 +544,7 @@ class _EventTaskListState extends State<EventTaskList> {
                   arguments: {
                     'eventName': event.eventName,
                     'eventKey': event.eventKey,
+                    'event': event,
                   });
               if (newTask != null) {
                 // If a new task is added, update the data and refresh the UI

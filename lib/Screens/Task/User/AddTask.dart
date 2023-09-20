@@ -75,7 +75,10 @@ class _AddTaskState extends State<AddTask> {
                 ),
               ),
             ),
-            body: Container(
+            body: 
+            //             SingleChildScrollView(
+            // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
@@ -93,7 +96,7 @@ class _AddTaskState extends State<AddTask> {
                             borderRadius: BorderRadius.circular(10.0)),
                         margin: EdgeInsets.only(
                             left: width * 0.15, right: width * 0.15),
-
+            
                         borderOnForeground: false,
                         // child:SingleChildScrollView(
                         child: DropdownButtonFormField<String>(
@@ -102,7 +105,7 @@ class _AddTaskState extends State<AddTask> {
                               categoryName = newValue!;
                             });
                           },
-
+                          // value: categoryName,
                           items: <String>[
                             'Decoration',
                             'Food and Beverages',
@@ -164,7 +167,7 @@ class _AddTaskState extends State<AddTask> {
                           dropdownColor: Colors.blueGrey.shade900,
                         ),
                       ),
-
+            
                       // SizedBox(
                       //   height: width * 0.05,
                       // ),
@@ -193,9 +196,9 @@ class _AddTaskState extends State<AddTask> {
                             //     return 'Please enter a task name';
                             //   }
                             //   return null;
-
+            
                             // },
-
+            
                             decoration: InputDecoration(
                                border: UnderlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0)),

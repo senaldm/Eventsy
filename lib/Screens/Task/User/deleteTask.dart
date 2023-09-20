@@ -8,13 +8,13 @@ mixin DeleteTask {
   static Future<void> deleteTask(String taskKey) async {
     final taskBox = await Hive.openBox<Task>('task');
 
-  
-      if (taskBox.containsKey(taskKey)) {
-        taskBox.delete(taskKey);
-      }
-    
+    if (taskBox.containsKey(taskKey)) {
+      taskBox.delete(taskKey);
+    }
+
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/tasks.txt');
+    
     if (await file.exists()) {
       final lines = await file.readAsLines();
       final updatedLines = lines.where((line) {
@@ -23,7 +23,9 @@ mixin DeleteTask {
         return taskKeyInFile != taskKey;
       }).toList();
 
-      await file.writeAsString(updatedLines.join('\n'));
+    await file.writeAsString(updatedLines.join('\n'));
+
+    
     }
   }
 }

@@ -20,16 +20,17 @@ class Task extends HiveObject {
   @HiveField(6)
   DateTime? timestamp;
 
+
   void isCompleted() {
     isComplete = false;
   }
 
   Task({
     this.taskKey = '',
-    this.categoryName = '',
+    this.categoryName = ' ',
     required this.taskName,
-    this.vendorName = '',
-    this.budget = '',
+    this.vendorName = ' ',
+    this.budget = ' ',
     this.isComplete = false,
     this.timestamp,
   });

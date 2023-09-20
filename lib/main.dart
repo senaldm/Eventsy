@@ -14,6 +14,8 @@ import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/budgettasklist.dar
 import 'Screens/ImageSearchPage/Views/image_show_view.dart';
 import 'Screens/LoginandSignupScreens/firebase_options.dart';
 
+import 'Screens/Task/Planner/updateEvent.dart';
+import 'Screens/Task/Planner/updateEventTask.dart';
 import 'global.dart';
 import 'Model/Event.dart';
 
@@ -30,7 +32,7 @@ import 'package:eventsy/Screens/Task/User/settings/settings.dart';
 import 'package:flutter/material.dart';
 
 import 'Screens/Home/ImageExplore.dart';
-
+import 'Screens/Home/TicketHandling.dart';
 import 'Screens/Home/VendorExplore.dart';
 import 'Screens/Home/TaskExplore.dart';
 
@@ -52,8 +54,6 @@ import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/budgetaddingoption
 import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/eventselectionpage.dart';
 import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/categoryshownpage.dart';
 
-import 'Screens/ImageSearchPage/Views/image_show_view.dart';
-
 import 'Screens/Task/Planner/addEvent.dart';
 import 'Screens/Task/User/updateTask.dart';
 import 'Screens/Task/Planner/eventTaskList.dart';
@@ -63,14 +63,23 @@ import 'Screens/Task/Planner/viewEventTask.dart';
 // import 'Screens/BudgetCalculatorScreens/advancebudgetaddingpage.dart';
 // import 'Model/Budgetcal/eventset.dart';
 
-import 'package:eventsy/Screens/Task/User/userDashboard/userDashboard.dart';
-import 'package:eventsy/Screens/Task/User/settings/settings.dart';
 import 'package:eventsy/Screens/Task/User/settings/ProfileSettingsPage.dart';
 import 'package:eventsy/Screens/Task/User/settings/Notification.dart';
 import 'package:eventsy/Screens/Task/User/settings/help_support.dart';
 import 'package:eventsy/Screens/Task/User/settings/RateUs.dart';
 import 'package:eventsy/Screens/Task/User/settings/privacy_Security.dart';
 import 'package:eventsy/Screens/Task/User/settings/logout.dart';
+
+
+import 'package:eventsy/Screens/Tickets/ticketHandlingHome.dart';
+
+
+import 'package:eventsy/Screens/Task/User/vendors/vendorlist.dart';
+
+
+
+import 'package:eventsy/Screens/Task/User/userDashboard/Tasks/your_tasks.dart';
+
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -93,6 +102,7 @@ Future main() async {
   Hive.registerAdapter(BudgetTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
 
+
   // eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
   // taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
   eventBox = await Hive.openBox<Event>('event');
@@ -100,6 +110,14 @@ Future main() async {
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
   budgetTaskBox = await Hive.openBox<BudgetTasks>('budgetTask');
   invitationBox = await Hive.openBox<Invitation>('invitation');
+
+//eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
+//taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
+eventBox = await Hive.openBox<Event>('event');
+taskBox = await Hive.openBox<Task>('task');
+eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
+invitationBox = await Hive.openBox<Invitation>('invitation');
+
 // void main()=>runApp(
 //     DevicePreview(
 
@@ -120,24 +138,35 @@ class FirstPage extends StatelessWidget {
           '/ImageExplore': (context) => ImageExplore(),
           '/VendorExplore': (context) => VendorExplore(),
           '/TaskExplore': (context) => TaskExplore(),
+          '/TicketHandling': (context) => TicketHandling(),
+
+          ////////TicketHandling/////////////
+
+          '/ticketHandlingHome': (context) => TicketHandlingHome(),
 
           ////////USER TASK////////
           'UserHome': (context) => UserTaskHome(),
           'TaskList': (context) => TaskList(),
           'addTask': (context) => AddTask(),
-          '/userDashboard': (context) => userDashboard(),
+          '/userDashboard': (context) => UserDashboard(),
           '/userSettings': (context) => userSettings(),
 
           '/viewTask': (context) => ViewTask(
               task: ModalRoute.of(context)!.settings.arguments as Task),
-          '/userDashboard': (context) => userDashboard(),
+
+          '/userDashboard': (context) => UserDashboard(),
           '/userSettings': (context) => userSettings(),
+
           '/updateTask': (context) => UpdateTask(
-              Key: ModalRoute.of(context)!.settings.arguments as String),
+              task: ModalRoute.of(context)!.settings.arguments as Task),
 
           /////////PLANNER TASK/////////
 
           'PlannerHome': (context) => PlannerTaskHome(),
+          '/updateEvent': (context) => UpdateEvent(
+              event: ModalRoute.of(context)!.settings.arguments as Event),
+          '/updateEventTask': (context) => UpdateEventTask(
+              task: ModalRoute.of(context)!.settings.arguments as EventTasks),
           '/eventTaskList': (context) => EventTaskList(
               event: ModalRoute.of(context)!.settings.arguments as Event),
           '/PlannersPage': (context) => const SplashScreen(),
@@ -152,10 +181,17 @@ class FirstPage extends StatelessWidget {
             return AddEventTask(
               eventName: arguments['eventName'],
               eventKey: arguments['eventKey'],
+              event: arguments['event'],
             );
           },
-          '/viewEventTask': (context) => ViewEventTask(
-              task: ModalRoute.of(context)!.settings.arguments as EventTasks),
+          '/viewEventTask': (context) {
+            final Map<String, dynamic> arguments = ModalRoute.of(context)
+                ?.settings
+                .arguments as Map<String, dynamic>;
+            return ViewEventTask(
+                task:arguments['task'],
+                event: arguments['event'],);
+          },
 
           /////////////// LOGIN ////////////////////////////
           'LoginPage': (context) => Loginpage(),
@@ -192,6 +228,17 @@ class FirstPage extends StatelessWidget {
           'SimpleRatingBar': (context) => SimpleRatingBar(),
           'PasswordChangePage': (context) => PasswordChangePage(),
           'LogoutPage': (context) => LogoutPage(),
+
+
+
+          //vendor//
+          'VendorList':(context)=>VendorList(),
+
+          //dashboard//
+          'your_tasks': (context) => your_tasks(),
+
+
+
         },
         key: navigatorKey,
         debugShowCheckedModeBanner: false,
