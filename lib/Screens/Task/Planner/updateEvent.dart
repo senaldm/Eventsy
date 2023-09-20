@@ -1,38 +1,34 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:io';
 
 import 'package:eventsy/global.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsy/Model/Event.dart';
 import 'package:hive/hive.dart';
-import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sliding_switch/sliding_switch.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
-// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
-// import 'package:eventsy/main.dart';
-
-class AddEvent extends StatefulWidget {
-  const AddEvent({Key? key}) : super(key: key);
+class UpdateEvent extends StatefulWidget {
+  final Event event;
+  const UpdateEvent({required this.event});
 
   @override
-  _AddEventState createState() => _AddEventState();
+  _UpdateEventState createState() => _UpdateEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
+class _UpdateEventState extends State<UpdateEvent> {
   String eventName = '';
 
-  DateTime eventDate = DateTime.now();
+  late DateTime eventDate;
   String note = '';
   String venue = '';
-  bool isEventComplete = false;
+  late bool isEventComplete;
   final String label = "Event Completed";
-  bool isSwitchOn = false;
+  late bool isSwitchOn;
+  late Event currentEvent;
+  late String eventKey;
 
   final eventNameController = TextEditingController();
   final noteController = TextEditingController();
@@ -44,6 +40,24 @@ class _AddEventState extends State<AddEvent> {
   // final bool onChanged = true;
   final _formKey = GlobalKey<FormState>();
   final List<Event> event = [];
+
+  void initState() {
+    super.initState();
+    currentEvent = widget.event;
+
+    currentEvent.eventName.isEmpty
+        ? currentEvent.eventName = " "
+        : currentEvent.eventName;
+    currentEvent.venue.isEmpty ? currentEvent.venue = " " : currentEvent.venue;
+    currentEvent.note.isEmpty ? currentEvent.note = " " : currentEvent.note;
+
+    eventNameController.text = currentEvent.eventName;
+    noteController.text = currentEvent.note;
+    venueController.text = currentEvent.venue;
+    isSwitchOn = currentEvent.isEventComplete;
+    eventDate = currentEvent.eventDate!;
+    eventKey = currentEvent.eventKey;
+  }
 
   void showDatePicker(BuildContext context) async {
     DateTime? newEventDate = await showRoundedDatePicker(
@@ -96,7 +110,7 @@ class _AddEventState extends State<AddEvent> {
             ),
             body: WillPopScope(
               onWillPop: () async {
-                await Navigator.pushNamed(context, '/TaskExplore');
+                Navigator.pop(context);
                 return false;
               },
               child: Container(
@@ -128,6 +142,18 @@ class _AddEventState extends State<AddEvent> {
                                 }
                                 return null;
                               },
+                              onChanged: (value) {
+                                setState(() {
+                                  isFilled = value.isNotEmpty;
+                                });
+                              },
+                              //   validator: (value) {
+                              //   if (value!.isEmpty) {
+                              //     return 'Please enter a event name';
+                              //   }
+                              //   return null;
+
+                              // },
 
                               decoration: InputDecoration(
                                 border: UnderlineInputBorder(
@@ -163,10 +189,62 @@ class _AddEventState extends State<AddEvent> {
                                     .toString()
                                     .split(' ')[0]),
                             readOnly: true,
+
+                            // DropdownButtonFormField<String>(
+                            //   onChanged: (String? newValue) {
+                            //     setState(() {
+                            //       eventDate = newValue!;
+                            //     });
+                            //   },
+                            //   // value: eventDate,
+                            //   items: <String>[
+                            //     'Decoration',
+                            //     'Food and Beverages',
+                            //     'Option 3',
+                            //     'Option 4',
+                            //     'Option 5',
+                            //     'Decorations',
+                            //     'Food and Beveragess',
+                            //     'Option 3s',
+                            //     'Option 4s',
+                            //     'Option 5s',
+                            //     'Decorationy',
+                            //     'Food and Beveragesy',
+                            //     'Option 3y',
+                            //     'Option 4y',
+                            //     'Option 5y',
+                            //   ].map<DropdownMenuItem<String>>((String value) {
+                            //     return DropdownMenuItem<String>(
+                            //       value: value,
+                            //       child: SizedBox(
+                            //         width: 290,
+                            //         height: 60,
+                            //         child: Align(
+                            //           alignment: Alignment.center,
+                            //           child: Text(
+                            //             value,
+                            //             style: TextStyle(
+                            //               color: Colors.white,
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     );
+                            // }).toList(),
+
                             style: const TextStyle(
                               color: Colors.black87,
                               // fontSize: 20.0,
                             ),
+                            // isExpanded: true,
+                            // hint: const Text(
+                            //   'Add Category',
+                            //   style: TextStyle(color: Colors.black),
+                            // ),
+                            // icon: const Icon(
+                            //   Icons.arrow_drop_down,
+                            //   color: Colors.black87,
+                            // ),
                             decoration: InputDecoration(
                               fillColor: Colors.grey.shade900,
                               border: UnderlineInputBorder(
@@ -177,8 +255,14 @@ class _AddEventState extends State<AddEvent> {
                               ),
                               hintText: 'Event Date',
                             ),
+                            // focusColor: Colors.black87,
+                            // dropdownColor: Colors.blueGrey.shade900,
                           ),
                         ),
+
+                        // SizedBox(
+                        //   height: width * 0.05,
+                        // ),
 
                         SizedBox(
                           height: width * 0.05,
@@ -260,7 +344,7 @@ class _AddEventState extends State<AddEvent> {
                               ],
                             ),
                             SlidingSwitch(
-                              value: false,
+                              value: isSwitchOn,
                               width: 100,
                               height: 50,
                               onTap: () {},
@@ -311,22 +395,23 @@ class _AddEventState extends State<AddEvent> {
                         ),
                       ),
                       FloatingActionButton.extended(
-                        heroTag: Text('save'),
+                        heroTag: Text('update'),
                         onPressed: () async {
                           if (_formKey.currentState?.validate() == true) {
-                            await addEvent(
+                            await UpdateEvent(
                               eventDate,
                               eventNameController.text,
                               venueController.text,
                               noteController.text,
                               isSwitchOn,
                             );
-                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/viewEvent',
+                                arguments: currentEvent);
                           }
                         },
                         backgroundColor: Colors.blueGrey.shade900,
                         label: Text(
-                          ' Save ',
+                          ' Update ',
                           style: TextStyle(
                               fontSize: 15.0,
                               fontWeight: FontWeight.bold,
@@ -351,23 +436,23 @@ class _AddEventState extends State<AddEvent> {
     });
   }
 
-  addEvent(DateTime eventDate, String eventName, String venue, String note,
+  UpdateEvent(DateTime eventDate, String eventName, String venue, String note,
       bool isSwitchOn) async {
-
-
+    // final appDocumentDir = await getApplicationDocumentsDirectory();
+    // final filePath = '${appDocumentDir.path}/events.txt';
     eventBox = await Hive.openBox<Event>('event');
 
     if (_formKey.currentState!.validate()) {
       eventDate = eventDate;
+      // eventDate = categoryController.text;
       eventName = eventNameController.text;
       note = noteController.text;
       venue = venueController.text;
       isEventComplete = isSwitchOn;
-      final String uniqueEventKey = Uuid().v4();
 
       // Create a new event object
       final event = Event(
-          eventKey: uniqueEventKey,
+          eventKey: eventKey,
           eventDate: eventDate,
           eventName: eventName,
           note: note,
@@ -375,8 +460,11 @@ class _AddEventState extends State<AddEvent> {
           isEventComplete: isEventComplete,
           timestamp: DateTime.now());
 
-      await eventBox.put(uniqueEventKey, event);
-      storeEvent(event);
+      await eventBox.put(eventKey, event);
+      setState(() {
+        currentEvent = event;
+      });
+      updateEventInLocal(event);
 
       // Clear form data
       // categoryController.clear();
@@ -386,7 +474,7 @@ class _AddEventState extends State<AddEvent> {
     }
   }
 
-  Future<void> storeEvent(Event event) async {
+  Future<void> updateEventInLocal(Event event) async {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/events.txt');
     final exists = await file.exists();
@@ -395,12 +483,25 @@ class _AddEventState extends State<AddEvent> {
       await file.create();
     }
 
-    final formattedTimestamp = event.timestamp?.toIso8601String() ?? '';
-    final formatedEventDate = event.eventDate?.toIso8601String() ?? '';
+    final lines = await file.readAsLines();
+    final updatedLines = <String>[];
 
-    final eventData =
-        '${event.eventKey},${event.eventName},$formatedEventDate,${event.note},${event.venue},${event.isEventComplete},$formattedTimestamp\n';
-    await file.writeAsString(eventData, mode: FileMode.append);
-  
+    for (final line in lines) {
+      final eventData = line.split(',');
+      if (eventData[0] == event.eventKey) {
+        final formattedTimestamp = event.timestamp?.toIso8601String() ?? '';
+
+        final formatedEventDate = event.eventDate?.toIso8601String() ?? '';
+
+        final updatedEventData =
+            '${event.eventKey},${event.eventName},$formatedEventDate,${event.note},${event.venue},${event.isEventComplete},$formattedTimestamp';
+
+        updatedLines.add(updatedEventData);
+      } else {
+        // Add other tasks as they are
+        updatedLines.add(line);
+      }
+    }
+    await file.writeAsString(updatedLines.join('\n'));
   }
 }

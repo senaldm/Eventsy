@@ -24,5 +24,7 @@ mixin DeleteEvent {
 
       await file.writeAsString(updatedLines.join('\n'));
     }
+    
+
   }
 }

@@ -16,7 +16,9 @@ import 'package:sliding_switch/sliding_switch.dart';
 class AddEventTask extends StatefulWidget {
   final String eventName;
   final String eventKey;
-  const AddEventTask({required this.eventName, required this.eventKey});
+  final Event event;
+  const AddEventTask(
+      {required this.eventName, required this.eventKey, required this.event});
 
   @override
   _AddEventTaskState createState() => _AddEventTaskState();
@@ -25,6 +27,7 @@ class AddEventTask extends StatefulWidget {
 class _AddEventTaskState extends State<AddEventTask> {
   late String eventName;
   late String eventKey;
+  late Event event;
 
   final taskController = TextEditingController();
   final vendorController = TextEditingController();
@@ -49,7 +52,7 @@ class _AddEventTaskState extends State<AddEventTask> {
     super.initState();
     eventKey = widget.eventKey;
     eventName = widget.eventName;
-    
+     event = widget.event;
   }
 
   @override
@@ -361,7 +364,8 @@ class _AddEventTaskState extends State<AddEventTask> {
                               budgetController.text,
                               isComplete,
                             );
-                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/eventTaskList',
+                                arguments: event);
                           }
                         },
                         backgroundColor: Colors.blueGrey.shade900,
@@ -407,8 +411,8 @@ class _AddEventTaskState extends State<AddEventTask> {
       final String uniqueKey = Uuid().v4();
 
       final eventTask = EventTasks(
-        eventKey: eventKey,
-        eventName: eventName,
+          eventKey: eventKey,
+          eventName: eventName,
           taskKey: uniqueKey,
           categoryName: categoryName,
           taskName: taskName,

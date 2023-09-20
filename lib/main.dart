@@ -11,6 +11,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'Screens/ImageSearchPage/Views/image_show_view.dart';
 import 'Screens/LoginandSignupScreens/firebase_options.dart';
 
+import 'Screens/Task/Planner/updateEvent.dart';
+import 'Screens/Task/Planner/updateEventTask.dart';
 import 'global.dart';
 import 'Model/Event.dart';
 
@@ -65,9 +67,7 @@ import 'package:eventsy/Screens/Task/User/settings/RateUs.dart';
 import 'package:eventsy/Screens/Task/User/settings/privacy_Security.dart';
 import 'package:eventsy/Screens/Task/User/settings/logout.dart';
 
-
 import 'package:eventsy/Screens/Tickets/ticketHandlingHome.dart';
-
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -117,10 +117,9 @@ class FirstPage extends StatelessWidget {
           '/TaskExplore': (context) => TaskExplore(),
           '/TicketHandling': (context) => TicketHandling(),
 
-
           ////////TicketHandling/////////////
-          
-          '/ticketHandlingHome':(context)=>TicketHandlingHome(),
+
+          '/ticketHandlingHome': (context) => TicketHandlingHome(),
 
           ////////USER TASK////////
           'UserHome': (context) => UserTaskHome(),
@@ -130,13 +129,17 @@ class FirstPage extends StatelessWidget {
           '/userSettings': (context) => userSettings(),
 
           '/viewTask': (context) => ViewTask(
-              task: ModalRoute.of(context)!.settings.arguments as Task),       
+              task: ModalRoute.of(context)!.settings.arguments as Task),
           '/updateTask': (context) => UpdateTask(
-              Key: ModalRoute.of(context)!.settings.arguments as String),
+              task: ModalRoute.of(context)!.settings.arguments as Task),
 
           /////////PLANNER TASK/////////
 
           'PlannerHome': (context) => PlannerTaskHome(),
+          '/updateEvent': (context) => UpdateEvent(
+              event: ModalRoute.of(context)!.settings.arguments as Event),
+          '/updateEventTask': (context) => UpdateEventTask(
+              task: ModalRoute.of(context)!.settings.arguments as EventTasks),
           '/eventTaskList': (context) => EventTaskList(
               event: ModalRoute.of(context)!.settings.arguments as Event),
           '/PlannersPage': (context) => const SplashScreen(),
@@ -151,10 +154,17 @@ class FirstPage extends StatelessWidget {
             return AddEventTask(
               eventName: arguments['eventName'],
               eventKey: arguments['eventKey'],
+              event: arguments['event'],
             );
           },
-          '/viewEventTask': (context) => ViewEventTask(
-              task: ModalRoute.of(context)!.settings.arguments as EventTasks),
+          '/viewEventTask': (context) {
+            final Map<String, dynamic> arguments = ModalRoute.of(context)
+                ?.settings
+                .arguments as Map<String, dynamic>;
+            return ViewEventTask(
+                task:arguments['task'],
+                event: arguments['event'],);
+          },
 
           /////////////// LOGIN ////////////////////////////
           'LoginPage': (context) => Loginpage(),

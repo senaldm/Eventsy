@@ -1,22 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'dart:async';
 import 'package:eventsy/Model/Event.dart';
-
-import 'package:eventsy/Screens/Task/User/bottonNavigationPaint.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-
-import 'package:eventsy/Screens/Task/User/TaskFilter.dart';
-
 import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:collection/collection.dart';
 
 class TaskList extends StatefulWidget {
   // const TaskList({ Key? key }) : super(key: key);
@@ -72,8 +63,6 @@ class _TaskListState extends State<TaskList> {
           time = DateFormat('yyyy-MM-dd').format(task.timestamp!);
           time = time.toString();
         }
-        print(task.isComplete);
-        // tasks.add(task);
         newTasks.add(task);
       });
       setState(() {
@@ -309,12 +298,14 @@ class _TaskListState extends State<TaskList> {
 
       await file.writeAsString(updatedLines.join('\n'));
     }
+
+   
   }
 
   // ////////////////////Edit or delete////////////////////////////
   /////////////////////////////////////////////////////////
 
-  editOrDelete(String key) {
+  editOrDelete(String key,Task task) {
     // String taskKey = key;
     String taskKey = key;
 
@@ -332,7 +323,7 @@ class _TaskListState extends State<TaskList> {
                     onPressed: () async {
                       final updatedTask = await Navigator.pushNamed(
                           context, '/updateTask',
-                          arguments: taskKey);
+                          arguments: task);
                       retrieveData();
                       // if (updatedTask != null) {
                       //   // If a new task is added, update the data and refresh the UI
@@ -354,7 +345,7 @@ class _TaskListState extends State<TaskList> {
                 ElevatedButton(
                     onPressed: () async {
                       await deleteTask(taskKey);
-                      retrieveData();
+                      // retrieveData();
                       Navigator.pop(context, null);
                       // deleteTask(taskKey);
                       // Navigator.pop(context);
@@ -494,7 +485,7 @@ class _TaskListState extends State<TaskList> {
                               // });
                             },
                             onLongPress: () async {
-                              final updatedTask = editOrDelete(task.taskKey);
+                              final updatedTask = editOrDelete(task.taskKey,task);
                               if (updatedTask != null) {
                         
                                 setState(() {
@@ -595,18 +586,5 @@ class _TaskListState extends State<TaskList> {
     );
   }
 
-  Widget buildContent(List<Task> task) {
-    if (task.isEmpty) {
-      return Center(
-          child: FloatingActionButton(
-              heroTag: 'addTask',
-              onPressed: () {
-                // Navigator.pushNamed(context, '/addTask');
-              }));
-    } else {
-      return Center(
-        child: Text('UnderDeveloped'),
-      );
-    }
-  }
+ 
 }
