@@ -31,10 +31,10 @@ class Task extends HiveObject {
 
     
 
-    this.categoryName = '',
+    this.categoryName = ' ',
     required this.taskName,
-    this.vendorName = '',
-    this.budget = '',
+    this.vendorName = ' ',
+    this.budget = ' ',
     this.isComplete = false,
     this.timestamp,
   });
