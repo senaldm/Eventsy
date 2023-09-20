@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/budgetaddedlist.dart';
+import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/viewbudgettask.dart';
 import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
 import 'package:eventsy/Screens/Task/User/viewTask.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:firebase_core/firebase_core.dart';
+import 'Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/budgettasklist.dart';
 import 'Screens/ImageSearchPage/Views/image_show_view.dart';
 import 'Screens/LoginandSignupScreens/firebase_options.dart';
 
@@ -82,18 +85,20 @@ Future main() async {
   Hive.init(appDocumentDir.path);
   await Hive.initFlutter();
   //for Planner Budget
-  Hive.registerAdapter(BudgetEventAdapter());
+  // Hive.registerAdapter(BudgetEventAdapter());
 
   Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(EventAdapter());
   Hive.registerAdapter(EventTasksAdapter());
+  Hive.registerAdapter(BudgetTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
 
-  eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
-  taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
+  // eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
+  // taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
   eventBox = await Hive.openBox<Event>('event');
   taskBox = await Hive.openBox<Task>('task');
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
+  budgetTaskBox = await Hive.openBox<BudgetTasks>('budgetTask');
   invitationBox = await Hive.openBox<Invitation>('invitation');
 // void main()=>runApp(
 //     DevicePreview(
@@ -160,10 +165,21 @@ class FirstPage extends StatelessWidget {
 
           //////////budget calculator screens////////////////
           'BudgetAddingEventList': (context) => BugetAddingEventList(),
-          'EventselectionPage': (context) => EventSelectionPage(),
-          'CategoryShownPage': (context) => CategoryShownPage(),
+          // 'EventselectionPage': (context) => EventSelectionPage(),
+          'BudgetTaskList': (context) => BudgetTaskList(
+                budget: ModalRoute.of(context)!.settings.arguments as Event,
+              ),
+          'BudgetAddedList': (context) {
+            // Cast arguments to the correct type, which is List<BudgetTasks>
+            final List<BudgetTasks> budgetList =
+                ModalRoute.of(context)!.settings.arguments as List<BudgetTasks>;
 
-          //Image Search
+            return BudgedAddedList(budgetList: budgetList);
+          },
+
+          'VeiwBudgetTask': (context) => ViewBudgetTasks(
+              budget:
+                  ModalRoute.of(context)!.settings.arguments as BudgetTasks),
           'ImageShowView': (context) => (ImageShowView()),
 
           // './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(),
@@ -177,9 +193,6 @@ class FirstPage extends StatelessWidget {
           'PasswordChangePage': (context) => PasswordChangePage(),
           'LogoutPage': (context) => LogoutPage(),
         },
-
-     
-
         key: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Eventsy',

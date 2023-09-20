@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../ImageSearchPage/Views/image_show_view.dart';
+
 class ImageExplore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -102,12 +104,16 @@ class ImageExplore extends StatelessWidget {
                         children: [
                           FloatingActionButton.extended(
                               heroTag: 'btn2',
-
                               onPressed: () {
-                                Navigator.pushNamed(context, 'ImageShowView');
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => ImageShowView(
+                                      shouldShowImages:
+                                          false, // Set the flag to false
+                                    ),
+                                  ),
+                                );
                               },
-
-                            
                               backgroundColor: Colors.black87,
                               label: Text(
                                 "Explore",

@@ -25,11 +25,7 @@ class Task extends HiveObject {
   }
 
   Task({
-
     this.taskKey = '',
-
-    
-
     this.categoryName = '',
     required this.taskName,
     this.vendorName = '',
@@ -98,23 +94,52 @@ class EventTasks extends Event {
   @HiveField(13)
   DateTime taskTimestamp;
 
+
   EventTasks({
     required eventKey,
     required eventName,
     required this.taskKey,
     required this.taskName,
-    this.vendorName='',
-    this.isComplete=false,
-    this.categoryName='',
-    this.budget='',
+    this.vendorName = '',
+    this.isComplete = false,
+    this.categoryName = '',
+    this.budget = '',
     required this.taskTimestamp,
   }) : super(
           eventKey: eventKey,
           eventName: eventName,
         );
+
+  get actualBudget => null;
 }
 
 @HiveType(typeId: 3)
+class BudgetTasks extends EventTasks {
+  @HiveField(14)
+  String budgetKey;
+  @override
+  @HiveField(15)
+
+  String actualBudget;
+
+  BudgetTasks({
+    required taskKey,
+    required taskName,
+    required vendorName,
+    required budget,
+    required categoryName,
+    required this.actualBudget,
+    required this.budgetKey,
+  }) : super(
+          eventKey: '',
+          eventName: '',
+          taskTimestamp: DateTime(0),
+          taskKey: taskKey,
+          taskName: taskName,
+        );
+}
+
+@HiveType(typeId: 4)
 class Invitation extends Event {
   @HiveField(7)
   late String guestName;
@@ -127,42 +152,11 @@ class Invitation extends Event {
   }) : super(eventKey: eventKey, eventName: eventName);
 }
 
-@HiveType(typeId: 4)
+@HiveType(typeId: 5)
 class UserMode extends HiveObject {
   @HiveField(0)
   String userMode = 'general';
   @HiveField(1)
   bool isFirst = true;
   UserMode({required String userMode, required bool isFirst});
-}
-//for budget calculator
-
-@HiveType(typeId: 5)
-class BudgetEvent extends HiveObject {
-  @HiveField(16)
-  String eventKey;
-  @HiveField(17)
-  String eventName;
-
-  @HiveField(18)
-  String targetBudget;
-
-  @HiveField(19)
-  String taskeventKey;
-
-  @HiveField(20)
-  late String categoryName;
-  @HiveField(21)
-  late String totalPrice;
-  @HiveField(22)
-  late String vendorName;
-  BudgetEvent( {
-    this.eventKey = '',
-    this.eventName = '',
-    this.targetBudget = '',
-    this.taskeventKey='',
-    this.categoryName = '',
-    this.totalPrice = '',
-    this.vendorName = '',
-  });
 }
