@@ -4,6 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:eventsy/Screens/LoginandSignUpScreens/reusable_widgets/resusable_widget.dart';
 import 'package:eventsy/Screens/LoginandSignUpScreens/services/firebase_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:connectivity/connectivity.dart' as connectivity;
+
 
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -13,6 +15,14 @@ class Loginpage extends StatefulWidget {
   @override
   // ignore: library_private_types_in_public_api
   _LoginpageState createState() => _LoginpageState();
+}
+
+Future<bool> checkInternetConnectivity() async {
+  var connectivityResult = await (connectivity.Connectivity().checkConnectivity());
+  if (connectivityResult == connectivity.ConnectivityResult.none) {
+    return false; // No internet connection
+  }
+  return true; // Internet connection is available
 }
 
 class _LoginpageState extends State<Loginpage> {
@@ -123,7 +133,26 @@ class _LoginpageState extends State<Loginpage> {
                   height: 30,
                 ),
                 signInSignupButton(context, true, () async {
-                  if (_emailTextController.text.isEmpty ||
+                  bool isInternetConnected = await checkInternetConnectivity();
+
+                  if (!isInternetConnected) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          "No internet connection. Please check your network settings.",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        backgroundColor: Colors.blueGrey,
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                    return; // Do not proceed with sign-in if there's no internet
+                  } else if (_emailTextController.text.isEmpty ||
                       _passwordTextController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -246,10 +275,10 @@ class _LoginpageState extends State<Loginpage> {
                       BoxDecoration(borderRadius: BorderRadius.circular(20)),
                   child: ElevatedButton.icon(
                     icon:
-                    // Icon(Icons.google),
-                     const FaIcon(
+                        // Icon(Icons.google),
+                        const FaIcon(
                       FontAwesomeIcons.google,
-                       color: Colors.black,
+                      color: Colors.black,
                     ),
                     onPressed: () {
                       signInWithGoogle(context);

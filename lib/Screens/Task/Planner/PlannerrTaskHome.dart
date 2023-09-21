@@ -88,6 +88,7 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                         },
                         onSelected: (value) {
                           if (value == 0) {
+                            Navigator.pushNamed(context, 'LoginPage');
                           } else if (value == 1) {}
                         }),
 
@@ -276,7 +277,6 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                 children: [
                                   Card(
                                       shape: RoundedRectangleBorder(
-
                                           borderRadius:
                                               BorderRadius.circular(10.0)),
                                       // margin: EdgeInsets.only(
@@ -317,7 +317,6 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                                       //     width: width * 0.1),
                                                       SizedBox(
                                                           width: width * 0.02),
-
                                                     ]),
                                                 SizedBox(
                                                   height: width * 0.02,

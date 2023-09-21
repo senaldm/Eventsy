@@ -136,6 +136,9 @@ class BudgetTasks extends EventTasks {
           eventName: '',
           taskTimestamp: DateTime(0),
           taskKey: taskKey,
+          vendorName: vendorName,
+          categoryName: categoryName,
+          budget: budget,
           taskName: taskName,
         );
 }
