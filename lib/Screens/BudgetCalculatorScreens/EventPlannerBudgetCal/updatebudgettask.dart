@@ -379,8 +379,8 @@ class _UpdateBudgetTasksState extends State<UpdateBudgetTasks> {
                       FloatingActionButton.extended(
                         heroTag: Text('cancel'),
                         onPressed: () {
-                            Navigator.popUntil(context, ModalRoute.withName('ViewBudgetTask'));
-
+                          Navigator.popUntil(
+                              context, ModalRoute.withName('ViewBudgetTask'));
                         },
                         backgroundColor: Colors.blueGrey.shade900,
                         label: Text(
@@ -396,13 +396,11 @@ class _UpdateBudgetTasksState extends State<UpdateBudgetTasks> {
                         onPressed: () async {
                           if (_formKey.currentState?.validate() == true) {
                             await UpdateBudgetTasks(
-                              categoryName,
-                              taskController.text,
-                              vendorController.text,
-                              actualbudgetController.text,
-                              isSwitchOn,
-                              budgetController.text
-                            );
+                                categoryName,
+                                taskController.text,
+                                vendorController.text,
+                                actualbudgetController.text,
+                                budgetController.text);
 
                             //trying to view the updated the task
 
@@ -438,13 +436,8 @@ class _UpdateBudgetTasksState extends State<UpdateBudgetTasks> {
     });
   }
 
-  Future<void> UpdateBudgetTasks(
-      String categoryName,
-      String taskName,
-      String vendorName,
-      String actualBudget,
-      bool isSwitchOn,
-      String budget) async {
+  Future<void> UpdateBudgetTasks(String categoryName, String taskName,
+      String vendorName, String actualBudget, String budget) async {
     // final appDocumentDir = await getApplicationDocumentsDirectory();
     // final filePath = '${appDocumentDir.path}/tasks.txt';
     budgetTaskBox = await Hive.openBox<BudgetTasks>('budgettasks');
@@ -463,13 +456,13 @@ class _UpdateBudgetTasksState extends State<UpdateBudgetTasks> {
 
       // Create a new Task object
       final task = BudgetTasks(
-        taskKey: taskKey,
         budgetKey: budgetKey,
-        categoryName: categoryName,
+        taskKey: taskKey,
         taskName: taskName,
-        budget: budget,
-        vendorName: vendorName,
         actualBudget: actualBudget,
+        budget: budget,
+        categoryName: categoryName,
+        vendorName: vendorName,
       );
 
       // Store the task in Hive
@@ -488,7 +481,7 @@ class _UpdateBudgetTasksState extends State<UpdateBudgetTasks> {
     }
   }
 
-  Future<void> UpdateBudgetTasksInLocal(BudgetTasks task) async {
+  Future<void> UpdateBudgetTasksInLocal(BudgetTasks budgetTasks) async {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/budgetTask.txt');
     final exists = await file.exists();
@@ -502,11 +495,12 @@ class _UpdateBudgetTasksState extends State<UpdateBudgetTasks> {
 
     for (final line in lines) {
       final taskData = line.split(',');
-      if (taskData[0] == task.budgetKey) {
+      if (taskData[0] == budgetTasks.budgetKey) {
         // Replace the line with the updated task data
-        final formattedTimestamp = task.timestamp?.toIso8601String() ?? '';
+        final formattedTimestamp =
+            budgetTasks.timestamp?.toIso8601String() ?? '';
         final updatedTaskData =
-            '${task.taskKey},${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},${task.actualBudget},${task.budgetKey}$formattedTimestamp';
+            '${budgetTasks.budgetKey},${budgetTasks.taskKey},${budgetTasks.taskName},${budgetTasks.actualBudget},${budgetTasks.budget},${budgetTasks.vendorName},${budgetTasks.categoryName},$formattedTimestamp\n';
         updatedLines.add(updatedTaskData);
       } else {
         // Add other tasks as they are

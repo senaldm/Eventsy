@@ -236,16 +236,18 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
             actions: [
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, 'EventselectionPage');
+               Navigator.pushNamed(context, '/addEvent', arguments: 'fromBugetAddingEventList');
                 },
-                child: Transform.scale(
-                  scale: 1.5, // Increase the size of the icon
-                  child: Icon(Icons.add),
-                  
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Icon(
+                    Icons.add,
+                    size: 30, // Adjust the size of the icon as needed
+                  ),
                 ),
               ),
             ],
-            
+
             automaticallyImplyLeading: true,
             centerTitle: true,
             flexibleSpace: Center(
@@ -260,9 +262,9 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
           ),
         ),
         body: WillPopScope(
-          onWillPop: ()  async {
-              Navigator.popUntil(context, ModalRoute.withName('PlannerHome'));
-              return false;
+          onWillPop: () async {
+            Navigator.popUntil(context, ModalRoute.withName('PlannerHome'));
+            return false;
           },
           child: events.isEmpty
               ? Container(
@@ -274,8 +276,8 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
                     ),
                   ),
                   child: Container(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 30, vertical: 200),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 200),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage("assets/Images/Task/emptyTask.jpg"),
@@ -296,7 +298,7 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
                     itemCount: events.length,
                     itemBuilder: (context, index) {
                       final event = events[index];
-        
+
                       return SizedBox(
                         height: 70.0,
                         child: Container(
@@ -304,10 +306,10 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
                           padding: EdgeInsetsDirectional.zero,
                           decoration: BoxDecoration(
                               border: Border(
-                                  bottom:
-                                      BorderSide(color: Colors.white12, width: 0.0
-                                          //  Theme.of(context).dividerColor
-                                          ))),
+                                  bottom: BorderSide(
+                                      color: Colors.white12, width: 0.0
+                                      //  Theme.of(context).dividerColor
+                                      ))),
                           margin: EdgeInsets.only(
                               left: 10.0, right: 10.0, bottom: 0, top: 0),
                           // color: Color.fromARGB(255, 20, 24, 26),
@@ -321,11 +323,11 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-        
+
                                 child: ListTile(
                                   leading: Text(
                                     event.eventName,
-        
+
                                     //  "${event.timestamp?.minute?.toString()}",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(fontSize: 20.0),
@@ -335,7 +337,8 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
                                     time,
                                   ),
                                   onTap: () async {
-                                    Navigator.pushNamed(context, 'BudgetTaskList',
+                                    Navigator.pushNamed(
+                                        context, 'BudgetTaskList',
                                         arguments: event);
                                     setState(() {
                                       retrieveData();
@@ -344,7 +347,7 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
                                   onLongPress: () async {
                                     // final updatedEvent = editOrDelete(event.eventKey);
                                     // if (updatedEvent != null) {
-        
+
                                     //   setState(() {
                                     //     retrieveData();
                                     //   }

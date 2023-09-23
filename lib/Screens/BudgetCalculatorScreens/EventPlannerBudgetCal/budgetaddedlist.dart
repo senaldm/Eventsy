@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:eventsy/Model/Event.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
-import 'package:intl/intl.dart';
 
 class BudgedAddedList extends StatefulWidget {
   // ignore: use_key_in_widget_constructors
@@ -16,6 +15,7 @@ class BudgedAddedList extends StatefulWidget {
   BudgedAddedList({Key? key, required this.budgetList}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _BudgedAddedListState createState() => _BudgedAddedListState();
 }
 
@@ -40,7 +40,7 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
             .where((budgetTask) => budgetTask.budgetKey == budgetKey)
             .toList() ??
         [];
-
+  
     // Retrieve data from local storage
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/budgetTask.txt');
@@ -50,14 +50,15 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
       lines.forEach((line) {
         final budgetData = line.split(',');
         final budgettask = BudgetTasks(
-          taskKey: budgetData[2],
-          taskName: budgetData[4],
-          actualBudget: budgetData[8],
-          budgetKey: budgetData[9],
-          budget: budgetData[6],
-          categoryName: budgetData[3],
+          budgetKey: budgetData[0],
+          taskKey: budgetData[1],
+          taskName: budgetData[2],
+          actualBudget: budgetData[3],
+          budget: budgetData[4],
           vendorName: budgetData[5],
+          categoryName: budgetData[6],
         );
+   
 
         newTasks.add(budgettask);
       });
@@ -71,6 +72,8 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
         budgetTasks = [];
       });
     }
+    print("Retrieved Budget Tasks: $budgetTasks");
+
   }
 
   @override
@@ -89,8 +92,6 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
     budgetTaskBox?.close();
     super.dispose();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {

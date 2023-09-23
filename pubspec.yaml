@@ -128,8 +128,9 @@ flutter:
     - assets/Images/Home/
     - assets/Images/Task/
     - assets/Images/settings/
-
+ 
     - assets/Images/ImageSearch/
+    - assets/Images/auth/
 
     - assets/Images/Vendors/
 
