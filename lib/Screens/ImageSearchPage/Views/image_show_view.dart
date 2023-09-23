@@ -9,9 +9,9 @@ import '../Views/image_details_show.dart';
 import '../Service/api_service.dart';
 import 'package:connectivity/connectivity.dart';
 
+// ignore: must_be_immutable
 class ImageShowView extends StatefulWidget {
-  final bool shouldShowImages;
-
+  bool shouldShowImages;
   ImageShowView({
     Key? key,
     required this.shouldShowImages,
@@ -21,26 +21,29 @@ class ImageShowView extends StatefulWidget {
   _ImageShowViewState createState() => _ImageShowViewState(shouldShowImages);
 }
 
-
 class _ImageShowViewState extends State<ImageShowView> {
-   bool hasInternet = true;
-  late bool shouldShowImages;
-
+  bool hasInternet = true;
+  bool shouldShowImages = true; // Initialize it to true
+  late bool initialLoad = true;
   _ImageShowViewState(this.shouldShowImages);
   SimpleUIController homeController = Get.put(SimpleUIController());
 
   @override
   void initState() {
-    super.initState(); 
+    super.initState();
     checkInternetConnectivity();
   }
 
   Future<void> checkInternetConnectivity() async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    setState(() {
-      hasInternet = connectivityResult != ConnectivityResult.none;
-    });
-  }
+  var connectivityResult = await Connectivity().checkConnectivity();
+  setState(() {
+    hasInternet = connectivityResult != ConnectivityResult.none;
+    if (hasInternet) {
+      shouldShowImages = true; // Set shouldShowImages to true when there's internet.
+    }
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {

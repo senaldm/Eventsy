@@ -17,13 +17,34 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
+  late bool isOnline;
+
   @override
   void initState() {
     super.initState();
-    checkInternetConnection();
+    isOnline = true;
+    // Delayed check for network connectivity
+    Future.delayed(Duration(seconds: 2), () {
+      checkInternetConnection();
+    });
+
+    // Debounce network connectivity check
+    Connectivity().onConnectivityChanged.listen((result) {
+      if (result == ConnectivityResult.none) {
+        // Wait for 2 seconds before showing "No Internet Connection" message
+        Future.delayed(Duration(seconds: 2), () {
+          setState(() {
+            isOnline = false;
+          });
+        });
+      } else {
+        setState(() {
+          isOnline = true;
+        });
+      }
+    });
   }
 
-  bool isOnline = true;
   Future<void> checkInternetConnection() async {
     final result = await Connectivity().checkConnectivity();
     setState(() {
@@ -57,7 +78,7 @@ class _LoginpageState extends State<Loginpage> {
       ),
       body: WillPopScope(
         onWillPop: () async {
-          Navigator.pushNamed(context,'PlannerHome');
+          Navigator.pushNamed(context, 'PlannerHome');
 
           return false;
         },
