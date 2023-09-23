@@ -124,13 +124,13 @@ class BudgetTasks extends EventTasks {
   String actualBudget;
 
   BudgetTasks({
-    required taskKey,
-    required taskName,
-    required vendorName,
-    required budget,
-    required categoryName,
-    required this.actualBudget,
     required this.budgetKey,
+    required taskKey,
+     required taskName,
+    required this.actualBudget,
+    required budget,
+    required vendorName,
+    required categoryName,
   }) : super(
           eventKey: '',
           eventName: '',

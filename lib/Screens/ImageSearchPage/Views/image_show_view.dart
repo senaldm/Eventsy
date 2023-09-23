@@ -4,30 +4,55 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-
 import '../Controller/image_search_ui_controller.dart';
 import '../Views/image_details_show.dart';
-// ignore: duplicate_import
 import '../Service/api_service.dart';
+import 'package:connectivity/connectivity.dart';
 
 // ignore: must_be_immutable
-class ImageShowView extends StatelessWidget {
-   bool shouldShowImages;
-
+class ImageShowView extends StatefulWidget {
+  bool shouldShowImages;
   ImageShowView({
     Key? key,
-    this.shouldShowImages = true,
+    required this.shouldShowImages,
   }) : super(key: key);
 
+  @override
+  _ImageShowViewState createState() => _ImageShowViewState(shouldShowImages);
+}
+
+class _ImageShowViewState extends State<ImageShowView> {
+  bool hasInternet = true;
+  bool shouldShowImages = true; // Initialize it to true
+  late bool initialLoad = true;
+  _ImageShowViewState(this.shouldShowImages);
   SimpleUIController homeController = Get.put(SimpleUIController());
+
+  @override
+  void initState() {
+    super.initState();
+    checkInternetConnectivity();
+  }
+
+  Future<void> checkInternetConnectivity() async {
+  var connectivityResult = await Connectivity().checkConnectivity();
+  setState(() {
+    hasInternet = connectivityResult != ConnectivityResult.none;
+    if (hasInternet) {
+      shouldShowImages = true; // Set shouldShowImages to true when there's internet.
+    }
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
     ApiService().getMethod(
-        "https://api.unsplash.com/photos/?per_page=3000&order_by=latest&client_id=mZWpG8t2oknfFn6q6pxu5Ry92G1jxkML_Z_YFPTcBOY",
-        headers: {});
+      "https://api.unsplash.com/photos/?per_page=3000&order_by=latest&client_id=mZWpG8t2oknfFn6q6pxu5Ry92G1jxkML_Z_YFPTcBOY",
+      headers: {},
+    );
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.blueGrey.shade900,
@@ -61,6 +86,28 @@ class ImageShowView extends StatelessWidget {
                     Expanded(
                       flex: 13,
                       child: Obx(() {
+                        if (!hasInternet) {
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/Images/ImageSearch/no_internet.png',
+                                  width: 200,
+                                  height: 200,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "No internet connection.",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
                         if (homeController.isLoading.value) {
                           shouldShowImages = true;
                           return Center(
@@ -76,15 +123,17 @@ class ImageShowView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  'assets/Images/ImageSearch/6684393.jpg', // Replace with the actual image path
-                                  width: 100, // Adjust the width as needed
-                                  height: 100, // Adjust the height as needed
+                                  'assets/Images/ImageSearch/6684393.jpg',
+                                  width: 100,
+                                  height: 100,
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
                                   "No images available.",
                                   style: TextStyle(
-                                      fontSize: 20, color: Colors.white),
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ],
                             ),
@@ -186,7 +235,9 @@ class ImageShowView extends StatelessWidget {
                                       Text(
                                         "Please Search images as You Want.",
                                         style: TextStyle(
-                                            fontSize: 20, color: Colors.white),
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -243,9 +294,10 @@ class MyAppBar extends StatelessWidget {
                   "What would you like\n to Find?",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
                 Container(
                   margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
@@ -260,21 +312,24 @@ class MyAppBar extends StatelessWidget {
                       homeController.searchPhotos();
                     },
                     decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color.fromARGB(255, 228, 228, 228),
-                        contentPadding: const EdgeInsets.only(top: 5),
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          size: 20,
-                          color: Color.fromARGB(255, 146, 146, 146),
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide.none),
-                        hintText: "Search",
-                        hintStyle: const TextStyle(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 131, 131, 131))),
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 228, 228, 228),
+                      contentPadding: const EdgeInsets.only(top: 5),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        size: 20,
+                        color: Color.fromARGB(255, 146, 146, 146),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: "Search",
+                      hintStyle: const TextStyle(
+                        fontSize: 14,
+                        color: Color.fromARGB(255, 131, 131, 131),
+                      ),
+                    ),
                   ),
                 ),
               ],

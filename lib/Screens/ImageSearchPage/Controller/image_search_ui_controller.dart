@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 
 import '../Model/image_model.dart';
 import '../Service/api_service.dart';
+import 'package:connectivity/connectivity.dart'; 
 
 class SimpleUIController extends GetxController {
+  
   RxList<PhotosModel> photos = RxList();
   RxBool isLoading = true.obs;
   RxString orderBy = "latest".obs;
@@ -85,8 +87,19 @@ class SimpleUIController extends GetxController {
   ];
 
   String searchQuery = "";
+Future<bool> checkInternetConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    return connectivityResult != ConnectivityResult.none;
+  }
+  Future <void> searchPhotos() async {
+     bool hasInternet = await checkInternetConnectivity(); // Check for internet connectivity
 
-  searchPhotos() {
+    if (!hasInternet) {
+      // Handle no internet connection (e.g., show an error message)
+      photos.clear();
+      isLoading.value = false;
+      return;
+    }
     if (searchQuery.isNotEmpty) {
       // Check if the search query contains any valid keywords
       List<String> searchWords = searchQuery.toLowerCase().split(' ');

@@ -225,7 +225,7 @@ class FirstPage extends StatelessWidget {
 
             ///Image Search  ///
            
-          'ImageShowView': (context) => (ImageShowView()),
+'ImageShowView': (context) => ImageShowView(shouldShowImages: true),
 
           
 

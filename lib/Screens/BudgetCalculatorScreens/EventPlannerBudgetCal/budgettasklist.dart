@@ -34,7 +34,6 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
   Box<EventTasks>? eventTaskBox;
   Box<BudgetTasks>? budgetTaskBox;
   List<EventTasks> tasks = [];
-  List<EventTasks> originalTasks = [];
   List<BudgetTasks> budgetTaskList = [];
   late String time;
   final actualbudgetController = TextEditingController();
@@ -93,7 +92,6 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
       });
       setState(() {
         tasks = newTasks;
-        originalTasks = newTasks.toList();
       });
     } else {
       setState(() {
@@ -110,12 +108,63 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
     super.dispose();
   }
 
-  bool doesActualBudgetExist(EventTasks task) {
+  bool doesActualBudgetExist(BudgetTasks task) {
     // Check if actual budget is not null and not empty
     return task.actualBudget != null && task.actualBudget.isNotEmpty;
   }
 
-  void _showBudgetPopup(EventTasks budgettask) {
+  void _showWarningPopup() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Warning"),
+          content: Text(
+              "Actual budget already added for this task. Do you want to update it?"),
+          actions: [
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.of(context).pop(); // Close the warning popup
+
+                // Navigate to the update page here
+                // You can pass the taskKey or any other necessary data to the update page
+              },
+              child: Text("Yes"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the warning popup
+              },
+              child: Text("No"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<bool> doesActualBudgetExistInPhysicalStorage(EventTasks task) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/budgetTask.txt');
+    final exists = await file.exists();
+
+    if (!exists) {
+      return false; // File doesn't exist, so actual budget can't exist either
+    }
+
+    final lines = await file.readAsLines();
+    final taskKey = task.taskKey;
+
+    return lines.any((line) {
+      final taskData = line.split(',');
+      final storedTaskKey = taskData[1]; // Assuming taskKey is at index 1
+
+      return taskKey == storedTaskKey &&
+          taskData[3].isNotEmpty; // Index 3 is for actualBudget
+    });
+  }
+
+   void _showBudgetPopup(EventTasks budgettask) {
     bool hasActualBudget =
         budgettask.actualBudget != null && budgettask.actualBudget.isNotEmpty;
 
@@ -199,6 +248,7 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
       },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -365,13 +415,13 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
     String budgetKey = Uuid().v4();
 
     final budgetTask = BudgetTasks(
+      budgetKey: budgetKey,
       taskKey: taskKey,
       taskName: taskName,
+      actualBudget: actualBudget,
+      budget: budget,
       categoryName: categoryName,
       vendorName: vendorName,
-      budget: budget,
-      budgetKey: budgetKey,
-      actualBudget: actualBudget,
     );
 
     print(
@@ -397,7 +447,7 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
     final formattedTimestamp = budgetTasks.taskTimestamp.toIso8601String();
 
     final budgetData =
-        '${budgetTasks.eventKey},${budgetTasks.eventName},${budgetTasks.taskKey},${budgetTasks.categoryName},${budgetTasks.taskName},${budgetTasks.vendorName},${budgetTasks.budget},${budgetTasks.isComplete},${budgetTasks.actualBudget},${budgetTasks.budgetKey},$formattedTimestamp\n';
+        '${budgetTasks.budgetKey},${budgetTasks.taskKey},${budgetTasks.taskName},${budgetTasks.actualBudget},${budgetTasks.budget},${budgetTasks.vendorName},${budgetTasks.categoryName},$formattedTimestamp\n';
     await file.writeAsString(budgetData, mode: FileMode.append);
   }
 }

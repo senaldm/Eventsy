@@ -194,13 +194,13 @@ class BudgetTasksAdapter extends TypeAdapter<BudgetTasks> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return BudgetTasks(
+      budgetKey: fields[14] as String,
       taskKey: fields[7] as dynamic,
       taskName: fields[8] as dynamic,
-      vendorName: fields[9] as dynamic,
-      budget: fields[12] as dynamic,
-      categoryName: fields[11] as dynamic,
       actualBudget: fields[15] as String,
-      budgetKey: fields[14] as String,
+      budget: fields[12] as dynamic,
+      vendorName: fields[9] as dynamic,
+      categoryName: fields[11] as dynamic,
     )
       ..isComplete = fields[10] as bool
       ..taskTimestamp = fields[13] as DateTime

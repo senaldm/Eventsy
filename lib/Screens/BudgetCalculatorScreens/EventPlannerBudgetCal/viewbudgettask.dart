@@ -31,7 +31,7 @@ class ViewBudgetTasks extends StatelessWidget with DeleteTask {
             actions: [
               IconButton(
                 onPressed: () {
-                  DeleteTask.deleteTask(budget.taskKey);
+                  DeleteTask.deleteTask(budget.budgetKey);
 
                   Navigator.popUntil(
                       context, ModalRoute.withName('BudgetAddedList'));
