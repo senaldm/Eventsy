@@ -332,9 +332,9 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
                                 onTap: () async {
                                   Navigator.pushNamed(context, 'BudgetTaskList',
                                       arguments: event);
-                                  setState(() {
-                                    retrieveData();
-                                  });
+                                  // setState(() {
+                                  //   retrieveData();
+                                  // });
                                 },
                                 onLongPress: () async {
                                   // final updatedEvent = editOrDelete(event.eventKey);

@@ -50,15 +50,15 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
       lines.forEach((line) {
         final budgetData = line.split(',');
         final budgettask = BudgetTasks(
-          taskKey: budgetData[0],
-          taskName: budgetData[1],
-          actualBudget: budgetData[2],
-          budgetKey: budgetData[3],
-          budget: budgetData[4],
-          categoryName: budgetData[5],
-          vendorName: budgetData[6],
+          taskKey: budgetData[2],
+          taskName: budgetData[4],
+          actualBudget: budgetData[8],
+          budgetKey: budgetData[9],
+          budget: budgetData[6],
+          categoryName: budgetData[3],
+          vendorName: budgetData[5],
         );
-
+        
         newTasks.add(budgettask);
       });
 
@@ -387,7 +387,7 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
                     fontWeight: FontWeight.bold,
                   )),
             ),
-            actions: [],
+           
           ),
         ),
         body: budgetTasks.isEmpty
@@ -419,9 +419,9 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
                 child: ListView.builder(
                   padding: EdgeInsetsDirectional.zero,
                   shrinkWrap: false,
-                  itemCount: budgetList.length,
+                  itemCount: originalBudgetTasks.length,
                   itemBuilder: (context, index) {
-                    final budget = budgetList[index];
+                    final budget = originalBudgetTasks[index];
 
                     return SizedBox(
                       height: 70.0,
@@ -458,8 +458,8 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
                                 ),
                                 textColor: Colors.white,
                                 onTap: () async {
-                                    Navigator.pushNamed(context, 'VeiwBudgetTask',
-                                        arguments: budget);
+                                  Navigator.pushNamed(context, 'VeiwBudgetTask',
+                                      arguments: budget);
 
                                   // setState(() {
                                   //   retrieveData();

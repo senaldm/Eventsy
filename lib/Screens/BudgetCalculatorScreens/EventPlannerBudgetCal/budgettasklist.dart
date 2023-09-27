@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:eventsy/Screens/Task/User/userDashboard/vendor/vendor.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
@@ -10,8 +9,6 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../../global.dart';
 
 class BudgetTaskList extends StatefulWidget {
   final Event budget;
@@ -94,6 +91,11 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
       setState(() {
         tasks = newTasks;
         originalTasks = newTasks.toList();
+        if (tasks.isEmpty) {
+          print('Task is empty.');
+        } else {
+          print('task in not empty');
+        }
       });
     } else {
       setState(() {
@@ -343,7 +345,8 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
       actualBudget: actualBudget,
     );
 
-    print("Adding Budget Task: $budgetTask"); // Add this line to print the task being added
+    print(
+        "Adding Budget Task: $budgetTask"); // Add this line to print the task being added
 
     // Store the task in Hive
     await budgetTaskBox!.put(budgetKey, budgetTask);
@@ -351,10 +354,11 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
 
     budgetTaskList.add(budgetTask);
     actualbudgetController.clear();
-}
+  }
 
   Future<void> storeEventTask(BudgetTasks budgetTasks) async {
     final directory = await getApplicationDocumentsDirectory();
+    try{
     final file = File('${directory.path}/budgetTask.txt');
     final exists = await file.exists();
 
@@ -366,6 +370,14 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
 
     final budgetData =
         '${budgetTasks.eventKey},${budgetTasks.eventName},${budgetTasks.taskKey},${budgetTasks.categoryName},${budgetTasks.taskName},${budgetTasks.vendorName},${budgetTasks.budget},${budgetTasks.isComplete},${budgetTasks.actualBudget},${budgetTasks.budgetKey},$formattedTimestamp\n';
-    await file.writeAsString(budgetData, mode: FileMode.append);
+     await file.writeAsString(budgetData, mode: FileMode.append);
+   
+      print('store successfully');
+    }
+    catch (e)
+    {
+      print('got error');
+    }
+    
   }
 }

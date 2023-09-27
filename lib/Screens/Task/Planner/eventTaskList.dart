@@ -39,7 +39,6 @@ class _EventTaskListState extends State<EventTaskList> {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
     eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
-
   }
 
   Future<void> retrieveData(String eventKey) async {
@@ -72,6 +71,7 @@ class _EventTaskListState extends State<EventTaskList> {
           time = DateFormat('yyyy-MM-dd').format(task.taskTimestamp).toString();
 
           if (task.eventKey == eventKey) {
+            print(task.taskName);
             tasks.add(task);
             newTasks.add(task);
           }
@@ -504,8 +504,9 @@ class _EventTaskListState extends State<EventTaskList> {
                                       Navigator.pushNamed(
                                           context, '/viewEventTask',
                                           arguments: {
-                                            'task':task,
-                                            'event':event});
+                                            'task': task,
+                                            'event': event
+                                          });
                                       // setState(() {
                                       //   retrieveData();
                                       // });
