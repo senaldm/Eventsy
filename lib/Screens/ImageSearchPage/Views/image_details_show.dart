@@ -5,7 +5,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../Controller/image_search_ui_controller.dart';
 
 class DetailView extends StatelessWidget {
-  DetailView({Key? key, required this.index}) : super(key: key);
+  DetailView({Key? key, required this.index, required SimpleUIController homeController}) : super(key: key);
   final int index;
 
   SimpleUIController homeController = Get.find<SimpleUIController>();
