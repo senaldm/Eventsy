@@ -328,25 +328,26 @@ class _BugetAddingEventListState extends State<BugetAddingEventList> {
                                   leading: Text(
                                     event.eventName,
 
-                                    //  "${event.timestamp?.minute?.toString()}",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                  textColor: Colors.white,
-                                  trailing: Text(
-                                    time,
-                                  ),
-                                  onTap: () async {
-                                    Navigator.pushNamed(
-                                        context, 'BudgetTaskList',
-                                        arguments: event);
-                                    setState(() {
-                                      retrieveData();
-                                    });
-                                  },
-                                  onLongPress: () async {
-                                    // final updatedEvent = editOrDelete(event.eventKey);
-                                    // if (updatedEvent != null) {
+
+                                  //  "${event.timestamp?.minute?.toString()}",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontSize: 20.0),
+                                ),
+                                textColor: Colors.white,
+                                trailing: Text(
+                                  time,
+                                ),
+                                onTap: () async {
+                                  Navigator.pushNamed(context, 'BudgetTaskList',
+                                      arguments: event);
+                                  // setState(() {
+                                  //   retrieveData();
+                                  // });
+                                },
+                                onLongPress: () async {
+                                  // final updatedEvent = editOrDelete(event.eventKey);
+                                  // if (updatedEvent != null) {
+
 
                                     //   setState(() {
                                     //     retrieveData();

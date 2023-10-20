@@ -10,7 +10,8 @@ import 'package:sliding_switch/sliding_switch.dart';
 
 class UpdateEventTask extends StatefulWidget {
   final EventTasks task;
-  const UpdateEventTask({required this.task});
+  final Event event;
+  const UpdateEventTask({required this.task, required this.event});
 
   @override
   _UpdateEventTaskState createState() => _UpdateEventTaskState();
@@ -32,7 +33,9 @@ class _UpdateEventTaskState extends State<UpdateEventTask> {
   final String label = "Task Completed/Incompleted";
   late bool isSwitchOn;
   late String categoryName;
+
   late EventTasks currentTask;
+  late Event currentEvent;
   // final bool value = false;
   final bool onChanged = true;
   final _formKey = GlobalKey<FormState>();
@@ -46,6 +49,7 @@ class _UpdateEventTaskState extends State<UpdateEventTask> {
   void initState() {
     super.initState();
     currentTask = widget.task;
+    currentEvent = widget.event;
     openHiveBox();
     currentTask.taskName.isEmpty
         ? currentTask.taskName = " "
@@ -65,7 +69,7 @@ class _UpdateEventTaskState extends State<UpdateEventTask> {
     taskKey = currentTask.taskKey;
     eventKey = currentTask.eventKey;
     eventName = currentTask.eventName;
-    taskTimestamp=currentTask.taskTimestamp;
+    taskTimestamp = currentTask.taskTimestamp;
     timestamp = currentTask.timestamp?.toIso8601String() ?? '';
   }
 
@@ -114,7 +118,10 @@ class _UpdateEventTaskState extends State<UpdateEventTask> {
             body: WillPopScope(
               onWillPop: () async {
                 await Navigator.pushNamed(context, '/viewEventTask',
-                    arguments: currentTask);
+                    arguments: {
+                      'task': currentTask,
+                      'event': currentEvent,
+                    });
                 return false;
               },
               child: Container(
@@ -377,8 +384,12 @@ class _UpdateEventTaskState extends State<UpdateEventTask> {
 
                             //trying to view the updated the task
 
-                            Navigator.pushNamed(context, '/viewEventTask',
-                                arguments: currentTask);
+                            await Navigator.pushNamed(context, '/viewEventTask',
+                                arguments: {
+                                  'task': currentTask,
+                                  'event': currentEvent,
+                                });
+
                             // Navigator.pushNamed(context, 'TaskList');
                           }
                         },
@@ -443,6 +454,7 @@ class _UpdateEventTaskState extends State<UpdateEventTask> {
       setState(() {
         currentTask = task;
       });
+
       await updateEventTaskInLocal(task);
       // }
       // Clear form data
@@ -455,7 +467,7 @@ class _UpdateEventTaskState extends State<UpdateEventTask> {
 
   Future<void> updateEventTaskInLocal(EventTasks task) async {
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/tasks.txt');
+    final file = File('${directory.path}/eventTasks.txt');
     final exists = await file.exists();
 
     if (!exists) {
@@ -467,17 +479,21 @@ class _UpdateEventTaskState extends State<UpdateEventTask> {
 
     for (final line in lines) {
       final taskData = line.split(',');
+
       if (taskData[0] == task.taskKey) {
         // Replace the line with the updated task data
+
         final formattedTimestamp = task.timestamp?.toIso8601String() ?? '';
+
         final updatedTaskData =
-            '${task.taskKey},${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},$formattedTimestamp';
+            '${task.eventKey},${task.eventName},${task.taskKey},${task.categoryName},${task.taskName},${task.vendorName},${task.budget},${task.isComplete},$formattedTimestamp';
         updatedLines.add(updatedTaskData);
       } else {
         // Add other tasks as they are
         updatedLines.add(line);
       }
     }
+
     await file.writeAsString(updatedLines.join('\n'));
   }
 }

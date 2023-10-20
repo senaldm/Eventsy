@@ -155,8 +155,7 @@ class FirstPage extends StatelessWidget {
           '/viewTask': (context) => ViewTask(
               task: ModalRoute.of(context)!.settings.arguments as Task),
 
-          '/userDashboard': (context) => UserDashboard(),
-          '/userSettings': (context) => userSettings(),
+
 
           '/updateTask': (context) => UpdateTask(
               task: ModalRoute.of(context)!.settings.arguments as Task),
@@ -166,8 +165,16 @@ class FirstPage extends StatelessWidget {
           'PlannerHome': (context) => PlannerTaskHome(),
           '/updateEvent': (context) => UpdateEvent(
               event: ModalRoute.of(context)!.settings.arguments as Event),
-          '/updateEventTask': (context) => UpdateEventTask(
-              task: ModalRoute.of(context)!.settings.arguments as EventTasks),
+         '/updateEventTask': (context) {
+            final Map<String, dynamic> arguments = ModalRoute.of(context)
+                ?.settings
+                .arguments as Map<String, dynamic>;
+            return UpdateEventTask(
+              task: arguments['task'],
+              event: arguments['event'],
+            );
+          },
+
           '/eventTaskList': (context) => EventTaskList(
               event: ModalRoute.of(context)!.settings.arguments as Event),
           '/PlannersPage': (context) => const SplashScreen(),
