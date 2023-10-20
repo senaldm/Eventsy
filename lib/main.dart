@@ -41,6 +41,7 @@ import 'Screens/LoginandSignUpScreens/logoutscreen.dart';
 import 'Screens/LoginandSignupScreens/signupoptionpage.dart';
 import 'Screens/LoginandSignupScreens/signup.dart';
 import 'Screens/LoginandSignUpScreens/loginpage.dart';
+import 'Screens/LoginandSignUpScreens/resetpassword.dart';
 
 import 'Screens/Task/User/AddTask.dart';
 
@@ -206,7 +207,7 @@ class FirstPage extends StatelessWidget {
           './SignUpPage': (context) => SignUpPage(),
           './SignUpOptionPage': (context) => SignUpOptionPage(),
           './LogOutScreen': (context) => LogOutScreen(),
-
+           './forgetpasswordPage':(context) => ResetPassword(),
           //////////budget calculator screens////////////////
           'BudgetAddingEventList': (context) => BugetAddingEventList(),
           // 'EventselectionPage': (context) => EventSelectionPage(),
