@@ -1,13 +1,37 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:connectivity/connectivity.dart';
 
 Future<void> signInWithGoogle(BuildContext context) async {
+  final result = await Connectivity().checkConnectivity();
+  bool isOnline = result != ConnectivityResult.none;
+
+  if (!isOnline) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'No Internet Connection. Check Your Internet Connection!!!',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w100,
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: Colors.red, // Red background
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+    return;
+  }
+
   try {
     GoogleSignInAccount? googleUser = await GoogleSignIn(
             clientId:
                 '667846412743-tpv39oigkelhj265fup5mcq69so73ntj.apps.googleusercontent.com')
         .signIn();
+
     if (googleUser != null) {
       GoogleSignInAuthentication? googleAuth = await googleUser.authentication;
       if (googleAuth != null) {

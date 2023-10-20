@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/budgetaddedlist.dart';
+import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/updatebudgettask.dart';
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/viewbudgettask.dart';
 import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
 import 'package:eventsy/Screens/Task/User/viewTask.dart';
@@ -220,13 +221,20 @@ class FirstPage extends StatelessWidget {
             return BudgedAddedList(budgetList: budgetList);
           },
 
-          'VeiwBudgetTask': (context) => ViewBudgetTasks(
+          'ViewBudgetTask': (context) => ViewBudgetTasks(
               budget:
                   ModalRoute.of(context)!.settings.arguments as BudgetTasks),
-          'ImageShowView': (context) => (ImageShowView()),
 
-          // './NormalBudgetOptionPage': (context) => NormalBudgetOptionPage(),
-          // './AdvanceBudgetOptionPage': (context) => AdvanceBudgetOptionPage(),
+            'UpdateBudgetTask':(context) => UpdateBudgetTasks( task: ModalRoute.of(context)!.settings.arguments as BudgetTasks),
+
+
+
+
+            ///Image Search  ///
+           
+'ImageShowView': (context) => ImageShowView(shouldShowImages: true),
+
+          
 
           /////SETTINGS///
           'ProfileSettingsPage': (context) => ProfileSettingsPage(),

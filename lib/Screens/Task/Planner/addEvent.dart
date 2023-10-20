@@ -60,6 +60,9 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   Widget build(BuildContext context) {
+    final String? source =
+        ModalRoute.of(context)?.settings.arguments as String?;
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -128,7 +131,6 @@ class _AddEventState extends State<AddEvent> {
                                 }
                                 return null;
                               },
-
                               decoration: InputDecoration(
                                 border: UnderlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0)),
@@ -288,14 +290,81 @@ class _AddEventState extends State<AddEvent> {
               ),
             ),
             bottomNavigationBar: BottomAppBar(
-                color: Color.fromARGB(255, 18, 140, 126),
-                height: 90,
-                child: Center(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
+              color: Color.fromARGB(255, 18, 140, 126),
+              height: 90,
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    if (source == 'fromBugetAddingEventList' &&
+                        _formKey.currentState?.validate() == true) ...[
+                      FloatingActionButton.extended(
+                        onPressed: () async {
+                          final confirmed = await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Confirmation'),
+                                content: Text(
+                                    'Are you sure you want to add this event?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(true); // Yes, return true
+                                    },
+                                    child: Text('Yes'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(false); // No, return false
+                                    },
+                                    child: Text('No'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+
+                          if (confirmed == true) {
+                            await addEvent(
+                              eventDate,
+                              eventNameController.text,
+                              venueController.text,
+                              noteController.text,
+                              isSwitchOn,
+                            );
+                            Navigator.pop(context);
+                            // Go back to the previous page after saving
+                          }
+                        },
+                        backgroundColor: Colors.blueGrey.shade900,
+                        label: Text(
+                          ' Save ',
+                          style: TextStyle(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                      FloatingActionButton.extended(
+                        heroTag: Text('cancel'),
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'BudgetAddingEventList');
+                        },
+                        backgroundColor: Colors.blueGrey.shade900,
+                        label: Text(
+                          'Cancel',
+                          style: TextStyle(
+                              fontSize: 15.0,
+                              // fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ] else ...[
                       FloatingActionButton.extended(
                         heroTag: Text('cancel'),
                         onPressed: () {
@@ -321,6 +390,7 @@ class _AddEventState extends State<AddEvent> {
                               noteController.text,
                               isSwitchOn,
                             );
+                            // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           }
                         },
@@ -333,9 +403,11 @@ class _AddEventState extends State<AddEvent> {
                               color: Colors.white),
                         ),
                       ),
-                    ],
-                  ),
-                ))));
+                    ]
+                  ],
+                ),
+              ),
+            )));
   }
 
   void doNothing() {}
@@ -353,8 +425,6 @@ class _AddEventState extends State<AddEvent> {
 
   addEvent(DateTime eventDate, String eventName, String venue, String note,
       bool isSwitchOn) async {
-
-
     eventBox = await Hive.openBox<Event>('event');
 
     if (_formKey.currentState!.validate()) {
@@ -401,6 +471,5 @@ class _AddEventState extends State<AddEvent> {
     final eventData =
         '${event.eventKey},${event.eventName},$formatedEventDate,${event.note},${event.venue},${event.isEventComplete},$formattedTimestamp\n';
     await file.writeAsString(eventData, mode: FileMode.append);
-  
   }
 }
