@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:hive/hive.dart';
 // import 'package:hive_annotation/hive_annotation.dart';
 part 'Event.g.dart';
@@ -131,6 +131,11 @@ class BudgetTasks extends EventTasks {
     required budget,
     required vendorName,
     required categoryName,
+
+    required this.actualBudget,
+    required this.budgetKey,
+
+
   }) : super(
           eventKey: '',
           eventName: '',

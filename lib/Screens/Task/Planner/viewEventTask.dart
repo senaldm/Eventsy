@@ -36,7 +36,7 @@ class ViewEventTask extends StatelessWidget with DeleteTask {
                 onPressed: () {
                   DeleteTask.deleteTask(task.taskKey);
 
-                  Navigator.pushNamed(context, '/eventTaskList');
+                  Navigator.pushNamed(context, '/eventTaskList',arguments: event);
                 },
                 icon: Icon(Icons.delete),
               ),
@@ -44,7 +44,9 @@ class ViewEventTask extends StatelessWidget with DeleteTask {
                 onPressed: () async {
                   final updatedTask = await Navigator.pushNamed(
                       context, '/updateEventTask',
-                      arguments: task);
+                      arguments: {
+                        'task':task,
+                        'event':event});
                   Navigator.pop(context, updatedTask);
                 },
                 icon: Icon(Icons.edit),
@@ -53,10 +55,10 @@ class ViewEventTask extends StatelessWidget with DeleteTask {
           ),
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.zero,
           child: WillPopScope(
             onWillPop: () async {
-              await Navigator.pushNamed(context, '/eventTaskList');
+              await Navigator.pushNamed(context, '/eventTaskList',
+                  arguments: event);
               return false;
             },
             child: Container(
@@ -137,6 +139,7 @@ class ViewEventTask extends StatelessWidget with DeleteTask {
                           onPressed: () {
                             Navigator.pushNamed(context, '/eventTaskList',
                                 arguments: event);
+                                
                           },
                           child: Text('Ok'),
                         ),

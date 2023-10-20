@@ -9,7 +9,7 @@ class CurrentPlanner {
 
     currentId currentuser = currentId();
     int id = currentuser.currentUserId;
-    String url = "http://127.0.0.1:8000/api/getCurrentPlanner/$id";
+    String url = "https://nice-williams.34-81-183-3.plesk.page/getCurrentPlanner/$id";
 
 
     try {

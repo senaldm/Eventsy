@@ -9,7 +9,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sliding_switch/sliding_switch.dart';
 
 class UpdateTask extends StatefulWidget {
-
   final Task task;
   const UpdateTask({required this.task});
 
@@ -45,9 +44,15 @@ class _UpdateTaskState extends State<UpdateTask> {
     super.initState();
     currentTask = widget.task;
     openHiveBox();
-  currentTask.taskName.isEmpty?currentTask.taskName=" ":currentTask.taskName;
-  currentTask.vendorName.isEmpty? currentTask.vendorName = " ": currentTask.vendorName;
-   currentTask.categoryName.isEmpty?currentTask.categoryName ="Decoration":currentTask.categoryName;
+    currentTask.taskName.isEmpty
+        ? currentTask.taskName = " "
+        : currentTask.taskName;
+    currentTask.vendorName.isEmpty
+        ? currentTask.vendorName = " "
+        : currentTask.vendorName;
+    currentTask.categoryName.isEmpty
+        ? currentTask.categoryName = "Decoration"
+        : currentTask.categoryName;
 
     taskController.text = currentTask.taskName;
     vendorController.text = currentTask.vendorName;
@@ -56,7 +61,6 @@ class _UpdateTaskState extends State<UpdateTask> {
     isSwitchOn = currentTask.isComplete;
     taskKey = currentTask.taskKey;
     timestamp = currentTask.timestamp?.toIso8601String() ?? '';
-    
   }
 
   Future<void> openHiveBox() async {
@@ -102,9 +106,9 @@ class _UpdateTaskState extends State<UpdateTask> {
               ),
             ),
             body: WillPopScope(
-
-               onWillPop: () async {
-                await Navigator.pushNamed(context, '/viewTask',arguments: currentTask);
+              onWillPop: () async {
+                await Navigator.pushNamed(context, '/viewTask',
+                    arguments: currentTask);
                 return false;
               },
               child: Container(
@@ -125,7 +129,7 @@ class _UpdateTaskState extends State<UpdateTask> {
                               borderRadius: BorderRadius.circular(10.0)),
                           margin: EdgeInsets.only(
                               left: width * 0.15, right: width * 0.15),
-            
+
                           borderOnForeground: false,
                           // child:SingleChildScrollView(
                           child: DropdownButtonFormField<String>(
@@ -136,7 +140,7 @@ class _UpdateTaskState extends State<UpdateTask> {
                               });
                             },
                             items: <String>[
-                             'Decoration',
+                              'Decoration',
                               'Food and Beverages',
                               'Option 3',
                               'Option 4',
@@ -193,11 +197,11 @@ class _UpdateTaskState extends State<UpdateTask> {
                             dropdownColor: Colors.blueGrey.shade900,
                           ),
                         ),
-            
+
                         SizedBox(
                           height: width * 0.05,
                         ),
-            
+
                         SizedBox(
                           height: width * 0.05,
                         ),
@@ -244,11 +248,11 @@ class _UpdateTaskState extends State<UpdateTask> {
                             tag: 'vendorName',
                             child: TextField(
                               controller: vendorController,
-            
                               decoration: InputDecoration(
                                 border: UnderlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0)),
-                                prefixIcon: Icon(Icons.business_center_outlined),
+                                prefixIcon:
+                                    Icon(Icons.business_center_outlined),
                                 hintText: 'Vendor Name',
                               ),
                             ),
@@ -267,7 +271,6 @@ class _UpdateTaskState extends State<UpdateTask> {
                             tag: 'budget',
                             child: TextField(
                               controller: budgetController,
-            
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 border: UnderlineInputBorder(
@@ -370,7 +373,9 @@ class _UpdateTaskState extends State<UpdateTask> {
 
                             Navigator.pushNamed(context, '/viewTask',
                                 arguments: currentTask);
-                            // Navigator.pushNamed(context, 'TaskList');
+                            print(
+                                taskController
+                                .text); // Navigator.pushNamed(context, 'TaskList');
                           }
                         },
                         backgroundColor: Colors.blueGrey.shade900,
@@ -432,11 +437,12 @@ class _UpdateTaskState extends State<UpdateTask> {
       setState(() {
         currentTask = task;
       });
+     
       await updateTaskInLocal(task);
       // }
       // Clear form data
       // categoryController.clear();
-      taskController.clear();
+       taskController.clear();
       vendorController.clear();
       budgetController.clear();
     }
