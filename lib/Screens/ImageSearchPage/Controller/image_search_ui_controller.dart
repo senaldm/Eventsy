@@ -168,4 +168,9 @@ Future<bool> checkInternetConnectivity() async {
     getPictureData();
     super.onInit();
   }
+
+  Future<void> refreshData() async {
+    // Implement your data refresh logic here.
+    await searchPhotos();
+  }
 }

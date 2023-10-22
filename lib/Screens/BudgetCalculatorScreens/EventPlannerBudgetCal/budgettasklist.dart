@@ -164,7 +164,7 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
     });
   }
 
-   void _showBudgetPopup(EventTasks budgettask) {
+  void _showBudgetPopup(EventTasks budgettask) {
     bool hasActualBudget =
         budgettask.actualBudget != null && budgettask.actualBudget.isNotEmpty;
 
@@ -177,78 +177,104 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
     budget = budgettask.budget;
 
     taskKey = Uuid().v4();
+     if (budgetTaskList.any((existingTask) => existingTask.budgetKey == budgettask.taskKey)) {
+    // Display a warning dialog or take any other action to inform the user
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Center(child: Text( "Add Budget", style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),)),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 10),
-              TextField(
-                controller: actualbudgetController,
-                decoration: InputDecoration(labelText: "Actual Budget",contentPadding: EdgeInsets.only(left:50)),
-                onChanged: (value) {
-                  setState(() {
-                    actualBudget =
-                        value; // Update actualBudget as the user types
-                  });
-                },
-                keyboardType: TextInputType.number,
-              ),
-            ],
-          ),
+          title: Text("Warning"),
+          content: Text("A budget already exists for this task."),
           actions: [
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                      left:
-                          30), // Adjust the right margin to control the space
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 18, 140, 126),
-                    ),
-                    onPressed: () async {
-                      // Call addBudgetTask to add/update the task in budgetTaskBox
-                      addBudgetTask(
-                        categoryName,
-                        taskName,
-                        vendorName,
-                        budget,
-                        actualBudget,
-                        taskKey,
-                      );
-                      Navigator.of(context).pop();
-                      setState(() {}); // Close the popup
-                    },
-                    child: Text("Save"),
-                  ),
-                ),
-                Padding(padding:EdgeInsets.only(left: 60)),
-                ElevatedButton(
-                
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 18, 140, 126),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the popup
-                  },
-                  child: Text("Cancel"),
-                ),
-              ],
-            )
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the warning popup
+              },
+              child: Text("OK"),
+            ),
           ],
         );
       },
     );
+  } 
+      else{
+        showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Center(
+                child: Text(
+              "Add Budget",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            )),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 10),
+                TextField(
+                  controller: actualbudgetController,
+                  decoration: InputDecoration(
+                      labelText: "Actual Budget",
+                      contentPadding: EdgeInsets.only(left: 50)),
+                  onChanged: (value) {
+                    setState(() {
+                      actualBudget =
+                          value; // Update actualBudget as the user types
+                    });
+                  },
+                  keyboardType: TextInputType.number,
+                ),
+              ],
+            ),
+            actions: [
+              Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                        left:
+                            30), // Adjust the right margin to control the space
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 18, 140, 126),
+                      ),
+                      onPressed: () async {
+                        // Call addBudgetTask to add/update the task in budgetTaskBox
+                        addBudgetTask(
+                          categoryName,
+                          taskName,
+                          vendorName,
+                          budget,
+                          actualBudget,
+                          taskKey,
+                        );
+                        Navigator.of(context).pop();
+                        setState(() {}); // Close the popup
+                      },
+                      child: Text("Save"),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(left: 60)),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 18, 140, 126),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the popup
+                    },
+                    child: Text("Cancel"),
+                  ),
+                ],
+              )
+            ],
+          );
+        },
+      );
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -368,7 +394,7 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
                                                 ? Colors
                                                     .green // Icon color for tasks with a budget
                                                 : Colors
-                                                    .grey, // Default icon color
+                                                    .green, // Default icon color
                                           ),
                                           onPressed: () {
                                             // Show the budget popup when the icon is tapped

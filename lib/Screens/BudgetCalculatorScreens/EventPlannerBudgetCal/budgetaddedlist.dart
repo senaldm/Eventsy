@@ -34,13 +34,13 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
     budgetTaskBox = await Hive.openBox<BudgetTasks>('budgettask');
   }
 
-  Future<void> retrieveData(String budgetKey) async {
+  Future<void> retrieveData() async {
     // Retrieve data from eventTaskBox
     budgetTasks = budgetTaskBox?.values
             .where((budgetTask) => budgetTask.budgetKey == budgetKey)
             .toList() ??
         [];
-  
+
     // Retrieve data from local storage
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/budgetTask.txt');
@@ -58,7 +58,6 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
           vendorName: budgetData[5],
           categoryName: budgetData[6],
         );
-   
 
         newTasks.add(budgettask);
       });
@@ -73,18 +72,13 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
       });
     }
     print("Retrieved Budget Tasks: $budgetTasks");
-
   }
 
   @override
   void initState() {
     super.initState();
-    // Make sure that budgetKey is correctly passed or fetched
-    budgetKey =
-        widget.budgetList.isNotEmpty ? widget.budgetList[0].budgetKey : '';
-    budgetlist = widget.budgetList;
     openHiveBox();
-    retrieveData(budgetKey);
+    retrieveData();
   }
 
   @override
