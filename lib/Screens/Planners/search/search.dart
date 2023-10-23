@@ -1,6 +1,5 @@
 import 'package:eventsy/Model/Planner/planner.dart';
 import 'package:eventsy/Screens/Planners/search/viewProfile.dart';
-//import 'package:eventsy/widgets/listWidget.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
@@ -41,15 +40,13 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey.shade900, //Color.fromARGB(255, 219, 219, 219),
+      backgroundColor: Colors.blueGrey.shade900,
       appBar: AppBar(
-          // backgroundColor: Colors.green,
           title: const Text(
             "Search",
             style: TextStyle(
               fontFamily: 'Arial',
               color: Colors.white,
-              //fontWeight: FontWeight.bold
             ),
           ),
           actions: [
@@ -62,7 +59,7 @@ class _SearchState extends State<Search> {
         padding: const EdgeInsets.all(16),
         child: Column(children: [
           TextField(
-            style: const TextStyle(color: Colors.green),
+            style: const TextStyle(color: Color.fromARGB(255, 18, 140, 126)),
             decoration: InputDecoration(
                 labelText: 'Search',
                 hintText: 'Name or Place or Email',
@@ -72,7 +69,7 @@ class _SearchState extends State<Search> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 suffixIcon: const Icon(Icons.search),
-                suffixIconColor: Colors.green),
+                suffixIconColor: const Color.fromARGB(255, 18, 140, 126)),
             onChanged: (value) => _filterList(value),
           ),
           const SizedBox(height: 8),
@@ -82,7 +79,6 @@ class _SearchState extends State<Search> {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     listCopy = snapshot.data!;
-                    //print(listCopy);
                     return ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       itemCount: _foundPlanners.length,
@@ -95,7 +91,6 @@ class _SearchState extends State<Search> {
                             elevation: 15,
                             color: Colors.black87,
                             child: Row(
-                              //crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
@@ -139,7 +134,7 @@ class _SearchState extends State<Search> {
                   } else {
                     return const Center(
                       child: CircularProgressIndicator(
-                        color: Colors.green,
+                        color: Color.fromARGB(255, 18, 140, 126),
                       ),
                     );
                   }

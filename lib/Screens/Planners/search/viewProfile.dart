@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-//import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:eventsy/Model/Planner/currentId.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,8 +40,8 @@ class ViewProfile extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.blueGrey.shade900,
         appBar: AppBar(
-          leading: BackButton(),
-          backgroundColor: Colors.green,
+          leading: const BackButton(),
+          backgroundColor: const Color.fromARGB(255, 18, 140, 126),
           title: title(),
         ),
         body: ListView(
@@ -60,8 +58,6 @@ class ViewProfile extends StatelessWidget {
             service(),
             const Divider(height: 2, color: Colors.white),
             friends(),
-            const Divider(height: 2, color: Colors.white),
-            history(),
             const Divider(height: 2, color: Colors.white),
           ],
         ),
@@ -80,47 +76,14 @@ class ViewProfile extends StatelessWidget {
       )
     ]);
   }
-  /*
-  Widget header() {
-    return Container(
-      color: Colors.green[700],
-      width: double.infinity,
-      height: 200,
-      padding: const EdgeInsets.only(top: 10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 15.0),
-            height: 120,
-            width: 120,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 3.0),
-              image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(list[person]['profileIMG'])),
-            ),
-          ),
-          Text(
-            list[person]['name'], // index - 1 is name
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          Text(
-            list[person]['email'], //index -2 is email
-            style: TextStyle(color: Colors.white, fontSize: 15),
-          ),
-        ],
-      ),
-    );
-  }*/
 
   Widget carousel() {
     List<String> imageList = [
       list[person]['image1'],
       list[person]['image2'],
       list[person]['image3'],
+      list[person]['image4'],
+      list[person]['image5'],
       // Add more image URLs or local asset paths as needed
     ];
 
@@ -140,7 +103,7 @@ class ViewProfile extends StatelessWidget {
                 builder: (BuildContext context) {
                   return Container(
                     width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
                     child: Image.network(
                       imageUrl,
                       fit: BoxFit.cover,
@@ -155,7 +118,7 @@ class ViewProfile extends StatelessWidget {
 
   Widget contact() {
     return Padding(
-      padding: EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(15.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,7 +130,7 @@ class ViewProfile extends StatelessWidget {
                 const Text(
                   "Contact",
                   style: TextStyle(
-                      color: Colors.green,
+                      color: Color.fromARGB(255, 18, 140, 126),
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold),
                 ),
@@ -179,7 +142,6 @@ class ViewProfile extends StatelessWidget {
                     onPressed: () {
                       String mail = "mailto:${list[person]['email']}";
                       final Uri url = Uri.parse(mail);
-                      //print(mail);
                       launchUrl(url);
                     }),
                 IconButton(
@@ -188,7 +150,6 @@ class ViewProfile extends StatelessWidget {
                       String whatsapp =
                           "https://wa.me/${list[person]['contact']}?text=Hi this message is through Eventsy";
                       final Uri url = Uri.parse(whatsapp);
-                      //print(whatsapp);
                       launchUrl(url);
                     })
               ],
@@ -201,7 +162,7 @@ class ViewProfile extends StatelessWidget {
 
   Widget name() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       height: 90,
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -243,9 +204,8 @@ class ViewProfile extends StatelessWidget {
 
   Widget about() {
     return Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
-            //mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
@@ -265,52 +225,16 @@ class ViewProfile extends StatelessWidget {
             ]));
   }
 
-  Widget history() {
-    List serviceList;
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(
-          child: const Text(
-            'Previous Events',
-            style: TextStyle(
-                color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
-        const SizedBox(
-          height: 10.0,
-        ),
-        Container(
-            child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: list[person]['services'].length,
-          itemBuilder: (context, i) {
-            //print(list[person]['services']);
-            serviceList = list[person]['services'];
-            return ListTile(
-              //leading: const Icon(Icons.bubble_chart_rounded),
-              leading: Text(
-                serviceList[i]['serviceName'],
-                style: const TextStyle(color: Colors.white, fontSize: 15.0),
-              ),
-            );
-          },
-        )),
-      ]),
-    );
-  }
-
   Widget service() {
     List serviceList;
+    List<dynamic> services = list[person]['services'].split(',');
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(
-          child: const Text(
-            'Services By Planner',
-            style: TextStyle(
-                color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
+        const Text(
+          'Services By Planner',
+          style: TextStyle(
+              color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10.0,
@@ -318,14 +242,12 @@ class ViewProfile extends StatelessWidget {
         Container(
             child: ListView.builder(
           shrinkWrap: true,
-          itemCount: list[person]['services'].length,
+          itemCount: services.length,
           itemBuilder: (context, i) {
-            //print(list[person]['services']);
-            serviceList = list[person]['services'];
+            serviceList = services;
             return ListTile(
-              //leading: const Icon(Icons.bubble_chart_rounded),
               leading: Text(
-                serviceList[i]['serviceName'],
+                serviceList[i],
                 style: const TextStyle(color: Colors.white, fontSize: 15.0),
               ),
             );
@@ -338,37 +260,34 @@ class ViewProfile extends StatelessWidget {
   Widget friends() {
     List friendList;
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(
-          child: const Text(
-            'Contributers with Planner',
-            style: TextStyle(
-                color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
+        const Text(
+          'Contributers with Planner',
+          style: TextStyle(
+              color: Colors.grey, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 10.0,
         ),
-        Container(
-            child: ListView.builder(
+        ListView.builder(
           shrinkWrap: true,
           itemCount: list[person]['friends'].length,
           itemBuilder: (context, i) {
-            friendList = list[person]['friends'];
-            return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              CircleAvatar(
-                  backgroundImage: NetworkImage(friendList[i]['profileIMG'])),
-              const SizedBox(width: 20.0),
-              SizedBox(
-                child: Text(
-                  friendList[i]['name'], // index - 1 is name
-                  style: const TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              )
-            ]);
+        friendList = list[person]['friends'];
+        return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          CircleAvatar(
+              backgroundImage: NetworkImage(friendList[i]['profileIMG'])),
+          const SizedBox(width: 20.0),
+          SizedBox(
+            child: Text(
+              friendList[i]['name'], // index - 1 is name
+              style: const TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ]);
           },
-        )),
+        ),
       ]),
     );
   }

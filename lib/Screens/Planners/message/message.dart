@@ -1,7 +1,9 @@
 
-import 'package:eventsy/Screens/Planners/profile/request.dart';
+import 'package:eventsy/Model/Planner/currentPlanner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+
 
 class Message extends StatefulWidget {
   const Message({super.key});
@@ -13,6 +15,29 @@ class Message extends StatefulWidget {
 }
 
 class _MessageState extends State<Message> {
+
+  CurrentPlanner currentPlanner = CurrentPlanner();
+  List userData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+  Future<void> _fetchUserData() async {
+    try {
+      List data = await currentPlanner.getCurrentPlanner();
+      setState(() {
+        userData = data;
+        print(userData[0]['friends'][0]['status']);
+      });
+    } catch (e) {
+      // Handle error
+      print("Error fetching user data: $e");
+    }
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,19 +52,42 @@ class _MessageState extends State<Message> {
             //fontWeight: FontWeight.bold
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Request()));
-            },
-            icon: const Icon(Icons.group_add),
-          )
+      ),
+      body: ListView(
+        physics: const BouncingScrollPhysics(),
+        children: [
+          friendrequests(),
         ],
       ),
-      body: const Center(
-        child: Text("Message page"),
+    );
+  }
+
+  Widget friendrequests()
+  {
+     return const Padding(
+      padding: EdgeInsets.all(15.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  "Requests",
+                  style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+        Text('data')
+        ],
       ),
     );
+  
   }
 }

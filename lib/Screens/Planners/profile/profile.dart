@@ -1,12 +1,8 @@
 import 'dart:async';
 
-// import 'package:eventsy/Planners/profile/request.dart';
-// import 'package:eventsy/Planners/profile/share.dart';
-// import 'package:eventsy/model/currentPlanner.dart';
 import 'package:eventsy/Model/Planner/currentPlanner.dart';
-import 'package:eventsy/Screens/Planners/profile/request.dart';
+import 'package:eventsy/Screens/Planners/profile/editProfile.dart';
 import 'package:eventsy/Screens/Planners/profile/share.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //import '../search/search.dart';
@@ -34,6 +30,7 @@ class _ProfileState extends State<Profile> {
       List data = await currentPlanner.getCurrentPlanner();
       setState(() {
         userData = data;
+        //print(userData[0]['friends']);
       });
     } catch (e) {
       // Handle error
@@ -62,34 +59,40 @@ class _ProfileState extends State<Profile> {
     if (userData.isNotEmpty) {
       // Only access userData if it's not empty
       return Container(
-        color: Colors.green[700],
+        color: const Color.fromARGB(255, 18, 140, 126),
         width: double.infinity,
         height: 200,
         padding: const EdgeInsets.only(top: 10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              margin: const EdgeInsets.only(bottom: 15.0),
-              height: 120,
-              width: 120,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 3.0),
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(userData[0]['profileIMG']),
+            InkWell(
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 15.0),
+                height: 120,
+                width: 120,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 3.0),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(userData[0]['profileIMG']),
+                  ),
                 ),
               ),
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => edit_profile(user: userData)));
+              },
             ),
             Text(
               userData[0]['name'],
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: const TextStyle(color: Colors.white, fontSize: 20),
             ),
             Text(
               userData[0]['email'],
-              style: TextStyle(color: Colors.white, fontSize: 15),
+              style: const TextStyle(color: Colors.white, fontSize: 15),
             ),
           ],
         ),
@@ -106,10 +109,9 @@ class _ProfileState extends State<Profile> {
       child: Column(
         children: [
           menuItem(1, 'Promotion', Icons.self_improvement),
-          menuItem(2, 'Requests', Icons.group_add),
           menuItem(3, 'Friends', Icons.group),
           menuItem(4, 'Share', Icons.share),
-          menuItem(5, 'Notes', Icons.note),
+          menuItem(5, 'Edit', Icons.edit),
           menuItem(6, 'Help & Support', Icons.help),
           menuItem(7, 'Contact us', Icons.contact_mail),
           const Divider(height: 2.0),
@@ -152,25 +154,24 @@ class _ProfileState extends State<Profile> {
               bottomSheet();
               break;
             case 2:
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Request()));
               break;
             case 3:
-              bottomSheet();
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => Friends(list:userData,)));
               break;
             case 4:
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          QRCodeGenerator(data: 'https://wa.me/+94778965078')));
+                          QRCodeGenerator(data: "https://wa.me/${userData[0]['contact']}")));
               break;
             case 5:
-              bottomSheet();
+              Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => edit_profile(user: userData)));
               break;
             case 6:
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => const EditProfile()));
+              bottomSheet();
               break;
             case 7:
             case 8:
