@@ -1,7 +1,8 @@
-import 'package:eventsy/Model/Planner/currentPlanner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import '../../model/currentPlanner.dart';
 
 class edit_profile extends StatefulWidget {
   final List user;
@@ -41,11 +42,8 @@ class _edit_profileState extends State<edit_profile> {
   }
 
   Future<void> _fetchUserData() async {
-    //List person = widget.user;
     try {
-      //List data = await currentPlanner.getCurrentPlanner();
       setState(() {
-        //person = data;
         // Populate text fields with user data
         nameController.text = person[0]['name'];
         profileIMGController.text = person[0]['profileIMG'];
@@ -147,9 +145,9 @@ class _edit_profileState extends State<edit_profile> {
               buildTextField(
                   "Sample image - 03", image3Controller.text, image3Controller, false),
               buildTextField(
-                  "Sample image - 04", image3Controller.text, image4Controller, false),
+                  "Sample image - 04", image4Controller.text, image4Controller, false),
               buildTextField(
-                  "Sample image - 05", image3Controller.text, image5Controller, false),
+                  "Sample image - 05", image5Controller.text, image5Controller, false),
               buildTextField(
                   "E-mail", emailController.text, emailController, false),
               buildTextField(
@@ -275,8 +273,8 @@ class _edit_profileState extends State<edit_profile> {
       'image1': image1Controller.text,
       'image2': image2Controller.text,
       'image3': image3Controller.text,
-      'image4': image3Controller.text,
-      'image5': image3Controller.text,
+      'image4': image4Controller.text,
+      'image5': image5Controller.text,
       'email': emailController.text,
       'contact': contactController.text,
       'description': descriptionController.text,
@@ -290,8 +288,9 @@ class _edit_profileState extends State<edit_profile> {
       
     } else {
       String msg = 'Error updating profile';
-      print(msg);
+      print(msg );
       return false;
     }
   }
+
 }

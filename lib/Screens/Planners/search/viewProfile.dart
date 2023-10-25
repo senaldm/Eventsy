@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:eventsy/Model/Planner/currentId.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../model/currentId.dart';
 
 currentId currentuser = currentId();
 int currentuserid = currentuser.currentUserId;
@@ -19,19 +20,19 @@ class ViewProfile extends StatelessWidget {
 
   Future<void> addFriend(int id) async {
     String hire = "http://127.0.0.1:8000/api/hire/$currentuserid/$id";
-    final Uri url = Uri.parse(hire);
-    print(url);
+    //final Uri url = Uri.parse(hire);
+    //print(url);
 
-    try {
-      final response = await http.post(url);
-      if (response.statusCode == 200) {
-        print("Request was successful");
-        print("Response body: ${response.body}");
-      } else {
-        print("Request failed with status code: ${response.statusCode}");
-      }
-    } catch (e) {
-      print("Error: $e");
+    final response = await http.post(Uri.parse(hire), body: {
+      'status': 'pending',
+    });
+
+    if (response.statusCode == 200) {
+      print("Request was successful");
+      print("Response body: ${response.body}");
+    } 
+    else {
+      print("Request failed with status code: ${response.statusCode}");
     }
   }
 

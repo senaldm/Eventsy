@@ -1,5 +1,6 @@
-import 'package:eventsy/Model/Planner/planner.dart';
-import 'package:eventsy/Screens/Planners/search/viewProfile.dart';
+import 'package:eventsy/Planners/search/viewProfile.dart';
+import 'package:eventsy/model/planner.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
@@ -133,7 +134,8 @@ class _SearchState extends State<Search> {
                     );
                   } else {
                     return const Center(
-                      child: CircularProgressIndicator(
+                      child: CupertinoActivityIndicator( //Circularprogressbar
+                        radius: 25.0,
                         color: Color.fromARGB(255, 18, 140, 126),
                       ),
                     );
@@ -180,4 +182,5 @@ class _SearchState extends State<Search> {
             fontSize: 15.0,
             fontWeight: FontWeight.normal));
   }
+
 }
