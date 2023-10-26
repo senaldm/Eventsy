@@ -1,29 +1,26 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:eventsy/Planners/search/viewProfile.dart';
 import 'package:eventsy/model/friends.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class Message extends StatefulWidget {
-  const Message({super.key});
+class Contributors extends StatefulWidget {
+  const Contributors({super.key});
 
   @override
-  State<Message> createState() => _MessageState();
+  State<Contributors> createState() => _ContributorsState();
 }
 
-class _MessageState extends State<Message> {
-  
+class _ContributorsState extends State<Contributors> {
   Friends friends = Friends();
-  List requests = [];
+  List confirmed = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Messages',
+            'Contributors',
             style: TextStyle(fontFamily: 'Arial', color: Colors.white),
           ),
         ),
@@ -33,7 +30,7 @@ class _MessageState extends State<Message> {
               children: [
                 title(),
                 const SizedBox(height: 10.0),
-                request(),
+                contributors(),
               ],
             )));
   }
@@ -49,7 +46,7 @@ class _MessageState extends State<Message> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            'Requests',
+            'Contributors',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0,
@@ -60,45 +57,47 @@ class _MessageState extends State<Message> {
     );
   }
 
-  Widget request() {
+  Widget contributors() {
     return Expanded(
       child: FutureBuilder<List>(
-          future: friends.getRequests(),
+          future: friends.getFriends(),
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
-              requests = snapshot.data!;
+              confirmed = snapshot.data!;
               return ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  itemCount: requests.length,
+                  itemCount: confirmed.length,
                   itemBuilder: (context, i) {
                     return GestureDetector(
                       child: Card(
                         color: Colors.black87,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.15,
+                        child: Row(children: [
+                          SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.16,
                               width: MediaQuery.of(context).size.width * 0.25,
-                              child: Image.network(
-                                requests[i]['profileIMG'],
-                                fit: BoxFit.fill)),
-                            //const SizedBox(width: 10.0),
-                            Flexible(
-                              child:Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  printName(requests[i]['name']),
-                                  const Text('Event Planner', style: TextStyle(color: Colors.white,fontSize: 15.0,fontStyle: FontStyle.italic)),
-                                  printEmail(requests[i]['email']),
-                                  printPlace(requests[i]['location']),
-                                  action(requests[i]['friendID'])
-                                ],
-                              ))
+                              child: Image.network(confirmed[i]['profileIMG'],
+                                  fit: BoxFit.fill)),
+                          const SizedBox(width: 15.0),
+                          Flexible(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              printName(confirmed[i]['name']),
+                              const Text('Event Planner',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.0,
+                                      fontStyle: FontStyle.italic)),
+                              printEmail(confirmed[i]['email']),
+                              printPlace(confirmed[i]['location']),
+                              unfriend(confirmed[i]['friendID'])
+                            ],
+                          ))
                         ]),
                       ),
                       onTap: () {
-                            
+                        
                           },
                     );
                   });
@@ -136,23 +135,24 @@ class _MessageState extends State<Message> {
             fontWeight: FontWeight.normal));
   }
 
-  Widget action(int friendID)
-  {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        SizedBox(
-          height: 30,
-          width: 120,
-          child: ElevatedButton(
-            onPressed: () async {
-             showDialog(
+  Widget unfriend(int friendID) {
+    return Padding(
+      padding: const EdgeInsets.only(right:10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          SizedBox(
+            height: 30,
+            width: 120,
+            child: ElevatedButton(
+              onPressed: () async {
+                showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Reject?'),
+                            title: const Text('Unfriend?'),
                             content: const Text(
-                                'Are you sure you want to reject this request?'),
+                                'Are you sure you want to unfriend?'),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -174,86 +174,40 @@ class _MessageState extends State<Message> {
                           );
                         },
                       );
-            },
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20))),
-            child: const Text(
-              'Reject',
-              style: TextStyle(
-                  fontSize: 15,
-                  //letterSpacing: 2,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
+              
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20))),
+              child: const Text(
+                'Unfriend',
+                style: TextStyle(
+                    fontSize: 15,
+                    //letterSpacing: 2,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ),
-        ),
-        //const SizedBox(width: 10.0),
-        // for accept the request
-        SizedBox(
-          height: 30,
-          width: 120,
-          child: ElevatedButton(
-            onPressed: () async {
-              bool result = await accept(friendID);
-              if (result) {
-              }
-            },
-            style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 18, 140, 126),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20))),
-            child: const Text(
-              'Accept',
-              style: TextStyle(
-                  fontSize: 15,
-                  //letterSpacing: 2,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold
-                  ),
-            ),
-          ),
-        )
-      ],
+         ],
+      ),
     );
   }
-
-
-  Future<bool> accept(int friendID,) async {
-  final url = 'http://127.0.0.1:8000/api/accept/$friendID';
-
-  try {
-    final response = await http.post(Uri.parse(url)
-    );
-
-    if (response.statusCode == 200) {
-      String msg = 'Request updated';
-      print(msg);
-      return true;
-    } else {
-      String msg = 'Error updating request';
-      print(response.statusCode);
-      return false;
-    }
-  } catch (e) {
-    print('Error: $e');
-    return false;
-  }
-}
 
   Future<bool> delete(int friendID,) async {
+  print(friendID);
   final url = 'http://127.0.0.1:8000/api/delete/$friendID';
+
   try {
     final response = await http.post(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      print("deleted");
+      print("Friend deleted");
       return true;
     } else {
-      String msg = 'Error on deleting';
+      String msg = 'Error on deleting friend';
       print(response.statusCode);
       return false;
     }
