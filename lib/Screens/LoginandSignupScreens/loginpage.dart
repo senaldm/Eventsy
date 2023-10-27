@@ -1,7 +1,7 @@
+import 'package:eventsy/Screens/LoginandSignupScreens/reusable_widgets/resusable_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:eventsy/Screens/LoginandSignUpScreens/reusable_widgets/resusable_widget.dart';
 import 'package:eventsy/Screens/LoginandSignUpScreens/services/firebase_services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:connectivity/connectivity.dart';
@@ -18,7 +18,7 @@ class Loginpage extends StatefulWidget {
 
 class _LoginpageState extends State<Loginpage> {
   late bool isOnline;
-
+  late bool offline;
   @override
   void initState() {
     super.initState();
@@ -35,11 +35,28 @@ class _LoginpageState extends State<Loginpage> {
         Future.delayed(Duration(seconds: 2), () {
           setState(() {
             isOnline = false;
+            offline = true;
           });
         });
       } else {
         setState(() {
           isOnline = true;
+          if (offline) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text(
+                "Back Online",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w100,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+            ));
+            offline = false;
+          }
         });
       }
     });
@@ -164,7 +181,9 @@ class _LoginpageState extends State<Loginpage> {
                   const SizedBox(
                     height: 30,
                   ),
-                  signInSignupButton(context, true, () async {
+                  forgetPassword(),
+
+                  firebaseButton(context, 'Log In', () async {
                     if (!isOnline) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -294,7 +313,6 @@ class _LoginpageState extends State<Loginpage> {
                       }
                     }
                   }),
-
                   signUpOption(),
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -369,6 +387,22 @@ class _LoginpageState extends State<Loginpage> {
           },
           child: const Text(
             "Sign Up",
+            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+          ),
+        )
+      ],
+    );
+  }
+
+  Row forgetPassword() {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, './forgetpasswordPage');
+          },
+          child: const Text(
+            "Forget Password",
             style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
           ),
         )

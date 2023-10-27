@@ -3,7 +3,6 @@
 import 'package:eventsy/Model/Event.dart';
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/deletebudgettask.dart';
 import 'package:flutter/material.dart';
-
 class ViewBudgetTasks extends StatelessWidget with DeleteTask {
   final BudgetTasks budget;
   const ViewBudgetTasks({
@@ -12,6 +11,40 @@ class ViewBudgetTasks extends StatelessWidget with DeleteTask {
 
   @override
   Widget build(BuildContext context) {
+    void _showWarningPopup(BudgetTasks task) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Warning"),
+            content: Text("Are you sure you want to delete this task?"),
+            actions: [
+              ElevatedButton(
+                onPressed: () async {
+                  Navigator.of(context).pop(); // Close the warning popup
+                  await DeleteTask.deleteTask(task.budgetKey);
+                   // Delete the task
+                  Navigator.pop(context, true);
+                  // Navigator.popUntil(
+                  //     context,
+                  //     ModalRoute.withName(
+                  //         'BudgetAddedList')); // Return to the previous screen
+                },
+                child: Text("Yes"),
+              ),
+              Spacer(flex: 30,),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the warning popup
+                },
+                child: Text("No"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -31,10 +64,7 @@ class ViewBudgetTasks extends StatelessWidget with DeleteTask {
             actions: [
               IconButton(
                 onPressed: () {
-                  DeleteTask.deleteTask(budget.budgetKey);
-
-                  Navigator.popUntil(
-                      context, ModalRoute.withName('BudgetAddedList'));
+                  _showWarningPopup(budget);
                 },
                 icon: Icon(Icons.delete),
               ),

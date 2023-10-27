@@ -1,5 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+import 'package:eventsy/Screens/Task/User/userDashboard/vendor/vendor.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
@@ -9,6 +8,8 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../global.dart';
 
 class BudgetTaskList extends StatefulWidget {
   final Event budget;
@@ -91,14 +92,6 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
       });
       setState(() {
         tasks = newTasks;
-
-        originalTasks = newTasks.toList();
-        if (tasks.isEmpty) {
-          print('Task is empty.');
-        } else {
-          print('task in not empty');
-        }
-
       });
     } else {
       setState(() {
@@ -171,7 +164,7 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
     });
   }
 
-   void _showBudgetPopup(EventTasks budgettask) {
+  void _showBudgetPopup(EventTasks budgettask) {
     bool hasActualBudget =
         budgettask.actualBudget != null && budgettask.actualBudget.isNotEmpty;
 
@@ -184,78 +177,104 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
     budget = budgettask.budget;
 
     taskKey = Uuid().v4();
+     if (budgetTaskList.any((existingTask) => existingTask.budgetKey == budgettask.taskKey)) {
+    // Display a warning dialog or take any other action to inform the user
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Center(child: Text( "Add Budget", style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),)),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 10),
-              TextField(
-                controller: actualbudgetController,
-                decoration: InputDecoration(labelText: "Actual Budget",contentPadding: EdgeInsets.only(left:50)),
-                onChanged: (value) {
-                  setState(() {
-                    actualBudget =
-                        value; // Update actualBudget as the user types
-                  });
-                },
-                keyboardType: TextInputType.number,
-              ),
-            ],
-          ),
+          title: Text("Warning"),
+          content: Text("A budget already exists for this task."),
           actions: [
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                      left:
-                          30), // Adjust the right margin to control the space
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 18, 140, 126),
-                    ),
-                    onPressed: () async {
-                      // Call addBudgetTask to add/update the task in budgetTaskBox
-                      addBudgetTask(
-                        categoryName,
-                        taskName,
-                        vendorName,
-                        budget,
-                        actualBudget,
-                        taskKey,
-                      );
-                      Navigator.of(context).pop();
-                      setState(() {}); // Close the popup
-                    },
-                    child: Text("Save"),
-                  ),
-                ),
-                Padding(padding:EdgeInsets.only(left: 60)),
-                ElevatedButton(
-                
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 18, 140, 126),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the popup
-                  },
-                  child: Text("Cancel"),
-                ),
-              ],
-            )
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the warning popup
+              },
+              child: Text("OK"),
+            ),
           ],
         );
       },
     );
+  } 
+      else{
+        showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Center(
+                child: Text(
+              "Add Budget",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            )),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 10),
+                TextField(
+                  controller: actualbudgetController,
+                  decoration: InputDecoration(
+                      labelText: "Actual Budget",
+                      contentPadding: EdgeInsets.only(left: 50)),
+                  onChanged: (value) {
+                    setState(() {
+                      actualBudget =
+                          value; // Update actualBudget as the user types
+                    });
+                  },
+                  keyboardType: TextInputType.number,
+                ),
+              ],
+            ),
+            actions: [
+              Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                        left:
+                            30), // Adjust the right margin to control the space
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 18, 140, 126),
+                      ),
+                      onPressed: () async {
+                        // Call addBudgetTask to add/update the task in budgetTaskBox
+                        addBudgetTask(
+                          categoryName,
+                          taskName,
+                          vendorName,
+                          budget,
+                          actualBudget,
+                          taskKey,
+                        );
+                        Navigator.of(context).pop();
+                        setState(() {}); // Close the popup
+                      },
+                      child: Text("Save"),
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.only(left: 60)),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 18, 140, 126),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the popup
+                    },
+                    child: Text("Cancel"),
+                  ),
+                ],
+              )
+            ],
+          );
+        },
+      );
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -444,7 +463,6 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
 
   Future<void> storeEventTask(BudgetTasks budgetTasks) async {
     final directory = await getApplicationDocumentsDirectory();
-    try{
     final file = File('${directory.path}/budgetTask.txt');
     final exists = await file.exists();
 
@@ -455,17 +473,7 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
     final formattedTimestamp = budgetTasks.taskTimestamp.toIso8601String();
 
     final budgetData =
-
-        '${budgetTasks.eventKey},${budgetTasks.eventName},${budgetTasks.taskKey},${budgetTasks.categoryName},${budgetTasks.taskName},${budgetTasks.vendorName},${budgetTasks.budget},${budgetTasks.isComplete},${budgetTasks.actualBudget},${budgetTasks.budgetKey},$formattedTimestamp\n';
-     await file.writeAsString(budgetData, mode: FileMode.append);
-   
-      print('store successfully');
-    }
-    catch (e)
-    {
-      print('got error');
-    }
-    
-
+        '${budgetTasks.budgetKey},${budgetTasks.taskKey},${budgetTasks.taskName},${budgetTasks.actualBudget},${budgetTasks.budget},${budgetTasks.vendorName},${budgetTasks.categoryName},$formattedTimestamp\n';
+    await file.writeAsString(budgetData, mode: FileMode.append);
   }
 }

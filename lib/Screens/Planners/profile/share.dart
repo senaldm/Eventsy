@@ -4,13 +4,13 @@ import 'package:qr_flutter/qr_flutter.dart';
 class QRCodeGenerator extends StatelessWidget {
   final data;
 
-  QRCodeGenerator({required this.data});
+  const QRCodeGenerator({required this.data});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(color: Colors.green,),
+        leading: const BackButton(color: Color.fromARGB(255, 18, 140, 126),),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -19,7 +19,7 @@ class QRCodeGenerator extends StatelessWidget {
             data: data,
             version: QrVersions.auto,
             size: 200.0,
-            backgroundColor: Colors.green,
+            backgroundColor: const Color.fromARGB(255, 18, 140, 126),
           ),
       ),
     );

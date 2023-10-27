@@ -1,6 +1,6 @@
+import 'package:eventsy/Screens/LoginandSignupScreens/reusable_widgets/resusable_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:eventsy/Screens/LoginandSignUpScreens/reusable_widgets/resusable_widget.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:connectivity/connectivity.dart';
 
@@ -19,6 +19,8 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   bool isOnline = true;
+
+  
   Future<void> checkInternetConnection() async {
     final result = await Connectivity().checkConnectivity();
     setState(() {
@@ -184,7 +186,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(
                     height: 30,
                   ),
-                  signInSignupButton(context, false, () async {
+                  firebaseButton(context, 'Sign In', () async {
                     if (_emailTextController.text.isEmpty ||
                         _passwordTextController.text.isEmpty) {
                       // Show an error message to the user.

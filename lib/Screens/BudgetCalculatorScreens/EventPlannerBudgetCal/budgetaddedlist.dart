@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
@@ -34,13 +32,13 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
     budgetTaskBox = await Hive.openBox<BudgetTasks>('budgettask');
   }
 
-  Future<void> retrieveData(String budgetKey) async {
+  Future<void> retrieveData() async {
     // Retrieve data from eventTaskBox
     budgetTasks = budgetTaskBox?.values
             .where((budgetTask) => budgetTask.budgetKey == budgetKey)
             .toList() ??
         [];
-  
+
     // Retrieve data from local storage
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/budgetTask.txt');
@@ -50,16 +48,14 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
       lines.forEach((line) {
         final budgetData = line.split(',');
         final budgettask = BudgetTasks(
-
-          taskKey: budgetData[2],
-          taskName: budgetData[4],
-          actualBudget: budgetData[8],
-          budgetKey: budgetData[9],
-          budget: budgetData[6],
-          categoryName: budgetData[3],
+          budgetKey: budgetData[0],
+          taskKey: budgetData[1],
+          taskName: budgetData[2],
+          actualBudget: budgetData[3],
+          budget: budgetData[4],
           vendorName: budgetData[5],
+          categoryName: budgetData[6],
         );
-        
 
         newTasks.add(budgettask);
       });
@@ -74,18 +70,13 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
       });
     }
     print("Retrieved Budget Tasks: $budgetTasks");
-
   }
 
   @override
   void initState() {
     super.initState();
-    // Make sure that budgetKey is correctly passed or fetched
-    budgetKey =
-        widget.budgetList.isNotEmpty ? widget.budgetList[0].budgetKey : '';
-    budgetlist = widget.budgetList;
     openHiveBox();
-    retrieveData(budgetKey);
+    retrieveData();
   }
 
   @override
@@ -129,7 +120,6 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
                     fontWeight: FontWeight.bold,
                   )),
             ),
-
           ),
         ),
         body: WillPopScope(
@@ -163,55 +153,51 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
                       fit: BoxFit.cover,
                     ),
                   ),
+                  child: ListView.builder(
+                    padding: EdgeInsetsDirectional.zero,
+                    shrinkWrap: false,
+                    itemCount: originalBudgetTasks.length,
+                    itemBuilder: (context, index) {
+                      final budget = originalBudgetTasks[index];
 
-                
-                child: ListView.builder(
-                  padding: EdgeInsetsDirectional.zero,
-                  shrinkWrap: false,
-                  itemCount: originalBudgetTasks.length,
-                  itemBuilder: (context, index) {
-                    final budget = originalBudgetTasks[index];
-
-                    return SizedBox(
-                      height: 70.0,
-                      child: Container(
-                        // color: Color.fromARGB(255, 20, 24, 26),
-                        padding: EdgeInsetsDirectional.zero,
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom:
-                                    BorderSide(color: Colors.white12, width: 0.0
-                                        //  Theme.of(context).dividerColor
-                                        ))),
-                        margin: EdgeInsets.only(
-                            left: 10.0, right: 10.0, bottom: 0, top: 0),
-                        // color: Color.fromARGB(255, 20, 24, 26),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Card(
-                              color: Color.fromARGB(255, 20, 24, 26),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-
+                      return SizedBox(
+                        height: 70.0,
+                        child: Container(
+                          // color: Color.fromARGB(255, 20, 24, 26),
+                          padding: EdgeInsetsDirectional.zero,
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom: BorderSide(
+                                      color: Colors.white12, width: 0.0
+                                      //  Theme.of(context).dividerColor
+                                      ))),
+                          margin: EdgeInsets.only(
+                              left: 10.0, right: 10.0, bottom: 0, top: 0),
+                          // color: Color.fromARGB(255, 20, 24, 26),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Card(
+                                color: Color.fromARGB(255, 20, 24, 26),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
 
                                 child: ListTile(
                                   leading: Text(
                                     budget.taskName,
 
-
-                                  //  "${task.timestamp?.minute?.toString()}",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 20.0),
-                                ),
-                                textColor: Colors.white,
-                                onTap: () async {
-                                  Navigator.pushNamed(context, 'VeiwBudgetTask',
-                                      arguments: budget);
-
+                                    //  "${task.timestamp?.minute?.toString()}",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                  textColor: Colors.white,
+                                  onTap: () async {
+                                    Navigator.pushNamed(
+                                        context, 'ViewBudgetTask',
+                                        arguments: budget);
 
                                     // setState(() {
                                     //   retrieveData();
