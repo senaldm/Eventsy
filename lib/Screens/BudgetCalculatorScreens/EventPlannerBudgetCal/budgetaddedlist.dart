@@ -164,7 +164,7 @@ class _BudgedAddedListState extends State<BudgedAddedList> {
                     ),
                   ),
 
-                ),
+                
                 child: ListView.builder(
                   padding: EdgeInsetsDirectional.zero,
                   shrinkWrap: false,
