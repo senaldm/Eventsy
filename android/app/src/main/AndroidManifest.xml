@@ -9,7 +9,7 @@
 <application
 
       
-        android:label="eventsy"
+        android:label="Eventsy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         
