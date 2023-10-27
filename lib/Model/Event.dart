@@ -132,8 +132,6 @@ class BudgetTasks extends EventTasks {
     required vendorName,
     required categoryName,
 
-    required this.actualBudget,
-    required this.budgetKey,
 
 
   }) : super(
