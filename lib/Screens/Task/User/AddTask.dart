@@ -3,8 +3,6 @@
 import 'dart:io';
 
 import 'package:eventsy/global.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eventsy/Model/Event.dart';
 import 'package:hive/hive.dart';

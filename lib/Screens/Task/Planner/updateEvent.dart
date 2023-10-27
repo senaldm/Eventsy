@@ -41,6 +41,7 @@ class _UpdateEventState extends State<UpdateEvent> {
   final _formKey = GlobalKey<FormState>();
   final List<Event> event = [];
 
+  @override
   void initState() {
     super.initState();
     currentEvent = widget.event;

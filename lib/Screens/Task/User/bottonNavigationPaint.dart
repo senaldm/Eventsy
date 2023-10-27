@@ -19,7 +19,7 @@ class ProfileCardPainter extends CustomPainter {
 
     final backgroundPath = Path();
     final halfWidth = size.width / 2;
-    final halfSpace = 100 / 2;
+    const halfSpace = 100 / 2;
     backgroundPath.lineTo(halfWidth - halfSpace, 0);
     backgroundPath.quadraticBezierTo(
         size.width  , 0, shapeBounds.width, 0);
