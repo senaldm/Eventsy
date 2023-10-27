@@ -18,7 +18,7 @@ class Loginpage extends StatefulWidget {
 
 class _LoginpageState extends State<Loginpage> {
   late bool isOnline;
-
+  late bool offline;
   @override
   void initState() {
     super.initState();
@@ -35,11 +35,28 @@ class _LoginpageState extends State<Loginpage> {
         Future.delayed(Duration(seconds: 2), () {
           setState(() {
             isOnline = false;
+            offline = true;
           });
         });
       } else {
         setState(() {
           isOnline = true;
+          if (offline) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text(
+                "Back Online",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w100,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+            ));
+            offline = false;
+          }
         });
       }
     });
@@ -379,9 +396,7 @@ class _LoginpageState extends State<Loginpage> {
 
   Row forgetPassword() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-       
         GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, './forgetpasswordPage');

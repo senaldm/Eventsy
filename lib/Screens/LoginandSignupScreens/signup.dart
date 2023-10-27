@@ -19,6 +19,8 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   bool isOnline = true;
+
+  
   Future<void> checkInternetConnection() async {
     final result = await Connectivity().checkConnectivity();
     setState(() {
