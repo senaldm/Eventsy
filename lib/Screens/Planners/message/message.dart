@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:eventsy/Planners/search/viewProfile.dart';
-import 'package:eventsy/model/friends.dart';
+import 'package:eventsy/Screens/Planners/search/viewProfile.dart';
+import 'package:eventsy/Model/Planner/friends.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

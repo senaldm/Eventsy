@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -15,12 +17,12 @@ class QRCodeGenerator extends StatelessWidget {
         elevation: 0,
       ),
       body: Center(
-          child: QrImageView(
-            data: data,
-            version: QrVersions.auto,
-            size: 200.0,
-            backgroundColor: const Color.fromARGB(255, 18, 140, 126),
-          ),
+          // child: QrImageView(
+          //   data: data,
+          //   version: QrVersions.auto,
+          //   size: 200.0,
+          //   backgroundColor: const Color.fromARGB(255, 18, 140, 126),
+          // ),
       ),
     );
   }

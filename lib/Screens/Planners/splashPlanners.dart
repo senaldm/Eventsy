@@ -1,4 +1,6 @@
 
+// ignore_for_file: prefer_const_constructors
+
 import 'package:eventsy/Screens/Planners/navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,13 +48,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.green,
+    return  Scaffold(
+      backgroundColor: Color.fromARGB(255,11, 2, 36),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.pix, color: Colors.white, size: 100),
+            Image.asset('assets/Images/auth/logonew.png',
+                        width: 100,
+                        height: 100,),
+            // Icon(Icons.pix, color: Colors.white, size: 100),
             SizedBox(
               height: 40.0,
               child: Text(
