@@ -5,6 +5,7 @@ import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/up
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/viewbudgettask.dart';
 import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
 import 'package:eventsy/Screens/Task/User/viewTask.dart';
+import 'package:eventsy/Screens/Tickets/qrCodeScanner.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -74,7 +75,7 @@ import 'package:eventsy/Screens/Task/User/settings/logout.dart';
 
 
 import 'package:eventsy/Screens/Tickets/ticketHandlingHome.dart';
-
+import 'package:eventsy/Screens/Tickets/UserCode.dart';
 
 import 'package:eventsy/Screens/Task/User/vendors/vendorlist.dart';
 
@@ -145,6 +146,8 @@ class FirstPage extends StatelessWidget {
           ////////TicketHandling/////////////
 
           '/ticketHandlingHome': (context) => TicketHandlingHome(),
+          '/UserCode':(context)=>UserCode(),
+          '/qrCodeScanner':(context)=>QrCodeScanner(),
 
           ////////USER TASK////////
           'UserHome': (context) => UserTaskHome(),

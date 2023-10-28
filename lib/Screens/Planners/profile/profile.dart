@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:eventsy/Planners/profile/editProfile.dart';
-import 'package:eventsy/Planners/profile/contributors.dart';
-import 'package:eventsy/Planners/profile/share.dart';
-import 'package:eventsy/model/currentId.dart';
-import 'package:eventsy/model/currentPlanner.dart';
+import 'package:eventsy/Screens/Planners/profile/editProfile.dart';
+import 'package:eventsy/Screens/Planners/profile/contributors.dart';
+import 'package:eventsy/Screens/Planners/profile/share.dart';
+import 'package:eventsy/Model/Planner/currentId.dart';
+import 'package:eventsy/Model/Planner/currentPlanner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

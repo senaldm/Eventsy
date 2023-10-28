@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../model/currentId.dart';
+import 'package:eventsy/Model/Planner/currentId.dart';
 
 currentId currentuser = currentId();
 int currentuserid = currentuser.currentUserId;

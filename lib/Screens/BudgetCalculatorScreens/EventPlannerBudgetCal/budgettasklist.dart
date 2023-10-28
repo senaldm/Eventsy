@@ -33,6 +33,7 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
   Box<BudgetTasks>? budgetTaskBox;
   List<EventTasks> tasks = [];
   List<BudgetTasks> budgetTaskList = [];
+   List<EventTasks> originalTasks = [];
   late String time;
   final actualbudgetController = TextEditingController();
   @override
@@ -66,6 +67,7 @@ class _BudgetTaskListState extends State<BudgetTaskList> {
     if (await file.exists()) {
       final lines = await file.readAsLines();
       List<EventTasks> newTasks = [];
+     
       lines.forEach((line) {
         final taskData = line.split(',');
         final task = EventTasks(

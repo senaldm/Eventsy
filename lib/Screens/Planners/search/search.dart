@@ -1,5 +1,5 @@
-import 'package:eventsy/Planners/search/viewProfile.dart';
-import 'package:eventsy/model/planner.dart';
+import 'package:eventsy/Screens/Planners/search/viewProfile.dart';
+import 'package:eventsy/Model/Planner/planner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,6 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-
   Planners planners = Planners();
   List listCopy = [];
 
@@ -127,14 +126,16 @@ class _SearchState extends State<Search> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ViewProfile(list: _foundPlanners, person: i)));
+                                    builder: (context) => ViewProfile(
+                                        list: _foundPlanners, person: i)));
                           },
                         );
                       },
                     );
                   } else {
                     return const Center(
-                      child: CupertinoActivityIndicator( //Circularprogressbar
+                      child: CupertinoActivityIndicator(
+                        //Circularprogressbar
                         radius: 25.0,
                         color: Color.fromARGB(255, 18, 140, 126),
                       ),
@@ -182,5 +183,4 @@ class _SearchState extends State<Search> {
             fontSize: 15.0,
             fontWeight: FontWeight.normal));
   }
-
 }

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../../model/currentPlanner.dart';
+import 'package:eventsy/Model/Planner/currentPlanner.dart';
 
 class edit_profile extends StatefulWidget {
   final List user;
