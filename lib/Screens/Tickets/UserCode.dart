@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 
@@ -53,103 +53,153 @@ class UserCode extends StatelessWidget {
               ),
             ),
             body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 1,
+                  flex:1,
+
                   child: SingleChildScrollView(
-                    // physics: NeverScrollableScrollPhysics(),
+
                     child: Container(
                       decoration: BoxDecoration(
-                        image: DecorationImage(
+                        image:DecorationImage(
                           image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
-                          fit: BoxFit.cover,
-                        ),
+                        fit: BoxFit.cover, )
                       ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: height * 0.1,
-                            ),
-                           Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              margin: EdgeInsets.only(
-                                  left: width * 0.15, right: width * 0.15),
-                              borderOnForeground: false,
-                              child: Hero(
-                                tag: 'UserVerifyCode',
-                                child: TextField(
-                                  controller: userCode,
-                                  // onChanged: (value) {
-                                  //   vendorName:
-                                  //   value;
-                                  // },
-                                  decoration: InputDecoration(
-                                    border: UnderlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    prefixIcon:
-                                        Icon(Icons.business_center_outlined),
-                                    hintText: 'User Verification Code',
-                                  ),
-                                ),
-                              ),
-                            ),
-                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child:TextButton(
-                                 
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/QrCodeScanner');
-                                  }, 
-                                   child:Text('   Start To Scan   '),
-                              )),
-                              
-                            ],
-                           ),
-                               
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,  
+                           crossAxisAlignment: CrossAxisAlignment.center,        
+                        children: [
+                          Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  height: height * 0.15,
-                                ),
-                                Text(
-                                  "Eventsy",
-                                  style: TextStyle(
-                                      fontSize: 26.0,
-                                      color: Colors.white70,
-                                      fontFamily: 'Quintessential'),
-                                ),
-                                Text(
-                                  "Good planning makes better Events...",
-                                  style: TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      color: Colors.white70,
-                                      fontFamily: 'Quintessential'),
-                                ),
-                                SizedBox(
                                   height: height * 0.1,
                                 ),
+                               Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0)),
+                                  margin: EdgeInsets.only(
+                                      left: width * 0.15, right: width * 0.15),
+                                  borderOnForeground: false,
+                                  child: Hero(
+                                    tag: 'UserVerifyCode',
+                                    child: TextField(
+                                      controller: userCode,
+                                      // onChanged: (value) {
+                                      //   vendorName:
+                                      //   value;
+                                      // },
+                                      decoration: InputDecoration(
+                                        border: UnderlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0)),
+                                        prefixIcon:
+                                            Icon(Icons.business_center_outlined),
+                                        hintText: 'User Verification Code',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child:TextButton(
+                                     
+                                      onPressed: () {
+                                        Navigator.pushNamed(context, '/qrCodeScanner');
+                                      }, 
+                                       child:Text('   Start To Scan   '),
+                                  )),
+                                  
+                                ],
+                               ),
+                                   
+                                // Container(
+                                  
+                                //   alignment:Alignment.bottomCenter,
+                                //   child: Column(
+                                //     mainAxisAlignment: MainAxisAlignment.end,
+                                //     crossAxisAlignment: CrossAxisAlignment.center,
+                                //     mainAxisSize: MainAxisSize.max,
+                              
+                                //     children: [
+                                //       // SizedBox(
+                                //       //   height: height * 0.15,
+                                //       // ),
+                                //       Text(
+                                //         "Eventsy",
+                                //         style: TextStyle(
+                                //             fontSize: 26.0,
+                                //             color: Colors.white70,
+                                //             fontFamily: 'Quintessential'),
+                                //       ),
+                                //       Text(
+                                //         "Good planning makes better Events...",
+                                //         style: TextStyle(
+                                //             fontStyle: FontStyle.italic,
+                                //             color: Colors.white70,
+                                //             fontFamily: 'Quintessential'),
+                                //       ),
+                                //       // SizedBox(
+                                //       //   height: height * 0.1,
+                                //       // ),
+                                //     ],
+                                //   ),
+                                // ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          // SizedBox(
+                          //   height: height * 0.15,
+                          // ),
+                          Text(
+                            "Eventsy",
+                            style: TextStyle(
+                                fontSize: 26.0,
+                                color: Colors.white70,
+                                fontFamily: 'Quintessential'),
+                          ),
+                          Text(
+                            "Good planning makes better Events...",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.white70,
+                                fontFamily: 'Quintessential'),
+                          ),
+                          // SizedBox(
+                          //   height: height * 0.1,
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ],
+                
+                )
               ],
             ),
           ),
