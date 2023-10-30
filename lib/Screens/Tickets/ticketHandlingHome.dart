@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TicketHandlingHome extends StatefulWidget {
   const TicketHandlingHome({super.key});
@@ -149,7 +150,7 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                             ),
                                           )
                                         ]),
-                                  ),
+                                  ), 
                                 )),
                             SizedBox(
                               height: height * 0.02,
@@ -162,7 +163,8 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                 borderOnForeground: false,
                                 child: TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, 'VendorList');
+                                    launchUrl(Uri.parse(
+                                            'https://eventsy-gray.vercel.app/#signup'));
                                   },
                                   child: SizedBox(
                                     width: width * 0.4,

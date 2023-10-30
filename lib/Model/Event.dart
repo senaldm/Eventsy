@@ -163,7 +163,7 @@ class Invitation extends Event {
 @HiveType(typeId: 5)
 class UserMode extends HiveObject {
   @HiveField(0)
-  String userMode = 'general';
+  String userMode = 'default';
   @HiveField(1)
   bool isFirst = true;
   UserMode({required String userMode, required bool isFirst});
