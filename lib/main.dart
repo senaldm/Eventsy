@@ -6,6 +6,7 @@ import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/vi
 import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
 import 'package:eventsy/Screens/Task/User/viewTask.dart';
 import 'package:eventsy/Screens/Tickets/qrCodeScanner.dart';
+import 'package:eventsy/Screens/Tickets/qrCodeValidate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -147,7 +148,23 @@ class FirstPage extends StatelessWidget {
 
           '/ticketHandlingHome': (context) => TicketHandlingHome(),
           '/UserCode':(context)=>UserCode(),
-          '/qrCodeScanner':(context)=>QrCodeScanner(),
+          '/qrCodeScanner':(context)=>QrCodeScanner(
+            data: ModalRoute.of(context)!.settings.arguments as List<dynamic>
+          ),
+          //  '/qrCodeScanner':(context)=>QrCodeScanner(
+          //   data: ModalRoute.of(context)!.settings.arguments as List<dynamic>
+          // ),
+          // '/secondPage': (context) => QrCodeScanner(
+          //     data:
+          //         ModalRoute.of(context)!.settings.arguments as String),
+          // '/qrCodeValidate':(context){
+          //    final Map<String, dynamic> arguments = ModalRoute.of(context)
+          //       ?.settings.arguments as Map<String, dynamic>;
+          // return TicketValidationScreen(
+          //     scannedQRCode: arguments['scanData.code'],
+          //     ticketKey: arguments['ticketKey'],
+          // );},
+
 
           ////////USER TASK////////
           'UserHome': (context) => UserTaskHome(),

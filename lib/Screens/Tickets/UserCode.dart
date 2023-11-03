@@ -16,7 +16,11 @@ class UserCode extends StatefulWidget {
 class _UserCodeState extends State<UserCode> {
   final userCode = TextEditingController();
 
-  bool hasInternet = true;
+   bool hasInternet=false;
+  // initState() {
+  //   super.initState();
+  //   hasInternet=true;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -194,68 +198,45 @@ class _UserCodeState extends State<UserCode> {
   }
 
   Future<dynamic> validateUserCode(String code, BuildContext context) async {
-    final validatedData1 = await fetchUserCodeValidationFromAPI(code);
-    print(validatedData1);
-    try {
-      // Replace this with your actual API call to validate the user code
-      final validatedData = await fetchUserCodeValidationFromAPI(code);
-      print(validatedData['isValid']);
-      final isUserCodeValid = validatedData[0] as bool;
-      final tickets = validatedData[1] as List<String>;
-
-      if (tickets.isNotEmpty) {
-        print('ticket got');
-
-        // return tickets;
-
-        Navigator.pushNamed(context, '/qrCodeScanner', arguments: tickets);
-      } else {
-        print("invalid user code");
-        // User cod
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Invalid User Code. Please try again.'),
-          ),
-        );
-      }
-    } catch (e) {
-      if (e is TimeoutException) {
-        print("timeout");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('connection timeout'),
-          ),
-        );
-      } else {
-        print("connection error 2");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content:
-                Text('An error occurred. Please check your  and try again.'),
-          ),
-        );
-      }
-    }
-  }
-
-// Function to make an API call to validate the user code
-  Future<Map<bool, dynamic>> fetchUserCodeValidationFromAPI(String code) async {
     String uri = 'https://nice-williams.34-81-183-3.plesk.page/validate/$code';
 
     final response = await http.get(Uri.parse(uri));
+    print(response);
 
     if (response.statusCode == 200) {
-      print(response);
-      final Map<bool, dynamic> data = jsonDecode(response.body);
-      return data;
-      // return data;
-    } else {
-      print("wrong usercode");
-      throw Exception(
-          'Opps!\nAdd correct UserCode which send to QR Code creator via Email.');
+      final data = jsonDecode(response.body);
+      final ticket = data[0];
+      print(ticket['ticketKey']);
+      if (data.isNotEmpty) {
+        Navigator.pushNamed(context, '/qrCodeScanner', arguments: data);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Opps!\nAdd correct UserCode which send to QR Code creator via Email'),
+          ),
+        );
+      }
     }
   }
+
+  // Future<dynamic> fetchUserCodeValidationFromAPI(String code) async {
+  //   String uri = 'https://nice-williams.34-81-183-3.plesk.page/validate/$code';
+
+  //   final response = await http.get(Uri.parse(uri));
+
+  //   if (response.statusCode == 200) {
+  //     final data = jsonDecode(response.body);
+  //     final ticket = data[0];
+  //     print(data['ticketKey']);
+  //     return data;
+  //   } else {
+  //     print(
+  //         'Opps!\nAdd correct UserCode which send to QR Code creator via Email.');
+  //     throw Exception(
+  //         'Opps!\nAdd correct UserCode which send to QR Code creator via Email.');
+  //   }
+  // }
 
   // Future<void> checkNetworkStatus(BuildContext context) async {
   //   var connectivityResult = await Connectivity().checkConnectivity();
