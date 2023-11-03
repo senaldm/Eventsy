@@ -205,10 +205,10 @@ class _UserCodeState extends State<UserCode> {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      final ticket = data[0];
+      final ticket = data[1];
       print(ticket['ticketKey']);
       if (data.isNotEmpty) {
-        Navigator.pushNamed(context, '/qrCodeScanner', arguments: data);
+       Navigator.pushNamed(context, '/qrCodeScanner', arguments: data);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -219,45 +219,6 @@ class _UserCodeState extends State<UserCode> {
       }
     }
   }
-
-  // Future<dynamic> fetchUserCodeValidationFromAPI(String code) async {
-  //   String uri = 'https://nice-williams.34-81-183-3.plesk.page/validate/$code';
-
-  //   final response = await http.get(Uri.parse(uri));
-
-  //   if (response.statusCode == 200) {
-  //     final data = jsonDecode(response.body);
-  //     final ticket = data[0];
-  //     print(data['ticketKey']);
-  //     return data;
-  //   } else {
-  //     print(
-  //         'Opps!\nAdd correct UserCode which send to QR Code creator via Email.');
-  //     throw Exception(
-  //         'Opps!\nAdd correct UserCode which send to QR Code creator via Email.');
-  //   }
-  // }
-
-  // Future<void> checkNetworkStatus(BuildContext context) async {
-  //   var connectivityResult = await Connectivity().checkConnectivity();
-  //   if (connectivityResult == ConnectivityResult.none) {
-  //     showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           title: Text('No Internet Connection'),
-  //           content: Text('Please check your network connectivity.'),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               onPressed: () => Navigator.of(context).pop(),
-  //               child: Text('OK'),
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
 
   Future<void> checkNetworkStatus() async {
     var connectivityResult = await Connectivity().checkConnectivity();

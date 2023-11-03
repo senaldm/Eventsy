@@ -26,10 +26,10 @@ class QrCodeScannerState extends State<QrCodeScanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   @override
-  void initstate() {
+  void initState() {
     super.initState();
-    ticketKey = widget.data[0]['ticketKey'];
-    ticketDetails = widget.data[0];
+    // ticketKey = widget.data[0]['ticketKey'];
+    ticketDetails = widget.data;
   }
 
   @override
@@ -142,13 +142,11 @@ class QrCodeScannerState extends State<QrCodeScanner> {
   }
 
   Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
         ? 300.0
         : 450.0;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
+
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
@@ -166,115 +164,28 @@ class QrCodeScannerState extends State<QrCodeScanner> {
     setState(() {
       this.controller = controller;
     });
-    // final future = Completer<void>();
+
     controller.scannedDataStream.listen((scanData) {
       // setState(() {
       //   result = scanData;
       // });
       if (scanData != null) {
-        print(ticketDetails);
-         //Navigator.pushNamed(
-         // context, '/qrCodeValidate',
-         // arguments: [scanData.code, ticketDetails]
-        //);
-      //  Navigator.pushNamed(context,'/qrCodeValidate',arguments:scanData.code);
-   //      Navigator.of(context).push(MaterialPageRoute(
-    //    builder: (context) => SecondPage(data: scanData.code??''),
-    //  ));
-      Navigator.of(context).push(
+        print(scanData.code);
+ 
+        Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => TicketValidationScreen(
-              scannedQRCode: scanData.code??'', // Replace with your first data
-              ticketDetails: ticketDetails, // Replace with your second data
+              scannedQRCode:
+                  scanData.code ?? '', 
+              ticketDetails: ticketDetails, 
             ),
           ),
         );
-//       Navigator.of(context).push(MaterialPageRoute(
-//   builder: (context) => TicketValidationScreen((scanData.code, ticketDetails)),
-// ));
-        // Navigator.of(context).push(MaterialPageRoute(
-        //   builder: (context) => TicketValidationScreen(
-        //     scannedQRCode: scanData.code??'',
-        //     ticketDetails: ticketDetails,
-        //   ),
-        // ));
 
-        //   String matchingKey = '';
-        //   for (String key in ticketKey) {
-        //     if (scanData.code == key) {
-        //       matchingKey = key;
-        //       break;
-        //     }
-        //     // break;
-        //   }
-
-        // if (matchingKey!='') {
-        //   print(ticketDetails);
-
-        //   Navigator.pushNamed(context, '/qrCodeValidate',
-        //       //arguments: [true, ticketDetails]
-        //       );
-
-        // }
-        // else{
-        //   Navigator.pushNamed(context, '/qrCodeValidate',
-        //       //arguments: [false, ticketDetails]
-        //       );
-
-        // }
-
-        // Check if a QR code is detected
-        // If a QR code is detected, navigate to another page
-     //   Navigator.pushNamed(context,'/qrCodeValidate');
-     
       }
     });
 
-    // print(ticketDetails);
-    // controller.scannedDataStream.listen((scanData) {
-    // Navigator.pushNamed(context, '/validateQR',
-    //     arguments: [false, ticketDetails]);
-
-    // if (scanData != null) {
-    //   String matchingKey = '';
-    //   for (String key in ticketKey) {
-    //     if (scanData.code == key) {
-    //       matchingKey = key;
-    //       break;
-    //     }
-    //     // break;
-    //   }
-
-    // if (matchingKey == '') {
-    //   print(ticketDetails);
-
-    //   Navigator.pushNamed(context, '/validateQR',
-    //       arguments: [false, ticketDetails]);
-
-    // }
-    // else{
-    //   Navigator.pushNamed(context, '/validateQR',
-    //       arguments: [true, ticketDetails]);
-
-    // }
-    //  if (matchingKey == '' && !controller.scannedDataStream.hasListeners<void>()) {
-    //   future.complete();
-    // }
-
-    // Wait for the Future to resolve before calling Navigator.pushNamed().
-    // Future.delayed(Duration(milliseconds: 100)).then((_) {
-    // If the key matches, navigate to the /validateQR route with the matching ticket details.
-    // if (matchingKey.isNotEmpty) {
-    //   Navigator.pushNamed(context, '/validateQR',
-    //       arguments: [true, ticketDetails]);
-    // } else {
-    //   // If the key does not match, navigate to the /validateQR route with the original ticket details.
-    //   Navigator.pushNamed(context, '/validateQR',
-    //       arguments: [false, ticketDetails]);
-    // }
-    // });
-    // }
-    // });
+   
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {

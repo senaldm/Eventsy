@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
@@ -18,14 +18,23 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
   late String qrCode;
   late List<dynamic> ticketData;
   late List<String> ticketKeys;
+  late String ticketType;
+
   bool userWantsManualClose = false;
 
   @override
-  void initstate() {
+  void initState() {
     super.initState();
     qrCode = widget.scannedQRCode;
     ticketData = widget.ticketDetails;
-    ticketKeys=widget.ticketDetails[0]['ticketKey'];
+    addTicketKeys();
+    checkValidation();
+  }
+
+  void addTicketKeys() {
+    ticketKeys = ticketData.map((item) => item['ticketKey'] as String).toList();
+
+    //print(ticketKeys);
   }
 
   void checkValidation() {
@@ -33,51 +42,121 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
     for (String key in ticketKeys) {
       if (qrCode == key) {
         matchingKey = key;
+        var ticket =ticketData.firstWhere((item) => item['ticketKey'] == qrCode);
+        ticketType = ticket['ticketType'];
         break;
       }
-      //     // break;
     }
 
     if (matchingKey != '') {
       isValidated = true;
+      
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Eventsy Validation"),
+      resizeToAvoidBottomInset: false,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(height * 0.1),
+
+        // padding:EdgeInsets.only(top: height * 0.02, right: width * 0.02),
+
+        child: AppBar(
+          titleSpacing: 2.2,
+          forceMaterialTransparency: false,
+          backgroundColor: Color.fromARGB(255, 18, 140, 126),
+          automaticallyImplyLeading: true,
+          centerTitle: true,
+          flexibleSpace: Center(
+            child: Text(
+              'Eventsy Validation',
+              style: TextStyle(
+                  fontSize: width * 0.07,
+                  fontFamily: 'Roboto',
+                  // fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+          ),
+        ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              isValidated ? Icons.check : Icons.close,
-              color: isValidated ? Colors.green : Colors.red,
-              size: 100.0,
-            ),
-            SizedBox(height: 20.0),
-            Text(
-              isValidated ? "Ticket Validated" : "Invalid Ticket",
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Text(
-              "Ticket Details: Your ticket details go here...",
-              style: TextStyle(fontSize: 16.0),
-            ),
-            SizedBox(height: 20.0),
+            isValidated?
+             
+                  Column(
+                    children: [
+                      Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 100.0,
+                      ),
+                      
+               
+                      SizedBox(height: 20.0),
+                    
+                  
+                  Text(
+                    "Ticket Validated",
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                    
+                  SizedBox(height: 20.0),
+                  Text(
+                    "Ticket Type: $ticketType",
+                    style: TextStyle(fontSize: 16.0),
+                  ),])
+                  : Column(
+                  children:[
+                  
+                Icon(
+                      Icons.close_rounded,
+                      color: Colors.red,
+                      size: 100.0,
+                    ),
+                  SizedBox(height: 20.0),
+                  Text(
+                    "Ticket Invalidated",
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+                )
+              
+              
+               
+             
+            // Text(
+            //   isValidated ? "Ticket Validated" : "Invalid Ticket",
+            //   style: TextStyle(
+            //     fontSize: 24.0,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            // SizedBox(height: 20.0),
+            // Text(
+            //   "Ticket Details: Your ticket details go here...",
+            //   style: TextStyle(fontSize: 16.0),
+            // ),,
+           ,SizedBox(height: 20.0),
             CountdownTimer(
               endTime: DateTime.now().millisecondsSinceEpoch + 5000,
               textStyle: TextStyle(fontSize: 48.0),
               onEnd: () {
                 if (!userWantsManualClose) {
-                  Navigator.pop(context);
+                       Navigator.pushNamed(context, '/qrCodeScanner',
+                        arguments: ticketData);
+                 //   Navigator.pop(context);
                 }
               },
             ),
