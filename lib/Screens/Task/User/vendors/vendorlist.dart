@@ -7,18 +7,13 @@ import 'package:hive/hive.dart';
 import 'dart:async';
 import 'package:eventsy/Model/Vendor/vendor.dart';
 
-import 'package:eventsy/Screens/Task/User/bottonNavigationPaint.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 
-import 'package:eventsy/Screens/Task/User/TaskFilter.dart';
 
 import 'package:eventsy/Screens/Task/User/vendors/addVendor.dart';
 
 import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:collection/collection.dart';
 
 class VendorList extends StatefulWidget {
    const VendorList({ Key? key }) : super(key: key);
@@ -289,89 +284,89 @@ class _VendorListState extends State<VendorList> {
   ///////////////////////////////////////////////
   /////////////////////////////////////////////////////
 
-  // static Future<void> deleteTask(String taskKey) async {
-  //   final taskBox = await Hive.openBox<Task>('task');
+  static Future<void> deleteVendor(String vendorKey) async {
+    final vendorBox = await Hive.openBox<Vendor>('vendor');
 
-  //   if (taskBox.containsKey(taskKey)) {
-  //     taskBox.delete(taskKey);
-  //   }
+    if (vendorBox.containsKey(vendorKey)) {
+      vendorBox.delete(vendorKey);
+    }
 
-  //   final directory = await getApplicationDocumentsDirectory();
-  //   final file = File('${directory.path}/tasks.txt');
-  //   if (await file.exists()) {
-  //     final lines = await file.readAsLines();
-  //     final updatedLines = lines.where((line) {
-  //       final taskData = line.split(',');
-  //       final taskKeyInFile = taskData[0];
-  //       return taskKeyInFile != taskKey;
-  //     }).toList();
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/vendor.txt');
+    if (await file.exists()) {
+      final lines = await file.readAsLines();
+      final updatedLines = lines.where((line) {
+        final vendorData = line.split(',');
+        final vendorNameInFile = vendorData[0];
+        return vendorNameInFile != vendorKey;
+      }).toList();
 
-  //     await file.writeAsString(updatedLines.join('\n'));
-  //   }
-  // }
+      await file.writeAsString(updatedLines.join('\n'));
+    }
+  }
 
   // // ////////////////////Edit or delete////////////////////////////
   // /////////////////////////////////////////////////////////
 
-  // editOrDelete(String key) {
-  //   // String taskKey = key;
-  //   String taskKey = key;
+  editOrDelete(String key) {
+    // String vendorName = key;
+    String vendorName = key;
 
-  //   showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           shape: RoundedRectangleBorder(
-  //               borderRadius: BorderRadius.all(Radius.circular(15.0))),
-  //           content: Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //             crossAxisAlignment: CrossAxisAlignment.center,
-  //             children: [
-  //               ElevatedButton(
-  //                   onPressed: () async {
-  //                     final updatedTask = await Navigator.pushNamed(
-  //                         context, '/updateTask',
-  //                         arguments: taskKey);
-  //                     retrieveData();
-  //                     // if (updatedTask != null) {
-  //                     //   // If a new task is added, update the data and refresh the UI
-  //                     //   setState(() {
-  //                     //     tasks.add(updatedTask as Task);
-  //                     //   });
-  //                     // }
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () async {
+                      final updatedVendor = await Navigator.pushNamed(
+                          context, '/addVendor',
+                          arguments: vendorName);
+                      retrieveData();
+                      // if (updatedTask != null) {
+                      //   // If a new task is added, update the data and refresh the UI
+                      //   setState(() {
+                      //     tasks.add(updatedTask as Task);
+                      //   });
+                      // }
 
-  //                     Navigator.pop(context, updatedTask);
-  //                     // Navigator.pushNamed(context,'UserHome');
-  //                   },
-  //                   style: ElevatedButton.styleFrom(
-  //                     backgroundColor: Color.fromARGB(255, 37, 211, 102),
-  //                   ),
-  //                   child: Text(" Edit ",
-  //                       style: TextStyle(
-  //                         color: Colors.black87,
-  //                       ))),
-  //               ElevatedButton(
-  //                   onPressed: () async {
-  //                     await deleteTask(taskKey);
-  //                     retrieveData();
-  //                     Navigator.pop(context, null);
-  //                     // deleteTask(taskKey);
-  //                     // Navigator.pop(context);
-  //                   },
-  //                   style: ElevatedButton.styleFrom(
-  //                     // alignment:,
-  //                     backgroundColor: Color.fromARGB(255, 118, 6, 6),
-  //                   ),
-  //                   child: Text("Delete",
-  //                       style: TextStyle(
-  //                         color: Colors.black87,
-  //                       ))),
-  //             ],
-  //           ),
-  //         );
-  //       });
-  //   //return action;
-  // }
+                      Navigator.pop(context, updatedVendor);
+                      // Navigator.pushNamed(context,'UserHome');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 37, 211, 102),
+                    ),
+                    child: Text(" Edit ",
+                        style: TextStyle(
+                          color: Colors.black87,
+                        ))),
+                ElevatedButton(
+                    onPressed: () async {
+                      await deleteVendor(vendorName);
+                      retrieveData();
+                      Navigator.pop(context, null);
+                      // deleteTask(vendorName);
+                      // Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      // alignment:,
+                      backgroundColor: Color.fromARGB(255, 118, 6, 6),
+                    ),
+                    child: Text("Delete",
+                        style: TextStyle(
+                          color: Colors.black87,
+                        ))),
+              ],
+            ),
+          );
+        });
+    //return action;
+  }
 
 //////////////////main view///////////////////////////////
 ///////////////////////////////////////////////////////
@@ -535,22 +530,22 @@ class _VendorListState extends State<VendorList> {
                                   //   time,
                                   // ),
                                   onTap: () async {
-                                    Navigator.pushNamed(context, '/viewVendor',
+                                    Navigator.pushNamed(context, 'viewVendor',
                                         arguments: vendor);
                                     // setState(() {
                                     //   retrieveData();
                                     // });
                                   },
-                                  // onLongPress: () async {
-                                  //   final updatedTask =
-                                  //       editOrDelete(task.taskKey);
-                                  //   if (updatedTask != null) {
-                                  //     setState(() {
-                                  //       retrieveData();
-                                  //     });
-                                  //   }
+                                  onLongPress: () async {
+                                    final updatedTask =
+                                        editOrDelete(vendor.vendorName);
+                                    if (updatedTask != null) {
+                                      setState(() {
+                                        retrieveData();
+                                      });
+                                    }
                                   //   // await retrieveData();
-                                  // },
+                                   },
                                 ),
                               ),
                             ],
@@ -569,11 +564,11 @@ class _VendorListState extends State<VendorList> {
             //   borderRadius: BorderRadius.circular(100)),
             onPressed: () async {
               Navigator.pushNamed(context, 'addVendor');
-              final newTask = await Navigator.pushNamed(context, 'addVendor');
-              if (newTask != null) {
+              final newVendor = await Navigator.pushNamed(context, 'addVendor');
+              if (newVendor != null) {
 
                 setState(() {
-                  vendors.add(newTask as Vendor);
+                  vendors.add(newVendor as Vendor);
                 });
               }
               await retrieveData();
