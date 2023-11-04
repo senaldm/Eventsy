@@ -55,8 +55,10 @@ class _UserCodeState extends State<UserCode> {
     setState(() {
       if (currentValidationBackMethod == 'automatic') {
         isAutomaticOn = true;
+
       } else {
         isAutomaticOn = false;
+ 
       }
     });
   }
@@ -91,56 +93,47 @@ class _UserCodeState extends State<UserCode> {
                   ),
                   actions: <Widget>[
                     PopupMenuButton(
-                        color: Color.fromARGB(255, 20, 24, 26),
-                        icon: Icon(Icons.menu_rounded, color: Colors.white70),
-                        iconSize: 30.0,
-                        itemBuilder: (context) {
-                          return [
-                            PopupMenuItem<int>(
-                              value: 0,
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    title: Text(
-                                      "Back to Scanner Mode",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15.0),
-                                    ),
+                      color: Color.fromARGB(255, 20, 24, 26),
+                      icon: Icon(Icons.menu_rounded, color: Colors.white70),
+                      iconSize: 30.0,
+                      itemBuilder: (context) {
+                        return [
+                          PopupMenuItem<int>(
+                            value: 0,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    "Back to Scanner Mode",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15.0),
                                   ),
-                                  ListTile(
-                                    title: isAutomaticOn
-                                        ? Text("Automatic",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12.0))
-                                        : Text("Manual",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12.0)),
-                                    trailing: Switch(
-                                      value: isAutomaticOn,
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          isAutomaticOn = newValue;
-                                        });
-                                        saveAutomaticModeState(newValue);
-                                      },
-                                    ),
+                                ),
+                                ListTile(
+                                  title: Text('automatic',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.0)),
+                                      
+                                  trailing: Switch(
+                                    value: isAutomaticOn,
+                                    onChanged: (bool newValue) {
+                                      setState(() async {
+                                        isAutomaticOn = newValue;
+                                        
+                                          
+                                        
+                                      });
+                                      saveAutomaticModeState(newValue);
+                                    },
                                   ),
-                                ],
-                                // Text(
-                                //   "Back to Scanner Mode",
-                                //   style: TextStyle(color: Colors.white70),
-                                // ),
-                              ),
+                                ),
+                              ],
                             ),
-                          ];
-                        },
-                        onSelected: (value) {
-                          if (value == 0) {
-                            Navigator.pushNamed(context, '/userSettings');
-                          }
-                        }),
+                          ),
+                        ];
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -262,9 +255,7 @@ class _UserCodeState extends State<UserCode> {
     } else {
       currentValidationBackMethod = 'manual';
     }
-    setState(() {
-      isAutomaticOn = value;
-    });
+
     await validationbackMethodBox?.put(
         'backMethod', currentValidationBackMethod as ValidationBackMethod);
   }
