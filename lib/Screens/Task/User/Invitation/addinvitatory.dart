@@ -2,35 +2,35 @@
 
 import 'dart:io';
 
+import 'package:eventsy/Model/Invitations/invitatory.dart';
 import 'package:eventsy/global.dart';
 import 'package:flutter/material.dart';
-import 'package:eventsy/Model/Vendor/vendor.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sliding_switch/sliding_switch.dart';
 // import 'package:eventsy/main.dart';
 
-class AddVendor extends StatefulWidget {
-  const AddVendor({Key? key}) : super(key: key);
+class AddInvitatory  extends StatefulWidget {
+  const AddInvitatory({Key? key}) : super(key: key);
 
   @override
-  _AddVendorState createState() => _AddVendorState();
+ _AddInvitatoryState createState() => _AddInvitatoryState();
 }
 
-class _AddVendorState extends State<AddVendor> {
-  final vendorNameController = TextEditingController();
-  final dateController = TextEditingController();
-  final noteController = TextEditingController();
-  bool isConfirmed = false;
+class _AddInvitatoryState extends State<AddInvitatory> {
+  final guestNameController = TextEditingController();
+  final date_Controller = TextEditingController();
+  final note_Controller = TextEditingController();
+  bool isInvitatorySent = false; // Updated field name
 
-  final String label = "Vendor Confirmed";
+  final String label = "invitatory sent";
   bool isSwitchOn = false;
 
   final bool value = false;
   final bool onChanged = true;
   final _formKey = GlobalKey<FormState>();
-  final List<Vendor> vendor = [];
+  final List<Invitatory> invitatory = [];
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -57,7 +57,7 @@ class _AddVendorState extends State<AddVendor> {
                 centerTitle: true,
                 flexibleSpace: Center(
                   child: Text(
-                    'Add Vendor',
+                    'Add Invitation',
                     style: TextStyle(
                         fontSize: width * 0.07,
                         fontFamily: 'Roboto',
@@ -67,10 +67,10 @@ class _AddVendorState extends State<AddVendor> {
                 ),
               ),
             ),
-            body:
-                //             SingleChildScrollView(
-                // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                Container(
+            body: 
+            //             SingleChildScrollView(
+            // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/Images/Home/bodyBack4.jpg"),
@@ -88,7 +88,7 @@ class _AddVendorState extends State<AddVendor> {
                       //       borderRadius: BorderRadius.circular(10.0)),
                       //   margin: EdgeInsets.only(
                       //       left: width * 0.15, right: width * 0.15),
-
+            
                       //   borderOnForeground: false,
                       //   // child:SingleChildScrollView(
                       //   child: DropdownButtonFormField<String>(
@@ -132,7 +132,7 @@ class _AddVendorState extends State<AddVendor> {
                       //         ),
                       //       );
                       //     }).toList(),
-
+                         
                       //     style: const TextStyle(
                       //       color: Colors.black87,
                       //       // fontSize: 20.0,
@@ -150,7 +150,7 @@ class _AddVendorState extends State<AddVendor> {
                       //       fillColor: Colors.grey.shade900,
                       //       border: UnderlineInputBorder(
                       //         borderRadius: BorderRadius.circular(10.0),
-
+                              
                       //       ),
                       //       prefixIcon: Icon(Icons.category_outlined,),
                       //       hintText: 'Category',
@@ -159,11 +159,11 @@ class _AddVendorState extends State<AddVendor> {
                       //     dropdownColor: Colors.blueGrey.shade900,
                       //   ),
                       // ),
-
+            
                       // SizedBox(
                       //   height: width * 0.05,
                       // ),
-
+                    
                       SizedBox(
                         height: width * 0.05,
                       ),
@@ -174,12 +174,12 @@ class _AddVendorState extends State<AddVendor> {
                             left: width * 0.15, right: width * 0.15),
                         borderOnForeground: false,
                         child: Hero(
-                          tag: 'vendorName',
+                          tag: 'guestName',
                           child: TextFormField(
-                            controller: vendorNameController,
+                            controller: guestNameController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "Please enter a vendor name";
+                                return "Please enter a guest name";
                               }
                               return null;
                             },
@@ -188,17 +188,18 @@ class _AddVendorState extends State<AddVendor> {
                             //     return 'Please enter a task name';
                             //   }
                             //   return null;
-
+            
                             // },
-
+            
                             decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon: Icon(Icons.task_outlined),
-
-                              hintText: 'vendor Name',
+                               border: UnderlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                              prefixIcon:Icon(Icons.task_outlined),
+                            
+                              hintText: 'Guest Name',
                               // prefixText:'Task Name',
                               // prefixIconColor:Colors.green,
+                              
                             ),
                           ),
                         ),
@@ -215,15 +216,15 @@ class _AddVendorState extends State<AddVendor> {
                         child: Hero(
                           tag: 'date',
                           child: TextField(
-                            controller: dateController,
+                            controller: date_Controller,
                             // onChanged: (value) {
-                            //   vendorName:
+                            //   guestName:
                             //   value;
                             // },
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon: Icon(Icons.business_center_outlined),
+                                  prefixIcon: Icon(Icons.business_center_outlined),
                               hintText: 'Date',
                             ),
                           ),
@@ -241,7 +242,7 @@ class _AddVendorState extends State<AddVendor> {
                         child: Hero(
                           tag: 'note',
                           child: TextField(
-                            controller: noteController,
+                            controller: note_Controller,
                             // onChanged: (value) {
                             //   budget:
                             //   value;
@@ -250,7 +251,7 @@ class _AddVendorState extends State<AddVendor> {
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon: Icon(Icons.attach_money_rounded),
+                                  prefixIcon: Icon(Icons.attach_money_rounded),
                               hintText: ' Note ',
                             ),
                           ),
@@ -320,7 +321,7 @@ class _AddVendorState extends State<AddVendor> {
                       FloatingActionButton.extended(
                         heroTag: Text('cancel'),
                         onPressed: () {
-                           Navigator.pushNamed(context, 'VendorList');
+                          Navigator.pushNamed(context, '/TaskList');
                         },
                         backgroundColor: Colors.blueGrey.shade900,
                         label: Text(
@@ -335,11 +336,11 @@ class _AddVendorState extends State<AddVendor> {
                         heroTag: Text('save'),
                         onPressed: () async {
                           if (_formKey.currentState?.validate() == true) {
-                            await addVendor(
-                              vendorNameController.text,
-                              dateController.text,
-                              noteController.text,
-                              isConfirmed,
+                            await addInvitatory(
+                              guestNameController.text,
+                              date_Controller.text,
+                              note_Controller.text,
+                              isInvitatorySent,
                             );
                             Navigator.pop(context);
                           }
@@ -371,54 +372,54 @@ class _AddVendorState extends State<AddVendor> {
     });
   }
 
-  addVendor(
-      String vendorName, String date, String note, bool isConfirmed) async {
+  addInvitatory(String guestName, String date, String note, bool isInvitatorySent) async {
     // final appDocumentDir = await getApplicationDocumentsDirectory();
-    // final filePath = '${appDocumentDir.path}/tasks.txt';
-    final vendorBox = await Hive.openBox<Vendor>('vendor');
+    // final filePath = '${appDocumentDir.path}/invitation.txt';
+    final invitatoryBox = await Hive.openBox<Invitatory>('invitatory');
     final uniqueKey = Uuid().v4();
 
     if (_formKey.currentState!.validate()) {
       // categoryName = categoryController.text;
-      vendorName = vendorNameController.text;
-      date = dateController.text;
-      note = noteController.text;
-      isConfirmed = isSwitchOn;
+      guestName = guestNameController.text;
+      date = date_Controller.text;
+      note = note_Controller.text;
+      isInvitatorySent = isSwitchOn;
       final String uniqueKey = Uuid().v4();
 
-      // Create a new Task object
-      final vendor = Vendor(
-        vendorName: vendorName,
-        date: date,
-        note: note,
-        isComplete: isConfirmed,
-      );
+      // Create a new invitation object
+      final invitatory = Invitatory(
+      guestName: guestName,
+      date: date,
+      note: note,
+      isInvitatorySent: isInvitatorySent,
+    );
 
-      // Store the task in Hive
-      await vendorBox.put(uniqueKey, vendor);
-      storeVendor(vendor);
+      // Store the invitation in Hive
+      await invitatoryBox.put(uniqueKey, invitatory);
+      storeInvitatory(invitatory);
 
       // Clear form data
       // categoryController.clear();
-      vendorNameController.clear();
-      dateController.clear();
-      noteController.clear();
+      guestNameController.clear();
+      date_Controller.clear();
+      note_Controller.clear();
     }
   }
 
-  Future<void> storeVendor(Vendor vendor) async {
+  Future<void> storeInvitatory(Invitatory invitatory) async {
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/vendors.txt');
+    final file = File('${directory.path}/invitatory.txt');
     final exists = await file.exists();
 
     if (!exists) {
       await file.create();
     }
+    
 
-    //final formattedTimestamp = vendor.timestamp?.toIso8601String() ?? '';
+    //final formattedTimestamp = invitatory.timestamp?.toIso8601String() ?? '';
 
-    final vendorData =
-        '${vendor.vendorName},${vendor.date},${vendor.note},${vendor.isComplete}\n';
-    await file.writeAsString(vendorData, mode: FileMode.append);
+    final invitatoryData  =
+        '${invitatory.guestName},${invitatory.date},${invitatory.note},${invitatory.isInvitatorySent}\n';
+    await file.writeAsString(invitatoryData, mode: FileMode.append);
   }
 }
