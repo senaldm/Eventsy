@@ -97,8 +97,6 @@ dependencies:
   internet_connection_checker_plus: ^1.0.1
   #connectivity_plus: ^4.0.2
   connectivity: ^3.0.6
-  mobile_scanner: ^3.5.1
-  qr_code_scanner: ^1.0.1
 
   
 
