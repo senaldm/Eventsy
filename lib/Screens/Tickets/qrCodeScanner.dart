@@ -1,207 +1,175 @@
-// import 'dart:io';
-// import 'dart:typed_data';
+// ignore_for_file: override_on_non_overriding_member
 
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
-// import 'package:mobile_scanner/mobile_scanner.dart';
-// import 'package:qr_code_scanner/qr_code_scanner.dart';
-// // import 'package:qr_flutter/qr_flutter.dart';
+import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
+import 'package:eventsy/Screens/Tickets/qrCodeValidate.dart';
+import 'package:flutter/material.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-// // import 'package:barcode_scan_fix/barcode_scan.dart';
+class QrCodeScanner extends StatefulWidget {
+  List<dynamic> data;
+  QrCodeScanner({required this.data});
 
-// class QrCodeScanner extends StatefulWidget {
-//     const QrCodeScanner({super.key});
-//   @override
-//    State<QrCodeScanner> createState() => _QrCodeScannerState();
-// }
+  @override
+  State<StatefulWidget> createState() => QrCodeScannerState();
+}
 
-// // class _QrCodeScannerState extends State<QrCodeScanner> {
-// //   String qrCodeResult = "Not Yet Scanned";
+class QrCodeScannerState extends State<QrCodeScanner> {
+  late List<String> ticketKey;
+  late List<dynamic> ticketDetails;
+  Barcode? result;
+  QRViewController? controller;
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Scaffold(
-// //       appBar: AppBar(
-// //         title: Text("Scan QR Code"),
-// //       ),
-// //       body: Container(
-// //         padding: EdgeInsets.all(20),
-// //         child: Column(
-// //           mainAxisAlignment: MainAxisAlignment.center,
-// //           crossAxisAlignment: CrossAxisAlignment.stretch,
-// //           children: [
-// //             //Message displayed over here
-// //             Text(
-// //               "Result",
-// //               style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
-// //               textAlign: TextAlign.center,
-// //             ),
-// //             Text(
-// //               qrCodeResult,
-// //               style: TextStyle(
-// //                 fontSize: 20.0,
-// //               ),
-// //               textAlign: TextAlign.center,
-// //             ),
-// //             SizedBox(
-// //               height: 20.0,
-// //             ),
+  @override
+  void initState() {
+    super.initState();
+    ticketDetails = widget.data;
+  }
 
-// //             //Button to scan QR code
-// //             FlatButton(
-// //               padding: EdgeInsets.all(15),
-// //               onPressed: () async {
-// //                 String codeSanner =
-// //                     await BarcodeScanner.scan(); //barcode scanner
-// //                 setState(() {
-// //                   qrCodeResult = codeSanner;
-// //                 });
-// //               },
-// //               child: Text(
-// //                 "Open Scanner",
-// //                 style: TextStyle(color: Colors.indigo[900]),
-// //               ),
-// //               //Button having rounded rectangle border
-// //               shape: RoundedRectangleBorder(
-// //                 side: BorderSide(color: const Color.fromARGB(255, 53, 56, 83)),
-// //                 borderRadius: BorderRadius.circular(20.0),
-// //               ),
-// //             ),
-// //           ],
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid || Platform.isIOS) {
+      controller!.pauseCamera();
+    }
+    controller!.resumeCamera();
+  }
 
-// // import 'package:mobile_scanner/mobile_scanner.dart';
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: WillPopScope(
+        child: Column(
+          children: [
+            Expanded(flex: 4, child: _buildQrView(context)),
+            Expanded(
+              flex: 1,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.all(8),
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                await controller?.toggleFlash();
+                                setState(() {});
+                              },
+                              child: FutureBuilder(
+                                  future: controller?.getFlashStatus(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.data == true) {
+                                      return const Icon(Icons.flash_off);
+                                    } else {
+                                      return const Icon(Icons.flash_on);
+                                    }
+                                  })),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: const EdgeInsets.all(8),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await controller?.pauseCamera();
+                            },
+                            child: const Text('pause',
+                                style: TextStyle(fontSize: 20)),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(8),
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await controller?.resumeCamera();
+                            },
+                            child: const Text('resume',
+                                style: TextStyle(fontSize: 20)),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+        onWillPop: () async {
+          Navigator.pushNamed(
+            context,
+            '/UserCode',
+          );
+          return false;
+        },
+      ),
+    );
+  }
 
-// // class QrCodeScanner extends StatelessWidget {
-// //  QrCodeScanner({super.key});
+  Widget _buildQrView(BuildContext context) {
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
+        ? 300.0
+        : 450.0;
 
-// //  MobileScannerController cameraController = MobileScannerController();
+    return QRView(
+      key: qrKey,
+      onQRViewCreated: _onQRViewCreated,
+      overlay: QrScannerOverlayShape(
+          borderColor: Colors.green,
+          borderRadius: 10,
+          borderLength: 30,
+          borderWidth: 10,
+          cutOutSize: scanArea),
+      onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+    );
+  }
 
-// //  @override
-// // Widget build(BuildContext context) {
-// // return Scaffold(
-// // appBar: AppBar(
-// //   title: const Text('Mobile Scanner'),
-// //   actions: [
-// //     IconButton(
-// //       color: Colors.white,
-// //       icon: ValueListenableBuilder(
-// //         valueListenable: cameraController.torchState,
-// //         builder: (context, state, child) {
-// //           switch (state as TorchState) {
-// //             case TorchState.off:
-// //               return const Icon(Icons.flash_off, color: Colors.grey);
-// //             case TorchState.on:
-// //               return const Icon(Icons.flash_on, color: Colors.yellow);
-// //           }
-// //         },
-// //       ),
-// //       iconSize: 32.0,
-// //       onPressed: () => cameraController.toggleTorch(),
-// //     ),
-// //     IconButton(
-// //       color: Colors.white,
-// //       icon: ValueListenableBuilder(
-// //         valueListenable: cameraController.cameraFacingState,
-// //         builder: (context, state, child) {
-// //           switch (state as CameraFacing) {
-// //             case CameraFacing.front:
-// //               return const Icon(Icons.camera_front);
-// //             case CameraFacing.back:
-// //               return const Icon(Icons.camera_rear);
-// //           }
-// //         },
-// //       ),
-// //       iconSize: 32.0,
-// //       onPressed: () => cameraController.switchCamera(),
-// //     ),
-// //   ],
-// // ),
-// // body: MobileScanner(
-// //   // fit: BoxFit.contain,
-// //   controller: cameraController,
-// //   onDetect: (capture) {
-// //     final List<Barcode> barcodes = capture.barcodes;
-// //     final Uint8List? image = capture.image;
-// //     for (final barcode in barcodes) {
-// //       debugPrint('Barcode found! ${barcode.rawValue}');
-// //     }
-// //   },
-// // ),
-// // );
-// // }
+  void _onQRViewCreated(QRViewController controller) {
+    setState(() {
+      this.controller = controller;
+    });
 
-// // }
-// // // import 'package:mobile_scanner/mobile_scanner.dart';
+    controller.scannedDataStream.listen((scanData) {
+      if (scanData != null) {
+        print(scanData.code);
 
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => TicketValidationScreen(
+              scannedQRCode: scanData.code ?? '',
+              ticketDetails: ticketDetails,
+            ),
+          ),
+        );
+        this.controller = null;
+      }
+    });
+  }
 
+  void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
+    log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
+    if (!p) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('no Permission')),
+      );
+    }
+  }
 
-
-
-
-
-
-// class _QrCodeScannerState extends State<QrCodeScanner> {
-//   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-//   // Barcode? result;
-//   QRViewController? controller;
-  
-//   get result => null;
-
-//   // In order to get hot reload to work we need to pause the camera if the platform
-//   // is android, or resume the camera if the platform is iOS.
-//   @override
-//   void reassemble() {
-//     super.reassemble();
-//     if (Platform.isAndroid) {
-//       controller!.pauseCamera();
-//     } else if (Platform.isIOS) {
-//       controller!.resumeCamera();
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Column(
-//         children: <Widget>[
-//           Expanded(
-//             flex: 5,
-//             child: QRView(
-//               key: qrKey,
-//               onQRViewCreated: _onQRViewCreated,
-//             ),
-//           ),
-//           Expanded(
-//             flex: 1,
-//             child: Center(
-//               child: (result != null)
-//                   ? Text(
-//                       'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-//                   : Text('Scan a code'),
-//             ),
-//           )
-//         ],
-//       ),
-//     );
-//   }
-
-//   void _onQRViewCreated(QRViewController controller) {
-//     this.controller = controller;
-//     controller.scannedDataStream.listen((scanData) {
-//       // setState(() {
-//       //   result = scanData;
-//       // });
-//     });
-//   }
-
-//   @override
-//   void dispose() {
-//     controller?.dispose();
-//     super.dispose();
-//   }
-// }
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+}

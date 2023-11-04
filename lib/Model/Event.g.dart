@@ -356,3 +356,37 @@ class UserModeAdapter extends TypeAdapter<UserMode> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class ValidationBackMethodAdapter extends TypeAdapter<ValidationBackMethod> {
+  @override
+  final int typeId = 6;
+
+  @override
+  ValidationBackMethod read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return ValidationBackMethod(
+      backMethod: fields[16] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, ValidationBackMethod obj) {
+    writer
+      ..writeByte(1)
+      ..writeByte(16)
+      ..write(obj.backMethod);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ValidationBackMethodAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

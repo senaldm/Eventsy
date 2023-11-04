@@ -1,6 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+// // ignore_for_file: prefer_const_constructors
 
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors
+import 'package:firebase_auth/firebase_auth.dart';
+ import 'package:flutter/material.dart';
+ import 'package:url_launcher/url_launcher.dart';
 
 class TicketHandlingHome extends StatefulWidget {
   const TicketHandlingHome({super.key});
@@ -12,6 +15,8 @@ class TicketHandlingHome extends StatefulWidget {
 class _TicketHandlingHomeState extends State<TicketHandlingHome> {
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -26,9 +31,6 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
               preferredSize: Size.fromHeight(height * 0.3),
               child: Container(
                 decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.only(
-                    //     bottomRight: Radius.circular(8.0),
-                    //     bottomLeft: Radius.circular(8.0)),
                     color: Colors.transparent,
                     boxShadow: const [
                       BoxShadow(
@@ -62,20 +64,12 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                 style: TextStyle(color: Colors.white70),
                               ),
                             ),
-                            PopupMenuItem<int>(
-                              value: 1,
-                              child: Text(
-                                "Dashboard",
-                                style: TextStyle(color: Colors.white70),
-                              ),
-                            ),
+                            
                           ];
                         },
                         onSelected: (value) {
                           if (value == 0) {
                             Navigator.pushNamed(context, '/userSettings');
-                          } else if (value == 1) {
-                            Navigator.pushNamed(context, '/userDashboard');
                           }
                         }),
                   ],
@@ -114,7 +108,9 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                 borderOnForeground: false,
                                 child: TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, 'TaskList');
+                                    
+                                     launchUrl(Uri.parse(
+                                        'https://eventsy-gray.vercel.app/#signup'));
                                   },
                                   child: SizedBox(
                                     width: width * 0.4,
@@ -149,7 +145,7 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                             ),
                                           )
                                         ]),
-                                  ),
+                                  ), 
                                 )),
                             SizedBox(
                               height: height * 0.02,
@@ -162,7 +158,8 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                 borderOnForeground: false,
                                 child: TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, 'VendorList');
+                                    launchUrl(Uri.parse(
+                                            'https://eventsy-gray.vercel.app/#signup'));
                                   },
                                   child: SizedBox(
                                     width: width * 0.4,
@@ -282,10 +279,11 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
             ),
           ),
           onWillPop: () async {
-            // Exit the app.
+         
             Navigator.pushNamed(context, '/TicketHandling');
             return false;
           },
         ));
   }
 }
+

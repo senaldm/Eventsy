@@ -33,7 +33,7 @@ class TicketHandling extends StatelessWidget {
     return Stack(
       children: [
         Image.asset(
-          "assets/Images/Home/todo_explore_background3.jpg",
+          "assets/Images/Home/ticket_handling_ackground.png",
           fit: BoxFit.cover,
           height: height,
           width: width,
@@ -56,19 +56,19 @@ class TicketHandling extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: width * 0.7,
+                            width: width * 0.6,
                           ),
                           FloatingActionButton.extended(
                             heroTag: 'btn1',
-                            backgroundColor: Colors.white,
+                            backgroundColor: Colors.orange.shade700,
                             onPressed: null,
                             icon: Icon(
-                              Icons.check_box,
+                              Icons.qr_code,
                               color: Colors.black87,
                               size: width * 0.07,
                             ),
                             label: Text(
-                              'ToDo',
+                              'Validate',
                               style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: width * 0.035,
@@ -86,7 +86,7 @@ class TicketHandling extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: const [
                           Text(
-                            'Planing',
+                            'Ticketization',
                             style: TextStyle(
                                 fontSize: 40.0,
                                 color: Colors.white70,
@@ -104,7 +104,7 @@ class TicketHandling extends StatelessWidget {
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                                'No such thing to plan Event??\n Eventsy is best option',
+                                'Worrying about secure tickets??\n Validate your ticket with us',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: "Quintessential",
@@ -129,7 +129,7 @@ class TicketHandling extends StatelessWidget {
                                     context, '/ticketHandlingHome');
                               },
                               backgroundColor: Colors.black87,
-                              icon: Icon(Icons.workspace_premium,
+                              icon: Icon(Icons.airplane_ticket_outlined,
                                   color: Colors.yellow.shade700),
                               label: Text(
                                 "Explore",
