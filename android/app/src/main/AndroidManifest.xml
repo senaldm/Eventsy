@@ -1,6 +1,9 @@
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-<uses-sdk android:minSdkVersion="29" android:targetSdkVersion="33" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools">
+<uses-sdk android:minSdkVersion="29" 
+android:targetSdkVersion="33"
+tools:overrideLibrary="io.flutter.plugins.firebase.auth" />
 
 
  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

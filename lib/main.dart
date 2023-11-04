@@ -113,6 +113,8 @@ Future main() async {
   Hive.registerAdapter(BudgetTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
   Hive.registerAdapter(ValidationBackMethodAdapter());
+  Hive.registerAdapter(VendorAdapter());
+  Hive.registerAdapter(InvitatoryAdapter());
 
   // eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
   // taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
@@ -129,7 +131,9 @@ Future main() async {
   taskBox = await Hive.openBox<Task>('task');
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
   invitationBox = await Hive.openBox<Invitation>('invitation');
-
+  vendorBox = await Hive.openBox<Vendor>('vendor');
+  invitatoryBox = await Hive.openBox<Invitatory>('invitatory');
+  
   runApp(FirstPage());
 }
 
@@ -259,7 +263,17 @@ class FirstPage extends StatelessWidget {
           'LogoutPage': (context) => LogoutPage(),
 
           //vendor//
-          'VendorList': (context) => VendorList(),
+           'VendorList': (context) => VendorList(),
+          'addVendor': (context) => AddVendor(),
+          'viewVendor': (context) => ViewVendor(
+              vendor: ModalRoute.of(context)!.settings.arguments as Vendor),
+
+
+           //invitation//
+          'invitatoryList': (context) => InvitatoryList(),
+          'addinvitatory': (context) => AddInvitatory(),
+
+
 
           //dashboard//
           'your_tasks': (context) => your_tasks(),

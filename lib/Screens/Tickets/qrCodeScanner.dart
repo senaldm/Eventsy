@@ -167,9 +167,9 @@ class QrCodeScannerState extends State<QrCodeScanner> {
     }
   }
 
-//   @override
-//   void dispose() {
-//     controller?.dispose();
-//     super.dispose();
-//   }
-// }
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+}
