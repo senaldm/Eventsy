@@ -53,6 +53,9 @@ dependencies:
 
 
 
+
+
+
   email_validator: ^2.1.17
   google_sign_in: ^6.1.2
   font_awesome_flutter: ^9.0.0

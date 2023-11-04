@@ -261,12 +261,13 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                 children: <Widget>[
                   FloatingActionButton.extended(
                     onPressed: () {
-                      //Navigator.pushNamed(context, '/TaskList');
+                      Navigator.pushNamed(context, '/userSettings');
                     },
                     backgroundColor: Colors.blueGrey.shade900,
                     label: Text(
-                      'Done',
+                      'Back',
                       style: TextStyle(
+                        
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
@@ -274,11 +275,11 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
                   ),
                   FloatingActionButton.extended(
                     onPressed: () {
-                      //Navigator.pushNamed(context, '/TaskList');
+                      Navigator.pushNamed(context, '/userSettings');
                     },
                     backgroundColor: Colors.blueGrey.shade900,
                     label: Text(
-                      ' Back ',
+                      ' Done ',
                       style: TextStyle(
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,

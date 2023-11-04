@@ -182,7 +182,7 @@ int incompletedTaskCount = 0;
                   margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   child: ElevatedButton(
                     onPressed: () {
-                       Navigator.pushNamed(context, '/invitator_view');
+                       Navigator.pushNamed(context, 'invitatoryList');
                     },
                     style: ElevatedButton.styleFrom(
                       primary: const Color(0xFFD9D9D9)
@@ -281,7 +281,7 @@ int incompletedTaskCount = 0;
                   margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/vendor');
+                      Navigator.pushNamed(context, 'VendorList');
                     },
                     style: ElevatedButton.styleFrom(
                       primary: const Color(0xFFD9D9D9)
