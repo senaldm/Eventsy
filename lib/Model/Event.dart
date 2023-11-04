@@ -1,4 +1,3 @@
-
 import 'package:hive/hive.dart';
 // import 'package:hive_annotation/hive_annotation.dart';
 part 'Event.g.dart';
@@ -19,7 +18,6 @@ class Task extends HiveObject {
   bool isComplete;
   @HiveField(6)
   DateTime? timestamp;
-
 
   void isCompleted() {
     isComplete = false;
@@ -95,7 +93,6 @@ class EventTasks extends Event {
   @HiveField(13)
   DateTime taskTimestamp;
 
-
   EventTasks({
     required eventKey,
     required eventName,
@@ -120,21 +117,16 @@ class BudgetTasks extends EventTasks {
   String budgetKey;
   @override
   @HiveField(15)
-
   String actualBudget;
 
   BudgetTasks({
     required this.budgetKey,
     required taskKey,
-     required taskName,
+    required taskName,
     required this.actualBudget,
     required budget,
     required vendorName,
     required categoryName,
-
-
-
-
   }) : super(
           eventKey: '',
           eventName: '',
@@ -167,4 +159,11 @@ class UserMode extends HiveObject {
   @HiveField(1)
   bool isFirst = true;
   UserMode({required String userMode, required bool isFirst});
+}
+
+@HiveType(typeId: 6)
+class ValidationBackMethod extends HiveObject {
+  @HiveField(16)
+  String backMethod = 'automatic';
+  ValidationBackMethod({required String backMethod});
 }

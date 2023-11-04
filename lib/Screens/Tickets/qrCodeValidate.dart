@@ -58,126 +58,172 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(height * 0.1),
-
-        // padding:EdgeInsets.only(top: height * 0.02, right: width * 0.02),
-
-        child: AppBar(
-          titleSpacing: 2.2,
-          forceMaterialTransparency: false,
-          backgroundColor: Color.fromARGB(255, 18, 140, 126),
-          automaticallyImplyLeading: true,
-          centerTitle: true,
-          flexibleSpace: Center(
-            child: Text(
-              'Eventsy Validation',
-              style: TextStyle(
-                  fontSize: width * 0.07,
-                  fontFamily: 'Roboto',
-                  // fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-          ),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            isValidated?
-             
-                  Column(
-                    children: [
-                      Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
-                        size: 100.0,
-                      ),
-                      
-               
-                      SizedBox(height: 20.0),
-                    
-                  
-                  Text(
-                    "Ticket Validated",
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                    
-                  SizedBox(height: 20.0),
-                  Text(
-                    "Ticket Type: $ticketType",
-                    style: TextStyle(fontSize: 16.0),
-                  ),])
-                  : Column(
-                  children:[
-                  
-                Icon(
-                      Icons.close_rounded,
-                      color: Colors.red,
-                      size: 100.0,
-                    ),
-                  SizedBox(height: 20.0),
-                  Text(
-                    "Ticket Invalidated",
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-                )
-              
-              
-               
-             
-            // Text(
-            //   isValidated ? "Ticket Validated" : "Invalid Ticket",
-            //   style: TextStyle(
-            //     fontSize: 24.0,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
-            // SizedBox(height: 20.0),
-            // Text(
-            //   "Ticket Details: Your ticket details go here...",
-            //   style: TextStyle(fontSize: 16.0),
-            // ),,
-           ,SizedBox(height: 20.0),
-            CountdownTimer(
-              endTime: DateTime.now().millisecondsSinceEpoch + 5000,
-              textStyle: TextStyle(fontSize: 48.0),
-              onEnd: () {
-                if (!userWantsManualClose) {
-                       Navigator.pushNamed(context, '/qrCodeScanner',
-                        arguments: ticketData);
-                 //   Navigator.pop(context);
-                }
-              },
-            ),
-            if (userWantsManualClose)
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("Close"),
+    return SafeArea(
+      top: false,
+      bottom: true,
+      left: true,
+      right: true,
+      child: WillPopScope(
+        child: Scaffold(
+          backgroundColor: Colors.blueGrey.shade900,
+          resizeToAvoidBottomInset: false,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(height * 0.1),
+      
+            // padding:EdgeInsets.only(top: height * 0.02, right: width * 0.02),
+      
+            child: AppBar(
+              titleSpacing: 2.2,
+              forceMaterialTransparency: false,
+              backgroundColor: Color.fromARGB(255, 18, 140, 126),
+              automaticallyImplyLeading: true,
+              centerTitle: true,
+              flexibleSpace: Center(
+                child: Text(
+                  'Eventsy Validation',
+                  style: TextStyle(
+                      fontSize: width * 0.07,
+                      fontFamily: 'Roboto',
+                      // fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
               ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          padding: EdgeInsets.all(12.0),
-          child: Text(
-            "Scan the next ticket after the countdown ends",
-            style: TextStyle(fontSize: 16.0),
+            ),
           ),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                isValidated?
+                 
+                      Column(
+                        children: [
+                          Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                            size: 100.0,
+                          ),
+                          
+                   
+                          SizedBox(height: 20.0),
+                        
+                      
+                      Text(
+                        "Ticket Validated",
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                          color:Colors.green,
+                        ),
+                      ),
+                        
+                      SizedBox(height: 20.0),
+                      Text(
+                        "Ticket Type: $ticketType",
+                        style: TextStyle(
+                                  fontSize: 16.0,
+                                  color:Colors.white,),
+                        
+                      ),])
+                      : Column(
+                      children:[
+                      
+                    Icon(
+                          Icons.close_rounded,
+                          color: Colors.red,
+                          size: 100.0,
+                        ),
+                      SizedBox(height: 20.0),
+                      Text(
+                        "Ticket Invalidated",
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                          color:Colors.red,
+                        ),
+                      ),
+                    ],
+                    )
+                  
+                  
+                   
+                 
+                // Text(
+                //   isValidated ? "Ticket Validated" : "Invalid Ticket",
+                //   style: TextStyle(
+                //     fontSize: 24.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                // SizedBox(height: 20.0),
+                // Text(
+                //   "Ticket Details: Your ticket details go here...",
+                //   style: TextStyle(fontSize: 16.0),
+                // ),,
+               ,SizedBox(height: 20.0),
+                CountdownTimer(
+                  endTime: DateTime.now().millisecondsSinceEpoch + 10000,
+                  textStyle: TextStyle(fontSize: 48.0),
+                  onEnd: () {
+                    if (!userWantsManualClose) {
+                           Navigator.pushNamed(context, '/qrCodeScanner',
+                            arguments: ticketData);
+                     //   Navigator.pop(context);
+                    }
+                  },
+                ),
+                if (userWantsManualClose)
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Close"),
+                  ),
+                  Positioned(
+                  bottom: height * 0.1,
+                  left: 0,
+                  right: 0,
+                  child: Column(
+                    children: [
+                      // Text(
+                      //   "Eventsy",
+                      //   style: TextStyle(
+                      //       fontSize: 26.0,
+                      //       color: Colors.white70,
+                      //       fontFamily: 'Quintessential'),
+                      // ),
+                      Text(
+                        "Ready for Next Ticket",
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white70,
+                            fontFamily: 'Quintessential'),
+                      ),
+                      // SizedBox(
+                      //   height: height * 0.1,
+                      // ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          
+          // bottomNavigationBar: BottomAppBar(
+          //   child: Container(
+          //     padding: EdgeInsets.all(12.0),
+          //     child: Text(
+          //       "Scan the next ticket after the countdown ends",
+          //       style: TextStyle(fontSize: 16.0),
+          //     ),
+          //   ),
+          // ),
         ),
+         onWillPop: () async {
+   
+          Navigator.pushNamed(context, '/qrCodeScanner',arguments: ticketData);
+          return false;
+        },
       ),
     );
   }

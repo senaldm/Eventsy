@@ -74,16 +74,12 @@ import 'package:eventsy/Screens/Task/User/settings/RateUs.dart';
 import 'package:eventsy/Screens/Task/User/settings/privacy_Security.dart';
 import 'package:eventsy/Screens/Task/User/settings/logout.dart';
 
-
 import 'package:eventsy/Screens/Tickets/ticketHandlingHome.dart';
 import 'package:eventsy/Screens/Tickets/UserCode.dart';
 
 import 'package:eventsy/Screens/Task/User/vendors/vendorlist.dart';
 
-
-
 import 'package:eventsy/Screens/Task/User/userDashboard/Tasks/your_tasks.dart';
-
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -105,7 +101,7 @@ Future main() async {
   Hive.registerAdapter(EventTasksAdapter());
   Hive.registerAdapter(BudgetTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
-
+  Hive.registerAdapter(ValidationBackMethodAdapter());
 
   // eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
   // taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
@@ -114,13 +110,14 @@ Future main() async {
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
   budgetTaskBox = await Hive.openBox<BudgetTasks>('budgetTask');
   invitationBox = await Hive.openBox<Invitation>('invitation');
+  validationbackMethodBox = await Hive.openBox<ValidationBackMethod>('validationBackMethod');
 
 //eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
 //taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
-eventBox = await Hive.openBox<Event>('event');
-taskBox = await Hive.openBox<Task>('task');
-eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
-invitationBox = await Hive.openBox<Invitation>('invitation');
+  eventBox = await Hive.openBox<Event>('event');
+  taskBox = await Hive.openBox<Task>('task');
+  eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
+  invitationBox = await Hive.openBox<Invitation>('invitation');
 
 // void main()=>runApp(
 //     DevicePreview(
@@ -147,10 +144,10 @@ class FirstPage extends StatelessWidget {
           ////////TicketHandling/////////////
 
           '/ticketHandlingHome': (context) => TicketHandlingHome(),
-          '/UserCode':(context)=>UserCode(),
-          '/qrCodeScanner':(context)=>QrCodeScanner(
-            data: ModalRoute.of(context)!.settings.arguments as List<dynamic>
-          ),
+          '/UserCode': (context) => UserCode(),
+          '/qrCodeScanner': (context) => QrCodeScanner(
+              data:
+                  ModalRoute.of(context)!.settings.arguments as List<dynamic>),
           //  '/qrCodeScanner':(context)=>QrCodeScanner(
           //   data: ModalRoute.of(context)!.settings.arguments as List<dynamic>
           // ),
@@ -165,7 +162,6 @@ class FirstPage extends StatelessWidget {
           //     ticketKey: arguments['ticketKey'],
           // );},
 
-
           ////////USER TASK////////
           'UserHome': (context) => UserTaskHome(),
           'TaskList': (context) => TaskList(),
@@ -176,8 +172,6 @@ class FirstPage extends StatelessWidget {
           '/viewTask': (context) => ViewTask(
               task: ModalRoute.of(context)!.settings.arguments as Task),
 
-
-
           '/updateTask': (context) => UpdateTask(
               task: ModalRoute.of(context)!.settings.arguments as Task),
 
@@ -186,7 +180,7 @@ class FirstPage extends StatelessWidget {
           'PlannerHome': (context) => PlannerTaskHome(),
           '/updateEvent': (context) => UpdateEvent(
               event: ModalRoute.of(context)!.settings.arguments as Event),
-         '/updateEventTask': (context) {
+          '/updateEventTask': (context) {
             final Map<String, dynamic> arguments = ModalRoute.of(context)
                 ?.settings
                 .arguments as Map<String, dynamic>;
@@ -218,8 +212,9 @@ class FirstPage extends StatelessWidget {
                 ?.settings
                 .arguments as Map<String, dynamic>;
             return ViewEventTask(
-                task:arguments['task'],
-                event: arguments['event'],);
+              task: arguments['task'],
+              event: arguments['event'],
+            );
           },
 
           /////////////// LOGIN ////////////////////////////
@@ -227,7 +222,7 @@ class FirstPage extends StatelessWidget {
           './SignUpPage': (context) => SignUpPage(),
           './SignUpOptionPage': (context) => SignUpOptionPage(),
           './LogOutScreen': (context) => LogOutScreen(),
-           './forgetpasswordPage':(context) => ResetPassword(),
+          './forgetpasswordPage': (context) => ResetPassword(),
           //////////budget calculator screens////////////////
           'BudgetAddingEventList': (context) => BugetAddingEventList(),
           // 'EventselectionPage': (context) => EventSelectionPage(),
@@ -246,16 +241,12 @@ class FirstPage extends StatelessWidget {
               budget:
                   ModalRoute.of(context)!.settings.arguments as BudgetTasks),
 
-            'UpdateBudgetTask':(context) => UpdateBudgetTasks( task: ModalRoute.of(context)!.settings.arguments as BudgetTasks),
+          'UpdateBudgetTask': (context) => UpdateBudgetTasks(
+              task: ModalRoute.of(context)!.settings.arguments as BudgetTasks),
 
+          ///Image Search  ///
 
-
-
-            ///Image Search  ///
-           
-'ImageShowView': (context) => ImageShowView(shouldShowImages: true),
-
-          
+          'ImageShowView': (context) => ImageShowView(shouldShowImages: true),
 
           /////SETTINGS///
           'ProfileSettingsPage': (context) => ProfileSettingsPage(),
@@ -265,16 +256,11 @@ class FirstPage extends StatelessWidget {
           'PasswordChangePage': (context) => PasswordChangePage(),
           'LogoutPage': (context) => LogoutPage(),
 
-
-
           //vendor//
-          'VendorList':(context)=>VendorList(),
+          'VendorList': (context) => VendorList(),
 
           //dashboard//
           'your_tasks': (context) => your_tasks(),
-
-
-
         },
         key: navigatorKey,
         debugShowCheckedModeBanner: false,

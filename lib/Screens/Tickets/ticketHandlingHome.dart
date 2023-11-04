@@ -63,20 +63,12 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                 style: TextStyle(color: Colors.white70),
                               ),
                             ),
-                            PopupMenuItem<int>(
-                              value: 1,
-                              child: Text(
-                                "Dashboard",
-                                style: TextStyle(color: Colors.white70),
-                              ),
-                            ),
+                            
                           ];
                         },
                         onSelected: (value) {
                           if (value == 0) {
                             Navigator.pushNamed(context, '/userSettings');
-                          } else if (value == 1) {
-                            Navigator.pushNamed(context, '/userDashboard');
                           }
                         }),
                   ],
@@ -284,7 +276,7 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
             ),
           ),
           onWillPop: () async {
-            // Exit the app.
+         
             Navigator.pushNamed(context, '/TicketHandling');
             return false;
           },

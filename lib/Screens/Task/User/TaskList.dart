@@ -34,10 +34,10 @@ class _TaskListState extends State<TaskList> {
   }
 
   Future<void> retrieveData() async {
-    // Retrieve data from Hive box
+
     tasks = taskBox?.values.toList() ?? [];
 
-    // Retrieve data from local storage
+  
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/tasks.txt');
     if (await file.exists()) {

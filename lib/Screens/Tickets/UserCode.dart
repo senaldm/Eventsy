@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:eventsy/Model/Event.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UserCode extends StatefulWidget {
   const UserCode({super.key});
@@ -14,13 +17,49 @@ class UserCode extends StatefulWidget {
 }
 
 class _UserCodeState extends State<UserCode> {
+  Box<ValidationBackMethod>? validationbackMethodBox;
+  late String currentValidationBackMethod;
+  bool isAutomaticOn = true;
   final userCode = TextEditingController();
+  final backMethod = TextEditingController();
+  bool hasInternet = false;
+  @override
+  initState() {
+    super.initState();
+    openHiveBox();
+    retrieveMethod();
+    checkNetworkStatus();
+  }
 
-   bool hasInternet=false;
-  // initState() {
-  //   super.initState();
-  //   hasInternet=true;
-  // }
+  Future<void> openHiveBox() async {
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDir.path);
+    validationbackMethodBox =
+        await Hive.openBox<ValidationBackMethod>('validationBackMethod');
+  }
+
+  Future<void> retrieveMethod() async {
+    currentValidationBackMethod =
+        validationbackMethodBox!.get('backMethod').toString();
+
+    if (currentValidationBackMethod.isEmpty) {
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/validationBackMethod.txt');
+      if (await file.exists()) {
+        final lines = await file.readAsLines();
+        if (lines.isNotEmpty) {
+          currentValidationBackMethod = lines.first;
+        }
+      }
+    }
+    setState(() {
+      if (currentValidationBackMethod == 'automatic') {
+        isAutomaticOn = true;
+      } else {
+        isAutomaticOn = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,29 +77,71 @@ class _UserCodeState extends State<UserCode> {
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(height * 0.3),
               child: Container(
-                decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.only(
-                    //     bottomRight: Radius.circular(8.0),
-                    //     bottomLeft: Radius.circular(8.0)),
-                    color: Colors.transparent,
-                    boxShadow: const [
-                      BoxShadow(
-                          color: Colors.black87,
-                          // offset: Offset(0, 1),
-                          blurRadius: 10),
-                    ]),
-                //  padding: EdgeInsets.only(top: height * 0.02, right: width * 0.02),
+                decoration:
+                    BoxDecoration(color: Colors.transparent, boxShadow: const [
+                  BoxShadow(color: Colors.black87, blurRadius: 10),
+                ]),
                 child: AppBar(
-                  //  titleSpacing: 2.2,
-
                   forceMaterialTransparency: false,
                   backgroundColor: Colors.transparent,
                   automaticallyImplyLeading: false,
                   centerTitle: true,
-
                   flexibleSpace: Image.asset(
                     "assets/Images/Task/appbarBackground5.jpeg",
                   ),
+                  actions: <Widget>[
+                    PopupMenuButton(
+                        color: Color.fromARGB(255, 20, 24, 26),
+                        icon: Icon(Icons.menu_rounded, color: Colors.white70),
+                        iconSize: 30.0,
+                        itemBuilder: (context) {
+                          return [
+                            PopupMenuItem<int>(
+                              value: 0,
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    title: Text(
+                                      "Back to Scanner Mode",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15.0),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: isAutomaticOn
+                                        ? Text("Automatic",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12.0))
+                                        : Text("Manual",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12.0)),
+                                    trailing: Switch(
+                                      value: isAutomaticOn,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          isAutomaticOn = newValue;
+                                        });
+                                        saveAutomaticModeState(newValue);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                                // Text(
+                                //   "Back to Scanner Mode",
+                                //   style: TextStyle(color: Colors.white70),
+                                // ),
+                              ),
+                            ),
+                          ];
+                        },
+                        onSelected: (value) {
+                          if (value == 0) {
+                            Navigator.pushNamed(context, '/userSettings');
+                          }
+                        }),
+                  ],
                 ),
               ),
             ),
@@ -102,10 +183,6 @@ class _UserCodeState extends State<UserCode> {
                                 tag: 'UserVerifyCode',
                                 child: TextField(
                                   controller: userCode,
-                                  // onChanged: (value) {
-                                  //   vendorName:
-                                  //   value;
-                                  // },
                                   decoration: InputDecoration(
                                     border: UnderlineInputBorder(
                                         borderRadius:
@@ -130,24 +207,9 @@ class _UserCodeState extends State<UserCode> {
                                   onPressed: () async {
                                     if (!hasInternet) {
                                       showRetryDialog(context);
-                                      // Column(
-                                      //   children: [
-                                      //     // Text('No Internet Connection'),
-                                      //     ElevatedButton(
-                                      //       onPressed:(){
-                                      //           showRetryDialog(context);}, // Show the retry dialog
-                                      //        child: Text('Retry'),
-                                      //     ),
-                                      //   ],
-                                      // );
                                     } else {
-                                      // final tickets=
                                       await validateUserCode(
                                           userCode.text, context);
-                                      // final tickets = "gfg";
-                                      // Navigator.pushNamed(
-                                      //     context, '/qrCodeScanner',
-                                      //     arguments: tickets);
                                     }
                                   },
                                   child: Text('   Start To Scan   '),
@@ -177,9 +239,6 @@ class _UserCodeState extends State<UserCode> {
                                   color: Colors.white70,
                                   fontFamily: 'Quintessential'),
                             ),
-                            // SizedBox(
-                            //   height: height * 0.1,
-                            // ),
                           ],
                         ),
                       ),
@@ -197,18 +256,28 @@ class _UserCodeState extends State<UserCode> {
         ));
   }
 
+  Future<void> saveAutomaticModeState(bool value) async {
+    if (value) {
+      currentValidationBackMethod = 'automatic';
+    } else {
+      currentValidationBackMethod = 'manual';
+    }
+    setState(() {
+      isAutomaticOn = value;
+    });
+    await validationbackMethodBox?.put(
+        'backMethod', currentValidationBackMethod as ValidationBackMethod);
+  }
+
   Future<dynamic> validateUserCode(String code, BuildContext context) async {
     String uri = 'https://nice-williams.34-81-183-3.plesk.page/validate/$code';
 
     final response = await http.get(Uri.parse(uri));
-    print(response);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      final ticket = data[1];
-      print(ticket['ticketKey']);
       if (data.isNotEmpty) {
-       Navigator.pushNamed(context, '/qrCodeScanner', arguments: data);
+        Navigator.pushNamed(context, '/qrCodeScanner', arguments: data);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -247,15 +316,14 @@ class _UserCodeState extends State<UserCode> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(false); // User chooses not to retry
+                Navigator.of(context).pop(false);
               },
               child: Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
                 await checkNetworkStatus();
-                Navigator.of(context)
-                    .pop(hasInternet); // Pass the result of the network check
+                Navigator.of(context).pop(hasInternet);
               },
               child: Text('Retry'),
             ),
@@ -263,9 +331,5 @@ class _UserCodeState extends State<UserCode> {
         );
       },
     );
-
-    if (result == true) {
-      print("no connection error");
-    }
   }
 }

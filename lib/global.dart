@@ -17,6 +17,8 @@ late Box<Invitation> invitationBox;
 
 late Box<UserMode> userModeBox;
 
+late Box<ValidationBackMethod> validationbackMethodBox;
+
 // Future<void> addEvent(Eventset eventName) async {
 //   eventsBox.add(eventName);
 
