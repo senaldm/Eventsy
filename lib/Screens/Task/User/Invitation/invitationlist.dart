@@ -5,26 +5,30 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'dart:async';
-import 'package:eventsy/Model/Vendor/vendor.dart';
+import 'package:eventsy/Model/Invitations/invitatory.dart';
 
+import 'package:eventsy/Screens/Task/User/bottonNavigationPaint.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 
+import 'package:eventsy/Screens/Task/User/TaskFilter.dart';
 
-import 'package:eventsy/Screens/Task/User/vendors/addVendor.dart';
 
 import 'dart:io';
 import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 
-class VendorList extends StatefulWidget {
-   const VendorList({ Key? key }) : super(key: key);
+class InvitatoryList  extends StatefulWidget {
+   const InvitatoryList({ Key? key }) : super(key: key);
   @override
-  _VendorListState createState() => _VendorListState();
+  _InvitatoryListState  createState() => _InvitatoryListState();
 }
 
-class _VendorListState extends State<VendorList> {
-  Box<Vendor>? vendorBox;
-  List<Vendor> vendors = [];
-  List<Vendor> originalVendors = [];
+class _InvitatoryListState extends State<InvitatoryList> {
+  Box<Invitatory>? invitatoryBox;
+  List<Invitatory> invitatorys = [];
+  List<Invitatory> originalInvitatorys= [];
   late String time;
   @override
   void initState() {
@@ -36,26 +40,25 @@ class _VendorListState extends State<VendorList> {
   Future<void> openHiveBox() async {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
-    vendorBox = await Hive.openBox<Vendor>('vendor');
+    invitatoryBox  = await Hive.openBox<Invitatory>('invitation');
   }
 
   Future<void> retrieveData() async {
     // Retrieve data from Hive box
-    vendors = vendorBox?.values.toList() ?? [];
+    invitatorys = invitatoryBox?.values.toList() ?? [];
 
     // Retrieve data from local storage
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/vendors.txt');
+    final file = File('${directory.path}/invitatorys.txt');
     if (await file.exists()) {
       final lines = await file.readAsLines();
-      List<Vendor> newVendors = [];
+      List<Invitatory> newInvitatorys  = [];
       lines.forEach((line) {
-        final vendorData = line.split(',');
-        final vendor = Vendor(
-          vendorName: vendorData[0],
-          date: vendorData[1],
-          note: vendorData[2],
-          isComplete: vendorData[3] == 'true',
+        final invitatoryData = line.split(',');
+        final invitatory = Invitatory(
+        guestName: invitatoryData[0],
+        date: invitatoryData[1],
+        isInvitatorySent: invitatoryData[2] == 'true',
         );
 
         // if (vendor.timestamp == null) {
@@ -66,17 +69,17 @@ class _VendorListState extends State<VendorList> {
         //   time = DateFormat('yyyy-MM-dd').format(task.timestamp!);
         //   time = time.toString();
         // }
-        print(vendor.isComplete);
+        print(invitatory.isInvitatorySent);
         // tasks.add(task);
-        newVendors.add(vendor);
+        newInvitatorys.add(invitatory);
       });
       setState(() {
-        vendors = newVendors;
-        originalVendors = newVendors.toList();
+        invitatorys = newInvitatorys;
+        originalInvitatorys = newInvitatorys.toList();
       });
     } else {
       setState(() {
-        vendors = [];
+        invitatorys = [];
       });
     }
 
@@ -284,89 +287,89 @@ class _VendorListState extends State<VendorList> {
   ///////////////////////////////////////////////
   /////////////////////////////////////////////////////
 
-  static Future<void> deleteVendor(String vendorKey) async {
-    final vendorBox = await Hive.openBox<Vendor>('vendor');
+  // static Future<void> deleteTask(String taskKey) async {
+  //   final taskBox = await Hive.openBox<Task>('task');
 
-    if (vendorBox.containsKey(vendorKey)) {
-      vendorBox.delete(vendorKey);
-    }
+  //   if (taskBox.containsKey(taskKey)) {
+  //     taskBox.delete(taskKey);
+  //   }
 
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/vendor.txt');
-    if (await file.exists()) {
-      final lines = await file.readAsLines();
-      final updatedLines = lines.where((line) {
-        final vendorData = line.split(',');
-        final vendorNameInFile = vendorData[0];
-        return vendorNameInFile != vendorKey;
-      }).toList();
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final file = File('${directory.path}/tasks.txt');
+  //   if (await file.exists()) {
+  //     final lines = await file.readAsLines();
+  //     final updatedLines = lines.where((line) {
+  //       final taskData = line.split(',');
+  //       final taskKeyInFile = taskData[0];
+  //       return taskKeyInFile != taskKey;
+  //     }).toList();
 
-      await file.writeAsString(updatedLines.join('\n'));
-    }
-  }
+  //     await file.writeAsString(updatedLines.join('\n'));
+  //   }
+  // }
 
   // // ////////////////////Edit or delete////////////////////////////
   // /////////////////////////////////////////////////////////
 
-  editOrDelete(String key) {
-    // String vendorName = key;
-    String vendorName = key;
+  // editOrDelete(String key) {
+  //   // String taskKey = key;
+  //   String taskKey = key;
 
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                    onPressed: () async {
-                      final updatedVendor = await Navigator.pushNamed(
-                          context, '/addVendor',
-                          arguments: vendorName);
-                      retrieveData();
-                      // if (updatedTask != null) {
-                      //   // If a new task is added, update the data and refresh the UI
-                      //   setState(() {
-                      //     tasks.add(updatedTask as Task);
-                      //   });
-                      // }
+  //   showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.all(Radius.circular(15.0))),
+  //           content: Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             children: [
+  //               ElevatedButton(
+  //                   onPressed: () async {
+  //                     final updatedTask = await Navigator.pushNamed(
+  //                         context, '/updateTask',
+  //                         arguments: taskKey);
+  //                     retrieveData();
+  //                     // if (updatedTask != null) {
+  //                     //   // If a new task is added, update the data and refresh the UI
+  //                     //   setState(() {
+  //                     //     tasks.add(updatedTask as Task);
+  //                     //   });
+  //                     // }
 
-                      Navigator.pop(context, updatedVendor);
-                      // Navigator.pushNamed(context,'UserHome');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 37, 211, 102),
-                    ),
-                    child: Text(" Edit ",
-                        style: TextStyle(
-                          color: Colors.black87,
-                        ))),
-                ElevatedButton(
-                    onPressed: () async {
-                      await deleteVendor(vendorName);
-                      retrieveData();
-                      Navigator.pop(context, null);
-                      // deleteTask(vendorName);
-                      // Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      // alignment:,
-                      backgroundColor: Color.fromARGB(255, 118, 6, 6),
-                    ),
-                    child: Text("Delete",
-                        style: TextStyle(
-                          color: Colors.black87,
-                        ))),
-              ],
-            ),
-          );
-        });
-    //return action;
-  }
+  //                     Navigator.pop(context, updatedTask);
+  //                     // Navigator.pushNamed(context,'UserHome');
+  //                   },
+  //                   style: ElevatedButton.styleFrom(
+  //                     backgroundColor: Color.fromARGB(255, 37, 211, 102),
+  //                   ),
+  //                   child: Text(" Edit ",
+  //                       style: TextStyle(
+  //                         color: Colors.black87,
+  //                       ))),
+  //               ElevatedButton(
+  //                   onPressed: () async {
+  //                     await deleteTask(taskKey);
+  //                     retrieveData();
+  //                     Navigator.pop(context, null);
+  //                     // deleteTask(taskKey);
+  //                     // Navigator.pop(context);
+  //                   },
+  //                   style: ElevatedButton.styleFrom(
+  //                     // alignment:,
+  //                     backgroundColor: Color.fromARGB(255, 118, 6, 6),
+  //                   ),
+  //                   child: Text("Delete",
+  //                       style: TextStyle(
+  //                         color: Colors.black87,
+  //                       ))),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  //   //return action;
+  // }
 
 //////////////////main view///////////////////////////////
 ///////////////////////////////////////////////////////
@@ -448,7 +451,7 @@ class _VendorListState extends State<VendorList> {
               automaticallyImplyLeading: true,
               centerTitle: true,
               flexibleSpace: Center(
-                child: Text('Vendor List',
+                child: Text('Invitation List',
                     style: TextStyle(
                       fontSize: width * 0.07,
                       // fontSize: 30,
@@ -458,7 +461,7 @@ class _VendorListState extends State<VendorList> {
               ),
             ),
           ),
-          body: vendors.isEmpty
+          body: invitatorys.isEmpty
               ? Container(
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 20, 24, 26),
@@ -488,9 +491,9 @@ class _VendorListState extends State<VendorList> {
                   child: ListView.builder(
                     padding: EdgeInsetsDirectional.zero,
                     shrinkWrap: false,
-                    itemCount: vendors.length,
+                    itemCount: invitatorys.length,
                     itemBuilder: (context, index) {
-                      final vendor = vendors[index];
+                      final invitatory = invitatorys[index];
 
                       return SizedBox(
                         height: 70.0,
@@ -519,7 +522,7 @@ class _VendorListState extends State<VendorList> {
 
                                 child: ListTile(
                                   leading: Text(
-                                    vendor.vendorName,
+                                    invitatory.guestName,
 
                                     //  "${task.timestamp?.minute?.toString()}",
                                     textAlign: TextAlign.left,
@@ -530,22 +533,22 @@ class _VendorListState extends State<VendorList> {
                                   //   time,
                                   // ),
                                   onTap: () async {
-                                    Navigator.pushNamed(context, 'viewVendor',
-                                        arguments: vendor);
+                                    Navigator.pushNamed(context, '/viewInvitatory',
+                                        arguments: invitatory);
                                     // setState(() {
                                     //   retrieveData();
                                     // });
                                   },
-                                  onLongPress: () async {
-                                    final updatedTask =
-                                        editOrDelete(vendor.vendorName);
-                                    if (updatedTask != null) {
-                                      setState(() {
-                                        retrieveData();
-                                      });
-                                    }
+                                  // onLongPress: () async {
+                                  //   final updatedTask =
+                                  //       editOrDelete(task.taskKey);
+                                  //   if (updatedTask != null) {
+                                  //     setState(() {
+                                  //       retrieveData();
+                                  //     });
+                                  //   }
                                   //   // await retrieveData();
-                                   },
+                                  // },
                                 ),
                               ),
                             ],
@@ -563,12 +566,12 @@ class _VendorListState extends State<VendorList> {
             //   side: BorderSide(width: 3, color: Colors.white),
             //   borderRadius: BorderRadius.circular(100)),
             onPressed: () async {
-              Navigator.pushNamed(context, 'addVendor');
-              final newVendor = await Navigator.pushNamed(context, 'addVendor');
-              if (newVendor != null) {
+              Navigator.pushNamed(context, 'addinvitatory');
+              final newInvitatory = await Navigator.pushNamed(context, 'addinvitatory');
+              if (newInvitatory != null) {
 
                 setState(() {
-                  vendors.add(newVendor as Vendor);
+                  invitatorys.add(newInvitatory as Invitatory);
                 });
               }
               await retrieveData();
@@ -638,11 +641,11 @@ class _VendorListState extends State<VendorList> {
     );
   }
 
-  Widget buildContent(List<Vendor> vendor) {
-    if (vendor.isEmpty) {
+  Widget buildContent(List<Invitatory> invitatory) {
+    if (invitatory.isEmpty) {
       return Center(
           child: FloatingActionButton(
-              heroTag: 'addVendor',
+              heroTag: 'addinvitatory',
               onPressed: () {
                 // Navigator.pushNamed(context, '/addTask');
               }));

@@ -5,7 +5,6 @@ import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/bu
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/updatebudgettask.dart';
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/viewbudgettask.dart';
 import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
-import 'package:eventsy/Screens/Task/User/Invitation/addinvitatory.dart';
 import 'package:eventsy/Screens/Task/User/viewTask.dart';
 import 'package:eventsy/Screens/Tickets/qrCodeScanner.dart';
 import 'package:flutter/material.dart';
@@ -79,9 +78,11 @@ import 'package:eventsy/Screens/Task/User/settings/logout.dart';
 import 'package:eventsy/Screens/Tickets/ticketHandlingHome.dart';
 import 'package:eventsy/Screens/Tickets/UserCode.dart';
 
+import 'package:eventsy/Model/Vendor/vendor.dart';
 import 'package:eventsy/Screens/Task/User/vendors/vendorlist.dart';
 import 'package:eventsy/Screens/Task/User/vendors/addVendor.dart';
-import 'package:eventsy/Model/Vendor/vendor.dart';
+import 'package:eventsy/Screens/Task/User/vendors/viewVendor.dart';
+
 
 
 import 'package:eventsy/Model/Invitations/invitatory.dart';
@@ -275,6 +276,7 @@ class FirstPage extends StatelessWidget {
           //vendor//
           'VendorList':(context)=>VendorList(),
           'addVendor':(context)=>AddVendor(),
+          'viewVendor':(context)=>ViewVendor(vendor: ModalRoute.of(context)!.settings.arguments as Vendor),
 
           //invitation//
           'invitatoryList':(context)=>InvitatoryList(),
