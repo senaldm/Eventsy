@@ -50,6 +50,9 @@ dependencies:
 
   firebase_core: ^2.13.0
   firebase_auth: ^4.6.1
+
+
+
   email_validator: ^2.1.17
   google_sign_in: ^6.1.2
   font_awesome_flutter: ^9.0.0
