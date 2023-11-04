@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/budgetaddedlist.dart';
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/updatebudgettask.dart';
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/viewbudgettask.dart';
 import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
+import 'package:eventsy/Screens/Task/User/Invitation/addinvitatory.dart';
 import 'package:eventsy/Screens/Task/User/viewTask.dart';
 import 'package:eventsy/Screens/Tickets/qrCodeScanner.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +80,13 @@ import 'package:eventsy/Screens/Tickets/ticketHandlingHome.dart';
 import 'package:eventsy/Screens/Tickets/UserCode.dart';
 
 import 'package:eventsy/Screens/Task/User/vendors/vendorlist.dart';
+import 'package:eventsy/Screens/Task/User/vendors/addVendor.dart';
+import 'package:eventsy/Model/Vendor/vendor.dart';
+
+
+import 'package:eventsy/Model/Invitations/invitatory.dart';
+import 'package:eventsy/Screens/Task/User/invitation/invitationlist.dart';
+import 'package:eventsy/Screens/Task/User/Invitation/addinvitatory.dart';
 
 
 
@@ -105,6 +114,10 @@ Future main() async {
   Hive.registerAdapter(BudgetTasksAdapter());
   Hive.registerAdapter(InvitationAdapter());
 
+  Hive.registerAdapter(VendorAdapter());
+
+  Hive.registerAdapter(InvitatoryAdapter());
+
 
   // eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
   // taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
@@ -114,12 +127,21 @@ Future main() async {
   budgetTaskBox = await Hive.openBox<BudgetTasks>('budgetTask');
   invitationBox = await Hive.openBox<Invitation>('invitation');
 
+  var vendorBox = await Hive.openBox<Vendor>('vendor');
+
+  var invitatoryBox = await Hive.openBox<Invitatory>('invitatory');
+
+
 //eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
 //taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
 eventBox = await Hive.openBox<Event>('event');
 taskBox = await Hive.openBox<Task>('task');
 eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
 invitationBox = await Hive.openBox<Invitation>('invitation');
+
+vendorBox = await Hive.openBox<Vendor>('Vendor');
+
+invitatoryBox = await Hive.openBox<Invitatory>('invitatory');
 
 // void main()=>runApp(
 //     DevicePreview(
@@ -147,7 +169,7 @@ class FirstPage extends StatelessWidget {
 
           '/ticketHandlingHome': (context) => TicketHandlingHome(),
           '/UserCode':(context)=>UserCode(),
-          '/qrCodeScanner':(context)=>QrCodeScanner(),
+          //'/qrCodeScanner':(context)=>QrCodeScanner(),
 
           ////////USER TASK////////
           'UserHome': (context) => UserTaskHome(),
@@ -252,6 +274,11 @@ class FirstPage extends StatelessWidget {
 
           //vendor//
           'VendorList':(context)=>VendorList(),
+          'addVendor':(context)=>AddVendor(),
+
+          //invitation//
+          'invitatoryList':(context)=>InvitatoryList(),
+          'addinvitatory':(context)=>AddInvitatory(),
 
           //dashboard//
           'your_tasks': (context) => your_tasks(),

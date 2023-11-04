@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 import 'dart:async';
-import 'package:eventsy/Model/Event.dart';
+import 'package:eventsy/Model/Vendor/vendor.dart';
 
 import 'package:eventsy/Screens/Task/User/bottonNavigationPaint.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,20 +14,22 @@ import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_not
 
 import 'package:eventsy/Screens/Task/User/TaskFilter.dart';
 
+import 'package:eventsy/Screens/Task/User/vendors/addVendor.dart';
+
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
 
 class VendorList extends StatefulWidget {
-  // const TaskList({ Key? key }) : super(key: key);
+   const VendorList({ Key? key }) : super(key: key);
   @override
   _VendorListState createState() => _VendorListState();
 }
 
 class _VendorListState extends State<VendorList> {
-  Box<Task>? taskBox;
-  List<Task> tasks = [];
-  List<Task> originalTasks = [];
+  Box<Vendor>? vendorBox;
+  List<Vendor> vendors = [];
+  List<Vendor> originalVendors = [];
   late String time;
   @override
   void initState() {
@@ -39,50 +41,47 @@ class _VendorListState extends State<VendorList> {
   Future<void> openHiveBox() async {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
-    taskBox = await Hive.openBox<Task>('task');
+    vendorBox = await Hive.openBox<Vendor>('vendor');
   }
 
   Future<void> retrieveData() async {
     // Retrieve data from Hive box
-    tasks = taskBox?.values.toList() ?? [];
+    vendors = vendorBox?.values.toList() ?? [];
 
     // Retrieve data from local storage
     final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/tasks.txt');
+    final file = File('${directory.path}/vendors.txt');
     if (await file.exists()) {
       final lines = await file.readAsLines();
-      List<Task> newTasks = [];
+      List<Vendor> newVendors = [];
       lines.forEach((line) {
-        final taskData = line.split(',');
-        final task = Task(
-          taskKey: taskData[0],
-          categoryName: taskData[1],
-          taskName: taskData[2],
-          vendorName: taskData[3],
-          budget: taskData[4],
-          isComplete: taskData[5] == 'true',
-          timestamp: DateTime.tryParse(taskData[6]),
+        final vendorData = line.split(',');
+        final vendor = Vendor(
+          vendorName: vendorData[0],
+          date: vendorData[1],
+          note: vendorData[2],
+          isComplete: vendorData[3] == 'true',
         );
 
-        if (task.timestamp == null) {
-          task.timestamp = DateTime(0);
-          time = "null";
-        } else {
-          // time = task.timestamp!.toIso8601String();
-          time = DateFormat('yyyy-MM-dd').format(task.timestamp!);
-          time = time.toString();
-        }
-        print(task.isComplete);
+        // if (vendor.timestamp == null) {
+        //   task.timestamp = DateTime(0);
+        //   time = "null";
+        // } else {
+        //   // time = task.timestamp!.toIso8601String();
+        //   time = DateFormat('yyyy-MM-dd').format(task.timestamp!);
+        //   time = time.toString();
+        // }
+        print(vendor.isComplete);
         // tasks.add(task);
-        newTasks.add(task);
+        newVendors.add(vendor);
       });
       setState(() {
-        tasks = newTasks;
-        originalTasks = newTasks.toList();
+        vendors = newVendors;
+        originalVendors = newVendors.toList();
       });
     } else {
       setState(() {
-        tasks = [];
+        vendors = [];
       });
     }
 
@@ -98,281 +97,281 @@ class _VendorListState extends State<VendorList> {
   String sort = 'accentOrder';
   String filter = 'all';
 
-  List<Task>? sortTaskByMethod(String method) {
-    setState(() {
-      if (method == 'accent') {
-        return tasks.sort((a, b) => a.taskName.compareTo(b.taskName));
-      } else if (method == 'deaccent') {
-        return tasks.sort((a, b) => b.taskName.compareTo(a.taskName));
-      } else if (method == 'newestFirst') {
-        return tasks.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
-      } else if (method == 'oldestFirst') {
-        return tasks.sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
-      }
-    });
-    return null;
-  }
+  // List<Vendor>? sortTaskByMethod(String method) {
+  //   setState(() {
+  //     if (method == 'accent') {
+  //       return tasks.sort((a, b) => a.taskName.compareTo(b.taskName));
+  //     } else if (method == 'deaccent') {
+  //       return tasks.sort((a, b) => b.taskName.compareTo(a.taskName));
+  //     } else if (method == 'newestFirst') {
+  //       return tasks.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
+  //     } else if (method == 'oldestFirst') {
+  //       return tasks.sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
+  //     }
+  //   });
+  //   return null;
+  // }
 
-  void filterTasksByMethod(String method) {
-    setState(() {
-      // tasks = newTasks;
-      if (method == 'completed') {
-        tasks = originalTasks.where((task) => task.isComplete).toList();
-      } else if (method == 'pending') {
-        // tasks = newTasks;
-        tasks = originalTasks.where((task) => !task.isComplete).toList();
-      } else {
-        // Reset the tasks list to show all tasks
-        retrieveData();
-      }
-      // tasks = newTasks;
-    });
-  }
+  // void filterTasksByMethod(String method) {
+  //   setState(() {
+  //     // tasks = newTasks;
+  //     if (method == 'completed') {
+  //       tasks = originalTasks.where((task) => task.isComplete).toList();
+  //     } else if (method == 'pending') {
+  //       // tasks = newTasks;
+  //       tasks = originalTasks.where((task) => !task.isComplete).toList();
+  //     } else {
+  //       // Reset the tasks list to show all tasks
+  //       retrieveData();
+  //     }
+  //     // tasks = newTasks;
+  //   });
+  // }
 
 //////////////////////sort Task ////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////
 
-  void sortTask() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Color.fromARGB(255, 18, 140, 126),
-            content: Form(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  RadioListTile(
-                    title: Text(
-                      "\u2B07 A-Z",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    value: "accent",
-                    groupValue: sort,
-                    activeColor: Colors.black87,
-                    onChanged: (value) {
-                      setState(() {
-                        sort = value.toString();
-                        sortTaskByMethod(sort);
-                        Navigator.pop(context);
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: Text(
-                      "\u2B06 Z-A",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    value: "deaccent",
-                    activeColor: Colors.black87,
-                    groupValue: sort,
-                    onChanged: (value) {
-                      setState(() {
-                        sort = value.toString();
-                        sortTaskByMethod(sort);
-                        Navigator.pop(context);
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    selected: true,
-                    title: Text(
-                      "Newest Task First",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    value: "newestFirst",
-                    activeColor: Colors.black87,
-                    groupValue: sort,
-                    onChanged: (value) {
-                      setState(() {
-                        sort = value.toString();
-                        sortTaskByMethod(sort);
-                        Navigator.pop(context);
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: Text(
-                      "Oldest Task First",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    value: "oldestFirst",
-                    groupValue: sort,
-                    activeColor: Colors.black87,
-                    onChanged: (value) {
-                      setState(() {
-                        sort = value.toString();
-                        sortTaskByMethod(sort);
-                        Navigator.pop(context);
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  // void sortTask() {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           backgroundColor: Color.fromARGB(255, 18, 140, 126),
+  //           content: Form(
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: <Widget>[
+  //                 RadioListTile(
+  //                   title: Text(
+  //                     "\u2B07 A-Z",
+  //                     style: TextStyle(color: Colors.white),
+  //                   ),
+  //                   value: "accent",
+  //                   groupValue: sort,
+  //                   activeColor: Colors.black87,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       sort = value.toString();
+  //                       sortTaskByMethod(sort);
+  //                       Navigator.pop(context);
+  //                     });
+  //                   },
+  //                 ),
+  //                 RadioListTile(
+  //                   title: Text(
+  //                     "\u2B06 Z-A",
+  //                     style: TextStyle(color: Colors.white),
+  //                   ),
+  //                   value: "deaccent",
+  //                   activeColor: Colors.black87,
+  //                   groupValue: sort,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       sort = value.toString();
+  //                       sortTaskByMethod(sort);
+  //                       Navigator.pop(context);
+  //                     });
+  //                   },
+  //                 ),
+  //                 RadioListTile(
+  //                   selected: true,
+  //                   title: Text(
+  //                     "Newest Task First",
+  //                     style: TextStyle(color: Colors.white),
+  //                   ),
+  //                   value: "newestFirst",
+  //                   activeColor: Colors.black87,
+  //                   groupValue: sort,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       sort = value.toString();
+  //                       sortTaskByMethod(sort);
+  //                       Navigator.pop(context);
+  //                     });
+  //                   },
+  //                 ),
+  //                 RadioListTile(
+  //                   title: Text(
+  //                     "Oldest Task First",
+  //                     style: TextStyle(color: Colors.white),
+  //                   ),
+  //                   value: "oldestFirst",
+  //                   groupValue: sort,
+  //                   activeColor: Colors.black87,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       sort = value.toString();
+  //                       sortTaskByMethod(sort);
+  //                       Navigator.pop(context);
+  //                     });
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
 // Filter function
 /////////////////////////Filter Task//////////////////////////////
 /////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
-  filterTask(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: Color.fromARGB(255, 18, 140, 126),
-            content: Form(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  RadioListTile(
-                    title: Text(
-                      "All Tasks",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    value: "all",
-                    groupValue: filter,
-                    activeColor: Colors.black87,
-                    onChanged: (value) {
-                      setState(() {
-                        filter = value.toString();
+  // filterTask(BuildContext context) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           backgroundColor: Color.fromARGB(255, 18, 140, 126),
+  //           content: Form(
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: <Widget>[
+  //                 RadioListTile(
+  //                   title: Text(
+  //                     "All Tasks",
+  //                     style: TextStyle(color: Colors.white),
+  //                   ),
+  //                   value: "all",
+  //                   groupValue: filter,
+  //                   activeColor: Colors.black87,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       filter = value.toString();
 
-                        filterTasksByMethod(filter);
-                        Navigator.pop(context);
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: Text(
-                      "Completed Task Only",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    value: "completed",
-                    activeColor: Colors.black87,
-                    groupValue: filter,
-                    onChanged: (value) {
-                      setState(() {
-                        filter = value.toString();
-                        filterTasksByMethod(filter);
-                        Navigator.pop(context);
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: Text(
-                      "Pending Task Only",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    value: "pending",
-                    activeColor: Colors.black87,
-                    groupValue: filter,
-                    onChanged: (value) {
-                      setState(() {
-                        filter = value.toString();
-                        filterTasksByMethod(filter);
-                        Navigator.pop(context);
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  //                       filterTasksByMethod(filter);
+  //                       Navigator.pop(context);
+  //                     });
+  //                   },
+  //                 ),
+  //                 RadioListTile(
+  //                   title: Text(
+  //                     "Completed Task Only",
+  //                     style: TextStyle(color: Colors.white),
+  //                   ),
+  //                   value: "completed",
+  //                   activeColor: Colors.black87,
+  //                   groupValue: filter,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       filter = value.toString();
+  //                       filterTasksByMethod(filter);
+  //                       Navigator.pop(context);
+  //                     });
+  //                   },
+  //                 ),
+  //                 RadioListTile(
+  //                   title: Text(
+  //                     "Pending Task Only",
+  //                     style: TextStyle(color: Colors.white),
+  //                   ),
+  //                   value: "pending",
+  //                   activeColor: Colors.black87,
+  //                   groupValue: filter,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       filter = value.toString();
+  //                       filterTasksByMethod(filter);
+  //                       Navigator.pop(context);
+  //                     });
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 
   /////////////////////deleteTask//////////////////////////
   ///////////////////////////////////////////////
   /////////////////////////////////////////////////////
 
-  static Future<void> deleteTask(String taskKey) async {
-    final taskBox = await Hive.openBox<Task>('task');
+  // static Future<void> deleteTask(String taskKey) async {
+  //   final taskBox = await Hive.openBox<Task>('task');
 
-    if (taskBox.containsKey(taskKey)) {
-      taskBox.delete(taskKey);
-    }
+  //   if (taskBox.containsKey(taskKey)) {
+  //     taskBox.delete(taskKey);
+  //   }
 
-    final directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/tasks.txt');
-    if (await file.exists()) {
-      final lines = await file.readAsLines();
-      final updatedLines = lines.where((line) {
-        final taskData = line.split(',');
-        final taskKeyInFile = taskData[0];
-        return taskKeyInFile != taskKey;
-      }).toList();
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final file = File('${directory.path}/tasks.txt');
+  //   if (await file.exists()) {
+  //     final lines = await file.readAsLines();
+  //     final updatedLines = lines.where((line) {
+  //       final taskData = line.split(',');
+  //       final taskKeyInFile = taskData[0];
+  //       return taskKeyInFile != taskKey;
+  //     }).toList();
 
-      await file.writeAsString(updatedLines.join('\n'));
-    }
-  }
+  //     await file.writeAsString(updatedLines.join('\n'));
+  //   }
+  // }
 
-  // ////////////////////Edit or delete////////////////////////////
-  /////////////////////////////////////////////////////////
+  // // ////////////////////Edit or delete////////////////////////////
+  // /////////////////////////////////////////////////////////
 
-  editOrDelete(String key) {
-    // String taskKey = key;
-    String taskKey = key;
+  // editOrDelete(String key) {
+  //   // String taskKey = key;
+  //   String taskKey = key;
 
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                    onPressed: () async {
-                      final updatedTask = await Navigator.pushNamed(
-                          context, '/updateTask',
-                          arguments: taskKey);
-                      retrieveData();
-                      // if (updatedTask != null) {
-                      //   // If a new task is added, update the data and refresh the UI
-                      //   setState(() {
-                      //     tasks.add(updatedTask as Task);
-                      //   });
-                      // }
+  //   showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog(
+  //           shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.all(Radius.circular(15.0))),
+  //           content: Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //             crossAxisAlignment: CrossAxisAlignment.center,
+  //             children: [
+  //               ElevatedButton(
+  //                   onPressed: () async {
+  //                     final updatedTask = await Navigator.pushNamed(
+  //                         context, '/updateTask',
+  //                         arguments: taskKey);
+  //                     retrieveData();
+  //                     // if (updatedTask != null) {
+  //                     //   // If a new task is added, update the data and refresh the UI
+  //                     //   setState(() {
+  //                     //     tasks.add(updatedTask as Task);
+  //                     //   });
+  //                     // }
 
-                      Navigator.pop(context, updatedTask);
-                      // Navigator.pushNamed(context,'UserHome');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 37, 211, 102),
-                    ),
-                    child: Text(" Edit ",
-                        style: TextStyle(
-                          color: Colors.black87,
-                        ))),
-                ElevatedButton(
-                    onPressed: () async {
-                      await deleteTask(taskKey);
-                      retrieveData();
-                      Navigator.pop(context, null);
-                      // deleteTask(taskKey);
-                      // Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      // alignment:,
-                      backgroundColor: Color.fromARGB(255, 118, 6, 6),
-                    ),
-                    child: Text("Delete",
-                        style: TextStyle(
-                          color: Colors.black87,
-                        ))),
-              ],
-            ),
-          );
-        });
-    //return action;
-  }
+  //                     Navigator.pop(context, updatedTask);
+  //                     // Navigator.pushNamed(context,'UserHome');
+  //                   },
+  //                   style: ElevatedButton.styleFrom(
+  //                     backgroundColor: Color.fromARGB(255, 37, 211, 102),
+  //                   ),
+  //                   child: Text(" Edit ",
+  //                       style: TextStyle(
+  //                         color: Colors.black87,
+  //                       ))),
+  //               ElevatedButton(
+  //                   onPressed: () async {
+  //                     await deleteTask(taskKey);
+  //                     retrieveData();
+  //                     Navigator.pop(context, null);
+  //                     // deleteTask(taskKey);
+  //                     // Navigator.pop(context);
+  //                   },
+  //                   style: ElevatedButton.styleFrom(
+  //                     // alignment:,
+  //                     backgroundColor: Color.fromARGB(255, 118, 6, 6),
+  //                   ),
+  //                   child: Text("Delete",
+  //                       style: TextStyle(
+  //                         color: Colors.black87,
+  //                       ))),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  //   //return action;
+  // }
 
 //////////////////main view///////////////////////////////
 ///////////////////////////////////////////////////////
@@ -381,54 +380,54 @@ class _VendorListState extends State<VendorList> {
   // var tasks = taskBox.values.toList();
 
   //show dialogbox
-  void _showDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          backgroundColor: Colors.green, // Set the dialog background color
-          title: Text(
-            'Choose an Option',
-            style: TextStyle(color: Colors.white),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                  // Perform the action for the first button here
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                ),
-                child: Text(
-                  'Button 1',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                  // Perform the action for the second button here
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                ),
-                child: Text(
-                  'Button 2',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // void _showDialog() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(10.0),
+  //         ),
+  //         backgroundColor: Colors.green, // Set the dialog background color
+  //         title: Text(
+  //           'Choose an Option',
+  //           style: TextStyle(color: Colors.white),
+  //         ),
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 Navigator.of(context).pop(); // Close the dialog
+  //                 // Perform the action for the first button here
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 primary: Colors.green,
+  //               ),
+  //               child: Text(
+  //                 'Button 1',
+  //                 style: TextStyle(color: Colors.white),
+  //               ),
+  //             ),
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 Navigator.of(context).pop(); // Close the dialog
+  //                 // Perform the action for the second button here
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 primary: Colors.green,
+  //               ),
+  //               child: Text(
+  //                 'Button 2',
+  //                 style: TextStyle(color: Colors.white),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -464,7 +463,7 @@ class _VendorListState extends State<VendorList> {
               ),
             ),
           ),
-          body: tasks.isEmpty
+          body: vendors.isEmpty
               ? Container(
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 20, 24, 26),
@@ -494,9 +493,9 @@ class _VendorListState extends State<VendorList> {
                   child: ListView.builder(
                     padding: EdgeInsetsDirectional.zero,
                     shrinkWrap: false,
-                    itemCount: tasks.length,
+                    itemCount: vendors.length,
                     itemBuilder: (context, index) {
-                      final task = tasks[index];
+                      final vendor = vendors[index];
 
                       return SizedBox(
                         height: 70.0,
@@ -525,33 +524,33 @@ class _VendorListState extends State<VendorList> {
 
                                 child: ListTile(
                                   leading: Text(
-                                    task.taskName,
+                                    vendor.vendorName,
 
                                     //  "${task.timestamp?.minute?.toString()}",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(fontSize: 20.0),
                                   ),
                                   textColor: Colors.white,
-                                  trailing: Text(
-                                    time,
-                                  ),
+                                  // trailing: Text(
+                                  //   time,
+                                  // ),
                                   onTap: () async {
-                                    Navigator.pushNamed(context, '/viewTask',
-                                        arguments: task);
+                                    Navigator.pushNamed(context, '/viewVendor',
+                                        arguments: vendor);
                                     // setState(() {
                                     //   retrieveData();
                                     // });
                                   },
-                                  onLongPress: () async {
-                                    final updatedTask =
-                                        editOrDelete(task.taskKey);
-                                    if (updatedTask != null) {
-                                      setState(() {
-                                        retrieveData();
-                                      });
-                                    }
-                                    // await retrieveData();
-                                  },
+                                  // onLongPress: () async {
+                                  //   final updatedTask =
+                                  //       editOrDelete(task.taskKey);
+                                  //   if (updatedTask != null) {
+                                  //     setState(() {
+                                  //       retrieveData();
+                                  //     });
+                                  //   }
+                                  //   // await retrieveData();
+                                  // },
                                 ),
                               ),
                             ],
@@ -568,16 +567,16 @@ class _VendorListState extends State<VendorList> {
             // shape: RoundedRectangleBorder(
             //   side: BorderSide(width: 3, color: Colors.white),
             //   borderRadius: BorderRadius.circular(100)),
-            onPressed: () {
-              // Navigator.pushNamed(context, 'addTask');
-              // final newTask = await Navigator.pushNamed(context, 'addTask');
-              // if (newTask != null) {
+            onPressed: () async {
+              Navigator.pushNamed(context, 'addVendor');
+              final newTask = await Navigator.pushNamed(context, 'addVendor');
+              if (newTask != null) {
 
-              //   setState(() {
-              //     tasks.add(newTask as Task);
-              //   });
-              // }
-              // await retrieveData();
+                setState(() {
+                  vendors.add(newTask as Vendor);
+                });
+              }
+              await retrieveData();
             },
             child: Icon(
               Icons.add,
@@ -612,9 +611,9 @@ class _VendorListState extends State<VendorList> {
               onTap: (int index) {
                 setState(() {
                   if (index == 0) {
-                    sortTask();
+                    //sortTask();
                   } else if (index == 1) {
-                    filterTask(context);
+                    //filterTask(context);
                   }
                 });
               },
@@ -644,11 +643,11 @@ class _VendorListState extends State<VendorList> {
     );
   }
 
-  Widget buildContent(List<Task> task) {
-    if (task.isEmpty) {
+  Widget buildContent(List<Vendor> vendor) {
+    if (vendor.isEmpty) {
       return Center(
           child: FloatingActionButton(
-              heroTag: 'addTask',
+              heroTag: 'addVendor',
               onPressed: () {
                 // Navigator.pushNamed(context, '/addTask');
               }));
