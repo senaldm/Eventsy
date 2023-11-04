@@ -106,8 +106,11 @@ class QrCodeScannerState extends State<QrCodeScanner> {
             )
           ],
         ),
-          onWillPop: () async {
-          Navigator.pushNamed(context, '/UserCode',);
+        onWillPop: () async {
+          Navigator.pushNamed(
+            context,
+            '/UserCode',
+          );
           return false;
         },
       ),
@@ -124,7 +127,7 @@ class QrCodeScannerState extends State<QrCodeScanner> {
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          borderColor: Colors.green, 
+          borderColor: Colors.green,
           borderRadius: 10,
           borderLength: 30,
           borderWidth: 10,
@@ -139,25 +142,20 @@ class QrCodeScannerState extends State<QrCodeScanner> {
     });
 
     controller.scannedDataStream.listen((scanData) {
-     
       if (scanData != null) {
         print(scanData.code);
- 
+
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => TicketValidationScreen(
-              scannedQRCode:
-                  scanData.code ?? '', 
-              ticketDetails: ticketDetails, 
+              scannedQRCode: scanData.code ?? '',
+              ticketDetails: ticketDetails,
             ),
           ),
         );
         this.controller = null;
-
       }
     });
-
-   
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
