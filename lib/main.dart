@@ -120,15 +120,6 @@ Future main() async {
   eventTaskBox = await Hive.openBox<EventTasks>('eventTask');
   invitationBox = await Hive.openBox<Invitation>('invitation');
 
-// void main()=>runApp(
-//     DevicePreview(
-
-//       builder:(context)=> FirstPage(),
-//     ),
-//   );
-// }
-
-// void main() {
   runApp(FirstPage());
 }
 

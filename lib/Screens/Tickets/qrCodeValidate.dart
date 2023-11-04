@@ -145,21 +145,6 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
                     ],
                     )
                   
-                  
-                   
-                 
-                // Text(
-                //   isValidated ? "Ticket Validated" : "Invalid Ticket",
-                //   style: TextStyle(
-                //     fontSize: 24.0,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
-                // SizedBox(height: 20.0),
-                // Text(
-                //   "Ticket Details: Your ticket details go here...",
-                //   style: TextStyle(fontSize: 16.0),
-                // ),,
                ,SizedBox(height: 20.0),
                 CountdownTimer(
                   endTime: DateTime.now().millisecondsSinceEpoch + 10000,
@@ -168,7 +153,7 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
                     if (!userWantsManualClose) {
                            Navigator.pushNamed(context, '/qrCodeScanner',
                             arguments: ticketData);
-                     //   Navigator.pop(context);
+                    
                     }
                   },
                 ),
@@ -180,18 +165,13 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
                     child: const Text("Close"),
                   ),
                   Positioned(
-                  bottom: height * 0.1,
+                  bottom: height * 0.05,
                   left: 0,
                   right: 0,
+                
                   child: Column(
                     children: [
-                      // Text(
-                      //   "Eventsy",
-                      //   style: TextStyle(
-                      //       fontSize: 26.0,
-                      //       color: Colors.white70,
-                      //       fontFamily: 'Quintessential'),
-                      // ),
+                 
                       Text(
                         "Ready for Next Ticket",
                         style: TextStyle(
