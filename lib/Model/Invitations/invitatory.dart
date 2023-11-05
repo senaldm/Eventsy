@@ -14,18 +14,18 @@ class Invitatory {
   String note;
 
   @HiveField(3)
-  bool isInvitatorySent; // Rename to isInvitatorySent
+  bool isInvitatorySent; 
 
   Invitatory({
-    this.guestName = '', // Update field name
+    this.guestName = '', 
     this.date = '',
     this.note = '',
-    this.isInvitatorySent = false, // Update field name
+    this.isInvitatorySent = false, 
   });
 
   // Function to check if data is saved
   static Future<bool> isDataSaved() async {
-    final box = await Hive.openBox<Invitatory>('invitatory'); // Use 'invitatory' as your box name
+    final box = await Hive.openBox<Invitatory>('invitatory'); 
     return box.isNotEmpty;
   }
 }
