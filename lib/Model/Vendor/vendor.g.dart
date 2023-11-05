@@ -21,13 +21,14 @@ class VendorAdapter extends TypeAdapter<Vendor> {
       date: fields[1] as String,
       note: fields[2] as String,
       isComplete: fields[3] as bool,
+      timestamp: fields[4] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Vendor obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.vendorName)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class VendorAdapter extends TypeAdapter<Vendor> {
       ..writeByte(2)
       ..write(obj.note)
       ..writeByte(3)
-      ..write(obj.isComplete);
+      ..write(obj.isComplete)
+      ..writeByte(4)
+      ..write(obj.timestamp);
   }
 
   @override

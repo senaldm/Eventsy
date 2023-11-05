@@ -222,19 +222,23 @@ class _AddVendorState extends State<AddVendor> {
       child: Row(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.date_range),
+            padding: const EdgeInsets.only(left: 0.0, right: 12.0),
+            child: Icon(
+              Icons.date_range, // Change the icon here
+              color: Color.fromARGB(255, 149, 148, 148), // Change the color of the date icon
+              size: 24.0,
+            ),
           ),
           Expanded(
             child: Text(
               dateController.text.isNotEmpty
                   ? dateController.text
-                  : 'Select Date',
+                  : 'Meet Date',
               style: TextStyle(
                 fontSize: 16.0,
                 color: dateController.text.isNotEmpty
                     ? Colors.black
-                    : Colors.grey,
+                    : Color.fromARGB(255, 127, 124, 124),
               ),
             ),
           ),
@@ -243,6 +247,7 @@ class _AddVendorState extends State<AddVendor> {
     ),
   ),
 ),
+
 
                       SizedBox(
                         height: width * 0.05,
