@@ -8,7 +8,7 @@ part of 'vendor.dart';
 
 class VendorAdapter extends TypeAdapter<Vendor> {
   @override
-  final int typeId = 6;
+  final int typeId = 8;
 
   @override
   Vendor read(BinaryReader reader) {

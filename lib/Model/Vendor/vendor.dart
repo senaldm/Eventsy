@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 
 part 'vendor.g.dart';
 
-@HiveType(typeId: 6)
+@HiveType(typeId: 8)
 class Vendor {
   @HiveField(0)
    String vendorName;

@@ -25,7 +25,7 @@ class _VendorListState extends State<VendorList> {
   Box<Vendor>? vendorBox;
   List<Vendor> vendors = [];
   List<Vendor> originalVendors = [];
-  late String time;
+  late DateTime time;
   @override
   void initState() {
     super.initState();

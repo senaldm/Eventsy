@@ -24,7 +24,7 @@ class _ViewVendorState extends State<ViewVendor> {
     super.initState();
     currentVendor = widget.vendor;
     vendorName = currentVendor.vendorName;
-    date = currentVendor.date;
+    date =currentVendor.date.toString();
     note = currentVendor.note;
     isComplete = currentVendor.isComplete;
   }
@@ -128,8 +128,15 @@ class _ViewVendorState extends State<ViewVendor> {
                       ListTile(
                         iconColor: Colors.white70,
                         textColor: Colors.white,
-                        leading: Icon(Icons.attach_money),
+                        leading: Icon(Icons.date_range_outlined),
                         title: Text('Date'),
+                        subtitle: Text(date),
+                      ),
+                        ListTile(
+                        iconColor: Colors.white70,
+                        textColor: Colors.white,
+                        leading: Icon(Icons.note_add),
+                        title: Text('Note'),
                         subtitle: Text(note),
                       ),
                       ListTile(
@@ -139,6 +146,7 @@ class _ViewVendorState extends State<ViewVendor> {
                         title: Text('Is confirmed'),
                         subtitle: Text(isComplete ? 'Yes' : 'No'),
                       ),
+                     
                       SizedBox(height: 20),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
