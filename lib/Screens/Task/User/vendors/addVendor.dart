@@ -194,7 +194,7 @@ class _AddVendorState extends State<AddVendor> {
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon: Icon(Icons.task_outlined),
+                              prefixIcon: Icon(Icons.person_outlined),
 
                               hintText: 'vendor Name',
                               // prefixText:'Task Name',
@@ -207,28 +207,43 @@ class _AddVendorState extends State<AddVendor> {
                         height: width * 0.05,
                       ),
                       Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        margin: EdgeInsets.only(
-                            left: width * 0.15, right: width * 0.15),
-                        borderOnForeground: false,
-                        child: Hero(
-                          tag: 'date',
-                          child: TextField(
-                            controller: dateController,
-                            // onChanged: (value) {
-                            //   vendorName:
-                            //   value;
-                            // },
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon: Icon(Icons.business_center_outlined),
-                              hintText: 'Date',
-                            ),
-                          ),
-                        ),
-                      ),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10.0),
+  ),
+  margin: EdgeInsets.only(
+    left: width * 0.15,
+    right: width * 0.15,
+  ),
+  borderOnForeground: false,
+  child: Hero(
+    tag: 'date',
+    child: MaterialButton(
+      onPressed: _showDatePicker,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(Icons.date_range),
+          ),
+          Expanded(
+            child: Text(
+              dateController.text.isNotEmpty
+                  ? dateController.text
+                  : 'Select Date',
+              style: TextStyle(
+                fontSize: 16.0,
+                color: dateController.text.isNotEmpty
+                    ? Colors.black
+                    : Colors.grey,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ),
+),
+
                       SizedBox(
                         height: width * 0.05,
                       ),
@@ -250,7 +265,7 @@ class _AddVendorState extends State<AddVendor> {
                             decoration: InputDecoration(
                               border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0)),
-                              prefixIcon: Icon(Icons.attach_money_rounded),
+                              prefixIcon: Icon(Icons.note_rounded),
                               hintText: ' Note ',
                             ),
                           ),
@@ -320,7 +335,7 @@ class _AddVendorState extends State<AddVendor> {
                       FloatingActionButton.extended(
                         heroTag: Text('cancel'),
                         onPressed: () {
-                           Navigator.pushNamed(context, 'VendorList');
+                          Navigator.pushNamed(context, 'VendorList');
                         },
                         backgroundColor: Colors.blueGrey.shade900,
                         label: Text(
@@ -370,6 +385,34 @@ class _AddVendorState extends State<AddVendor> {
       isFilled = valid;
     });
   }
+
+ void _showDatePicker() async {
+    final selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+
+       builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          primaryColor: Color(0xFF128C7E), // ARGB(255, 18, 140, 126)
+          colorScheme: ColorScheme.light(primary: Color(0xFF128C7E)),
+          buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+        ),
+        child: child!,
+      );
+    },
+    );
+
+    if (selectedDate != null) {
+      setState(() {
+        dateController.text = selectedDate.toLocal().toString().split(' ')[0];
+      });
+    }
+  }
+
+
 
   addVendor(
       String vendorName, String date, String note, bool isConfirmed) async {

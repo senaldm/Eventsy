@@ -151,9 +151,10 @@ class FirstPage extends StatelessWidget {
 
           '/ticketHandlingHome': (context) => TicketHandlingHome(),
           '/UserCode': (context) => UserCode(),
-          '/qrCodeScanner': (context) => QrCodeScanner(
-              data:
-                  ModalRoute.of(context)!.settings.arguments as List<dynamic>),
+          // '/qrCodeScanner': (context) => QrCodeScanner(
+          //     data:
+          //         ModalRoute.of(context)!.settings.arguments as List<dynamic>),
+
           //  '/qrCodeScanner':(context)=>QrCodeScanner(
           //   data: ModalRoute.of(context)!.settings.arguments as List<dynamic>
           // ),
