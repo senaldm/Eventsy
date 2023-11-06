@@ -101,6 +101,7 @@ dependencies:
   #connectivity_plus: ^4.0.2
   connectivity: ^3.0.6
   flutter_countdown_timer: ^4.1.0
+  qr_code_scanner: ^1.0.1
 
   
 
@@ -135,7 +136,7 @@ flutter:
     - assets/Images/Home/
     - assets/Images/Task/
     - assets/Images/settings/
- 
+    - assets/Images/Ticket/
     - assets/Images/ImageSearch/
     - assets/Images/auth/
 

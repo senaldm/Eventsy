@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'package:eventsy/Planners/profile/editProfile.dart';
-import 'package:eventsy/Planners/profile/contributors.dart';
-import 'package:eventsy/Planners/profile/favourites.dart';
 import 'package:eventsy/Planners/profile/share.dart';
-import 'package:eventsy/model/Planner/currentId.dart';
-import 'package:eventsy/model/Planner/currentPlanner.dart';
+import 'package:eventsy/User/profile/editProfile.dart';
+import 'package:eventsy/User/profile/favourites.dart';
+import 'package:eventsy/model/User/currentId.dart';
+import 'package:eventsy/model/User/currentUser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +21,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  CurrentPlanner currentPlanner = CurrentPlanner();
+  CurrentUser currentUser = CurrentUser();
   List userData = [];
   bool logedin = true;
 
@@ -34,11 +33,9 @@ class _ProfileState extends State<Profile> {
 
   Future<void> _fetchUserData() async {
     try {
-      List data = await currentPlanner.getCurrentPlanner();
+      List data = await currentUser.getCurrentUser();
       setState(() {
         userData = data;
-        //print(userData[0]['friends']);
-        //print(userData[0]['friends'][1]['pivot']['status']);  // to print the status of friend request
       });
     } catch (e) {
       // Handle error
@@ -108,17 +105,6 @@ class _ProfileState extends State<Profile> {
         ),
       );
     } else {
-      // Handle loading state or no data available
-      //return const Center(child: CircularProgressIndicator(color:Color.fromARGB(255, 18, 140, 126),));
-      // return const Center(
-      //     child: Padding(
-      //       padding: EdgeInsets.all(20.0),
-      //       child: CupertinoActivityIndicator(
-      //           radius: 20.0,
-      //           color: Color.fromARGB(255, 18, 140, 126),
-      //           ),
-      //     ));
-
       return Container(
         color: const Color.fromARGB(255, 18, 140, 126),
         width: double.infinity,
@@ -137,10 +123,7 @@ class _ProfileState extends State<Profile> {
       padding: const EdgeInsets.only(top: 15.0),
       child: Column(
         children: [
-          //menuItem(1, 'Promotion', Icons.self_improvement),
-          //menuItem(2, 'Contributors', Icons.group),
           menuItem(3, 'Favourites', Icons.favorite),
-          menuItem(4, 'Share', Icons.share),
           menuItem(5, 'Edit', Icons.edit),
           menuItem(6, 'Help & Support', Icons.help),
           menuItem(7, 'Contact us', Icons.contact_mail),
@@ -183,8 +166,6 @@ class _ProfileState extends State<Profile> {
             case 1:
               break;
             case 2:
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Contributors()));
               break;
             case 3:
               Navigator.push(context,

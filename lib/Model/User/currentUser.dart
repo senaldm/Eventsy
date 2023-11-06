@@ -1,16 +1,16 @@
 import 'dart:convert';
-import 'package:eventsy/Model/Planner/currentId.dart';
+import 'package:eventsy/model/User/currentId.dart';
 import 'package:http/http.dart' as http;
 
-class CurrentPlanner {
+class CurrentUser {
   
   
-  Future<List> getCurrentPlanner() async {
+  Future<List> getCurrentUser() async {
 
     currentId currentuser = currentId();
     int id = currentuser.currentUserId;
-    //String url = "http://127.0.0.1:8000/api/getCurrentPlanner/$id";
-    String url = "https://dreamy-wilson.34-81-183-3.plesk.page/api/getCurrentPlanner/$id";
+    //String url = "http://127.0.0.1:8000/api/getCurrentUser/$id";
+    String url = "https://dreamy-wilson.34-81-183-3.plesk.page/api/getCurrentUser/$id";
 
 
     try {

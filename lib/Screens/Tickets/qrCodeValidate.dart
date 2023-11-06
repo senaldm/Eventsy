@@ -20,19 +20,28 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
   late List<String> ticketKeys;
   late String ticketType;
 
-  bool userWantsManualClose = false;
+ 
 
   @override
   void initState() {
     super.initState();
     qrCode = widget.scannedQRCode;
     ticketData = widget.ticketDetails;
+
     addTicketKeys();
     checkValidation();
+    resetIsValidate();
+  }
+
+  resetIsValidate() {
+    setState(() {
+      isValidated = false;
+    });
   }
 
   void addTicketKeys() {
-    ticketKeys = ticketData.map((item) => item['ticketKey'] as String).toList();
+    ticketKeys =
+        ticketData.map((item) => item['ticketKey'].toString()).toList();
 
     //print(ticketKeys);
   }
@@ -41,17 +50,19 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
     String matchingKey = '';
     for (String key in ticketKeys) {
       if (qrCode == key) {
+        print(qrCode);
         matchingKey = key;
-        var ticket =ticketData.firstWhere((item) => item['ticketKey'] == qrCode);
+        var ticket =
+            ticketData.firstWhere((item) => item['ticketKey'] == qrCode);
         ticketType = ticket['ticketType'];
+        //   isValidated = false;
         break;
       }
     }
 
-    if (matchingKey != '') {
-      isValidated = true;
-      
-    }
+    // if (matchingKey != '') {
+    //   isValidated = true;
+    // }
   }
 
   @override
@@ -69,9 +80,9 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
           resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(height * 0.1),
-      
+
             // padding:EdgeInsets.only(top: height * 0.02, right: width * 0.02),
-      
+
             child: AppBar(
               titleSpacing: 2.2,
               forceMaterialTransparency: false,
@@ -94,84 +105,67 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                isValidated?
-                 
-                      Column(
-                        children: [
-                          Icon(
-                            Icons.check_circle,
-                            color: Colors.green,
-                            size: 100.0,
-                          ),
-                          
-                   
-                          SizedBox(height: 20.0),
-                        
-                      
-                      Text(
-                        "Ticket Validated",
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                          color:Colors.green,
-                        ),
-                      ),
-                        
-                      SizedBox(height: 20.0),
-                      Text(
-                        "Ticket Type: $ticketType",
-                        style: TextStyle(
-                                  fontSize: 16.0,
-                                  color:Colors.white,),
-                        
-                      ),])
-                      : Column(
-                      children:[
-                      
-                    Icon(
-                          Icons.close_rounded,
-                          color: Colors.red,
+                isValidated
+                    ? Column(children: [
+                        Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
                           size: 100.0,
                         ),
-                      SizedBox(height: 20.0),
-                      Text(
-                        "Ticket Invalidated",
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                          color:Colors.red,
+                        SizedBox(height: 20.0),
+                        Text(
+                          "Ticket Validated",
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
                         ),
+                        SizedBox(height: 20.0),
+                        // Text(
+                        //   "Ticket Type: $ticketType",
+                        //   style: TextStyle(
+                        //     fontSize: 16.0,
+                        //     color: Colors.white,
+                        //   ),
+                        // ),
+                      ])
+                    : Column(
+                        children: [
+                          Icon(
+                            Icons.close_rounded,
+                            color: Colors.red,
+                            size: 100.0,
+                          ),
+                          SizedBox(height: 20.0),
+                          Text(
+                            "Ticket Invalidated",
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                    )
-                  
-               ,SizedBox(height: 20.0),
+                SizedBox(height: 20.0),
                 CountdownTimer(
                   endTime: DateTime.now().millisecondsSinceEpoch + 10000,
                   textStyle: TextStyle(fontSize: 48.0),
                   onEnd: () {
-                    if (!userWantsManualClose) {
-                           Navigator.pushNamed(context, '/qrCodeScanner',
-                            arguments: ticketData);
+                   
+                      Navigator.pushNamed(context, '/qrCodeScanner',
+                          arguments: ticketData);
                     
-                    }
                   },
                 ),
-                if (userWantsManualClose)
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Close"),
-                  ),
-                  Positioned(
+               
+                Positioned(
                   bottom: height * 0.05,
                   left: 0,
                   right: 0,
-                
                   child: Column(
                     children: [
-                 
                       Text(
                         "Ready for Next Ticket",
                         style: TextStyle(
@@ -188,7 +182,7 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
               ],
             ),
           ),
-          
+
           // bottomNavigationBar: BottomAppBar(
           //   child: Container(
           //     padding: EdgeInsets.all(12.0),
@@ -199,9 +193,8 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
           //   ),
           // ),
         ),
-         onWillPop: () async {
-   
-          Navigator.pushNamed(context, '/qrCodeScanner',arguments: ticketData);
+        onWillPop: () async {
+          Navigator.pushNamed(context, '/qrCodeScanner', arguments: ticketData);
           return false;
         },
       ),
