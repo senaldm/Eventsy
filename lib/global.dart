@@ -1,3 +1,4 @@
+import 'package:eventsy/Model/plannerVendor/plannerVendor.dart';
 import 'package:hive/hive.dart';
 // import 'package:eventsy/Model/Budgetcal/eventset.dart';
 import 'package:eventsy/Model/Event.dart';
@@ -24,6 +25,8 @@ late Box<ValidationBackMethod> validationbackMethodBox;
 late Box<Vendor> vendorBox;
 
 late Box<Invitatory> invitatoryBox;
+
+late Box<VendorTask> vendorTaskBox;
 
 // Future<void> addEvent(Eventset eventName) async {
 //   eventsBox.add(eventName);

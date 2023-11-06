@@ -39,7 +39,8 @@ class _VendorListState extends State<VendorList> {
   }
 
   Future<void> retrieveData() async {
-    // Retrieve data from Hive box
+    
+    
     vendors = vendorBox?.values.toList() ?? [];
 
     // Retrieve data from local storage

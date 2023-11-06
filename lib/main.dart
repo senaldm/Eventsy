@@ -6,6 +6,7 @@ import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/bu
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/updatebudgettask.dart';
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/viewbudgettask.dart';
 import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
+import 'package:eventsy/Screens/Task/Planner/plannerVendor/vendorAddedList.dart';
 import 'package:eventsy/Screens/Task/User/viewTask.dart';
 import 'package:eventsy/Screens/Tickets/qrCodeScanner.dart';
 import 'package:eventsy/Screens/Tickets/qrCodeValidate.dart';
@@ -84,7 +85,7 @@ import 'package:eventsy/Screens/Task/User/vendors/vendorlist.dart';
 import 'package:eventsy/Screens/Task/User/vendors/addVendor.dart';
 import 'package:eventsy/Screens/Task/User/vendors/viewVendor.dart';
 
-
+import 'package:eventsy/Model/plannerVendor/plannerVendor.dart';
 
 import 'package:eventsy/Model/Invitations/invitatory.dart';
 import 'package:eventsy/Screens/Task/User/invitation/invitationlist.dart';
@@ -115,6 +116,7 @@ Future main() async {
   Hive.registerAdapter(ValidationBackMethodAdapter());
   Hive.registerAdapter(VendorAdapter());
   Hive.registerAdapter(InvitatoryAdapter());
+  Hive.registerAdapter(VendorTaskAdapter());
 
   // eventbudgetBox = await Hive.openBox<BudgetEvent>('budgetevent');
   // taskbudgetBox = await Hive.openBox<BudgetEvent>('budgettask');
@@ -274,8 +276,15 @@ class FirstPage extends StatelessWidget {
           'invitatoryList': (context) => InvitatoryList(),
           'addinvitatory': (context) => AddInvitatory(),
 
+          //plannerVendor//
+          'vendorAddedList':(context){
+            // Cast arguments to the correct type, which is List<BudgetTasks>
+            final List<VendorTasks> vendortList =
+                ModalRoute.of(context)!.settings.arguments as List<VendorTasks>;
 
-
+            
+            return VendorAddedList(vendorList: []);
+          },
           //dashboard//
           'your_tasks': (context) => your_tasks(),
         },
