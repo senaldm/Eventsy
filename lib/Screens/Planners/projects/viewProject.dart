@@ -39,50 +39,6 @@ class _ViewProjectState extends State<ViewProject> {
             )));
   }
 
-  // Widget contact() {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(15.0),
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Card(
-  //           child: Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //             children: [
-  //               const Text(
-  //                 "Contact",
-  //                 style: TextStyle(
-  //                     color: Color.fromARGB(255, 18, 140, 126),
-  //                     fontSize: 18.0,
-  //                     fontWeight: FontWeight.bold),
-  //               ),
-  //               IconButton(
-  //                   icon: const Icon(
-  //                     Icons.mail,
-  //                     color: Colors.blue,
-  //                   ),
-  //                   onPressed: () {
-  //                     String mail = "mailto:${person[0]['email']}";
-  //                     final Uri url = Uri.parse(mail);
-  //                     launchUrl(url);
-  //                   }),
-  //               IconButton(
-  //                   icon: const Icon(Icons.chat,color: Colors.green,),
-  //                   onPressed: () {
-  //                     String whatsapp =
-  //                         "https://wa.me/${person[0]['contact']}?text=Hi this message is through Eventsy";
-  //                     final Uri url = Uri.parse(whatsapp);
-  //                     launchUrl(url);
-  //                   })
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget contact() {
     print(person[0]['userbookingID']);
     return Container(
@@ -262,8 +218,8 @@ Widget Confrimation() {
   }
 
   Future<bool> cancel(int userbookingID) async {
-  final url = 'http://127.0.0.1:8000/api/cancelUserRequest/$userbookingID';
-  //final url = 'https://eventsy-gray.vercel.app/api/cancelUserRequest/$bookingID';
+  //final url = 'http://127.0.0.1:8000/api/cancelUserRequest/$userbookingID';
+  final url = 'https://dreamy-wilson.34-81-183-3.plesk.page/api/cancelUserRequest/$userbookingID';
   try {
     final response = await http.post(Uri.parse(url));
 
@@ -282,8 +238,8 @@ Widget Confrimation() {
 }
 
 Future<bool> completed(int userbookingID) async {
-  final url = 'http://127.0.0.1:8000/api/completeUserBooking/$userbookingID';
-  //final url = 'https://eventsy-gray.vercel.app/api/completeUserBooking/$userbookingID';
+  //final url = 'http://127.0.0.1:8000/api/completeUserBooking/$userbookingID';
+  final url = 'https://dreamy-wilson.34-81-183-3.plesk.page/api/completeUserBooking/$userbookingID';
   try {
     final response = await http.post(Uri.parse(url));
 

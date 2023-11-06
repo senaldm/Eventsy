@@ -14,7 +14,7 @@ class Message extends StatefulWidget {
 
 class _MessageState extends State<Message> {
 
-  Projects bookings = Projects();
+  //Projects bookings = Projects();
   List requests = [];
 
   @override
@@ -225,8 +225,8 @@ class _MessageState extends State<Message> {
 
 
   Future<bool> accept(int userbookingID,) async {
-  final url = 'http://127.0.0.1:8000/api/acceptUserRequest/$userbookingID';
-  //final url = 'https://eventsy-gray.vercel.app/api/acceptUserRequest/$userbookingID';
+  //final url = 'http://127.0.0.1:8000/api/acceptUserRequest/$userbookingID';
+  final url = 'https://dreamy-wilson.34-81-183-3.plesk.page/api/acceptUserRequest/$userbookingID';
 
   try {
     final response = await http.post(Uri.parse(url)
@@ -248,8 +248,8 @@ class _MessageState extends State<Message> {
 }
 
   Future<bool> cancel(int userbookingID) async {
-  final url = 'http://127.0.0.1:8000/api/cancelUserRequest/$userbookingID';
-  //final url = 'https://eventsy-gray.vercel.app/api/cancelUserRequest/$userbookingID';
+  //final url = 'http://127.0.0.1:8000/api/cancelUserRequest/$userbookingID';
+  final url = 'https://dreamy-wilson.34-81-183-3.plesk.page/api/cancelUserRequest/$userbookingID';
   try {
     final response = await http.post(Uri.parse(url));
 

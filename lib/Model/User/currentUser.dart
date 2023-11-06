@@ -9,12 +9,12 @@ class CurrentUser {
 
     currentId currentuser = currentId();
     int id = currentuser.currentUserId;
-    String url = "http://127.0.0.1:8000/api/getCurrentUser/$id";
-    //String url = "https://eventsy-gray.vercel.app/api/getCurrentUser/$id";
+    //String url = "http://127.0.0.1:8000/api/getCurrentUser/$id";
+    String url = "https://dreamy-wilson.34-81-183-3.plesk.page/api/getCurrentUser/$id";
 
 
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.post(Uri.parse(url));
       if (response.statusCode == 200) {
         //print([jsonDecode(response.body)]);
         return [jsonDecode(response.body)];

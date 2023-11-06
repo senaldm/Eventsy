@@ -262,8 +262,8 @@ class ViewProfile extends StatelessWidget {
   }
 
   Future<bool> hire(int id) async {
-    String hire = "http://127.0.0.1:8000/api/plannerHirePlanner/$currentuserid/$id"; 
-    //String hire = "https://eventsy-gray.vercel.app/api/plannerHirePlanner/$currentuserid/$id";
+    //String hire = "http://127.0.0.1:8000/api/plannerHirePlanner/$currentuserid/$id"; 
+    String hire = "https://dreamy-wilson.34-81-183-3.plesk.page/api/plannerHirePlanner/$currentuserid/$id";
 
     final response = await http.post(Uri.parse(hire), body: {
       'status': 'pending',

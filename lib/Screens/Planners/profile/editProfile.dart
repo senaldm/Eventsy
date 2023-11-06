@@ -262,8 +262,8 @@ class _edit_profileState extends State<edit_profile> {
 
   Future<bool> updateUserProfile() async {
     //List person = widget.user;
-    final url ='http://127.0.0.1:8000/api/updateProfile/${person[0]['plannerID']}';
-    //final url ='https://eventsy-gray.vercel.app/api/updateProfile/${person[0]['plannerID']}';
+    //final url ='http://127.0.0.1:8000/api/updateProfile/${person[0]['plannerID']}';
+    final url ='https://dreamy-wilson.34-81-183-3.plesk.page/api/updateProfile/${person[0]['plannerID']}';
 
     final response = await http.post(Uri.parse(url), body: {
       'name': nameController.text,

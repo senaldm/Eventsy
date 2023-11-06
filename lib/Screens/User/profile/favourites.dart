@@ -184,8 +184,8 @@ class _FavouritesState extends State<Favourites> {
   }
 
   Future<bool> delete(int favouriteID) async {
-    final url = 'http://127.0.0.1:8000/api/deleteUserFavourite/$favouriteID';
-    //final url = 'https://eventsy-gray.vercel.app/api/deleteUserFavourite/$favouriteID';
+    //final url = 'http://127.0.0.1:8000/api/deleteUserFavourite/$favouriteID';
+    final url = 'https://dreamy-wilson.34-81-183-3.plesk.page/api/deleteUserFavourite/$favouriteID';
 
     try {
       final response = await http.delete(Uri.parse(url));

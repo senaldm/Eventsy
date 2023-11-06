@@ -9,8 +9,8 @@ class Projects{
 
   Future<List> userBookings() async {
     int id = currentUser.currentUserId;
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/getSentRequests/$id'));
-    //final response = await http.get(Uri.parse('https://eventsy-gray.vercel.app/api/getSentRequests/$id'));
+    //final response = await http.post(Uri.parse('http://127.0.0.1:8000/api/getSentRequests/$id'));
+    final response = await http.post(Uri.parse('https://dreamy-wilson.34-81-183-3.plesk.page/api/getSentRequests/$id'));
 
     if(response.statusCode == 200){
       return jsonDecode(response.body);
@@ -22,8 +22,8 @@ class Projects{
 
   Future<List> getInProgress() async {
     int id = currentUser.currentUserId;
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/getUserInProgress/$id'));
-    //final response = await http.get(Uri.parse('https://eventsy-gray.vercel.app/api/getUserInProgress/$id'));
+    //final response = await http.post(Uri.parse('http://127.0.0.1:8000/api/getUserInProgress/$id'));
+    final response = await http.post(Uri.parse('https://dreamy-wilson.34-81-183-3.plesk.page/api/getUserInProgress/$id'));
 
     if(response.statusCode == 200){
       return jsonDecode(response.body);
@@ -35,8 +35,8 @@ class Projects{
 
   Future<List> getComplete() async {
     int id = currentUser.currentUserId;
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/getUserComplete/$id'));
-    //final response = await http.get(Uri.parse('https://eventsy-gray.vercel.app/api/getUserComplete/$id'));
+    //final response = await http.post(Uri.parse('http://127.0.0.1:8000/api/getUserComplete/$id'));
+    final response = await http.post(Uri.parse('https://dreamy-wilson.34-81-183-3.plesk.page/api/getUserComplete/$id'));
 
     if(response.statusCode == 200){
       return jsonDecode(response.body);
@@ -48,8 +48,8 @@ class Projects{
 
   Future<List> getCancelled() async {
     int id = currentUser.currentUserId;
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/getUserCancelled/$id'));
-    //final response = await http.get(Uri.parse('https://eventsy-gray.vercel.app/api/getUserCancelled/$id'));
+    //final response = await http.post(Uri.parse('http://127.0.0.1:8000/api/getUserCancelled/$id'));
+    final response = await http.post(Uri.parse('https://dreamy-wilson.34-81-183-3.plesk.page/api/getUserCancelled/$id'));
 
     if(response.statusCode == 200){
       return jsonDecode(response.body);

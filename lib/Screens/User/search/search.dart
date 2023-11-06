@@ -198,8 +198,8 @@ class _SearchState extends State<Search> {
         },);
   }
   Future<bool> addFavourite(int plannerId) async {
-    String hire = "http://127.0.0.1:8000/api/userFavouritePlanner/$currentuserid/$plannerId";   
-    //String hire = "https://eventsy-gray.vercel.app/api/userFavouritePlanner/$currentuserid/$plannerId";
+    //String hire = "http://127.0.0.1:8000/api/userFavouritePlanner/$currentuserid/$plannerId";   
+    String hire = "https://dreamy-wilson.34-81-183-3.plesk.page/api/userFavouritePlanner/$currentuserid/$plannerId";
 
     final response = await http.post(Uri.parse(hire));
 

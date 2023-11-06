@@ -217,8 +217,8 @@ Widget Confrimation() {
   }
 
   Future<bool> cancel(int userbookingID) async {
-  final url = 'http://127.0.0.1:8000/api/cancelRequest/$userbookingID';
-  //final url = 'https://eventsy-gray.vercel.app/api/cancelRequest/$bookingID';
+  //final url = 'http://127.0.0.1:8000/api/cancelRequest/$userbookingID';
+  final url = 'https://dreamy-wilson.34-81-183-3.plesk.page/api/cancelRequest/$userbookingID';
   try {
     final response = await http.post(Uri.parse(url));
 
@@ -237,8 +237,8 @@ Widget Confrimation() {
 }
 
 Future<bool> completed(int userbookingID) async {
-  final url = 'http://127.0.0.1:8000/api/completeRequest/$userbookingID';
-  //final url = 'https://eventsy-gray.vercel.app/api/cancelRequest/$bookingID';
+  //final url = 'http://127.0.0.1:8000/api/completeRequest/$userbookingID';
+  final url = 'https://dreamy-wilson.34-81-183-3.plesk.page/api/completeRequest/$userbookingID';
   try {
     final response = await http.post(Uri.parse(url));
 
