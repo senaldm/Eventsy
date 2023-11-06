@@ -1,10 +1,10 @@
 // // ignore_for_file: prefer_const_constructors
 
 // ignore_for_file: prefer_const_constructors
+import 'package:eventsy/Screens/Tickets/warningToSite.dart';
 import 'package:firebase_auth/firebase_auth.dart';
  import 'package:flutter/material.dart';
  import 'package:url_launcher/url_launcher.dart';
-
 class TicketHandlingHome extends StatefulWidget {
   const TicketHandlingHome({super.key});
 
@@ -28,7 +28,7 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
           child: Scaffold(
             backgroundColor: Colors.blueGrey.shade900,
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(height * 0.3),
+              preferredSize: Size.fromHeight(height * 0.25),
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.transparent,
@@ -48,12 +48,12 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                   centerTitle: true,
 
                   flexibleSpace: Image.asset(
-                    "assets/Images/Task/appbarBackground5.jpeg",
+                    "assets/Images/Ticket/ticketHome1.jpg",
                   ),
                   actions: <Widget>[
                     PopupMenuButton(
                         color: Color.fromARGB(255, 20, 24, 26),
-                        icon: Icon(Icons.menu_open, color: Colors.white70),
+                        icon: Icon(Icons.menu_open, color: Colors.black87),
                         iconSize: 40.0,
                         itemBuilder: (context) {
                           return [
@@ -61,7 +61,7 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                               value: 0,
                               child: Text(
                                 "Settings",
-                                style: TextStyle(color: Colors.white70),
+                                style: TextStyle(color: Colors.white),
                               ),
                             ),
                             
@@ -109,8 +109,7 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                 child: TextButton(
                                   onPressed: () {
                                     
-                                     launchUrl(Uri.parse(
-                                        'https://eventsy-gray.vercel.app/#signup'));
+                                       warningToSite.userMode(context);
                                   },
                                   child: SizedBox(
                                     width: width * 0.4,
@@ -126,7 +125,7 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                                 255, 20, 158, 85),
                                             radius: 24.0,
                                             child: Image.asset(
-                                                "assets/Images/Home/task.png",
+                                                "assets/Images/Ticket/createTicketBtn.png",
                                                 width: width * 0.09),
                                           ),
                                           // SizedBox(
@@ -158,8 +157,8 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                 borderOnForeground: false,
                                 child: TextButton(
                                   onPressed: () {
-                                    launchUrl(Uri.parse(
-                                            'https://eventsy-gray.vercel.app/#signup'));
+                                     warningToSite.userMode(context
+                                        );
                                   },
                                   child: SizedBox(
                                     width: width * 0.4,
@@ -175,8 +174,9 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                                 Color.fromARGB(255, 77, 230, 0),
                                             radius: 24.0,
                                             child: Image.asset(
-                                                "assets/Images/Home/vendor.png",
-                                                width: width * 0.99),
+                                                "assets/Images/Ticket/createQr.png",
+                                                //width: width * 0.9
+                                                ),
                                           ),
                                           // SizedBox(
                                           //   width: width * 0.04,
@@ -222,7 +222,7 @@ class _TicketHandlingHomeState extends State<TicketHandlingHome> {
                                                 Color.fromARGB(255, 77, 230, 0),
                                             radius: 24.0,
                                             child: Image.asset(
-                                                "assets/Images/Task/invitation.png",
+                                                "assets/Images/Ticket/validateTicketBtn.png",
                                                 width: width * 0.09),
                                           ),
                                           // SizedBox(
