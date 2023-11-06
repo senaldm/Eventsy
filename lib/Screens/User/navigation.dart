@@ -1,12 +1,13 @@
-import 'package:eventsy/Planners/message/message.dart';
-import 'package:eventsy/Planners/profile/profile.dart';
-import 'package:eventsy/Planners/projects/booking.dart';
-import 'package:eventsy/Planners/search/search.dart';
+import 'package:eventsy/User/message/message.dart';
+import 'package:eventsy/User/profile/profile.dart';
+import 'package:eventsy/User/projects/booking.dart';
+import 'package:eventsy/User/search/search.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 
-bool plannerLogedin = false;
+
+bool userLogedin = false;
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -58,7 +59,7 @@ class _NavigationState extends State<Navigation> {
   }
 
   List<Widget> user(){
-    if(plannerLogedin)
+    if(userLogedin)
     {
       return const <Widget>[
             Icon(Icons.search),

@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Planners {
-  String url = "https://nice-williams.34-81-183-3.plesk.page/planners/";
+  String url = "http://127.0.0.1:8000/api/planners";
+  //String url = "https://eventsy-gray.vercel.app/api/planners";
+  
   
   Future<List> getAllPlanners() async {
     try {

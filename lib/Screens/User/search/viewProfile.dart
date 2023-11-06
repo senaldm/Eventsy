@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:eventsy/model/Planner/currentId.dart';
+import 'package:eventsy/User/navigation.dart';
+import 'package:eventsy/model/User/currentId.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:eventsy/Planners/navigation.dart';
+
 
 
 currentId currentuser = currentId();
@@ -44,7 +45,7 @@ class ViewProfile extends StatelessWidget {
             const Divider(height: 2, color: Colors.white),
           ],
         ),
-        //persistentFooterButtons: <Widget>[footer()]
+        persistentFooterButtons: <Widget>[footer()]
         );
   }
 
@@ -240,19 +241,18 @@ class ViewProfile extends StatelessWidget {
       ]),
     );
   }
-
   Widget footer() {
     String button = "Hire";
-    if (list[person]['plannerID'] == currentuserid || !plannerLogedin) {
+    if (!userLogedin) {
       return const SizedBox(
         height: 0,
       );
     }
     return ElevatedButton(
-        onPressed: () async {
-          Future<bool> status = hire(list[person]['plannerID']);
+        onPressed: () {
+          bool status = hire(list[person]['plannerID']) as bool;
 
-          if(await status) {
+          if(status) {
             button = "Requested";
           }
         },
@@ -262,12 +262,10 @@ class ViewProfile extends StatelessWidget {
   }
 
   Future<bool> hire(int id) async {
-    String hire = "http://127.0.0.1:8000/api/plannerHirePlanner/$currentuserid/$id"; 
-    //String hire = "https://eventsy-gray.vercel.app/api/plannerHirePlanner/$currentuserid/$id";
+    String hire = "http://127.0.0.1:8000/api/userHirePlanner/$currentuserid/$id"; 
+    //String hire = "https://eventsy-gray.vercel.app/api/userHirePlanner/$currentuserid/$id";
 
-    final response = await http.post(Uri.parse(hire), body: {
-      'status': 'pending',
-    });
+    final response = await http.post(Uri.parse(hire));
 
     if (response.statusCode == 200) {
       print("Request was successful");

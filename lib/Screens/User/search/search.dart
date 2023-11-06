@@ -1,10 +1,9 @@
-import 'package:eventsy/Planners/search/viewProfile.dart';
+import 'package:eventsy/User/search/viewProfile.dart';
 import 'package:eventsy/model/Planner/planner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:eventsy/Planners/navigation.dart';
-
+import 'package:eventsy/User/navigation.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -13,6 +12,8 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  //
+  //_SearchState(this.logedIn);
 
   Planners planners = Planners();
   List listCopy = [];
@@ -53,12 +54,7 @@ class _SearchState extends State<Search> {
               color: Colors.white,
             ),
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.qr_code_scanner),
-              onPressed: () {},
-            ),
-          ]),
+        ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(children: [
@@ -115,11 +111,10 @@ class _SearchState extends State<Search> {
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           printName(_foundPlanners[i]['name']),
-                                          if(plannerLogedin)
+                                          if(userLogedin)
                                             favourite(_foundPlanners[i]['plannerID']),
                                         ],
                                       ),
-                                      //printName(_foundPlanners[i]['name']),
                                       const Text('Event Planner',
                                           style: TextStyle(
                                               color: Colors.white,
@@ -164,20 +159,6 @@ class _SearchState extends State<Search> {
             color: Colors.white, fontSize: 23.0, fontWeight: FontWeight.bold));
   }
 
-  Widget favourite(int foundPlanner){
-    if(foundPlanner != currentuserid){
-      return IconButton.outlined(
-        icon:const Icon(Icons.favorite_border_outlined),
-        color: Colors.white,
-        onPressed: () {
-          addFavourite(foundPlanner);
-        },);                                             
-    }
-    else{
-      return const SizedBox();
-    }
-}
-
   Widget printEmail(String email) {
     return Text(email,
         style: const TextStyle(
@@ -208,9 +189,17 @@ class _SearchState extends State<Search> {
             fontWeight: FontWeight.normal));
   }
 
-  Future<bool> addFavourite(int id) async {
-    String hire = "http://127.0.0.1:8000/api/addToFavourite/$currentuserid/$id";   
-    //String hire = "https://eventsy-gray.vercel.app/api/addToFavourite/$currentuserid/$id";
+  Widget favourite(int foundPlanner){
+      return IconButton.outlined(
+        icon:const Icon(Icons.favorite_border_outlined),
+        color: Colors.white,
+        onPressed: () {
+          addFavourite(foundPlanner);
+        },);
+  }
+  Future<bool> addFavourite(int plannerId) async {
+    String hire = "http://127.0.0.1:8000/api/userFavouritePlanner/$currentuserid/$plannerId";   
+    //String hire = "https://eventsy-gray.vercel.app/api/userFavouritePlanner/$currentuserid/$plannerId";
 
     final response = await http.post(Uri.parse(hire));
 

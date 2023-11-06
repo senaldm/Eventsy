@@ -21,18 +21,11 @@ class _edit_profileState extends State<edit_profile> {
   //controllers for handling editings
   TextEditingController nameController = TextEditingController();
   TextEditingController profileIMGController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController dobController = TextEditingController();
-  TextEditingController image1Controller = TextEditingController();
-  TextEditingController image2Controller = TextEditingController();
-  TextEditingController image3Controller = TextEditingController();
-  TextEditingController image4Controller = TextEditingController();
-  TextEditingController image5Controller = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController contactController = TextEditingController();
-  TextEditingController serviceController = TextEditingController(); 
 
   @override
   void initState() {
@@ -46,17 +39,10 @@ class _edit_profileState extends State<edit_profile> {
         // Populate text fields with user data
         nameController.text = person[0]['name'];
         profileIMGController.text = person[0]['profileIMG'];
-        descriptionController.text = person[0]['description'];
         locationController.text = person[0]['location'];
         dobController.text = person[0]['dob'];
-        image1Controller.text = person[0]['image1'];
-        image2Controller.text = person[0]['image2'];
-        image3Controller.text = person[0]['image3'];
-        image4Controller.text = person[0]['image4'];
-        image5Controller.text = person[0]['image5'];
         emailController.text = person[0]['email'];
         contactController.text = person[0]['contact'];
-        serviceController.text = person[0]['services'];
       });
     } catch (e) {
       // Handle error
@@ -129,8 +115,6 @@ class _edit_profileState extends State<edit_profile> {
                   "Name", nameController.text, nameController, false),
                   buildTextField(
                   "Profile image", "Paste your profile image url here", profileIMGController, false),
-              buildTextField("Description", descriptionController.text,
-                  descriptionController, false),
               buildTextField("Password", "${person[0]['password']}",
                   passwordController, true),
               buildTextField("Location", locationController.text,
@@ -138,20 +122,9 @@ class _edit_profileState extends State<edit_profile> {
               buildTextField(
                   "Date of Birth", dobController.text, dobController, false),
               buildTextField(
-                  "Sample image - 01", image1Controller.text, image1Controller, false),
-              buildTextField(
-                  "Sample image - 02", image2Controller.text, image2Controller, false),
-              buildTextField(
-                  "Sample image - 03", image3Controller.text, image3Controller, false),
-              buildTextField(
-                  "Sample image - 04", image4Controller.text, image4Controller, false),
-              buildTextField(
-                  "Sample image - 05", image5Controller.text, image5Controller, false),
-              buildTextField(
                   "E-mail", emailController.text, emailController, false),
               buildTextField(
                   "Contact", contactController.text, contactController, false),
-              buildTextField("Services", serviceController.text, serviceController, false),
               const SizedBox(
                 height: 30,
               ),
@@ -262,23 +235,16 @@ class _edit_profileState extends State<edit_profile> {
 
   Future<bool> updateUserProfile() async {
     //List person = widget.user;
-    final url ='http://127.0.0.1:8000/api/updateProfile/${person[0]['plannerID']}';
-    //final url ='https://eventsy-gray.vercel.app/api/updateProfile/${person[0]['plannerID']}';
+    final url ='http://127.0.0.1:8000/api/updateUserProfile/${person[0]['userID']}';
+    //final url ='https://eventsy-gray.vercel.app/api/updateUserProfile/${person[0]['userID']}';
 
     final response = await http.post(Uri.parse(url), body: {
       'name': nameController.text,
       'profileIMG': profileIMGController.text,
       'location': locationController.text,
       'dob': dobController.text,
-      'image1': image1Controller.text,
-      'image2': image2Controller.text,
-      'image3': image3Controller.text,
-      'image4': image4Controller.text,
-      'image5': image5Controller.text,
       'email': emailController.text,
       'contact': contactController.text,
-      'description': descriptionController.text,
-      'services':serviceController.text,
     });
 
     if (response.statusCode == 200) {

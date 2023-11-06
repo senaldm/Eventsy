@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
-import 'package:eventsy/Planners/message/viewProfile.dart';
-import 'package:eventsy/model/Planner/projects.dart';
+import 'package:eventsy/User/message/viewProfile.dart';
+//import 'package:eventsy/model/projects.dart';
+import 'package:eventsy/model/User/projects.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -13,8 +14,7 @@ class Message extends StatefulWidget {
 }
 
 class _MessageState extends State<Message> {
-
-  Projects bookings = Projects();
+  Projects userBookings = Projects();
   List requests = [];
 
   @override
@@ -63,7 +63,7 @@ class _MessageState extends State<Message> {
   Widget request() {
     return Expanded(
       child: FutureBuilder<List>(
-          future: bookings.getBookRequests(),
+          future: userBookings.userBookings(),
           builder: ((context, snapshot) {
             if (snapshot.hasData) {
               requests = snapshot.data!;
@@ -89,7 +89,7 @@ class _MessageState extends State<Message> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   printName(requests[i]['name']),
-                                  const Text('User', style: TextStyle(color: Colors.white,fontSize: 15.0,fontStyle: FontStyle.italic)),
+                                  const Text('Event Planner', style: TextStyle(color: Colors.white,fontSize: 15.0,fontStyle: FontStyle.italic)),
                                   printEmail(requests[i]['email']),
                                   printPlace(requests[i]['location']),
                                   action(requests[i]['userbookingID'])
@@ -101,7 +101,7 @@ class _MessageState extends State<Message> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => User(person: requests, index: i)));
+                                    builder: (context) => ViewProfile(person: [requests[i]])));
                           },
                     );
                   });
@@ -155,7 +155,7 @@ class _MessageState extends State<Message> {
                           return AlertDialog(
                             title: const Text('Cancel?'),
                             content: const Text(
-                                'Are you sure you want to cancel this request?'),
+                                'Are you sure you want to cancel this sent request?'),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -194,64 +194,18 @@ class _MessageState extends State<Message> {
           ),
         ),
         //const SizedBox(width: 10.0),
-        SizedBox(
-          height: 30,
-          width: 120,
-          child: ElevatedButton(
-            onPressed: () async {
-              bool result = await accept(userbookingID);
-              if (result) {
-              }
-            },
-            style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 18, 140, 126),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20))),
-            child: const Text(
-              'Accept',
-              style: TextStyle(
-                  fontSize: 15,
-                  //letterSpacing: 2,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold
-                  ),
-            ),
-          ),
-        )
+        // for accept the request
+        
       ],
     );
   }
 
 
-  Future<bool> accept(int userbookingID,) async {
-  final url = 'http://127.0.0.1:8000/api/acceptUserRequest/$userbookingID';
-  //final url = 'https://eventsy-gray.vercel.app/api/acceptUserRequest/$userbookingID';
-
-  try {
-    final response = await http.post(Uri.parse(url)
-    );
-
-    if (response.statusCode == 200) {
-      String msg = 'Request updated';
-      print(msg);
-      return true;
-    } else {
-      String msg = 'Error updating request';
-      print(response.statusCode);
-      return false;
-    }
-  } catch (e) {
-    print('Error: $e');
-    return false;
-  }
-}
-
   Future<bool> cancel(int userbookingID) async {
-  final url = 'http://127.0.0.1:8000/api/cancelUserRequest/$userbookingID';
-  //final url = 'https://eventsy-gray.vercel.app/api/cancelUserRequest/$userbookingID';
+  final url = 'http://127.0.0.1:8000/api/cancelSentRequest/$userbookingID';
+  //final url = 'https://eventsy-gray.vercel.app/api/cancelSentRequest/$userbookingID';
   try {
-    final response = await http.post(Uri.parse(url));
+    final response = await http.delete(Uri.parse(url));
 
     if (response.statusCode == 200) {
       print("Cancelled");
