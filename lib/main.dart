@@ -78,6 +78,7 @@ import 'package:eventsy/Screens/Task/User/settings/logout.dart';
 
 import 'package:eventsy/Screens/Tickets/ticketHandlingHome.dart';
 import 'package:eventsy/Screens/Tickets/UserCode.dart';
+import 'package:eventsy/Screens/Tickets/qrCodeScanner.dart';
 
 import 'package:eventsy/Model/Vendor/vendor.dart';
 import 'package:eventsy/Screens/Task/User/vendors/vendorlist.dart';
@@ -151,10 +152,19 @@ class FirstPage extends StatelessWidget {
 
           '/ticketHandlingHome': (context) => TicketHandlingHome(),
           '/UserCode': (context) => UserCode(),
-          // '/qrCodeScanner': (context) => QrCodeScanner(
-          //     data:
-          //         ModalRoute.of(context)!.settings.arguments as List<dynamic>),
 
+           '/qrCodeScanner': (context) => QrCodeScanner(
+               data:
+                   ModalRoute.of(context)!.settings.arguments as List<dynamic>),
+          //   '/qrCodeValidate': (context) {
+          //   final Map<String, dynamic> arguments = ModalRoute.of(context)
+          //       ?.settings
+          //       .arguments as Map<String, dynamic>;
+          //   return TicketValidationScreen(
+          //     scannedQRCode: arguments['scanData.code'],
+          //     ticketDetails: arguments['ticketDetails'],
+          //   );
+          // },
           //  '/qrCodeScanner':(context)=>QrCodeScanner(
           //   data: ModalRoute.of(context)!.settings.arguments as List<dynamic>
           // ),

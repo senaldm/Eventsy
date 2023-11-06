@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Planners {
-  String url = "https://nice-williams.34-81-183-3.plesk.page/planners/";
+  String url = "https://dreamy-wilson.34-81-183-3.plesk.page/planners/";
   
   Future<List> getAllPlanners() async {
     try {

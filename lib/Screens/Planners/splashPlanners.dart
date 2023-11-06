@@ -48,38 +48,45 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      backgroundColor: Color.fromARGB(255,11, 2, 36),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/Images/auth/logonew.png',
-                        width: 100,
-                        height: 100,),
-            // Icon(Icons.pix, color: Colors.white, size: 100),
-            SizedBox(
-              height: 40.0,
-              child: Text(
-                "Planners",
-                style: TextStyle(
-                  fontFamily: 'Arial',
-                  fontSize: 18,
-                  color: Colors.white,
+    return  WillPopScope(
+      child: Scaffold(
+        backgroundColor: Color.fromARGB(255,11, 2, 36),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/Images/auth/logonew.png',
+                          width: 100,
+                          height: 100,),
+              // Icon(Icons.pix, color: Colors.white, size: 100),
+              SizedBox(
+                height: 40.0,
+                child: Text(
+                  "Planners",
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 18,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
-            // CircularProgressIndicator(
-            //   color: Colors.white,
-            // )
-            CupertinoActivityIndicator(
-              radius: 20.0,
-              color: Colors.white,
-            )
-          ],
+              // CircularProgressIndicator(
+              //   color: Colors.white,
+              // )
+              CupertinoActivityIndicator(
+                radius: 20.0,
+                color: Colors.white,
+              )
+            ],
+          ),
         ),
       ),
+      onWillPop: () async {
+        // Exit the app.
+        Navigator.pushNamed(context, '/VendorExplore');
+        return false;
+      },
     );
   }
 }

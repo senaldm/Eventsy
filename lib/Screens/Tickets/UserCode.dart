@@ -27,7 +27,7 @@ class _UserCodeState extends State<UserCode> {
   initState() {
     super.initState();
     openHiveBox();
-    retrieveMethod();
+    // retrieveMethod();
     checkNetworkStatus();
   }
 
@@ -38,31 +38,31 @@ class _UserCodeState extends State<UserCode> {
         await Hive.openBox<ValidationBackMethod>('validationBackMethod');
   }
 
-  Future<void> retrieveMethod() async {
-    
-    currentValidationBackMethod =
-        validationbackMethodBox!.get('backMethod').toString();
+  // Future<void> retrieveMethod() async {
 
-    if (currentValidationBackMethod.isEmpty) {
-      final directory = await getApplicationDocumentsDirectory();
-      final file = File('${directory.path}/validationBackMethod.txt');
-      if (await file.exists()) {
-        final lines = await file.readAsLines();
-        if (lines.isNotEmpty) {
-          currentValidationBackMethod = lines.first;
-        }
-      }
-    }
-    setState(() {
-      if (currentValidationBackMethod == 'automatic') {
-        isAutomaticOn = true;
+  //   currentValidationBackMethod =
+  //       validationbackMethodBox!.get('backMethod').toString();
 
-      } else {
-        isAutomaticOn = false;
+  //   if (currentValidationBackMethod.isEmpty) {
+  //     final directory = await getApplicationDocumentsDirectory();
+  //     final file = File('${directory.path}/validationBackMethod.txt');
+  //     if (await file.exists()) {
+  //       final lines = await file.readAsLines();
+  //       if (lines.isNotEmpty) {
+  //         currentValidationBackMethod = lines.first;
+  //       }
+  //     }
+  //   }
+  //   setState(() {
+  //     if (currentValidationBackMethod == 'automatic') {
+  //       isAutomaticOn = true;
+
+  //     } else {
+  //       isAutomaticOn = false;
  
-      }
-    });
-  }
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _UserCodeState extends State<UserCode> {
             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.blueGrey.shade900,
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(height * 0.3),
+              preferredSize: Size.fromHeight(height * 0.25),
               child: Container(
                 decoration:
                     BoxDecoration(color: Colors.transparent, boxShadow: const [
@@ -90,52 +90,9 @@ class _UserCodeState extends State<UserCode> {
                   automaticallyImplyLeading: false,
                   centerTitle: true,
                   flexibleSpace: Image.asset(
-                    "assets/Images/Task/appbarBackground5.jpeg",
+                    "assets/Images/Ticket/userCode.jpg",
                   ),
-                  actions: <Widget>[
-                    PopupMenuButton(
-                      color: Color.fromARGB(255, 20, 24, 26),
-                      icon: Icon(Icons.menu_rounded, color: Colors.white70),
-                      iconSize: 30.0,
-                      itemBuilder: (context) {
-                        return [
-                          PopupMenuItem<int>(
-                            value: 0,
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title: Text(
-                                    "Back to Scanner Mode",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 15.0),
-                                  ),
-                                ),
-                                ListTile(
-                                  title: Text('automatic',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12.0)),
-                                      
-                                  trailing: Switch(
-                                    value: isAutomaticOn,
-                                    onChanged: (bool newValue) {
-                                      setState(() async {
-                                        isAutomaticOn = newValue;
-                                        
-                                          
-                                        
-                                      });
-                                      saveAutomaticModeState(newValue);
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ];
-                      },
-                    ),
-                  ],
+                  
                 ),
               ),
             ),
@@ -250,19 +207,12 @@ class _UserCodeState extends State<UserCode> {
         ));
   }
 
-  Future<void> saveAutomaticModeState(bool value) async {
-    if (value) {
-      currentValidationBackMethod = 'automatic';
-    } else {
-      currentValidationBackMethod = 'manual';
-    }
+ 
 
-    await validationbackMethodBox?.put(
-        'backMethod', currentValidationBackMethod as ValidationBackMethod);
-  }
+   
 
   Future<dynamic> validateUserCode(String code, BuildContext context) async {
-    String uri = 'https://nice-williams.34-81-183-3.plesk.page/validate/$code';
+    String uri = 'https://dreamy-wilson.34-81-183-3.plesk.page/validate/$code';
 
     final response = await http.get(Uri.parse(uri));
 
