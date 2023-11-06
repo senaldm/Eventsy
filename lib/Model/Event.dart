@@ -167,3 +167,32 @@ class ValidationBackMethod extends HiveObject {
   String backMethod = 'automatic';
   ValidationBackMethod({required String backMethod});
 }
+
+// @HiveType(typeId: 9)
+// class VendorTask extends EventTasks {
+//   @HiveField(16)
+//   String vendorName;
+//   @HiveField(17)
+//   DateTime? date;
+//   @HiveField(18)
+//   String note;
+
+//   VendorTask({
+//     required eventKey,
+//     required eventName,
+//     required taskKey,
+//     required taskName,
+//     required this.vendorName,
+//     this.date,
+//     this.note = '',
+//     required taskTimestamp,
+//   }) : super(
+//           eventKey: eventKey,
+//           eventName: eventName,
+//           taskKey: taskKey,
+//           taskName: taskName,
+//           isComplete: false,
+//           taskTimestamp: taskTimestamp,
+//         );
+
+// }

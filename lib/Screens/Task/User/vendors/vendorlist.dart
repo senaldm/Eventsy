@@ -9,7 +9,6 @@ import 'package:eventsy/Model/Vendor/vendor.dart';
 
 import 'package:path_provider/path_provider.dart';
 
-
 import 'package:eventsy/Screens/Task/User/vendors/addVendor.dart';
 
 import 'dart:io';
@@ -40,7 +39,8 @@ class _VendorListState extends State<VendorList> {
   }
 
   Future<void> retrieveData() async {
-    // Retrieve data from Hive box
+    
+    
     vendors = vendorBox?.values.toList() ?? [];
 
     // Retrieve data from local storage
@@ -56,18 +56,19 @@ class _VendorListState extends State<VendorList> {
           date: vendorData[1],
           note: vendorData[2],
           isComplete: vendorData[3] == 'true',
+          timestamp: DateTime.tryParse(vendorData[6]),
         );
 
-        // if (vendor.timestamp == null) {
-        //   task.timestamp = DateTime(0);
-        //   time = "null";
-        // } else {
-        //   // time = task.timestamp!.toIso8601String();
-        //   time = DateFormat('yyyy-MM-dd').format(task.timestamp!);
-        //   time = time.toString();
-        // }
-        print(vendor.isComplete);
-        // tasks.add(task);
+        if (vendor.timestamp == null) {
+          vendor.timestamp = DateTime(0);
+          time = "null" as DateTime;
+        } else {
+          // time = Vendor.timestamp!.toIso8601String();
+          time = DateFormat('yyyy-MM-dd').format(vendor.timestamp!) as DateTime;
+          time = time.toString() as DateTime;
+        }
+        //print(vendor.isComplete);
+        // Vendors.add(Vendor);
         newVendors.add(vendor);
       });
       setState(() {
@@ -92,195 +93,195 @@ class _VendorListState extends State<VendorList> {
   String sort = 'accentOrder';
   String filter = 'all';
 
-  // List<Vendor>? sortTaskByMethod(String method) {
-  //   setState(() {
-  //     if (method == 'accent') {
-  //       return tasks.sort((a, b) => a.taskName.compareTo(b.taskName));
-  //     } else if (method == 'deaccent') {
-  //       return tasks.sort((a, b) => b.taskName.compareTo(a.taskName));
-  //     } else if (method == 'newestFirst') {
-  //       return tasks.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
-  //     } else if (method == 'oldestFirst') {
-  //       return tasks.sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
-  //     }
-  //   });
-  //   return null;
-  // }
+  List<Vendor>? sortVendorByMethod(String method) {
+    setState(() {
+      if (method == 'accent') {
+        return vendors.sort((a, b) => a.vendorName.compareTo(b.vendorName));
+      } else if (method == 'deaccent') {
+        return vendors.sort((a, b) => b.vendorName.compareTo(a.vendorName));
+      } else if (method == 'newestFirst') {
+        return vendors.sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
+      } else if (method == 'oldestFirst') {
+        return vendors.sort((a, b) => a.timestamp!.compareTo(b.timestamp!));
+      }
+    });
+    return null;
+  }
 
-  // void filterTasksByMethod(String method) {
-  //   setState(() {
-  //     // tasks = newTasks;
-  //     if (method == 'completed') {
-  //       tasks = originalTasks.where((task) => task.isComplete).toList();
-  //     } else if (method == 'pending') {
-  //       // tasks = newTasks;
-  //       tasks = originalTasks.where((task) => !task.isComplete).toList();
-  //     } else {
-  //       // Reset the tasks list to show all tasks
-  //       retrieveData();
-  //     }
-  //     // tasks = newTasks;
-  //   });
-  // }
+  void filterVendorsByMethod(String method) {
+    setState(() {
+      // Vendors = newVendors;
+      if (method == 'completed') {
+        vendors = originalVendors.where((Vendor) => Vendor.isComplete).toList();
+      } else if (method == 'pending') {
+        // Vendors = newVendors;
+        vendors = originalVendors.where((Vendor) => !Vendor.isComplete).toList();
+      } else {
+        // Reset the Vendors list to show all Vendors
+        retrieveData();
+      }
+      // Vendors = newVendors;
+    });
+  }
 
-//////////////////////sort Task ////////////////////////////////////////////
+//////////////////////sort Vendor ////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////
 
-  // void sortTask() {
-  //   showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           backgroundColor: Color.fromARGB(255, 18, 140, 126),
-  //           content: Form(
-  //             child: Column(
-  //               mainAxisSize: MainAxisSize.min,
-  //               children: <Widget>[
-  //                 RadioListTile(
-  //                   title: Text(
-  //                     "\u2B07 A-Z",
-  //                     style: TextStyle(color: Colors.white),
-  //                   ),
-  //                   value: "accent",
-  //                   groupValue: sort,
-  //                   activeColor: Colors.black87,
-  //                   onChanged: (value) {
-  //                     setState(() {
-  //                       sort = value.toString();
-  //                       sortTaskByMethod(sort);
-  //                       Navigator.pop(context);
-  //                     });
-  //                   },
-  //                 ),
-  //                 RadioListTile(
-  //                   title: Text(
-  //                     "\u2B06 Z-A",
-  //                     style: TextStyle(color: Colors.white),
-  //                   ),
-  //                   value: "deaccent",
-  //                   activeColor: Colors.black87,
-  //                   groupValue: sort,
-  //                   onChanged: (value) {
-  //                     setState(() {
-  //                       sort = value.toString();
-  //                       sortTaskByMethod(sort);
-  //                       Navigator.pop(context);
-  //                     });
-  //                   },
-  //                 ),
-  //                 RadioListTile(
-  //                   selected: true,
-  //                   title: Text(
-  //                     "Newest Task First",
-  //                     style: TextStyle(color: Colors.white),
-  //                   ),
-  //                   value: "newestFirst",
-  //                   activeColor: Colors.black87,
-  //                   groupValue: sort,
-  //                   onChanged: (value) {
-  //                     setState(() {
-  //                       sort = value.toString();
-  //                       sortTaskByMethod(sort);
-  //                       Navigator.pop(context);
-  //                     });
-  //                   },
-  //                 ),
-  //                 RadioListTile(
-  //                   title: Text(
-  //                     "Oldest Task First",
-  //                     style: TextStyle(color: Colors.white),
-  //                   ),
-  //                   value: "oldestFirst",
-  //                   groupValue: sort,
-  //                   activeColor: Colors.black87,
-  //                   onChanged: (value) {
-  //                     setState(() {
-  //                       sort = value.toString();
-  //                       sortTaskByMethod(sort);
-  //                       Navigator.pop(context);
-  //                     });
-  //                   },
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
+  void sortVendor() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Color.fromARGB(255, 18, 140, 126),
+            content: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  RadioListTile(
+                    title: Text(
+                      "\u2B07 A-Z",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    value: "accent",
+                    groupValue: sort,
+                    activeColor: Colors.black87,
+                    onChanged: (value) {
+                      setState(() {
+                        sort = value.toString();
+                        sortVendorByMethod(sort);
+                        Navigator.pop(context);
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(
+                      "\u2B06 Z-A",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    value: "deaccent",
+                    activeColor: Colors.black87,
+                    groupValue: sort,
+                    onChanged: (value) {
+                      setState(() {
+                        sort = value.toString();
+                        sortVendorByMethod(sort);
+                        Navigator.pop(context);
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    selected: true,
+                    title: Text(
+                      "Newest Vendor First",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    value: "newestFirst",
+                    activeColor: Colors.black87,
+                    groupValue: sort,
+                    onChanged: (value) {
+                      setState(() {
+                        sort = value.toString();
+                        sortVendorByMethod(sort);
+                        Navigator.pop(context);
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(
+                      "Oldest Vendor First",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    value: "oldestFirst",
+                    groupValue: sort,
+                    activeColor: Colors.black87,
+                    onChanged: (value) {
+                      setState(() {
+                        sort = value.toString();
+                        sortVendorByMethod(sort);
+                        Navigator.pop(context);
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
 // Filter function
-/////////////////////////Filter Task//////////////////////////////
+/////////////////////////Filter Vendor//////////////////////////////
 /////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
-  // filterTask(BuildContext context) {
-  //   showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return AlertDialog(
-  //           backgroundColor: Color.fromARGB(255, 18, 140, 126),
-  //           content: Form(
-  //             child: Column(
-  //               mainAxisSize: MainAxisSize.min,
-  //               children: <Widget>[
-  //                 RadioListTile(
-  //                   title: Text(
-  //                     "All Tasks",
-  //                     style: TextStyle(color: Colors.white),
-  //                   ),
-  //                   value: "all",
-  //                   groupValue: filter,
-  //                   activeColor: Colors.black87,
-  //                   onChanged: (value) {
-  //                     setState(() {
-  //                       filter = value.toString();
+  filterVendor(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Color.fromARGB(255, 18, 140, 126),
+            content: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  RadioListTile(
+                    title: Text(
+                      "All Vendors",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    value: "all",
+                    groupValue: filter,
+                    activeColor: Colors.black87,
+                    onChanged: (value) {
+                      setState(() {
+                        filter = value.toString();
 
-  //                       filterTasksByMethod(filter);
-  //                       Navigator.pop(context);
-  //                     });
-  //                   },
-  //                 ),
-  //                 RadioListTile(
-  //                   title: Text(
-  //                     "Completed Task Only",
-  //                     style: TextStyle(color: Colors.white),
-  //                   ),
-  //                   value: "completed",
-  //                   activeColor: Colors.black87,
-  //                   groupValue: filter,
-  //                   onChanged: (value) {
-  //                     setState(() {
-  //                       filter = value.toString();
-  //                       filterTasksByMethod(filter);
-  //                       Navigator.pop(context);
-  //                     });
-  //                   },
-  //                 ),
-  //                 RadioListTile(
-  //                   title: Text(
-  //                     "Pending Task Only",
-  //                     style: TextStyle(color: Colors.white),
-  //                   ),
-  //                   value: "pending",
-  //                   activeColor: Colors.black87,
-  //                   groupValue: filter,
-  //                   onChanged: (value) {
-  //                     setState(() {
-  //                       filter = value.toString();
-  //                       filterTasksByMethod(filter);
-  //                       Navigator.pop(context);
-  //                     });
-  //                   },
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
+                        filterVendorsByMethod(filter);
+                        Navigator.pop(context);
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(
+                      "Completed Vendor Only",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    value: "completed",
+                    activeColor: Colors.black87,
+                    groupValue: filter,
+                    onChanged: (value) {
+                      setState(() {
+                        filter = value.toString();
+                        filterVendorsByMethod(filter);
+                        Navigator.pop(context);
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(
+                      "Pending Vendor Only",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    value: "pending",
+                    activeColor: Colors.black87,
+                    groupValue: filter,
+                    onChanged: (value) {
+                      setState(() {
+                        filter = value.toString();
+                        filterVendorsByMethod(filter);
+                        Navigator.pop(context);
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
-  /////////////////////deleteTask//////////////////////////
+  /////////////////////deleteVendor//////////////////////////
   ///////////////////////////////////////////////
   /////////////////////////////////////////////////////
 
@@ -328,10 +329,10 @@ class _VendorListState extends State<VendorList> {
                           context, '/addVendor',
                           arguments: vendorName);
                       retrieveData();
-                      // if (updatedTask != null) {
-                      //   // If a new task is added, update the data and refresh the UI
+                      // if (updatedVendor != null) {
+                      //   // If a new Vendor is added, update the data and refresh the UI
                       //   setState(() {
-                      //     tasks.add(updatedTask as Task);
+                      //     Vendors.add(updatedVendor as Vendor);
                       //   });
                       // }
 
@@ -350,7 +351,7 @@ class _VendorListState extends State<VendorList> {
                       await deleteVendor(vendorName);
                       retrieveData();
                       Navigator.pop(context, null);
-                      // deleteTask(vendorName);
+                      // deleteVendor(vendorName);
                       // Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
@@ -372,7 +373,7 @@ class _VendorListState extends State<VendorList> {
 ///////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
   ///
-  // var tasks = taskBox.values.toList();
+  // var Vendors = VendorBox.values.toList();
 
   //show dialogbox
   // void _showDialog() {
@@ -430,7 +431,7 @@ class _VendorListState extends State<VendorList> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     MediaQuery.of(context).viewInsets.bottom != 0.0;
-    // final List<String> taskList = retriveTask();
+    // final List<String> VendorList = retriveVendor();
 
     return SafeArea(
       top: true,
@@ -521,7 +522,7 @@ class _VendorListState extends State<VendorList> {
                                   leading: Text(
                                     vendor.vendorName,
 
-                                    //  "${task.timestamp?.minute?.toString()}",
+                                    //  "${Vendor.timestamp?.minute?.toString()}",
                                     textAlign: TextAlign.left,
                                     style: TextStyle(fontSize: 20.0),
                                   ),
@@ -537,9 +538,9 @@ class _VendorListState extends State<VendorList> {
                                     // });
                                   },
                                   onLongPress: () async {
-                                    final updatedTask =
+                                    final updatedVendor =
                                         editOrDelete(vendor.vendorName);
-                                    if (updatedTask != null) {
+                                    if (updatedVendor != null) {
                                       setState(() {
                                         retrieveData();
                                       });
@@ -606,9 +607,9 @@ class _VendorListState extends State<VendorList> {
               onTap: (int index) {
                 setState(() {
                   if (index == 0) {
-                    //sortTask();
+                    sortVendor();
                   } else if (index == 1) {
-                    //filterTask(context);
+                    //filterVendor(context);
                   }
                 });
               },
@@ -644,7 +645,7 @@ class _VendorListState extends State<VendorList> {
           child: FloatingActionButton(
               heroTag: 'addVendor',
               onPressed: () {
-                // Navigator.pushNamed(context, '/addTask');
+                // Navigator.pushNamed(context, '/addVendor');
               }));
     } else {
       return Center(

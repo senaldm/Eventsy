@@ -18,11 +18,15 @@ class Vendor {
   @HiveField(3)
    bool isComplete;
 
+  @HiveField(4)
+    DateTime? timestamp;
+
   Vendor({
     this.vendorName = '',
     this.date = '',
     this.note = '',
     this.isComplete = false,
+    this.timestamp,
   });
 
   // Function to check if data is saved

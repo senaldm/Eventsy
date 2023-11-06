@@ -211,7 +211,11 @@ class _PlannerTaskHomeState extends State<PlannerTaskHome> {
                                               BorderRadius.circular(10.0)),
                                       borderOnForeground: false,
                                       child: TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                              context, '/EventList');
+                                        
+                                        },
                                         child: SizedBox(
                                             height: width * 0.25,
                                             width: width * 0.25,
