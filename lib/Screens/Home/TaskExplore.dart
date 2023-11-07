@@ -142,7 +142,7 @@ class TaskExplore extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             FloatingActionButton(
-                              heroTag: 'btn2',
+                              heroTag: 'btn5',
                               backgroundColor: Colors.black87,
                               onPressed: () {
                                 Navigator.pushNamed(context, '/VendorExplore');
@@ -157,7 +157,7 @@ class TaskExplore extends StatelessWidget {
                               width: width * 0.65,
                             ),
                             FloatingActionButton(
-                              heroTag: 'btn3',
+                              heroTag: 'btn6',
                               backgroundColor: Colors.black87,
                               onPressed: () {
                                 Navigator.pushNamed(context, '/TicketHandling');

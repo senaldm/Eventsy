@@ -47,7 +47,7 @@ class QrCodeScannerState extends State<QrCodeScanner> {
             Expanded(
               flex: 1,
               child: Container(
-                // color: Color.fromARGB(255, 20, 29, 32),
+               
                 child: FittedBox(
                   fit: BoxFit.contain,
                   child: Column(
