@@ -20,8 +20,6 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
   late List<String> ticketKeys;
   late String ticketType;
 
- 
-
   @override
   void initState() {
     super.initState();
@@ -58,6 +56,7 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
         //   isValidated = false;
         break;
       }
+      print("it wasnt equal");
     }
 
     // if (matchingKey != '') {
@@ -153,13 +152,10 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
                   endTime: DateTime.now().millisecondsSinceEpoch + 10000,
                   textStyle: TextStyle(fontSize: 48.0),
                   onEnd: () {
-                   
-                      Navigator.pushNamed(context, '/qrCodeScanner',
-                          arguments: ticketData);
-                    
+                    Navigator.pushNamed(context, '/qrCodeScanner',
+                        arguments: ticketData);
                   },
                 ),
-               
                 Positioned(
                   bottom: height * 0.05,
                   left: 0,
@@ -183,15 +179,7 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
             ),
           ),
 
-          // bottomNavigationBar: BottomAppBar(
-          //   child: Container(
-          //     padding: EdgeInsets.all(12.0),
-          //     child: Text(
-          //       "Scan the next ticket after the countdown ends",
-          //       style: TextStyle(fontSize: 16.0),
-          //     ),
-          //   ),
-          // ),
+        
         ),
         onWillPop: () async {
           Navigator.pushNamed(context, '/qrCodeScanner', arguments: ticketData);

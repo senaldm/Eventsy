@@ -101,7 +101,7 @@ class VendorExplore extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           FloatingActionButton.extended(
-                              heroTag: 'btn2',
+                              heroTag: 'btn3',
                               onPressed: () {
                                 UserModeSelect.userMode(context,'vendor');
                                // Navigator.pushNamed(context, 'LoginPage');
@@ -125,7 +125,7 @@ class VendorExplore extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             FloatingActionButton(
-                              heroTag: 'btn3',
+                              heroTag: 'btn4',
                               backgroundColor: Colors.black87,
                               onPressed: () {
                                 Navigator.pushNamed(context, '/ImageExplore');
