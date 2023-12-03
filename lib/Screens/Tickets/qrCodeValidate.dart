@@ -28,7 +28,7 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
 
     addTicketKeys();
     checkValidation();
-    resetIsValidate();
+   /// resetIsValidate();
   }
 
   resetIsValidate() {
@@ -53,7 +53,7 @@ class _TicketValidationScreenState extends State<TicketValidationScreen> {
         var ticket =
             ticketData.firstWhere((item) => item['ticketKey'] == qrCode);
         ticketType = ticket['ticketType'];
-        //   isValidated = false;
+          isValidated = true;
         break;
       }
       print("it wasnt equal");

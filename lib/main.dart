@@ -5,6 +5,7 @@
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/budgetaddedlist.dart';
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/updatebudgettask.dart';
 import 'package:eventsy/Screens/BudgetCalculatorScreens/EventPlannerBudgetCal/viewbudgettask.dart';
+import 'package:eventsy/Screens/Home/splashScreen.dart';
 import 'package:eventsy/Screens/Task/Planner/addEventTask.dart';
 import 'package:eventsy/Screens/Task/User/viewTask.dart';
 import 'package:eventsy/Screens/Tickets/qrCodeScanner.dart';
@@ -292,6 +293,6 @@ class FirstPage extends StatelessWidget {
         key: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Eventsy',
-        home: ImageExplore());
+        home: HomeSplashScreen());
   }
 }

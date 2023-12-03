@@ -246,7 +246,7 @@ class userSettings extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, 'LogoutPage');
+                        Navigator.pushNamed(context, 'LoginPage');
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors

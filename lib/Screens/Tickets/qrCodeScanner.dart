@@ -47,11 +47,9 @@ class QrCodeScannerState extends State<QrCodeScanner> {
             Expanded(
               flex: 1,
               child: Container(
-               
                 child: FittedBox(
                   fit: BoxFit.contain,
                   child: Column(
-                    
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Row(
@@ -61,12 +59,12 @@ class QrCodeScannerState extends State<QrCodeScanner> {
                           Container(
                             margin: const EdgeInsets.all(8),
                             child: ElevatedButton(
-                                style:ButtonStyle(
-                                  backgroundColor:   MaterialStateProperty.resolveWith(
-                                                    (states) {
-                                                      return Color.fromARGB(255, 18, 140, 126);
-                                                    },)
-                                ),
+                                style: ButtonStyle(backgroundColor:
+                                    MaterialStateProperty.resolveWith(
+                                  (states) {
+                                    return Color.fromARGB(255, 18, 140, 126);
+                                  },
+                                )),
                                 onPressed: () async {
                                   await controller?.toggleFlash();
                                   setState(() {});
@@ -88,24 +86,26 @@ class QrCodeScannerState extends State<QrCodeScanner> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            margin: const EdgeInsets.all(8),
-                            child: ElevatedButton(
-                               style: ButtonStyle(
-                                    backgroundColor:
-                                       MaterialStateProperty.resolveWith(
-                                                    (states) {
-                                                      return Color.fromARGB(255, 18, 140, 126);
-                                                    },),),
-                              onPressed: () async {
-                                await controller?.pauseCamera();
-                              },
-                              child: const Text('pause',
-                               style: TextStyle(fontSize: 15)
-                          ),)),
+                              margin: const EdgeInsets.all(8),
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.resolveWith(
+                                    (states) {
+                                      return Color.fromARGB(255, 18, 140, 126);
+                                    },
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  await controller?.pauseCamera();
+                                },
+                                child: const Text('pause',
+                                    style: TextStyle(fontSize: 15)),
+                              )),
                           Container(
                             margin: const EdgeInsets.all(8),
                             child: ElevatedButton(
-                               style: ButtonStyle(
+                              style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.resolveWith(
                                   (states) {
@@ -148,7 +148,6 @@ class QrCodeScannerState extends State<QrCodeScanner> {
 
     return QRView(
       key: qrKey,
-     
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
           borderColor: Colors.green,
@@ -158,7 +157,7 @@ class QrCodeScannerState extends State<QrCodeScanner> {
           cutOutSize: scanArea),
       onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
     );
-   }
+  }
 
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
@@ -167,7 +166,7 @@ class QrCodeScannerState extends State<QrCodeScanner> {
 
     controller.scannedDataStream.listen((scanData) {
       if (scanData != null) {
-        print(scanData.code);
+       
 
         Navigator.of(context).push(
           MaterialPageRoute(
@@ -177,9 +176,9 @@ class QrCodeScannerState extends State<QrCodeScanner> {
             ),
           ),
         );
-    //    Navigator.pushNamed(context, '/qrCodeValidate',arguments: [scanData.code,ticketDetails]);
-        
-       this.controller = null;
+        //    Navigator.pushNamed(context, '/qrCodeValidate',arguments: [scanData.code,ticketDetails]);
+
+        this.controller = null;
       }
     });
   }

@@ -212,7 +212,7 @@ class _UserCodeState extends State<UserCode> {
    
 
   Future<dynamic> validateUserCode(String code, BuildContext context) async {
-    String uri = 'https://dreamy-wilson.34-81-183-3.plesk.page/validate/$code';
+    String uri = 'http://127.0.0.1:8000/validate/$code';
 
     final response = await http.get(Uri.parse(uri));
 
